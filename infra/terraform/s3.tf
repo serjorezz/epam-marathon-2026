@@ -44,7 +44,7 @@ resource "aws_s3_bucket_policy" "images" {
   depends_on = [aws_s3_bucket_public_access_block.images]
 }
 
-# --- profile images bucket: fully private, accessed only via presigned URLs from Lambda ---
+# --- profile-images bucket: private ---
 
 resource "aws_s3_bucket" "profile_images" {
   bucket = "restaurant-backend-dev-profile-images-${var.account_id}"
@@ -123,10 +123,7 @@ resource "aws_s3_bucket_policy" "swagger_ui" {
   depends_on = [aws_s3_bucket_public_access_block.swagger_ui]
 }
 
-# --- frontend bucket: private, served exclusively through CloudFront (see cloudfront.tf).
-# Static website hosting + the public-read policy it previously had are removed here:
-# S3 website endpoints don't support CloudFront's signed OAC requests, and OAC access
-# needs the bucket to be otherwise private. ---
+# --- frontend bucket: static website hosting, public read ---
 
 resource "aws_s3_bucket" "frontend" {
   bucket = "restaurant-frontend-${var.account_id}"
@@ -144,10 +141,22 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "frontend" {
 
 resource "aws_s3_bucket_public_access_block" "frontend" {
   bucket                  = aws_s3_bucket.frontend.id
-  block_public_acls       = true
-  block_public_policy     = true
+  block_public_acls       = false
+  block_public_policy     = false
   ignore_public_acls      = true
-  restrict_public_buckets = true
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_website_configuration" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "index.html"
+  }
 }
 
 resource "aws_s3_bucket_policy" "frontend" {
@@ -157,16 +166,11 @@ resource "aws_s3_bucket_policy" "frontend" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "AllowCloudFrontServicePrincipalReadOnly"
+        Sid       = "WebSiteHostingGetObject"
         Effect    = "Allow"
-        Principal = { Service = "cloudfront.amazonaws.com" }
+        Principal = "*"
         Action    = "s3:GetObject"
         Resource  = "${aws_s3_bucket.frontend.arn}/*"
-        Condition = {
-          StringEquals = {
-            "AWS:SourceArn" = aws_cloudfront_distribution.frontend.arn
-          }
-        }
       },
     ]
   })

@@ -60,43 +60,39 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+.terraformrc
+terraform.rc
+*.disabled
 
 # ------------------------------------------------------------------------------
-# Frontend (Node.js & Angular)
+# Frontend (Angular / Node.js)
 # ------------------------------------------------------------------------------
 node_modules/
+dist/
+dist-server/
+tmp/
+out-tsc/
+.angular/
+.npm/
+.yarn/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
 .pnpm-debug.log*
 
-# Angular build outputs & caches
-dist/
-tmp/
-out-tsc/
-bazel-out/
-.angular/
-.sass-cache/
-connect.lock
-coverage/
-libpeerconnection.log
-testem.log
-typings/
-
-# Generated production environment (created at build time by scripts/set-env.mjs)
-**/src/environments/environment.production.ts
+# Angular build environment overrides (generated per environment)
+src/environments/environment.production.ts
+# Angular build environment overrides (generated per environment)
 
 # ------------------------------------------------------------------------------
-# Backend & AQA (.NET, C#, Python)
+# Backend (.NET / / C#)
 # ------------------------------------------------------------------------------
 [Bb]in/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-packages/
-!**/packages/build/
-TestResults/
-test-results/
 
 # User-specific & local files
 *.user
@@ -137,5 +133,10 @@ __pycache__/
 venv/
 ENV/
 
+# AWS Syndicate
+.syndicate
+bundles/
+
 # OpenAPI / Swagger exports
 export/
+environment.production.ts
