@@ -7,7 +7,7 @@
 
 **Тести вже написані:** у `frontend/restaurant-frontend-app/homework-tests/` — окремо для практичного і кожного рівня. На початку рівня копіюєш його тести в `src/app/`, запускаєш `npm run test:hw` — спершу вони червоні. Пишеш код, поки не стануть зеленими. Як скопіювати — у `homework-tests/README.md`.
 
-**Де писати код:** `frontend/restaurant-frontend-app`, за правилами з `frontend/restaurant-frontend-app/CLAUDE.md` (куди класти файл, як називати, стилі).
+**Де писати код:** `frontend/restaurant-frontend-app`, за правилами з `GEMINI.md` (куди класти файл, як називати, стилі).
 
 ## Старт
 
