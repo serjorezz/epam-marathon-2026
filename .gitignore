@@ -1,22 +1,54 @@
-# IDE / editor
+# ==============================================================================
+# Unified .gitignore for Green & Tasty (EPAM IT Marathon 6.0)
+# Covers: General OS/IDEs, Terraform, Frontend (Angular), Backend (.NET), AQA
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Operating System & Editors / IDEs
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.swp
+*~
+*.bak
+
+# IDEs / Editors
 .idea/
 .vscode/
 *.iml
 *.code-workspace
+.project
+.classpath
+.settings/
+*.sublime-workspace
+.c9/
+*.launch
+.history/
+.ionide/
 
-# OS
-.DS_Store
-._*
-Thumbs.db
+# AI Assistants & Agent state
+.claude/
+.codemie/
+skills/
 
-# Node
-node_modules/
-
-# Local env
+# ------------------------------------------------------------------------------
+# Environment variables & local credentials (NEVER commit secrets)
+# ------------------------------------------------------------------------------
 .env
-.env.local
+.env.*
+!.env.example
+*.local
 
-# Terraform
+# ------------------------------------------------------------------------------
+# Terraform / Cloud
+# ------------------------------------------------------------------------------
 **/.terraform/
 *.tfstate
 *.tfstate.*
@@ -24,9 +56,86 @@ node_modules/
 *.tfvars.json
 crash.log
 crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# Claude Code local state and worktrees
-.claude/
+# ------------------------------------------------------------------------------
+# Frontend (Node.js & Angular)
+# ------------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# Agent skills
-skills/
+# Angular build outputs & caches
+dist/
+tmp/
+out-tsc/
+bazel-out/
+.angular/
+.sass-cache/
+connect.lock
+coverage/
+libpeerconnection.log
+testem.log
+typings/
+
+# Generated production environment (created at build time by scripts/set-env.mjs)
+**/src/environments/environment.production.ts
+
+# ------------------------------------------------------------------------------
+# Backend & AQA (.NET, C#, Python)
+# ------------------------------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+packages/
+!**/packages/build/
+TestResults/
+test-results/
+
+# User-specific & local files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.pidb
+*.vsp
+*.psess
+
+# Visual Studio & Rider temporary files
+.vs/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+*.dotCover
+
+# Reqnroll / SpecFlow generated code-behind
+*.feature.cs
+
+# Build & publishing outputs
+publish/
+*.publishproj
+*.pubxml
+*.azurePubxml
+PublishScripts/
+csx/
+ecf/
+rcf/
+AppPackages/
+BundleArtifacts/
+
+# Python / Virtualenv
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+ENV/
+
+# OpenAPI / Swagger exports
+export/
