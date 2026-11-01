@@ -106,6 +106,7 @@ Use this order:
 1. Deploy Terraform infrastructure
 2. Deploy the backend using Syndicate
 3. Deploy the frontend to s3
+4. Seed initial database data (`scripts/seed-dynamodb.py`)
 
 Terraform then provisions or updates the shared AWS foundation, including the frontend S3 bucket and CloudFront distribution. Syndicate packages and deploys the backend application stack. After that, build the Angular app with the correct backend URL and sync it to S3.
 
@@ -324,6 +325,21 @@ https://dxxxxxxxxxxxx.cloudfront.net
 ```
 
 CloudFront does not provide a fixed public IP you should use. Use the distribution domain name instead.
+
+## 4. Seed initial database data
+
+When DynamoDB tables are first created by Terraform/Syndicate, they contain no records. Run the seeding script to populate the restaurant with realistic sample data (locations in Tbilisi, bookable tables, and menu dishes with photos):
+
+```bash
+python3 scripts/seed-dynamodb.py --region us-east-1
+```
+
+The script populates:
+- **Locations (`Locations`)**: 3 restaurant locations in Tbilisi (Baratashvili, Abashidze, Rustaveli) with descriptions and photo assets.
+- **Tables (`Tables`)**: 17 bookable tables of various capacities (2, 4, 6, 8 guests) with GSI indexes.
+- **Dishes (`Dishes`)**: 9 menu items (Appetizers, Main courses, Desserts) in `Available` state with assets.
+
+---
 
 ## Clean up all resources
 
