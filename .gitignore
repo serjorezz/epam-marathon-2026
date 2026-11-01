@@ -45,6 +45,9 @@ skills/
 .env.*
 !.env.example
 *.local
+credentials.*
+credentials
+admin-credentials.*
 
 # ------------------------------------------------------------------------------
 # Terraform / Cloud
