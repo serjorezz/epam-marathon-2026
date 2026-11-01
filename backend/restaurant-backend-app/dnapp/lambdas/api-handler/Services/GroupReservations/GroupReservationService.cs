@@ -1,3 +1,4 @@
+using APIHandler.Constants.Orders;
 using APIHandler.Constants;
 using APIHandler.Entities;
 using APIHandler.Exceptions;
@@ -5,11 +6,14 @@ using APIHandler.Models.GroupReservation;
 using APIHandler.Models.GuestReservation;
 using APIHandler.Repositories.GroupReservations;
 using APIHandler.Repositories.GuestSessions;
+using APIHandler.Repositories.Orders;
 using APIHandler.Repositories.Reservations;
 using APIHandler.Repositories.Tables;
 using APIHandler.Services.Auth;
 using APIHandler.Services.Locations;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace APIHandler.Services.GroupReservations;
@@ -20,7 +24,8 @@ public class GroupReservationService(
     IReservationRepository reservationRepository,
     IGuestSessionRepository guestSessionRepository,
     IUserService userService,
-    ILocationService locationService) : IGroupReservationService
+    ILocationService locationService,
+    IOrderRepository orderRepository) : IGroupReservationService
 {
     private const string DefaultRestaurantName = "Green & Tasty";
 
@@ -142,5 +147,109 @@ public class GroupReservationService(
 
         return new GetGroupInviteTokenResponse(groupReservation.ReservationToken);
     }
-}
 
+    public async Task<GetOwnerGuestSessionIdResponse> GetOwnerGuestSessionIdAsync(string userId, string reservationId)
+    {
+        var reservation = await reservationRepository.GetReservationByIdAsync(reservationId)
+            ?? throw new ReservationNotFoundException($"Reservation {reservationId} was not found.");
+
+        if (reservation.CustomerId != userId)
+        {
+            throw new ActionForbiddenException("Only the reservation owner can perform this action.");
+        }
+
+        var groupReservation = await groupReservationRepository.GetByReservationIdAsync(reservationId)
+            ?? throw new GroupReservationNotFoundException($"Group reservation for reservation {reservationId} not found.");
+
+        var sessions = await guestSessionRepository.GetAllByGroupReservationIdAsync(groupReservation.GroupReservationId);
+        var ownerSession = sessions.FirstOrDefault(s => s.IsOwnerSession || s.OwnerUserId == userId);
+
+        if (ownerSession == null)
+        {
+            ownerSession = new GuestSession
+            {
+                Id = Guid.NewGuid().ToString(),
+                GroupReservationId = groupReservation.GroupReservationId,
+                GuestName = "Owner",
+                Dishes = [],
+                IsOwnerSession = true,
+                OwnerUserId = userId,
+                IsSubmitted = false,
+            };
+
+            await guestSessionRepository.SaveAsync(ownerSession);
+        }
+
+        return new GetOwnerGuestSessionIdResponse(ownerSession.Id);
+    }
+
+    public async Task<List<SubmittedDishResponse>> SubmitGroupPreOrderAsync(string userId, string groupReservationId, string reservationId)
+    {
+        var groupReservation = await groupReservationRepository.GetGroupReservationByIdAsync(groupReservationId)
+            ?? throw new GroupReservationNotFoundException($"Group reservation {groupReservationId} not found.");
+
+        var reservation = await reservationRepository.GetReservationByIdAsync(reservationId)
+            ?? throw new ReservationNotFoundException($"Reservation {reservationId} not found.");
+
+        if (groupReservation.ReservationId != reservation.Id)
+        {
+            throw new ValidationException("Reservation ID does not match the group reservation.");
+        }
+
+        if (reservation.CustomerId != userId)
+        {
+            throw new ActionForbiddenException("Only the reservation owner can perform this action.");
+        }
+
+        var order = await orderRepository.GetOrderByReservationIdAsync(reservationId)
+            ?? throw new ValidationException("Active pre-order for reservation not found.");
+
+        var sessions = await guestSessionRepository.GetAllByGroupReservationIdAsync(groupReservationId);
+        var submittedSessions = sessions.Where(s => s.IsSubmitted).ToList();
+
+        if (submittedSessions.Count == 0)
+        {
+            throw new ValidationException("No submitted guest sessions found to consolidate.");
+        }
+
+        var allDishes = submittedSessions
+            .Where(s => s.Dishes != null)
+            .SelectMany(s => s.Dishes)
+            .ToList();
+
+        if (allDishes.Count == 0)
+        {
+            throw new ValidationException("No dishes found in the submitted guest sessions.");
+        }
+
+        var consolidated = allDishes
+            .GroupBy(d => d.DishId)
+            .Select(g => new
+            {
+                DishId = g.Key,
+                Quantity = g.Sum(d => d.Quantity)
+            })
+            .Where(x => x.Quantity > 0)
+            .ToList();
+
+        if (consolidated.Count == 0)
+        {
+            throw new ValidationException("No dishes found in the submitted guest sessions.");
+        }
+
+        order.Dishes = consolidated.Select(c => new OrderItem
+        {
+            DishId = c.DishId,
+            Quantity = c.Quantity,
+            State = OrderItemState.Pending
+        }).ToList();
+
+        order.Status = OrderStatus.SubmittedByCustomer;
+        await orderRepository.SaveOrderAsync(order);
+
+        groupReservation.Status = GroupReservationStatus.Submitted;
+        await groupReservationRepository.SaveGroupReservationAsync(groupReservation);
+
+        return consolidated.Select(c => new SubmittedDishResponse(c.DishId, c.Quantity)).ToList();
+    }
+}

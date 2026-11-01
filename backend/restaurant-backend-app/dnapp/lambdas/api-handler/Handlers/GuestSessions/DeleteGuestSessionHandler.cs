@@ -8,15 +8,8 @@ using System.Threading.Tasks;
 
 namespace APIHandler.Handlers.GuestSessions;
 
-public class DeleteGuestSessionHandler : IApiRequestHandler
+public class DeleteGuestSessionHandler(IGuestSessionService guestSessionService) : IApiRequestHandler
 {
-    private readonly IGuestSessionService _guestSessionService;
-
-    public DeleteGuestSessionHandler(IGuestSessionService guestSessionService)
-    {
-        _guestSessionService = guestSessionService ?? throw new ArgumentNullException(nameof(guestSessionService));
-    }
-
     public async Task<APIGatewayProxyResponse> HandleRequest(APIGatewayProxyRequest request, ILambdaContext context)
     {
         if (!request.TryGetPathValue("groupReservationId", out var groupReservationId))
@@ -37,8 +30,8 @@ public class DeleteGuestSessionHandler : IApiRequestHandler
 
         try
         {
-            var updatedSnapshot = await _guestSessionService.DeleteGuestSessionAsync(userId, groupReservationId, guestSessionId);
-            return ResponseBuilder.CreateSuccessResponse(updatedSnapshot);
+            var updatedSnapshot = await guestSessionService.DeleteGuestSessionAsync(userId, groupReservationId, guestSessionId);
+            return ResponseBuilder.CreateJsonResponse(200, updatedSnapshot);
         }
         catch (GroupReservationNotFoundException ex)
         {
@@ -58,7 +51,7 @@ public class DeleteGuestSessionHandler : IApiRequestHandler
         }
         catch (ValidationException ex)
         {
-            return ResponseBuilder.CreateErrorCodeResponse(ex);
+            return ResponseBuilder.CreateErrorResponse(400, ex.Message, context.Logger);
         }
     }
 }
