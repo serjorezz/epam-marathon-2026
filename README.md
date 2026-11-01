@@ -11,6 +11,18 @@
 
 ---
 
+## 🌐 Посилання на розгорнуті ресурси
+
+| Компонент / Сервіс | Посилання | Опис |
+| :--- | :--- | :--- |
+| **Frontend Application** | [restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com) | Головний клієнтський Angular-застосунок |
+| **Group Order Flow (Demo)** | [demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo) | Демо-посилання для тестування функціоналу Owner Pre-Order |
+| **Backend API Gateway** | [pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop](https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop) | Базовий REST API Gateway ендпоінт (`develop`) |
+| **Swagger UI** | [restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com) | Інтерактивна документація API |
+| **CloudWatch Dashboard** | [CloudWatch Dashboard (restaurant-backend)](https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#dashboards/dashboard/restaurant-backend) | Дашборд моніторингу метрик, алерти та логи |
+
+---
+
 ## 📚 Документація та домашні завдання
 
 Вся документація та специфікації домашніх завдань знаходяться у директорії [`homework/`](homework/):
