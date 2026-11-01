@@ -338,6 +338,10 @@ The script populates:
 - **Locations (`Locations`)**: 3 restaurant locations in Tbilisi (Baratashvili, Abashidze, Rustaveli) with descriptions and photo assets.
 - **Tables (`Tables`)**: 17 bookable tables of various capacities (2, 4, 6, 8 guests) with GSI indexes.
 - **Dishes (`Dishes`)**: 9 menu items (Appetizers, Main courses, Desserts) in `Available` state with assets.
+- **Admin Account (`Cognito`)**: Sets up the `Admin` user group and provisions a default administrator account:
+  - **Email:** `admin@green-tasty.com`
+  - **Password:** `Admin12345!`
+  - **Role:** `Admin`
 
 ---
 

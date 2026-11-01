@@ -1,16 +1,23 @@
 #!/usr/bin/env python3
 """
 Seed script for Green & Tasty restaurant database.
-Populates initial sample data (Locations, Tables, Dishes) into AWS DynamoDB.
+Populates initial sample data (Locations, Tables, Dishes) into AWS DynamoDB
+and ensures Cognito groups and a default Admin account exist.
 
 Usage:
-    python3 scripts/seed-dynamodb.py [--region REGION]
+    python3 scripts/seed-dynamodb.py [--region REGION] [--user-pool-id USER_POOL_ID]
+                                     [--admin-email EMAIL] [--admin-password PASSWORD]
 """
 
 import argparse
 import json
 import subprocess
 import sys
+
+
+def run_cmd(cmd: list[str]) -> tuple[int, str, str]:
+    res = subprocess.run(cmd, capture_output=True, text=True)
+    return res.returncode, res.stdout, res.stderr
 
 
 def put_item(table_name: str, item: dict, region: str) -> bool:
@@ -20,13 +27,88 @@ def put_item(table_name: str, item: dict, region: str) -> bool:
         "--item", json.dumps(item),
         "--region", region
     ]
-    res = subprocess.run(cmd, capture_output=True, text=True)
-    if res.returncode != 0:
-        print(f"  [ERROR] {table_name}: {res.stderr.strip()}", file=sys.stderr)
+    code, stdout, stderr = run_cmd(cmd)
+    if code != 0:
+        print(f"  [ERROR] {table_name}: {stderr.strip()}", file=sys.stderr)
         return False
     identifier = item.get("id", {}).get("S") or item.get("name", {}).get("S")
     print(f"  [OK] {table_name} -> {identifier}")
     return True
+
+
+def ensure_cognito_admin(user_pool_id: str, email: str, password: str, region: str):
+    print(f"\n4. Setting up Cognito Groups & Admin User in User Pool ({user_pool_id})...")
+
+    # 1. Ensure Groups exist
+    for group_name in ["Admin", "Waiter", "Customer"]:
+        check_cmd = [
+            "aws", "cognito-idp", "get-group",
+            "--user-pool-id", user_pool_id,
+            "--group-name", group_name,
+            "--region", region
+        ]
+        code, _, _ = run_cmd(check_cmd)
+        if code != 0:
+            create_cmd = [
+                "aws", "cognito-idp", "create-group",
+                "--user-pool-id", user_pool_id,
+                "--group-name", group_name,
+                "--description", f"{group_name} group",
+                "--region", region
+            ]
+            run_cmd(create_cmd)
+            print(f"  [OK] Created Cognito group: {group_name}")
+        else:
+            print(f"  [EXISTS] Cognito group: {group_name}")
+
+    # 2. Ensure Admin User exists
+    user_check_cmd = [
+        "aws", "cognito-idp", "admin-get-user",
+        "--user-pool-id", user_pool_id,
+        "--username", email,
+        "--region", region
+    ]
+    code, _, _ = run_cmd(user_check_cmd)
+    if code != 0:
+        create_user_cmd = [
+            "aws", "cognito-idp", "admin-create-user",
+            "--user-pool-id", user_pool_id,
+            "--username", email,
+            "--user-attributes",
+            f"Name=email,Value={email}",
+            "Name=email_verified,Value=true",
+            "Name=given_name,Value=Admin",
+            "Name=family_name,Value=User",
+            "--message-action", "SUPPRESS",
+            "--region", region
+        ]
+        run_cmd(create_user_cmd)
+        print(f"  [OK] Created admin user: {email}")
+    else:
+        print(f"  [EXISTS] Admin user: {email}")
+
+    # 3. Set permanent password
+    set_pass_cmd = [
+        "aws", "cognito-idp", "admin-set-user-password",
+        "--user-pool-id", user_pool_id,
+        "--username", email,
+        "--password", password,
+        "--permanent",
+        "--region", region
+    ]
+    run_cmd(set_pass_cmd)
+    print("  [OK] Admin permanent password configured")
+
+    # 4. Add user to Admin group
+    add_group_cmd = [
+        "aws", "cognito-idp", "admin-add-user-to-group",
+        "--user-pool-id", user_pool_id,
+        "--username", email,
+        "--group-name", "Admin",
+        "--region", region
+    ]
+    run_cmd(add_group_cmd)
+    print("  [OK] Admin user assigned to 'Admin' group")
 
 
 LOCATIONS = [
@@ -233,11 +315,14 @@ DISHES = [
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Seed Green & Tasty DynamoDB tables.")
+    parser = argparse.ArgumentParser(description="Seed Green & Tasty DynamoDB tables and Cognito admin.")
     parser.add_argument("--region", default="us-east-1", help="AWS region (default: us-east-1)")
+    parser.add_argument("--user-pool-id", default="us-east-1_q9c2Wi6FD", help="Cognito User Pool ID")
+    parser.add_argument("--admin-email", default="admin@green-tasty.com", help="Default Admin email")
+    parser.add_argument("--admin-password", default="Admin12345!", help="Default Admin password")
     args = parser.parse_args()
 
-    print(f"Starting DynamoDB seed in region '{args.region}'...\n")
+    print(f"Starting seed in region '{args.region}'...\n")
 
     print(f"1. Seeding {len(LOCATIONS)} Locations...")
     for loc in LOCATIONS:
@@ -251,7 +336,9 @@ def main():
     for dsh in DISHES:
         put_item("Dishes", dsh, args.region)
 
-    print("\n[SUCCESS] Seeding completed successfully!")
+    ensure_cognito_admin(args.user_pool_id, args.admin_email, args.admin_password, args.region)
+
+    print("\n[SUCCESS] Seeding and admin account setup completed successfully!")
 
 
 if __name__ == "__main__":
