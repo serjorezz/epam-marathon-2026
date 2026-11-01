@@ -239,9 +239,12 @@ This section describes the manual deployment flow. It does not use GitHub Action
 
 Terraform creates and configures everything needed for frontend hosting:
 
-- the private frontend S3 bucket
-- the bucket policy that allows CloudFront to read from it
-- the CloudFront distribution that serves the site
+- the frontend S3 bucket (with static website hosting and SPA index.html fallback routing)
+- the bucket policy allowing public website access
+
+> [!NOTE]
+> **CloudFront is unavailable for new AWS accounts without a support request:**
+> AWS automatically restricts CloudFront distribution creation on newly registered accounts until an AWS Support case/letter is submitted and approved. For this reason, the frontend is configured to serve directly via **S3 Static Website Hosting** (with `cloudfront.tf.disabled`). Once CloudFront is activated for your account by AWS Support, `cloudfront.tf` can be re-enabled.
 
 You do not need to configure the bucket manually after `terraform apply`. The manual part is only building the frontend and uploading the files to S3.
 
@@ -301,7 +304,13 @@ The `--delete` flag removes files in S3 that no longer exist in the local build 
 
 ### 3.4 Get the frontend URL
 
-Get the CloudFront domain name from Terraform:
+While CloudFront is unavailable for new accounts without an AWS Support request letter, access the application directly via the **S3 Static Website Hosting** endpoint:
+
+```text
+http://restaurant-frontend-$ACCOUNT_ID.s3-website.us-east-1.amazonaws.com
+```
+
+If your account has CloudFront enabled, get the CloudFront domain name from Terraform:
 
 ```powershell
 cd ../../infra/terraform
