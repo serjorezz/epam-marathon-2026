@@ -139,6 +139,16 @@
       display: none;
     }
 
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+
+      .github-icon {
+        border-radius: 50%;
+      }
+    }
 
     .action-icon {
       height: 24px;
@@ -456,6 +466,26 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .github-link-mobile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.25rem 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    font-size: 1rem;
+
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+
+    &:hover {
+      color: color.$green-600;
+    }
   }
 
   .action-icon {

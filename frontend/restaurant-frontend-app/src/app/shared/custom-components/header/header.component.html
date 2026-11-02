@@ -44,6 +44,17 @@
         </button>
       }
 
+      <a
+        class="github-link-mobile"
+        href="https://github.com/serjorezz/epam-marathon-2026"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub Repository"
+      >
+        <img src="assets/svg/github.png" alt="GitHub" class="action-icon" />
+        <span>GitHub</span>
+      </a>
+
       @if ((authService.isAuthorised$ | async) === false) {
         <a class="button button--secondary button--large" routerLink="/login">Sign In</a>
       }
@@ -139,6 +150,20 @@
   </nav>
 
   <div class="actions">
+    <a
+      class="icon-button icon-button--small github-link"
+      href="https://github.com/serjorezz/epam-marathon-2026"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="GitHub Repository"
+    >
+      <img
+        src="assets/svg/github.png"
+        alt="GitHub"
+        class="action-icon github-icon"
+      />
+    </a>
+
     @if ((authService.isAuthorised$ | async) === false) {
       <a class="button button--secondary button--large" routerLink="/login">Sign In</a>
     }
