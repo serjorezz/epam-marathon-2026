@@ -17,6 +17,7 @@ import {
 } from '@app/models/reservations/reservation.model';
 import { PlaceOrderWaiterComponent } from '@app/components/place-order-waiter/place-order-waiter.component';
 import { Roles } from '@app/shared/constants/roles';
+import { formatTime } from '@app/shared/helpers/date-helpers';
 import { CustomSelectComponent } from '@app/shared/custom-components/custom-select/custom-select.component';
 
 interface ReservationStatusView {
@@ -149,7 +150,36 @@ export class CardReservationComponent {
     );
   });
 
+  readonly isPreOrderCutoffReached = computed(() => {
+    const startTimeRaw = this.r().startTime;
+    if (!startTimeRaw) {
+      return false;
+    }
+    const startTimeMs = new Date(startTimeRaw).getTime();
+    if (isNaN(startTimeMs)) {
+      return false;
+    }
+    const cutoffMs = startTimeMs - 30 * 60 * 1000;
+    return Date.now() > cutoffMs;
+  });
+
+  readonly preOrderCutoffTooltip = computed(() => {
+    const startTimeRaw = this.r().startTime;
+    if (!startTimeRaw) {
+      return 'Pre-orders can only be modified up to 30 minutes before the reservation start time.';
+    }
+    try {
+      const timeStr = formatTime(new Date(startTimeRaw).toISOString());
+      return `Pre-orders can only be modified up to 30 minutes before the reservation start time (${timeStr}).`;
+    } catch {
+      return 'Pre-orders can only be modified up to 30 minutes before the reservation start time.';
+    }
+  });
+
   onPreOrder(): void {
+    if (this.isPreOrderCutoffReached()) {
+      return;
+    }
     const reservation = this.r();
     const startTime = new Date(reservation.startTime);
     const endTime = new Date(reservation.endTime);
@@ -174,6 +204,9 @@ export class CardReservationComponent {
     });
   }
   onPreOrderWaiter(): void {
+    if (this.isPreOrderCutoffReached()) {
+      return;
+    }
     if (this.preOrderItemCount() > 0) {
       this.navigateToWaiterPreOrder();
       return;

@@ -153,22 +153,44 @@
           </button>
 
           @if (canOpenWaiterPreOrder()) {
+            <div
+              class="pre-order-btn-wrapper"
+              [class.is-disabled]="isPreOrderCutoffReached()"
+            >
+              <button
+                type="button"
+                class="button button--primary button--large"
+                [disabled]="isPreOrderCutoffReached()"
+                (click)="onPreOrderWaiter()"
+              >
+                Pre-order
+              </button>
+              @if (isPreOrderCutoffReached()) {
+                <div class="tooltip-box" role="tooltip">
+                  {{ preOrderCutoffTooltip() }}
+                </div>
+              }
+            </div>
+          }
+        } @else if (role() === Roles.CUSTOMER) {
+          <div
+            class="pre-order-btn-wrapper"
+            [class.is-disabled]="isPreOrderCutoffReached()"
+          >
             <button
               type="button"
               class="button button--primary button--large"
-              (click)="onPreOrderWaiter()"
+              [disabled]="isPreOrderCutoffReached()"
+              (click)="onPreOrder()"
             >
               Pre-order
             </button>
-          }
-        } @else if (role() === Roles.CUSTOMER) {
-          <button
-            type="button"
-            class="button button--primary button--large"
-            (click)="onPreOrder()"
-          >
-            Pre-order
-          </button>
+            @if (isPreOrderCutoffReached()) {
+              <div class="tooltip-box" role="tooltip">
+                {{ preOrderCutoffTooltip() }}
+              </div>
+            }
+          </div>
         }
       }
 
