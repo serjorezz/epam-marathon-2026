@@ -21,7 +21,7 @@ epam-marathon-2026/
 ### Key Domain & Homework Context
 * **Core Flow:** Group Pre-Order. An **Owner** reserves a table and invites guests via an invite link (`/join/:token`). Guests pick dishes. The Owner consolidates all submitted items on `/reservations/:id/group-order` and submits a unified pre-order to the kitchen (`SubmittedByCustomer`).
 * **Source of Truth for API Contracts:** `backend/restaurant-backend-app/docs/ApiRoutes.md` and `RouteRegistry.cs` win over frontend interfaces when discrepancies occur.
-* **Homework Documentation:** Detailed requirements for all tracks are located in [`homework/ALL_IN_ONE_HOMEWORK.md`](homework/ALL_IN_ONE_HOMEWORK.md).
+* **Homework Documentation:** Detailed requirements for all tracks are located in [`homework/`](homework/) (`homework-frontend.md`, `homework-backend.md`, `homework-aqa.md`).
 
 ---
 
@@ -151,7 +151,7 @@ aqa/restaurant-aqa-framework/
 ### 6.2 Zed IDE Integration
 * **Project Root:** Open `/home/serjorez/Projects/epam-marathon-2026` as the root workspace in Zed.
 * **Zed Assistant Slash Commands:**
-  - Use `/file` to include specific domain files (e.g., `/file homework/ALL_IN_ONE_HOMEWORK.md`).
+  - Use `/file` to include specific domain files (e.g., `/file homework/homework-frontend.md`).
   - Use terminal integration for rapid test checking (`npm run test:hw` or `dotnet test`).
 * **Format on Save:** Prettier is configured for frontend (`src/**/*.{ts,html,scss}`) and `.editorconfig` applies across C# and TypeScript code.
 The project follows signals-first patterns (see [signals-migration.md](frontend/restaurant-frontend-app/docs/signals-migration.md)). . No new `Subject`/`BehaviorSubject`UI .InAngular22, create `effect()` within an injection context. Convert streams via `toSignal()` for template rendering

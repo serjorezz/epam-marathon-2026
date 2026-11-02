@@ -36,7 +36,6 @@
 
 | Документ | Опис |
 |---|---|
-| 🌟 [**`homework/ALL_IN_ONE_HOMEWORK.md`**](homework/ALL_IN_ONE_HOMEWORK.md) | **Повний зведений посібник:** покрокові інструкції для всіх рівнів (Frontend, Backend, AQA, DevOps), контракти API, чек-листи |
 | [**`homework/homework-frontend.md`**](homework/homework-frontend.md) | Домашнє завдання з Frontend (3 рівні + бонус Remove Guest) |
 | [**`homework/practice-frontend.md`**](homework/practice-frontend.md) | Практичне завдання Frontend на ~15 хв (створення першої картки та сторінки) |
 | [**`homework/homework-backend.md`**](homework/homework-backend.md) | Домашнє завдання з Backend (.NET 10 Lambdas, API Gateway, DynamoDB) |
