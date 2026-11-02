@@ -1,5 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
+function capitalize(text: string): string {
+  if (!text) return '';
+  const trimmed = text.trim();
+  return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+}
+
 export function getServerErrorMessage(error: HttpErrorResponse | unknown): string {
   if (!error) {
     return '';
@@ -27,13 +33,13 @@ export function getServerErrorMessage(error: HttpErrorResponse | unknown): strin
   if (body && typeof body === 'object') {
     const obj = body as Record<string, unknown>;
     if (typeof obj['error'] === 'string' && obj['error']) {
-      return obj['error'];
+      return capitalize(obj['error']);
     }
     if (typeof obj['message'] === 'string' && obj['message']) {
-      return obj['message'];
+      return capitalize(obj['message']);
     }
     if (typeof obj['detail'] === 'string' && obj['detail']) {
-      return obj['detail'];
+      return capitalize(obj['detail']);
     }
   }
 
@@ -41,7 +47,7 @@ export function getServerErrorMessage(error: HttpErrorResponse | unknown): strin
     if (body.startsWith('Http failure response for')) {
       return '';
     }
-    return body;
+    return capitalize(body);
   }
 
   return '';
