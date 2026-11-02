@@ -32,7 +32,7 @@ export class LocationOverviewComponent implements OnInit {
   locationId!: string;
   location?: LocationResponse;
   reviews: FeedbackResponseItem[] = [];
-  userImages: Record <string, string> = {};
+  userImages: Record<string, string> = {};
   selectedType: ReviewType = ReviewType.Service;
   selectedSort: ReviewSort = ReviewSort.TopRatedFirst;
 
@@ -43,9 +43,7 @@ export class LocationOverviewComponent implements OnInit {
   reviewSortLabels = ReviewSortLabels;
   reviewsLabel = 'Reviews are loading... Please wait.';
 
-  //  reviewTypeValues = Object.values(ReviewType);
   reviewTypeValues: ReviewType[] = [ReviewType.Service, ReviewType.CuisineExperience];
-
   reviewTypeLabels = ReviewTypeLabels;
 
   private readonly route = inject(ActivatedRoute);
@@ -84,15 +82,21 @@ export class LocationOverviewComponent implements OnInit {
             this.reviewsLabel = 'No reviews of this type found for this location.';
           }
           this.reviews.forEach((review) => {
+            const key = review.userId || review.username || review.reservationId;
             if (!this.userImages[review.userId]) {
-              this.usersService.getUserProfileImage(review.userId).subscribe({
-                next: (imageUrl) => {
-                  this.userImages[review.userId] = imageUrl?.presignedUrl ?? 'assets/img/avatar.png';
-                },
-                error: () => {
-                  this.userImages[review.userId] = 'assets/img/avatar.png'; // Fallback image
-                },
-              });
+              this.userImages[review.userId] = this.getStockAvatar(review.username, key);
+              if (review.userId) {
+                this.usersService.getUserProfileImage(review.userId).subscribe({
+                  next: (imageUrl) => {
+                    if (imageUrl?.presignedUrl) {
+                      this.userImages[review.userId] = imageUrl.presignedUrl;
+                    }
+                  },
+                  error: () => {
+                    this.userImages[review.userId] = this.getStockAvatar(review.username, key);
+                  },
+                });
+              }
             }
           });
           this.totalPages = data.totalPages;
@@ -141,8 +145,40 @@ export class LocationOverviewComponent implements OnInit {
     this.loadReviews();
   }
 
-  getFeedbackUserImage(userId: string): string {
-    return this.userImages[userId];
+  getStockAvatar(username?: string, key?: string): string {
+    const nameKey = (username || '').toLowerCase().trim();
+    const KNOWN_MAP: Record<string, string> = {
+      'anna': 'assets/img/avatars/avatar-3.jpg',
+      'user 1765': 'assets/img/avatars/avatar-4.jpg',
+      'david': 'assets/img/avatars/avatar-2.jpg',
+      'sophie': 'assets/img/avatars/avatar-5.jpg',
+      'elena': 'assets/img/avatars/avatar-6.jpg',
+      'nika': 'assets/img/avatars/avatar-1.jpg',
+      'michael': 'assets/img/avatars/avatar-7.jpg',
+      'tamar': 'assets/img/avatars/avatar-8.jpg',
+      'alex': 'assets/img/avatars/avatar-9.jpg',
+      'customer user': 'assets/img/avatars/avatar-10.jpg',
+    };
+
+    if (KNOWN_MAP[nameKey]) {
+      return KNOWN_MAP[nameKey];
+    }
+
+    const seed = key || username || 'reviewer';
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    }
+    const index = (hash % 10) + 1;
+    return `assets/img/avatars/avatar-${index}.jpg`;
+  }
+
+  getFeedbackUserImage(userId: string, username?: string): string {
+    const existing = this.userImages[userId];
+    if (existing && !existing.includes('avatar.png')) {
+      return existing;
+    }
+    return this.getStockAvatar(username, userId);
   }
 
   get visiblePageNumbers(): number[] {
