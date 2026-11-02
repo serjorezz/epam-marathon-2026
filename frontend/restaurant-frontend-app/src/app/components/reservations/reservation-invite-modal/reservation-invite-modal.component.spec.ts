@@ -131,6 +131,17 @@ describe('ReservationInviteModalComponent', () => {
     expect(toastService.success).toHaveBeenCalledWith('Share it with your friends.', 'Link copied!');
   });
 
+  it('falls back to document.execCommand when isSecureContext is false', async () => {
+    render(BASE_RESERVATION);
+    spyOnProperty(window, 'isSecureContext', 'get').and.returnValue(false);
+    const execSpy = spyOn(document, 'execCommand').and.returnValue(true);
+
+    await component.onCopyLink();
+
+    expect(execSpy).toHaveBeenCalledWith('copy');
+    expect(toastService.success).toHaveBeenCalledWith('Share it with your friends.', 'Link copied!');
+  });
+
   it('shows an error toast when copying fails', async () => {
     render(BASE_RESERVATION);
     spyOn(navigator.clipboard, 'writeText').and.rejectWith(new Error('denied'));

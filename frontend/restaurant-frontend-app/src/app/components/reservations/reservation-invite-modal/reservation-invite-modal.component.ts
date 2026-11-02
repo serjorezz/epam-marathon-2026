@@ -92,11 +92,49 @@ export class ReservationInviteModalComponent implements OnInit {
     }
 
     try {
-      await navigator.clipboard.writeText(link);
+      if (typeof window !== 'undefined' && window.isSecureContext && navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(link);
+      } else {
+        const copied = this.copyFallback(link);
+        if (!copied) {
+          throw new Error('Copy fallback failed');
+        }
+      }
       this.toastService.success('Share it with your friends.', 'Link copied!');
     } catch {
       this.toastService.error('Could not copy the link. Please copy it manually.');
     }
+  }
+
+  private copyFallback(text: string): boolean {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = '0';
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.setAttribute('readonly', '');
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    let successful = false;
+    try {
+      successful = document.execCommand('copy');
+    } catch {
+      successful = false;
+    } finally {
+      document.body.removeChild(textArea);
+    }
+
+    return successful;
   }
 
   onViewReservation(): void {
