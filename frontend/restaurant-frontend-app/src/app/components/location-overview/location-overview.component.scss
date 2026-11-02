@@ -26,6 +26,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;
+  line-height: 1.6;
 }
 
 .restaurant-image-wrap {
@@ -49,12 +50,13 @@
 
 .restaurant-info {
   position: absolute;
-  top: 7.5rem;
+  top: 5rem;
   right: 2.5rem;
   width: calc(43vw - 2.5rem);
   border-radius: 12px;
   padding: 1.5rem;
   background: linear-gradient(180deg, color.$neutral-0 0%,color.$bg-yellow 100%);
+  box-shadow: 0 0 10px 4px color.$shadow;
 
   @media (max-width: 768px) {
     width: 100%;

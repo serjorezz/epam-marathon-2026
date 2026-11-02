@@ -242,7 +242,16 @@ def ensure_customers(user_pool_id: str, customers: list[dict], region: str):
             run_cmd(create_user_cmd)
             print(f"  [OK] Created customer user: {email}")
         else:
-            print(f"  [EXISTS] Customer user: {email}")
+            run_cmd([
+                "aws", "cognito-idp", "admin-update-user-attributes",
+                "--user-pool-id", user_pool_id,
+                "--username", email,
+                "--user-attributes",
+                f"Name=given_name,Value={first_name}",
+                f"Name=family_name,Value={last_name}",
+                "--region", region
+            ])
+            print(f"  [EXISTS] Updated customer user attributes: {email} ({first_name} {last_name})")
 
         set_pass_cmd = [
             "aws", "cognito-idp", "admin-set-user-password",
@@ -268,7 +277,7 @@ LOCATIONS = [
     {
         "id": {"S": "loc-baratashvili"},
         "address": {"S": "14 Baratashvili Street"},
-        "description": {"S": "Cozy restaurant in the historic heart of Tbilisi with outdoor seating and scenic Old City views."},
+        "description": {"S": "Nestled in the historic heart of Old Tbilisi, our Baratashvili Street restaurant pairs traditional Georgian architectural charm with contemporary eco-friendly design. Guests can unwind on the sunlit veranda overlooking cobblestone streets and scenic hillside views, enjoying a tranquil, welcoming atmosphere perfect for leisurely family gatherings and romantic dinners."},
         "totalCapacity": {"N": "30"},
         "averageOccupancy": {"S": "75"},
         "imageUrl": {"S": "assets/img/locations/baratashvili-street-14.jpg"},
@@ -277,7 +286,7 @@ LOCATIONS = [
     {
         "id": {"S": "loc-abashidze"},
         "address": {"S": "9 Abashidze Street"},
-        "description": {"S": "Modern dining in the lively Vake district featuring a garden terrace and seasonal organic dishes."},
+        "description": {"S": "Situated in the leafy, upscale Vake district, 9 Abashidze Street offers a bright, modern sanctuary centered around a secluded garden courtyard. Floor-to-ceiling windows, natural stone textures, and aromatic herb planters create an airy, farm-to-table ambiance where guests can savor seasonal organic bowls, artisanal teas, and peaceful weekend brunches."},
         "totalCapacity": {"N": "35"},
         "averageOccupancy": {"S": "80"},
         "imageUrl": {"S": "assets/img/locations/abashidze-street-9.jpg"},
@@ -286,10 +295,37 @@ LOCATIONS = [
     {
         "id": {"S": "loc-rustaveli"},
         "address": {"S": "48 Rustaveli Avenue"},
-        "description": {"S": "Spacious venue along Tbilisi's central avenue featuring live evening music and private dining rooms."},
+        "description": {"S": "Located on bustling Rustaveli Avenue, this flagship branch blends vibrant city energy with a warm, botanical-inspired interior. Surrounded by lush indoor greenery, warm oak accents, and soft ambient lighting, it features a spacious outdoor terrace and intimate private dining rooms—making it ideal for both relaxed business lunches and evening celebrations accompanied by live acoustic music."},
         "totalCapacity": {"N": "40"},
         "averageOccupancy": {"S": "65"},
         "imageUrl": {"S": "assets/img/locations/rustaveli-avenue-48.jpg"},
+        "rating": {"N": "4.8"}
+    },
+    {
+        "id": {"S": "loc-chavchavadze"},
+        "address": {"S": "24 Chavchavadze Avenue"},
+        "description": {"S": "Set along prestigious Chavchavadze Avenue, this contemporary dining space combines sleek minimalist elegance with warm wooden finishes and curated local art. With its open kitchen concept, cozy booth seating, and botanical mocktail and wine bar, it provides a sophisticated yet relaxed setting for evening dining and friendly get-togethers."},
+        "totalCapacity": {"N": "32"},
+        "averageOccupancy": {"S": "72"},
+        "imageUrl": {"S": "assets/img/locations/chavchavadze-avenue-24.jpg"},
+        "rating": {"N": "4.9"}
+    },
+    {
+        "id": {"S": "loc-agmashenebeli"},
+        "address": {"S": "112 Agmashenebeli Avenue"},
+        "description": {"S": "Housed in a beautifully restored 19th-century building on pedestrian-friendly Agmashenebeli Avenue, this lively loft-style venue features high ceilings, exposed brick walls, and abundant natural light. The inviting indoor conservatory and street-side patio offer a vibrant, creative atmosphere for coffee meetups, remote work lunches, and shared plant-based feasts."},
+        "totalCapacity": {"N": "36"},
+        "averageOccupancy": {"S": "78"},
+        "imageUrl": {"S": "assets/img/locations/agmashenebeli-avenue-112.jpg"},
+        "rating": {"N": "4.8"}
+    },
+    {
+        "id": {"S": "loc-pekini"},
+        "address": {"S": "31 Pekini Avenue"},
+        "description": {"S": "Perched in dynamic Saburtalo, our Pekini Avenue branch features a breezy, sunlit rooftop terrace and a serene, nature-inspired dining room. Designed as a calm urban oasis away from the busy avenue below, it welcomes guests with panoramic sunset views, comfortable lounge seating, and a refreshing, family-friendly ambiance."},
+        "totalCapacity": {"N": "28"},
+        "averageOccupancy": {"S": "70"},
+        "imageUrl": {"S": "assets/img/locations/pekini-avenue-31.jpg"},
         "rating": {"N": "4.7"}
     }
 ]
@@ -315,6 +351,25 @@ TABLES = [
     {"id": {"S": "table-r3"}, "locationId": {"S": "loc-rustaveli"}, "capacity": {"N": "4"}, "tableNumber": {"N": "23"}},
     {"id": {"S": "table-r4"}, "locationId": {"S": "loc-rustaveli"}, "capacity": {"N": "6"}, "tableNumber": {"N": "24"}},
     {"id": {"S": "table-r5"}, "locationId": {"S": "loc-rustaveli"}, "capacity": {"N": "8"}, "tableNumber": {"N": "25"}},
+    # 24 Chavchavadze Avenue
+    {"id": {"S": "table-c1"}, "locationId": {"S": "loc-chavchavadze"}, "capacity": {"N": "2"}, "tableNumber": {"N": "31"}},
+    {"id": {"S": "table-c2"}, "locationId": {"S": "loc-chavchavadze"}, "capacity": {"N": "2"}, "tableNumber": {"N": "32"}},
+    {"id": {"S": "table-c3"}, "locationId": {"S": "loc-chavchavadze"}, "capacity": {"N": "4"}, "tableNumber": {"N": "33"}},
+    {"id": {"S": "table-c4"}, "locationId": {"S": "loc-chavchavadze"}, "capacity": {"N": "4"}, "tableNumber": {"N": "34"}},
+    {"id": {"S": "table-c5"}, "locationId": {"S": "loc-chavchavadze"}, "capacity": {"N": "6"}, "tableNumber": {"N": "35"}},
+    {"id": {"S": "table-c6"}, "locationId": {"S": "loc-chavchavadze"}, "capacity": {"N": "8"}, "tableNumber": {"N": "36"}},
+    # 112 Agmashenebeli Avenue
+    {"id": {"S": "table-ag1"}, "locationId": {"S": "loc-agmashenebeli"}, "capacity": {"N": "2"}, "tableNumber": {"N": "41"}},
+    {"id": {"S": "table-ag2"}, "locationId": {"S": "loc-agmashenebeli"}, "capacity": {"N": "4"}, "tableNumber": {"N": "42"}},
+    {"id": {"S": "table-ag3"}, "locationId": {"S": "loc-agmashenebeli"}, "capacity": {"N": "4"}, "tableNumber": {"N": "43"}},
+    {"id": {"S": "table-ag4"}, "locationId": {"S": "loc-agmashenebeli"}, "capacity": {"N": "6"}, "tableNumber": {"N": "44"}},
+    {"id": {"S": "table-ag5"}, "locationId": {"S": "loc-agmashenebeli"}, "capacity": {"N": "8"}, "tableNumber": {"N": "45"}},
+    # 31 Pekini Avenue
+    {"id": {"S": "table-p1"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "2"}, "tableNumber": {"N": "51"}},
+    {"id": {"S": "table-p2"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "2"}, "tableNumber": {"N": "52"}},
+    {"id": {"S": "table-p3"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "4"}, "tableNumber": {"N": "53"}},
+    {"id": {"S": "table-p4"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "6"}, "tableNumber": {"N": "54"}},
+    {"id": {"S": "table-p5"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "8"}, "tableNumber": {"N": "55"}},
 ]
 
 DISHES = [
@@ -500,8 +555,8 @@ WAITERS = [
 CUSTOMERS = [
     {
         "email": "customer@green-tasty.com",
-        "first_name": "Customer",
-        "last_name": "User",
+        "first_name": "Mariam",
+        "last_name": "Lomidze",
         "password": "Customer12345!"
     }
 ]

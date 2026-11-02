@@ -255,11 +255,16 @@
 
   .location-cards {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    gap: 2%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
     margin: 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .locations-section .location-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -270,7 +275,7 @@
   }
 
   .locations-section .location-cards {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 }

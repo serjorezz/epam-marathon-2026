@@ -77,7 +77,10 @@ export class LocationOverviewComponent implements OnInit {
       .getLocationFeedbacks(this.locationId, this.selectedType, this.selectedSort, this.currentPage)
       .subscribe({
         next: (data) => {
-          this.reviews = data.items;
+          this.reviews = data.items.map((item) => ({
+            ...item,
+            username: this.getReviewerDisplayName(item.username),
+          }));
           if (this.reviews.length === 0) {
             this.reviewsLabel = 'No reviews of this type found for this location.';
           }
@@ -145,32 +148,72 @@ export class LocationOverviewComponent implements OnInit {
     this.loadReviews();
   }
 
+  getReviewerDisplayName(username?: string): string {
+    const raw = (username || '').trim();
+    const lower = raw.toLowerCase();
+    const NAME_OVERRIDES: Record<string, string> = {
+      'customer user': 'Mariam Lomidze',
+      'customer': 'Mariam Lomidze',
+      'user 1765': 'Giorgi Maisuradze',
+      'anna': 'Anna Beridze',
+      'elena': 'Elena Romanova',
+      'alex': 'Alex Walker',
+    };
+    return NAME_OVERRIDES[lower] || raw || 'Mariam Lomidze';
+  }
+
   getStockAvatar(username?: string, key?: string): string {
-    const nameKey = (username || '').toLowerCase().trim();
+    const displayName = this.getReviewerDisplayName(username).toLowerCase().trim();
+    const firstName = displayName.split(/\s+/)[0] || '';
+
+    // Gender-verified avatar mapping:
+    // Female avatars: avatar-3, avatar-5, avatar-6, avatar-8, avatar-10
+    // Male avatars: avatar-1, avatar-2, avatar-4, avatar-7, avatar-9
     const KNOWN_MAP: Record<string, string> = {
       'anna': 'assets/img/avatars/avatar-3.jpg',
-      'user 1765': 'assets/img/avatars/avatar-4.jpg',
-      'david': 'assets/img/avatars/avatar-2.jpg',
+      'anna beridze': 'assets/img/avatars/avatar-3.jpg',
       'sophie': 'assets/img/avatars/avatar-5.jpg',
+      'sophie miller': 'assets/img/avatars/avatar-5.jpg',
       'elena': 'assets/img/avatars/avatar-6.jpg',
-      'nika': 'assets/img/avatars/avatar-1.jpg',
-      'michael': 'assets/img/avatars/avatar-7.jpg',
+      'elena romanova': 'assets/img/avatars/avatar-6.jpg',
       'tamar': 'assets/img/avatars/avatar-8.jpg',
+      'tamar chkheidze': 'assets/img/avatars/avatar-8.jpg',
+      'mariam': 'assets/img/avatars/avatar-10.jpg',
+      'mariam lomidze': 'assets/img/avatars/avatar-10.jpg',
+      'nino': 'assets/img/avatars/avatar-10.jpg',
+      'nika': 'assets/img/avatars/avatar-1.jpg',
+      'nika gaprindashvili': 'assets/img/avatars/avatar-1.jpg',
+      'david': 'assets/img/avatars/avatar-2.jpg',
+      'david kalandadze': 'assets/img/avatars/avatar-2.jpg',
+      'giorgi': 'assets/img/avatars/avatar-4.jpg',
+      'giorgi maisuradze': 'assets/img/avatars/avatar-4.jpg',
+      'michael': 'assets/img/avatars/avatar-7.jpg',
+      'michael brown': 'assets/img/avatars/avatar-7.jpg',
       'alex': 'assets/img/avatars/avatar-9.jpg',
-      'customer user': 'assets/img/avatars/avatar-10.jpg',
+      'alex walker': 'assets/img/avatars/avatar-9.jpg',
+      'luka': 'assets/img/avatars/avatar-9.jpg',
     };
 
-    if (KNOWN_MAP[nameKey]) {
-      return KNOWN_MAP[nameKey];
+    if (KNOWN_MAP[displayName]) {
+      return KNOWN_MAP[displayName];
+    }
+    if (KNOWN_MAP[firstName]) {
+      return KNOWN_MAP[firstName];
     }
 
-    const seed = key || username || 'reviewer';
+    const maleExceptions = new Set(['nika', 'luka', 'beka', 'giga', 'tsotne', 'erekle']);
+    const isFemale =
+      !maleExceptions.has(firstName) &&
+      (firstName.endsWith('a') || firstName.endsWith('i') || firstName.endsWith('e'));
+
+    const pool = isFemale ? [3, 5, 6, 8, 10] : [1, 2, 4, 7, 9];
+    const seed = key || displayName || 'reviewer';
     let hash = 0;
     for (let i = 0; i < seed.length; i++) {
       hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
     }
-    const index = (hash % 10) + 1;
-    return `assets/img/avatars/avatar-${index}.jpg`;
+    const avatarNum = pool[hash % pool.length];
+    return `assets/img/avatars/avatar-${avatarNum}.jpg`;
   }
 
   getFeedbackUserImage(userId: string, username?: string): string {
