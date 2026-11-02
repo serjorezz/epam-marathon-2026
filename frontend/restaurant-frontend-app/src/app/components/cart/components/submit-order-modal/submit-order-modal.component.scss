@@ -67,6 +67,12 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+
+  svg,
+  polyline {
+    color: #ffffff;
+    stroke: #ffffff;
+  }
 }
 
 .submitted-title {
