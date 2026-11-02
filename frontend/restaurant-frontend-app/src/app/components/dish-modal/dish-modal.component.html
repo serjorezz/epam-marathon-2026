@@ -10,7 +10,9 @@
   ></div>
 
   <div class="modal-content" role="dialog" aria-modal="true">
-    <button class="close-button" aria-label="Close" (click)="onClose()">×</button>
+    <button type="button" class="icon-button icon-button--small close-button" aria-label="Close" (click)="onClose()">
+      <img src="assets/svg/close.svg" alt="" aria-hidden="true" />
+    </button>
 
     <div class="dish-image-wrapper">
       <img
@@ -23,25 +25,40 @@
     <div class="dish-details">
       <h2 class="dish-name">{{ dish.name }}</h2>
 
-      <p class="dish-description">{{ dish.description }}</p>
+      <div class="dish-body">
+        <p class="dish-description">{{ dish.description }}</p>
 
-      <div class="dish-nutrition">
-        <div class="nutrition-item">
-          <strong>Calories:</strong> {{ formatCalories(dish.calories) }}
-        </div>
-        <div class="nutrition-item nutrition-macros">
-          <span><strong>Protein:</strong> {{ dish.proteins || 'N/A' }}</span>
-          <span><strong>Fats:</strong> {{ formatGrams(dish.fats) }}</span>
-          <span><strong>Carbs:</strong> {{ formatGrams(dish.carbohydrates) }}</span>
-        </div>
-        <div class="nutrition-item">
-          <strong>Vitamins & minerals:</strong> {{ dish.vitamins || 'N/A' }}
+        <div class="dish-nutrition">
+          <div class="nutrition-item">
+            <strong>Calories:</strong> {{ formatCalories(dish.calories) }}
+          </div>
+          <div class="nutrition-item nutrition-macros">
+            <span><strong>Protein:</strong> {{ dish.proteins || 'N/A' }}</span>
+            <span><strong>Fats:</strong> {{ formatGrams(dish.fats) }}</span>
+            <span><strong>Carbs:</strong> {{ formatGrams(dish.carbohydrates) }}</span>
+          </div>
+          <div class="nutrition-item">
+            <strong>Vitamins & minerals:</strong> {{ dish.vitamins || 'N/A' }}
+          </div>
         </div>
       </div>
 
-      <div class="price-weight">
-        <span class="dish-price">${{ dish.price }}</span>
-        <span class="dish-weight">/{{ dish.weight }}</span>
+      <div class="modal-footer">
+        <div class="price-weight">
+          <span class="dish-price">${{ dish.price }}</span>
+          <span class="dish-weight">/{{ dish.weight }}</span>
+        </div>
+
+        @if (preOrderEnabled) {
+          <button
+            type="button"
+            class="button button--primary button--large pre-order-btn"
+            [disabled]="isUnavailable()"
+            (click)="onPreOrder()"
+          >
+            Pre-Order
+          </button>
+        }
       </div>
     </div>
   </div>

@@ -12,10 +12,21 @@ import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 })
 export class DishModalComponent {
   @Input() dish?: DishListResponse | null;
+  @Input() preOrderEnabled = false;
   @Output() closed = new EventEmitter<void>();
+  @Output() preOrderClicked = new EventEmitter<void>();
 
   onClose(): void {
     this.closed.emit();
+  }
+
+  onPreOrder(): void {
+    this.preOrderClicked.emit();
+  }
+
+  isUnavailable(): boolean {
+    const state = this.dish?.state?.toLowerCase();
+    return state === 'on stop' || state === 'unavailable' || state === 'sold out';
   }
 
   formatCalories(calories?: string): string {

@@ -80,6 +80,7 @@
                         <app-dish-card
                             [dish]="dish"
                             [preOrderEnabled]="true"
+                            (dishClicked)="openDishModal(dish)"
                             (preOrderClicked)="addDishToCart(dish)"
                         />
                     }
@@ -87,7 +88,16 @@
             </section>
         }
     </main>
-    </div>
+</div>
+
+@if (selectedDish(); as dish) {
+<app-dish-modal
+    [dish]="dish"
+    [preOrderEnabled]="true"
+    (preOrderClicked)="addDishToCart(dish); closeDishModal()"
+    (closed)="closeDishModal()"
+/>
+}
 
 <!-- mandatory modal: show until name is set -->
 @if (!store.guestName()) {

@@ -5,8 +5,7 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
 
@@ -15,16 +14,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50rem;
-  max-width: calc(100vw - 2.5rem);
-  background: #ffffff;
+  width: 52.375rem;
+  max-width: calc(100vw - 2rem);
+  background: color.$neutral-0;
   border-radius: 1.5rem;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
-  padding: 2.5rem;
+  box-shadow: 0 0 0.625rem 0.25rem color.$shadow;
+  padding: 2.5rem 2.5rem 1.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2.5rem;
+  gap: 2rem;
   z-index: 1000;
   box-sizing: border-box;
 
@@ -39,23 +38,8 @@
 
 .close-button {
   position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  background: none;
-  border: none;
-  font-size: 1.75rem;
-  line-height: 1;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 0.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: #111827;
-  }
+  top: 1rem;
+  right: 1rem;
 }
 
 .dish-image-wrapper {
@@ -66,11 +50,11 @@
 }
 
 .dish-image {
-  width: 16.5rem;
-  height: 16.5rem;
+  width: 18.375rem;
+  height: 18.5rem;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0.625rem 0.25rem color.$shadow;
 
   @media (max-width: 768px) {
     width: 12rem;
@@ -82,27 +66,36 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1.5rem;
   min-width: 0;
   flex: 1;
 }
 
 .dish-name {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 1rem 0;
-  line-height: 1.25;
+  font-size: 1.625rem;
+  font-weight: 500;
+  line-height: 2.5rem;
+  color: color.$neutral-900;
+  margin: 0;
 
   @media (max-width: 768px) {
     font-size: 1.375rem;
+    line-height: 2rem;
   }
 }
 
+.dish-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .dish-description {
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: #4b5563;
-  margin: 0 0 1.25rem 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  color: color.$neutral-900;
+  margin: 0;
 }
 
 .dish-nutrition {
@@ -110,39 +103,49 @@
   flex-direction: column;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #374151;
-  margin-bottom: 1.5rem;
+  line-height: 1.5rem;
+  color: color.$neutral-900;
 
   .nutrition-item {
     margin: 0;
-    line-height: 1.4;
 
     strong {
-      color: #111827;
-      font-weight: 600;
+      color: color.$neutral-900;
+      font-weight: 500;
     }
   }
 
   .nutrition-macros {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
   }
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .price-weight {
   display: flex;
   align-items: baseline;
-  gap: 0.125rem;
+  gap: 0.25rem;
 
   .dish-price {
     font-size: 1.625rem;
-    font-weight: 700;
-    color: #0f7138;
+    font-weight: 500;
+    line-height: 2.5rem;
+    color: color.$green-600;
   }
 
   .dish-weight {
-    font-size: 1rem;
-    color: #374151;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    color: color.$neutral-600;
   }
 }

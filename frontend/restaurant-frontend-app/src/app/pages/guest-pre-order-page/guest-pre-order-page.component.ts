@@ -7,6 +7,7 @@ import { map } from 'rxjs';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { GuestMenuDish } from '@app/services/guest-sessions/guest-sessions.service';
 import { DishCardComponent } from '@app/shared/custom-components/dish-card/dish-card.component';
+import { DishModalComponent } from '@app/components/dish-modal/dish-modal.component';
 import { MainCoverImageComponent } from '@app/shared/custom-components/main-cover-image/main-cover-image.component';
 import { ToastService } from '@app/services/toast/toast.service';
 import { GuestPreorderStore } from './state/guest-preorder.store';
@@ -23,6 +24,7 @@ import { GuestPreorderSubmittedComponent } from './ui/guest-preorder-submitted/g
     imports: [
         RouterLink,
         DishCardComponent,
+        DishModalComponent,
         MainCoverImageComponent,
         GuestNameModalComponent,
         GuestCartDrawerComponent,
@@ -36,6 +38,7 @@ export class GuestPreOrderPageComponent {
 
     readonly store = inject(GuestPreorderStore);
     readonly isCartOpen = signal(false);
+    readonly selectedDish = signal<DishListResponse | null>(null);
     readonly selectedCategory = signal<string | null>(null);
     readonly selectedSort = signal<'recommended' | 'price-asc' | 'price-desc'>('recommended');
 
@@ -84,6 +87,14 @@ export class GuestPreOrderPageComponent {
 
     openCart() { this.isCartOpen.set(true); }
     closeCart() { this.isCartOpen.set(false); }
+
+    openDishModal(dish: DishListResponse): void {
+        this.selectedDish.set(dish);
+    }
+
+    closeDishModal(): void {
+        this.selectedDish.set(null);
+    }
 
     retryInviteLoad(): void {
         const token = this.token();

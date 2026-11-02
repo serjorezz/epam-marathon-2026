@@ -181,8 +181,8 @@
     top: 100%;
     right: 0;
     background: color.$neutral-0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    padding: 20px;
+    box-shadow: 0 0 10px 4px color.$shadow;
+    padding: 24px;
     border-radius: 8px;
     width: max-content;
     z-index: 100;
@@ -205,7 +205,7 @@
     .caption {
       font-size: 12px;
       font-weight: 300;
-      line-height: 20px;
+      line-height: 16px;
     }
 
     hr {
@@ -252,7 +252,7 @@
 .body-bold {
   font-size: 14px;
   letter-spacing: 0;
-  font-weight: normal;
+  font-weight: 500;
   line-height: 24px;
 }
 

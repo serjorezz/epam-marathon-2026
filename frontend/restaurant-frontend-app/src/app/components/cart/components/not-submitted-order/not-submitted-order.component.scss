@@ -43,7 +43,7 @@
 .order-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .order-item-dish {
@@ -52,8 +52,9 @@
   align-items: center;
   padding: 24px;
   gap: 16px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px 4px rgba(194, 194, 194, 0.5);
+  border-radius: 16px;
+  background-color: color.$neutral-0;
+  box-shadow: 0 0 10px 4px color.$shadow;
 }
 
 .dish-image {
@@ -66,7 +67,7 @@
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
-  box-shadow: 0 0 10px 4px rgba(194, 194, 194, 0.5);
+  box-shadow: 0 0 10px 4px color.$shadow;
 }
 
 .container {
@@ -86,7 +87,7 @@
 .dish-name {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .quantity {
@@ -99,9 +100,25 @@
 
 .total {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid color.$neutral-100;
+}
+
+.total-label {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 32px;
+  color: color.$neutral-900;
+}
+
+.total-value {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 40px;
+  color: color.$green-600;
 }
 
 .body {

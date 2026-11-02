@@ -86,23 +86,23 @@
                 <div class="review-content__header-data">
                   <div class="review-content__author">
                     <p class="review-name">{{ review.username }}</p>
-                    <div
-                      class="review-rating"
-                      role="img"
-                      [attr.aria-label]="'Rating: ' + review.rating + ' out of ' + maxStars + ' stars'"
-                    >
-                      @for (star of [].constructor(maxStars); track star; let i = $index) {
-                        <img
-                          class="review-star"
-                          [class.empty]="i >= review.rating"
-                          src="assets/svg/star-mini.svg"
-                          alt=""
-                          aria-hidden="true"
-                        />
-                      }
-                    </div>
+                    <p class="review-date">{{ review.createdAt | date }}</p>
                   </div>
-                  <p class="review-date">{{ review.createdAt | date }}</p>
+                  <div
+                    class="review-rating"
+                    role="img"
+                    [attr.aria-label]="'Rating: ' + review.rating + ' out of ' + maxStars + ' stars'"
+                  >
+                    @for (star of [].constructor(maxStars); track star; let i = $index) {
+                      <img
+                        class="review-star"
+                        [class.empty]="i >= review.rating"
+                        src="assets/svg/star-mini.svg"
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    }
+                  </div>
                 </div>
               </div>
               <p class="review-text">{{ review.comment }}</p>
