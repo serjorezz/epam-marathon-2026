@@ -160,10 +160,9 @@
 
   .dish-cards {
     width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    gap: 2%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.75rem;
     margin: 0;
   }
 
@@ -175,8 +174,7 @@
     align-items: center;
     padding: 1.5rem;
     text-decoration: none;
-    flex: 1 1 0;
-    width: 0;
+    width: 100%;
     gap: 1rem;
     min-width: 0;
     box-sizing: border-box;
@@ -228,6 +226,12 @@
   }
 }
 
+@media screen and (max-width: 1280px) {
+  .popular-dishes-section .dish-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media screen and (max-width: 768px) {
   .content-sections {
     margin: 0.5rem;
@@ -256,13 +260,13 @@
   .location-cards {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.75rem;
     margin: 0;
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1280px) {
   .locations-section .location-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Seed script for Green & Tasty Customer Reviews across all 6 locations.
+Seed script for Green & Tasty Customer Reviews across all 8 locations.
 Populates realistic customer feedbacks for both Service (type 0) and CuisineExperience (type 1)
 into AWS DynamoDB 'Feedback' table, and ensures sample customer accounts exist in Cognito
 with consistent full names.
@@ -38,6 +38,14 @@ LOCATIONS = [
     {
         "id": "loc-pekini",
         "name": "31 Pekini Avenue",
+    },
+    {
+        "id": "loc-marjanishvili",
+        "name": "7 Marjanishvili Street",
+    },
+    {
+        "id": "loc-gorgasali",
+        "name": "19 Vakhtang Gorgasali Street",
     },
 ]
 
@@ -221,7 +229,7 @@ def ensure_customer_user(customer: dict) -> str:
     # Check if user already exists
     code, stdout, _ = run_cmd([
         "aws", "cognito-idp", "admin-get-user",
-        "---user-pool-id" if False else "--user-pool-id", USER_POOL_ID,
+        "--user-pool-id", USER_POOL_ID,
         "--username", email,
         "--region", REGION,
     ])

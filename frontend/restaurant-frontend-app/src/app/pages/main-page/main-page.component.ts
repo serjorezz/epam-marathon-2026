@@ -100,7 +100,7 @@ export class MainPageComponent implements OnInit {
 
   loadPopularDishes(): void {
     this.dishesService.getPopularDishes().subscribe((data) => {
-      this.dishes = data.slice(0, 4).map((dish) => ({
+      this.dishes = data.slice(0, 5).map((dish) => ({
         ...dish,
         imageUrl: dish.imageUrl || 'assets/img/dish.png',
         name: dish.name || 'Unknown Dish',
@@ -118,7 +118,7 @@ export class MainPageComponent implements OnInit {
 
   loadLocations(): void {
     this.locationsService.getLocations().subscribe((data) => {
-      this.locations = data.slice(0, 3).map((location) => ({
+      this.locations = data.slice(0, 8).map((location) => ({
         ...location,
         imageUrl: location.imageUrl || 'assets/img/locations/baratashvili-street-14.jpg',
         address: location.address || 'Unknown Address',

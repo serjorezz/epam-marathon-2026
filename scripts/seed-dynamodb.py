@@ -327,6 +327,24 @@ LOCATIONS = [
         "averageOccupancy": {"S": "70"},
         "imageUrl": {"S": "assets/img/locations/pekini-avenue-31.jpg"},
         "rating": {"N": "4.7"}
+    },
+    {
+        "id": {"S": "loc-marjanishvili"},
+        "address": {"S": "7 Marjanishvili Street"},
+        "description": {"S": "Steps away from historic Marjanishvili Theatre, this elegant cultural-quarter restaurant pairs Art Nouveau architectural details with lush hanging botanicals and warm brass lighting. Guests enjoy an intimate, bohemian atmosphere ideal for pre-theatre dinners, artisanal dessert tastings, and relaxed conversations over organic Georgian herbal infusions."},
+        "totalCapacity": {"N": "34"},
+        "averageOccupancy": {"S": "76"},
+        "imageUrl": {"S": "assets/img/locations/marjanishvili-street-7.jpg"},
+        "rating": {"N": "4.9"}
+    },
+    {
+        "id": {"S": "loc-gorgasali"},
+        "address": {"S": "19 Vakhtang Gorgasali Street"},
+        "description": {"S": "Overlooking the scenic Mtkvari riverfront in historic Abanotubani, our Gorgasali Street location offers breathtaking views of Narikala Fortress and the sulfur bath domes. Crafted with natural terracotta, reclaimed Georgian walnut wood, and a breezy riverside balcony, it delivers a soulful, unforgettable setting for sunset dining."},
+        "totalCapacity": {"N": "38"},
+        "averageOccupancy": {"S": "82"},
+        "imageUrl": {"S": "assets/img/locations/gorgasali-street-19.jpg"},
+        "rating": {"N": "4.9"}
     }
 ]
 
@@ -370,6 +388,19 @@ TABLES = [
     {"id": {"S": "table-p3"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "4"}, "tableNumber": {"N": "53"}},
     {"id": {"S": "table-p4"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "6"}, "tableNumber": {"N": "54"}},
     {"id": {"S": "table-p5"}, "locationId": {"S": "loc-pekini"}, "capacity": {"N": "8"}, "tableNumber": {"N": "55"}},
+    # 7 Marjanishvili Street
+    {"id": {"S": "table-m1"}, "locationId": {"S": "loc-marjanishvili"}, "capacity": {"N": "2"}, "tableNumber": {"N": "61"}},
+    {"id": {"S": "table-m2"}, "locationId": {"S": "loc-marjanishvili"}, "capacity": {"N": "4"}, "tableNumber": {"N": "62"}},
+    {"id": {"S": "table-m3"}, "locationId": {"S": "loc-marjanishvili"}, "capacity": {"N": "4"}, "tableNumber": {"N": "63"}},
+    {"id": {"S": "table-m4"}, "locationId": {"S": "loc-marjanishvili"}, "capacity": {"N": "6"}, "tableNumber": {"N": "64"}},
+    {"id": {"S": "table-m5"}, "locationId": {"S": "loc-marjanishvili"}, "capacity": {"N": "8"}, "tableNumber": {"N": "65"}},
+    # 19 Vakhtang Gorgasali Street
+    {"id": {"S": "table-g1"}, "locationId": {"S": "loc-gorgasali"}, "capacity": {"N": "2"}, "tableNumber": {"N": "71"}},
+    {"id": {"S": "table-g2"}, "locationId": {"S": "loc-gorgasali"}, "capacity": {"N": "2"}, "tableNumber": {"N": "72"}},
+    {"id": {"S": "table-g3"}, "locationId": {"S": "loc-gorgasali"}, "capacity": {"N": "4"}, "tableNumber": {"N": "73"}},
+    {"id": {"S": "table-g4"}, "locationId": {"S": "loc-gorgasali"}, "capacity": {"N": "4"}, "tableNumber": {"N": "74"}},
+    {"id": {"S": "table-g5"}, "locationId": {"S": "loc-gorgasali"}, "capacity": {"N": "6"}, "tableNumber": {"N": "75"}},
+    {"id": {"S": "table-g6"}, "locationId": {"S": "loc-gorgasali"}, "capacity": {"N": "8"}, "tableNumber": {"N": "76"}},
 ]
 
 DISHES = [
@@ -451,7 +482,7 @@ DISHES = [
         "fats": {"S": "24g"},
         "carbohydrates": {"S": "18g"},
         "vitamins": {"S": "B1, B6, E"},
-        "imageUrl": {"S": "assets/img/dish.png"},
+        "imageUrl": {"S": "assets/img/dishes/eggplant-rolls.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-abashidze"}
     },
@@ -467,7 +498,7 @@ DISHES = [
         "fats": {"S": "8g"},
         "carbohydrates": {"S": "78g"},
         "vitamins": {"S": "D, Selenium, B"},
-        "imageUrl": {"S": "assets/img/dish.png"},
+        "imageUrl": {"S": "assets/img/dishes/mushroom-khinkali.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-abashidze"}
     },
@@ -483,7 +514,7 @@ DISHES = [
         "fats": {"S": "7g"},
         "carbohydrates": {"S": "82g"},
         "vitamins": {"S": "Iron, Folate, Fiber"},
-        "imageUrl": {"S": "assets/img/dish.png"},
+        "imageUrl": {"S": "assets/img/dishes/lobio-pot.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-rustaveli"}
     },
@@ -499,7 +530,7 @@ DISHES = [
         "fats": {"S": "11g"},
         "carbohydrates": {"S": "26g"},
         "vitamins": {"S": "C, Calcium, Omega-3"},
-        "imageUrl": {"S": "assets/img/dish.png"},
+        "imageUrl": {"S": "assets/img/dishes/berry-chia-pudding.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-baratashvili"}
     },
@@ -515,7 +546,7 @@ DISHES = [
         "fats": {"S": "14g"},
         "carbohydrates": {"S": "36g"},
         "vitamins": {"S": "Antioxidants, E"},
-        "imageUrl": {"S": "assets/img/dish.png"},
+        "imageUrl": {"S": "assets/img/dishes/pelamushi-tart.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-rustaveli"}
     }
