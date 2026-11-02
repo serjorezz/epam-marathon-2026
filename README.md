@@ -433,3 +433,34 @@ aws s3api delete-bucket --bucket marathon2026-restaurant-artifacts-$ACCOUNT_ID -
 ```
 
 Only do this if you are sure you no longer need the stored Syndicate build artifacts.
+
+---
+
+## 👥 Contributors
+
+Thanks goes to these wonderful people and AI contributors:
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%">
+        <a href="https://github.com/serjorezz">
+          <img src="https://github.com/serjorezz.png?size=100" width="100px;" alt="serjorez"/><br />
+          <sub><b>serjorez</b></sub>
+        </a><br />
+        <a href="https://github.com/serjorezz/epam-marathon-2026/commits?author=serjorezz" title="Code">💻</a>
+        <a href="https://github.com/serjorezz/epam-marathon-2026/commits?author=serjorezz" title="Maintenance">🚧</a>
+        <a href="#infra" title="Infrastructure & Deployment">🚇</a>
+      </td>
+      <td align="center" valign="top" width="14.28%">
+        <a href="https://gemini.google.com/">
+          <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" width="100px;" alt="Google Gemini"/><br />
+          <sub><b>Google Gemini</b></sub>
+        </a><br />
+        <a href="https://gemini.google.com/" title="AI Pair Programmer">🤖</a>
+        <a href="https://github.com/serjorezz/epam-marathon-2026/commits" title="Code & Documentation">💻</a>
+        <a href="#ideas" title="Ideas & Architecture">💡</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
