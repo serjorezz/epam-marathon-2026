@@ -197,7 +197,7 @@ export class CardReservationComponent {
         reservation.locationAddress,
         tableLabel,
         startTime.toDateString(),
-        `${startTime.toLocaleTimeString()} - ${endTime.toLocaleTimeString()}`,
+        `${formatTime(startTime.toISOString())} - ${formatTime(endTime.toISOString())}`,
       ].join(', '),
     };
 

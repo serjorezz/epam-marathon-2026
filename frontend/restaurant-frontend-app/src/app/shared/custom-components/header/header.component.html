@@ -134,7 +134,7 @@
                   >
                     <p class="notification-message">{{ notification.message }}</p>
                     <span class="notification-time">{{
-                      notification.createdAt | date: 'short'
+                      notification.createdAt | date: 'MMM d, HH:mm'
                     }}</span>
                   </li>
                 }
@@ -286,7 +286,7 @@
                 >
                   <p class="notification-message">{{ notification.message }}</p>
                   <span class="notification-time">{{
-                    notification.createdAt | date: 'short'
+                    notification.createdAt | date: 'MMM d, HH:mm'
                   }}</span>
                 </li>
               }
@@ -379,7 +379,7 @@
               [class.read]="notification.isRead"
             >
               <p class="notification-message">{{ notification.message }}</p>
-              <span class="notification-time">{{ notification.createdAt | date: 'short' }}</span>
+              <span class="notification-time">{{ notification.createdAt | date: 'MMM d, HH:mm' }}</span>
             </li>
           }
         </ul>
