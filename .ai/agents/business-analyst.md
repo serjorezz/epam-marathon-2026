@@ -27,8 +27,11 @@ Classify all incoming business needs into the 4 architectural requirement types:
 - **Transitional / State Requirements**: Behavior between lifecycle phases (*How does the system move between states?* e.g., session token invalidation upon reservation completion or cancellation, subcart locking upon order submission).
 
 ### 2. User Story Formulation & Quality Standards
-Follow the team's standard specification defined in [`.ai/skills/create-user-story/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/create-user-story/SKILL.md):
-- **Document Header**: Always format as `# US{ID}_{Story Name}`. **STRICTLY NEVER include `[Draft]` or draft markers** in the story title.
+Follow the team's standard specification defined in [`skills/create-user-story/SKILL.md`](skills/create-user-story/SKILL.md):
+- **Document Header**: Always format as `# US{ID}_{Story Name}` (start counting new stories from US1). **STRICTLY NEVER include `[Draft]` or draft markers** in the story title.
+- **Pure Business Focus (No Technical Implementation Details)**: Never include code, framework internals, database tables, or API architecture in user story documents. Focus purely on user value and observable functionality.
+- **No Embedded INVEST Checklists**: INVEST is an internal quality principle for drafting, NOT a section to paste into user story files.
+- **No Technical Tables**: Do not include "Transitional & State Requirements" or "Dependencies & Technical Notes" tables.
 - **Story Metadata Table**:
   ```markdown
   | Field | Value |
@@ -41,16 +44,10 @@ Follow the team's standard specification defined in [`.ai/skills/create-user-sto
 - **Persona Specificity**: Use precise roles (`Customer (Owner)`, `Guest (Visitor, unregistered)`, `Waiter`, `Admin`) instead of generic "As a user".
 - **Value-Driven "So That"**: Emphasize tangible user or business benefits rather than restating the feature.
 - **Pre-conditions & Testable Acceptance Criteria**:
-  - Pre-conditions bulleted clearly (authentication, entity status, prerequisite stories).
-  - Numbered, verifiable AC (positive and negative flows, items on stop, data freshness).
-  - Use Gherkin (`Given-When-Then`) for complex behavioral or automated AQA scenarios.
-- **INVEST Checklist Validation**:
-  - **I**ndependent: Can be developed and delivered on its own.
-  - **N**egotiable: Open to team discussions on scope and technical implementation.
-  - **V**aluable: Delivers clear, validated value.
-  - **E**stimable: Well-defined boundaries enabling story pointing.
-  - **S**mall: Completable within a single sprint.
-  - **T**estable: Clear, verifiable criteria for QA.
+  - Pre-conditions bulleted clearly (authentication, current view/context, data readiness).
+  - Numbered, verifiable AC (observable UI behaviors, default state, immediate interactions, edge cases/empty states).
+  - Use Gherkin (`Given-When-Then`) when specifying automated test scenarios.
+- **Assumptions & Open Questions**: Include only business, product, and UX scope questions — never technical implementation details.
 
 ### 3. Backlog Prioritization & MVP Scoping
 - **Prioritization Formula**: Evaluate features using:

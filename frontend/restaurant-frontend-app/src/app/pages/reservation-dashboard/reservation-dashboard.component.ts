@@ -47,6 +47,14 @@ import {
   revertFormatDate,
 } from '@app/shared/helpers/date-helpers';
 
+export type ReservationSortOption =
+  | "date-asc"
+  | "date-desc"
+  | "guests-desc"
+  | "guests-asc"
+  | "restaurant-asc"
+  | "restaurant-desc";
+
 interface ReservationStatusView {
   class: string;
   label: string;
@@ -89,6 +97,63 @@ export class ReservationDashboardComponent implements OnInit {
 
   readonly reservations = signal<ReservationCustomer[]>([]);
   readonly reservationsLoaded = signal(false);
+  readonly selectedSort = signal<ReservationSortOption>("date-asc");
+
+  readonly sortedReservations = computed<ReservationCustomer[]>(() => {
+    const list = [...this.reservations()];
+    const sort = this.selectedSort();
+
+    return list.sort((a, b) => {
+      switch (sort) {
+        case "date-asc": {
+          const timeA = new Date(a.startTime).getTime();
+          const timeB = new Date(b.startTime).getTime();
+          if (timeA !== timeB) return timeA - timeB;
+          return a.id.localeCompare(b.id);
+        }
+        case "date-desc": {
+          const timeA = new Date(a.startTime).getTime();
+          const timeB = new Date(b.startTime).getTime();
+          if (timeA !== timeB) return timeB - timeA;
+          return a.id.localeCompare(b.id);
+        }
+        case "guests-desc": {
+          const diff = b.guestCount - a.guestCount;
+          if (diff !== 0) return diff;
+          const timeDiff = new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+          if (timeDiff !== 0) return timeDiff;
+          return a.id.localeCompare(b.id);
+        }
+        case "guests-asc": {
+          const diff = a.guestCount - b.guestCount;
+          if (diff !== 0) return diff;
+          const timeDiff = new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+          if (timeDiff !== 0) return timeDiff;
+          return a.id.localeCompare(b.id);
+        }
+        case "restaurant-asc": {
+          const nameA = (a.restaurantName || a.locationAddress || "").trim().toLowerCase();
+          const nameB = (b.restaurantName || b.locationAddress || "").trim().toLowerCase();
+          const cmp = nameA.localeCompare(nameB);
+          if (cmp !== 0) return cmp;
+          const timeDiff = new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+          if (timeDiff !== 0) return timeDiff;
+          return a.id.localeCompare(b.id);
+        }
+        case "restaurant-desc": {
+          const nameA = (a.restaurantName || a.locationAddress || "").trim().toLowerCase();
+          const nameB = (b.restaurantName || b.locationAddress || "").trim().toLowerCase();
+          const cmp = nameB.localeCompare(nameA);
+          if (cmp !== 0) return cmp;
+          const timeDiff = new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+          if (timeDiff !== 0) return timeDiff;
+          return a.id.localeCompare(b.id);
+        }
+        default:
+          return 0;
+      }
+    });
+  });
 
   readonly selectedReservation =
     signal<ReservationCustomer | null>(null);
@@ -553,6 +618,13 @@ export class ReservationDashboardComponent implements OnInit {
           this.reservations.set([]);
         },
       });
+  }
+
+  onSortChanged(event: Event): void {
+    const target = event.target as HTMLSelectElement | null;
+    if (target) {
+      this.selectedSort.set(target.value as ReservationSortOption);
+    }
   }
 
   private extractTableNumber(

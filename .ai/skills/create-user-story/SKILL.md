@@ -24,16 +24,30 @@ Every User Story markdown document must follow this exact layout:
 | **Description** | As a <Role>, I want <Goal/Feature>, so that <Benefit/Value>. |
 
 ### Pre-conditions:
-- <Pre-condition 1: System state, authentication, or prerequisite story>
-- <Pre-condition 2: Entity status or permissions required>
+- <Pre-condition 1: User authentication status>
+- <Pre-condition 2: Relevant screen / context>
+- <Pre-condition 3: Entity or data readiness>
 
 ### Acceptance Criteria (AC):
-1. <Criterion 1: Clear, measurable, testable condition>
-2. <Criterion 2: Detailed functional behavior / UI expectation>
-3. <Criterion 3: State transition or feedback rule>
-4. <Criterion 4: Negative scenario or restriction (e.g. items on stop, error states)>
-5. <Criterion 5: Real-time update, synchronization, or invalidation condition>
+1. <Criterion 1: UI placement and visibility>
+2. <Criterion 2: Functional behavior / options>
+3. <Criterion 3: Default state / selection>
+4. <Criterion 4: Immediate interaction response (no page reloads)>
+5. <Criterion 5: Edge cases / empty state / restrictions>
+6. <Criterion 6: Accessibility and responsiveness>
+
+### Assumptions & Open Questions (Optional):
+- **Assumptions**: <High-level business / product assumptions only>
+- **Open Questions**: <Unresolved UX or product questions for stakeholders>
 ```
+
+> [!IMPORTANT]
+> **Strict Content Rules:**
+> 1. **No Technical Implementation Details**: Never include code, framework mechanics (signals, stores, lifecycle hooks), database models, or internal API calls in the user story. Keep the focus entirely on user-observable behavior and business value.
+> 2. **No INVEST Checklist in the Document**: INVEST is an internal quality principle for drafting, NOT a section to paste into user story files.
+> 3. **No Technical State/Dependency Sections**: Do not include "Transitional & State Requirements" or "Dependencies & Technical Notes" tables.
+> 4. **No Draft Markers**: Never include `[Draft]` in the story title.
+> 5. **Numbering**: Start new user stories counting from US1 (e.g., `# US1_...`).
 
 > [!IMPORTANT]
 > **Strict Formatting Rule:**
@@ -116,26 +130,11 @@ Validate the drafted story against the 6 INVEST principles:
 
 ---
 
-## 3. Extended Sections for Complex Stories
+## 3. Assumptions & Open Questions Guidelines
 
-When preparing stories for grooming or refinement meetings, include the following optional sections:
-
-### Edge Cases & Exceptions
-Identify negative paths, system failures, and limits:
-- Expiration of tokens, sessions, or reservations.
-- Concurrency issues (e.g., two users taking the last available table or dish simultaneously).
-- Network interruption or backend 500 error fallbacks.
-
-### Assumptions & Open Questions
-Separate confirmed requirements from assumptions:
-- **Confirmed Requirements**: Grounded directly in approved briefs and documentation.
-- **Assumptions**: Technical or business decisions made during drafting that need sign-off.
-- **Open Questions**: Targeted questions for Product Owner (scope), UX/UI Design (interactions), or Engineering (APIs, performance).
-
-### Dependencies & Technical Notes
-- Parent API endpoints and database models.
-- Upstream user stories (e.g., must complete `US_G10` first).
-- Feature flags, security tokens, or third-party webhooks.
+When needed for refinement, include business-level assumptions and questions:
+- **Assumptions**: Functional or scope assumptions made during drafting that require confirmation from the Product Owner or UX Designer. Do NOT include technical/code implementation assumptions.
+- **Open Questions**: Purely product, feature scope, or user experience questions for stakeholders (e.g., "Should sort preferences persist across visits?").
 
 ---
 

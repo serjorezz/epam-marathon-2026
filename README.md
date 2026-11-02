@@ -9,6 +9,7 @@
 * **Infrastructure / DevOps:** Terraform маніфести та конфігурація AWS Syndicate (`infra/terraform/`)
 * **Test Automation (AQA):** Фреймворк автоматизованого тестування на .NET 10 (Reqnroll BDD + Playwright + Screenplay) (`aqa/restaurant-aqa-framework/`)
 * **CI/CD:** Пайплайни GitHub Actions (`.github/workflows/`)
+* **User Stories & Business Analysis:** Scrum користувацькі історії за стандартами EPAM BA (`user-stories/`)
 * **Homework & Design:** Усі інструкції, специфікації та дизайн-макети зібрано в папці `homework/`
 
 ---
@@ -27,6 +28,18 @@
 > **🚀 Live Demo посилання для перевірки виконання завдання Frontend:**  
 > [http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo)  
 > *Параметр `?demo` автоматично активує тестову сесію Owner без потреби у реєстрації.*
+
+---
+
+## 📋 Користувацькі історії (Scrum User Stories)
+
+Всі користувацькі історії створюються відповідно до методології Scrum та вимог EPAM Business Analysis (*"Software requirements in Scrum: How to turn 'I want' into clear teamwork"*) із застосуванням INVEST-критеріїв, структурованих Pre-conditions та верифікованих Acceptance Criteria (AC).
+
+Розробка ведеться за підтримки агента **Business Analyst** ([`.ai/agents/business-analyst.md`](.ai/agents/business-analyst.md)) та навички **Create User Story** ([`skills/create-user-story/`](skills/create-user-story/)):
+
+| User Story | Назва та опис фічі | Епік | Статус |
+|:---|:---|:---|:---:|
+| [**`US1-sort-reservations.md`**](user-stories/US1-sort-reservations.md) | **Sort Reservations**: Дропдаун сортування на сторінці бронювань за датою/часом, кількістю гостей або рестораном | Reservation Management | ✅ Готово |
 
 ---
 

@@ -4,6 +4,25 @@
   <h3>
     Hello, {{ firstName() }} {{ lastName() }}
   </h3>
+
+  @if (reservations().length > 0) {
+    <div class="sort-dropdown">
+      <label for="reservationSort">Sort by:</label>
+      <select
+        id="reservationSort"
+        [value]="selectedSort()"
+        (change)="onSortChanged($event)"
+        aria-label="Sort reservations"
+      >
+        <option value="date-asc">Date / Time (Earliest first)</option>
+        <option value="date-desc">Date / Time (Latest first)</option>
+        <option value="guests-desc">Guests (High to Low)</option>
+        <option value="guests-asc">Guests (Low to High)</option>
+        <option value="restaurant-asc">Restaurant (A to Z)</option>
+        <option value="restaurant-desc">Restaurant (Z to A)</option>
+      </select>
+    </div>
+  }
 </div>
 
 @if (!reservationsLoaded()) {
@@ -12,7 +31,7 @@
   </p>
 } @else if (reservations().length > 0) {
   <ul class="reservation-list">
-    @for (reservation of reservations(); track reservation.id) {
+    @for (reservation of sortedReservations(); track reservation.id) {
       <app-card-reservation
         [r]="reservation"
         [role]="role()"

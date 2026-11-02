@@ -4,6 +4,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 
   padding: 2rem;
 
@@ -11,6 +13,39 @@
 
   @media (max-width: 540px) {
     padding: 1rem;
+  }
+}
+
+.sort-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: color.$neutral-900;
+    white-space: nowrap;
+  }
+
+  select {
+    height: 2.75rem;
+    padding: 0 2.75rem 0 1rem;
+    border: 1px solid color.$neutral-200;
+    border-radius: 0.5rem;
+    background: color.$neutral-0 url('/assets/svg/arrow-down.svg') no-repeat right 0.75rem center / 1.5rem 1.5rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: color.$neutral-900;
+    font-weight: 400;
+    cursor: pointer;
+    appearance: none;
+
+    &:hover,
+    &:focus-visible {
+      border-color: color.$green-600;
+      outline: none;
+    }
   }
 }
 
