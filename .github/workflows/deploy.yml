@@ -87,3 +87,4 @@ jobs:
         env:
           SDCT_CONF: .syndicate-config-restaurant-backend-app
         run: syndicate update
+# trigger CI
