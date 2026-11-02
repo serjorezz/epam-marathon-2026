@@ -30,6 +30,9 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy_pages.outputs.page_url }}
     defaults:
       run:
         working-directory: frontend/restaurant-frontend-app
@@ -59,6 +62,13 @@ jobs:
         env:
           BACKEND_URL: ${{ vars.BACKEND_URL || 'https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop' }}
 
+      - name: Prepare SPA fallback & custom domain
+        run: |
+          build_dir="dist/restaurant-frontend-app/browser"
+          cp "$build_dir/index.html" "$build_dir/404.html"
+          touch "$build_dir/.nojekyll"
+          echo "green-tasty.devs.surf" > "$build_dir/CNAME"
+
       - name: Configure AWS credentials
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         uses: aws-actions/configure-aws-credentials@v6
@@ -70,7 +80,7 @@ jobs:
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         run: npm run deploy
 
-      - name: Deploy to GitHub Pages (gh-pages)
+      - name: Sync gh-pages branch
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         run: |
           build_dir="$(pwd)/dist/restaurant-frontend-app/browser"
@@ -86,3 +96,25 @@ jobs:
           git add -A
           git commit -m "chore(gh-pages): deploy ${GITHUB_SHA::7}"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+        run: |
+          build_dir="$(pwd)/dist/restaurant-frontend-app/browser"
+          tmp_dir="$(mktemp -d)"
+          cd "$tmp_dir"
+          git init -b gh-pages
+          git config user.name "Serhii"
+          git config user.email "serjorez@proton.me"
+          cp -r "$build_dir"/. .
+          git add -A
+          git commit -m "chore(gh-pages): deploy ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+
+      - name: Upload GitHub Pages artifact
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+path
+
+      - nameDeploy to GitHub Pages
+        id: deploy_pages
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        uses: actions/deploypages@v4
+        continue-on-error
