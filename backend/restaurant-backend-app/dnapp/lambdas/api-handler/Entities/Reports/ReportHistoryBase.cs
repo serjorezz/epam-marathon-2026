@@ -5,11 +5,13 @@ using System.Text.Json.Serialization;
 
 namespace APIHandler.Entities.Reports;
 
+[JsonDerivedType(typeof(ReportHistoryWaiter))]
+[JsonDerivedType(typeof(ReportHistoryLocation))]
 public class ReportHistoryBase
 {
     [DynamoDBHashKey("id")]
-    [JsonIgnore]
-    public required string Id { get; set; }
+    [JsonPropertyName("id")]
+    public string Id { get; set; } = string.Empty;
 
     [JsonPropertyName("reportType")]
     [DynamoDBProperty("reportType")]
@@ -42,13 +44,13 @@ public class ReportHistoryBase
     [JsonPropertyName("userId")]
     [DynamoDBProperty("userId")]
     [DynamoDBGlobalSecondaryIndexHashKey("UserIdIndex")]
-    public required string UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
 
     [JsonPropertyName("locationId")]
     [DynamoDBProperty("locationId")]
-    public required string LocationId { get; set; }
+    public string LocationId { get; set; } = string.Empty;
 
     [JsonPropertyName("locationName")]
     [DynamoDBProperty("locationName")]
-    public required string LocationName { get; set; }
+    public string LocationName { get; set; } = string.Empty;
 }

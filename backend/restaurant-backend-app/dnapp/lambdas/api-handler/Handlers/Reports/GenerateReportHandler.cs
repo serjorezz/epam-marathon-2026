@@ -57,7 +57,7 @@ public class GenerateReportHandler : IApiRequestHandler
 
         context.Logger.LogInformation($"LINES {JsonSerializer.Serialize(reportsHistoryLines)}");
 
-        if (reportsHistoryLines.Count > 0)
+        if (reportsHistoryLines != null && reportsHistoryLines.Count > 0)
         {
             switch (parsedParams.ReportType)
             {
@@ -81,7 +81,7 @@ public class GenerateReportHandler : IApiRequestHandler
 
         if (aggregates is null || aggregates.Count == 0)
         {
-            return ResponseBuilder.CreatePlainTextResponse(200, "Reports were not found");
+            return ResponseBuilder.CreateSuccessResponse(Array.Empty<object>());
         }
 
         // generate and save to ReportsHistory
@@ -104,7 +104,7 @@ public class GenerateReportHandler : IApiRequestHandler
             return ResponseBuilder.CreateSuccessResponse(locationReports);
         }
 
-        return ResponseBuilder.CreatePlainTextResponse(200, "Reports were not found");
+        return ResponseBuilder.CreateSuccessResponse(Array.Empty<object>());
     }
 
     private (bool Success, ParsedParams? Params, APIGatewayProxyResponse? ErrorResponse) TryParseQueryParameters(

@@ -8,15 +8,15 @@ public class ReportHistoryWaiter : ReportHistoryBase
 {
     [JsonPropertyName("waiterId")]
     [DynamoDBProperty("waiterId")]
-    public required string WaiterId { get; set; }
+    public string WaiterId { get; set; } = string.Empty;
 
     [JsonPropertyName("waiterName")]
     [DynamoDBProperty("waiterName")]
-    public required string WaiterName { get; set; }
+    public string WaiterName { get; set; } = string.Empty;
 
     [JsonPropertyName("waiterEmail")]
     [DynamoDBProperty("waiterEmail")]
-    public required string WaiterEmail { get; set; }
+    public string WaiterEmail { get; set; } = string.Empty;
 
     [JsonPropertyName("workingHours")]
     [DynamoDBProperty("workingHours")]
