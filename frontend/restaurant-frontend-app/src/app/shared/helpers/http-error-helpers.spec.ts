@@ -12,6 +12,21 @@ describe('getServerErrorMessage', () => {
       expected: 'Error field',
     },
     { name: 'returns an empty string for an empty body', body: null, expected: '' },
+    {
+      name: 'parses stringified JSON containing error property',
+      body: JSON.stringify({ error: 'Stringified error message' }),
+      expected: 'Stringified error message',
+    },
+    {
+      name: 'parses stringified JSON containing message property',
+      body: JSON.stringify({ message: 'Stringified message property' }),
+      expected: 'Stringified message property',
+    },
+    {
+      name: 'filters out Angular internal Http failure response message',
+      body: 'Http failure response for https://example.com/api: 400 OK',
+      expected: '',
+    },
   ];
 
   cases.forEach(({ name, body, expected }) => {

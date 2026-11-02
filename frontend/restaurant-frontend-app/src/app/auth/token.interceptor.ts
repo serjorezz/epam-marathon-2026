@@ -25,40 +25,33 @@ export const tokenInterceptor: HttpInterceptorFn = (
       catchError((error: HttpErrorResponse) => {
         console.log(error);
 
-        let errorMessage = 'An unexpected error occurred.';
-        if (error.error && typeof error.error === 'string') {
-          errorMessage = error.error;
-        } else if (error.error?.error) {
-          errorMessage = error.error.error;
-        } else if (error.error?.message) {
-          errorMessage = error.error.message;
-        }
+        const serverMessage = getServerErrorMessage(error);
 
         // For guest endpoints, you may still show toast if you want:
         switch (error.status) {
           case 400:
-            toastr.error(errorMessage || 'Bad request.', 'Error');
+            toastr.error(serverMessage || 'Bad request.', 'Error');
             break;
           case 401:
             toastr.error('Session expired. Please re-open the invite link.', 'Unauthorized');
             break;
           case 403:
-            toastr.error(errorMessage || 'You are not allowed!', 'Forbidden');
+            toastr.error(serverMessage || 'You are not allowed!', 'Forbidden');
             break;
           case 404:
-            toastr.error(errorMessage || 'Resource not found.', 'Not Found');
+            toastr.error(serverMessage || 'Resource not found.', 'Not Found');
             break;
           case 409:
-            toastr.error(errorMessage || 'Conflict occurred.', 'Conflict');
+            toastr.error(serverMessage || 'Conflict occurred.', 'Conflict');
             break;
           case 422:
-            toastr.error(errorMessage || 'Validation error.', 'Error');
+            toastr.error(serverMessage || 'Validation error.', 'Error');
             break;
           case 500:
             toastr.error('Server error. Please try again later.', 'Server Error');
             break;
           default:
-            toastr.error(errorMessage, 'Error');
+            toastr.error(serverMessage || 'An unexpected error occurred.', 'Error');
             break;
         }
 
@@ -82,7 +75,7 @@ export const tokenInterceptor: HttpInterceptorFn = (
   return next(clonedRequest).pipe(
     catchError((error: HttpErrorResponse) => {
       console.log(error);
-      const errorMessage = getServerErrorMessage(error) || 'An unexpected error occurred.';
+      const serverMessage = getServerErrorMessage(error);
 
       if (clonedRequest.url.includes('orders') && error.status === 404) {
         return throwError(() => error);
@@ -94,28 +87,28 @@ export const tokenInterceptor: HttpInterceptorFn = (
 
       switch (error.status) {
         case 400:
-          toastr.error(errorMessage || 'Bad request.', 'Error');
+          toastr.error(serverMessage || 'Bad request.', 'Error');
           break;
         case 401:
           toastr.error('Please log in to perform the action!', 'Unauthorized');
           break;
         case 403:
-          toastr.error(errorMessage || 'You are not allowed!', 'Forbidden');
+          toastr.error(serverMessage || 'You are not allowed!', 'Forbidden');
           break;
         case 404:
-          toastr.error(errorMessage || 'Resource not found.', 'Not Found');
+          toastr.error(serverMessage || 'Resource not found.', 'Not Found');
           break;
         case 409:
-          toastr.error(errorMessage || 'Conflict occurred.', 'Conflict');
+          toastr.error(serverMessage || 'Conflict occurred.', 'Conflict');
           break;
         case 422:
-          toastr.error(errorMessage || 'Validation error.', 'Error');
+          toastr.error(serverMessage || 'Validation error.', 'Error');
           break;
         case 500:
           toastr.error('Server error. Please try again later.', 'Server Error');
           break;
         default:
-          toastr.error(errorMessage, 'Error');
+          toastr.error(serverMessage || 'An unexpected error occurred.', 'Error');
           break;
       }
 
