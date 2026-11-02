@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   output,
 } from '@angular/core';
+
+import { formatOrderNumber } from '@app/shared/helpers/order-helpers';
 
 @Component({
   selector: 'app-cancel-order-modal',
@@ -18,6 +21,10 @@ export class CancelOrderModalComponent {
 
   readonly canceled = output<void>();
   readonly closed = output<void>();
+
+  readonly formattedOrderId = computed(() =>
+    formatOrderNumber(this.orderId()),
+  );
 
   cancelOrder(): void {
     this.canceled.emit();

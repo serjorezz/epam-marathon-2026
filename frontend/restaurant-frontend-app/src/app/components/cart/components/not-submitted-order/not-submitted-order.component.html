@@ -2,9 +2,22 @@
   <div class="content">
     <div class="order">
       <span class="body-bold">
-        Pre-order #{{ order().orderId }}
-        ({{ order().reservationAddress }}, {{ order().reservationTime }})
+        Pre-order #{{ formattedOrderId() }}
       </span>
+
+      <div class="order-details-grid">
+        <span class="detail-label">Location</span>
+        <span class="detail-value">{{ orderDetails().location }}</span>
+
+        <span class="detail-label">Date</span>
+        <span class="detail-value">{{ orderDetails().date }}</span>
+
+        <span class="detail-label">Time</span>
+        <span class="detail-value">{{ orderDetails().time }}</span>
+
+        <span class="detail-label">Guests</span>
+        <span class="detail-value">{{ orderDetails().guests }}</span>
+      </div>
 
       <div class="order-item">
         @for (item of order().orderItems; track item.dish.id) {

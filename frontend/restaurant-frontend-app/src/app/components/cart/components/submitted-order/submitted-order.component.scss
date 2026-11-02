@@ -19,11 +19,33 @@
   gap: 16px;
 }
 
-
 .text {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.order-details-grid {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  row-gap: 8px;
+  column-gap: 16px;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.detail-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: color.$neutral-900;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: color.$neutral-900;
 }
 
 .order-item {

@@ -12,7 +12,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
 import { Order } from '@app/models/orders/order.model';
+import { Reservation } from '@app/models/reservations/reservation.model';
 import { PreOrdersService } from '@app/services/pre-orders/pre-orders.service';
+import { ReservationService } from '@app/services/reservation/reservation.service';
 
 import { CancelOrderModalComponent } from './components/cancel-order-modal/cancel-order-modal.component';
 import { NotSubmittedOrderComponent } from './components/not-submitted-order/not-submitted-order.component';
@@ -35,6 +37,8 @@ import { SubmittedOrderComponent } from './components/submitted-order/submitted-
 export class CartComponent implements OnInit {
   private readonly preOrdersService =
     inject(PreOrdersService);
+  private readonly reservationService =
+    inject(ReservationService, { optional: true });
 
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
@@ -42,9 +46,18 @@ export class CartComponent implements OnInit {
   readonly closeCartEvent = output<void>();
 
   readonly orders = signal<Order[]>([]);
+  readonly reservations = signal<Reservation[]>([]);
 
   readonly cancelOrderId = signal<string | null>(null);
   readonly submitOrderId = signal<string | null>(null);
+
+  readonly reservationsMap = computed(() => {
+    const map = new Map<string, Reservation>();
+    for (const r of this.reservations()) {
+      map.set(r.id, r);
+    }
+    return map;
+  });
 
   readonly submittedOrders = computed(() =>
     this.orders().filter(
@@ -289,5 +302,20 @@ export class CartComponent implements OnInit {
           this.orders.set([]);
         },
       });
+
+    if (this.reservationService) {
+      this.reservationService
+        .getReservationsForUser$()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (reservations) => {
+            this.reservations.set(reservations ?? []);
+          },
+          error: (error) => {
+            console.error('Error loading reservations for cart:', error);
+            this.reservations.set([]);
+          },
+        });
+    }
   }
 }

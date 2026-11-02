@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 
 import { Order } from '@app/models/orders/order.model';
 import { PreOrdersService } from '@app/services/pre-orders/pre-orders.service';
+import { ReservationService } from '@app/services/reservation/reservation.service';
 
 import { CartComponent } from './cart.component';
 
@@ -12,6 +13,7 @@ describe('CartComponent', () => {
   let fixture: ComponentFixture<CartComponent>;
 
   let preOrdersServiceMock: jasmine.SpyObj<PreOrdersService>;
+  let reservationServiceMock: jasmine.SpyObj<ReservationService>;
   let routerMock: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
@@ -27,12 +29,19 @@ describe('CartComponent', () => {
         ],
       );
 
+    reservationServiceMock =
+      jasmine.createSpyObj<ReservationService>(
+        'ReservationService',
+        ['getReservationsForUser$'],
+      );
+
     routerMock = jasmine.createSpyObj<Router>(
       'Router',
       ['navigate'],
     );
 
     preOrdersServiceMock.getPreOrders.and.returnValue(of([]));
+    reservationServiceMock.getReservationsForUser$.and.returnValue(of([]));
 
     await TestBed.configureTestingModule({
       imports: [CartComponent],
@@ -40,6 +49,10 @@ describe('CartComponent', () => {
         {
           provide: PreOrdersService,
           useValue: preOrdersServiceMock,
+        },
+        {
+          provide: ReservationService,
+          useValue: reservationServiceMock,
         },
         {
           provide: Router,

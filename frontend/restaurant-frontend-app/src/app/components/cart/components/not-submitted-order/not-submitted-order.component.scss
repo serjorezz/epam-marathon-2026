@@ -18,6 +18,28 @@
   gap: 16px;
 }
 
+.order-details-grid {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  row-gap: 8px;
+  column-gap: 16px;
+  align-items: baseline;
+}
+
+.detail-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: color.$neutral-900;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  color: color.$neutral-900;
+}
+
 .order-item {
   display: flex;
   flex-direction: column;
@@ -27,6 +49,7 @@
 .order-item-dish {
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding: 24px;
   gap: 16px;
   border-radius: 8px;
@@ -34,9 +57,15 @@
 }
 
 .dish-image {
-  min-width: 96px;
+  width: 96px;
   height: 96px;
-  border-radius: 400px;
+  min-width: 96px;
+  max-width: 96px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
   box-shadow: 0 0 10px 4px rgba(194, 194, 194, 0.5);
 }
 
@@ -67,7 +96,6 @@
   justify-content: space-between;
   gap: 8px;
 }
-
 
 .total {
   display: flex;

@@ -8,6 +8,11 @@ import {
 } from '@angular/core';
 
 import { Order } from '@app/models/orders/order.model';
+import { Reservation } from '@app/models/reservations/reservation.model';
+import {
+  formatOrderNumber,
+  parseOrderReservationDetails,
+} from '@app/shared/helpers/order-helpers';
 
 @Component({
   selector: 'app-not-submitted-order',
@@ -19,6 +24,7 @@ import { Order } from '@app/models/orders/order.model';
 })
 export class NotSubmittedOrderComponent {
   readonly order = input.required<Order>();
+  readonly reservation = input<Reservation | null | undefined>(null);
 
   readonly submitted = output<string>();
   readonly addDish = output<void>();
@@ -27,6 +33,18 @@ export class NotSubmittedOrderComponent {
     itemId: string;
     quantity: number;
   }>();
+
+  readonly formattedOrderId = computed(() =>
+    formatOrderNumber(this.order().orderId),
+  );
+
+  readonly orderDetails = computed(() =>
+    parseOrderReservationDetails(
+      this.order().reservationAddress,
+      this.order().reservationTime,
+      this.reservation(),
+    ),
+  );
 
   readonly totalPrice = computed(() =>
     this.order().orderItems.reduce(

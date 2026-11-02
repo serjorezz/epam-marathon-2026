@@ -8,6 +8,11 @@ import {
 } from '@angular/core';
 
 import { Order } from '@app/models/orders/order.model';
+import { Reservation } from '@app/models/reservations/reservation.model';
+import {
+  formatOrderNumber,
+  parseOrderReservationDetails,
+} from '@app/shared/helpers/order-helpers';
 
 @Component({
   selector: 'app-submitted-order',
@@ -19,9 +24,22 @@ import { Order } from '@app/models/orders/order.model';
 })
 export class SubmittedOrderComponent {
   readonly order = input.required<Order>();
+  readonly reservation = input<Reservation | null | undefined>(null);
 
   readonly canceled = output<void>();
   readonly edited = output<void>();
+
+  readonly formattedOrderId = computed(() =>
+    formatOrderNumber(this.order().orderId),
+  );
+
+  readonly orderDetails = computed(() =>
+    parseOrderReservationDetails(
+      this.order().reservationAddress,
+      this.order().reservationTime,
+      this.reservation(),
+    ),
+  );
 
   readonly totalPrice = computed(() =>
     this.order()
