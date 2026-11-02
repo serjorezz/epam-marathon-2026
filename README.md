@@ -16,9 +16,14 @@
 | Компонент / Сервіс | Посилання | Опис |
 | :--- | :--- | :--- |
 | **Frontend Application** | [restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com) | Головний клієнтський Angular-застосунок |
-| **Group Order Flow (Demo)** | [demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo) | Демо-посилання для тестування функціоналу Owner Pre-Order |
+| **Owner Group Order (Live Demo)** | [demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo) | Інтерактивне демо групового замовлення Owner Flow (Рівні 1–3 + Remove Guest) |
 | **Backend API Gateway** | [pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop](https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop) | Базовий REST API Gateway ендпоінт (`develop`) |
 | **Swagger UI** | [restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com) | Інтерактивна документація API |
+
+> [!TIP]
+> **🚀 Live Demo посилання для перевірки виконання завдання Frontend:**  
+> [http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo)  
+> *Параметр `?demo` автоматично активує тестову сесію Owner без потреби у реєстрації.*
 
 ---
 
@@ -48,9 +53,14 @@
    npm start
    ```
 2. **Відкрийте у браузері:**
-   ```
-   http://localhost:4200/reservations/demo-reservation/group-order?demo
-   ```
+   - **Хмарне демо (S3):**
+     ```text
+     http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo
+     ```
+   - **Локальний dev-сервер:**
+     ```text
+     http://localhost:4200/reservations/demo-reservation/group-order?demo
+     ```
    *Параметр `?demo` автоматично активує тестову сесію Owner без потреби у розгортанні Cognito чи бази даних.*
 
 3. **Запуск тестів домашнього завдання:**
