@@ -1,4 +1,6 @@
-# Green & Tasty — EPAM IT Marathon 6.0 (Unified Repository)
+# Green & Tasty — EPAM IT Marathon 6.0
+
+[![devs.surf](https://devs.surf/badges/subdomain.svg)](https://green-tasty.devs.surf)
 
 Ласкаво просимо до об'єднаного репозиторію проєкту **Green & Tasty** в межах **EPAM IT Marathon 6.0**.  
 Цей репозиторій містить повний стек застосунку:
@@ -15,7 +17,8 @@
 
 | Компонент / Сервіс | Посилання | Опис |
 | :--- | :--- | :--- |
-| **Frontend Application** | [restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com) | Головний клієнтський Angular-застосунок |
+| **Custom Domain (Devs.Surf)** | [green-tasty.devs.surf](https://green-tasty.devs.surf) | Кастомний домен клієнтського застосунку |
+| **Frontend Application (S3)** | [restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com) | Головний клієнтський Angular-застосунок |
 | **Owner Group Order (Live Demo)** | [demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo) | Інтерактивне демо групового замовлення Owner Flow (Рівні 1–3 + Remove Guest) |
 | **Backend API Gateway** | [pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop](https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop) | Базовий REST API Gateway ендпоінт (`develop`) |
 | **Swagger UI** | [restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com) | Інтерактивна документація API |
@@ -345,12 +348,12 @@ python3 scripts/seed-dynamodb.py --region us-east-1
 ```
 
 The script populates:
-- **Locations (`Locations`)**: 3 restaurant locations in Tbilisi (Baratashvili, Abashidze, Rustaveli) with descriptions and photo assets.
-- **Tables (`Tables`)**: 17 bookable tables of various capacities (2, 4, 6, 8 guests) with GSI indexes.
+- **Locations (`Locations`)**: 8 restaurant locations in Tbilisi with descriptions and photo assets.
+- **Tables (`Tables`)**: 44 bookable tables of various capacities (2, 4, 6, 8 guests) with GSI indexes.
 - **Dishes (`Dishes`)**: 9 menu items (Appetizers, Main courses, Desserts) in `Available` state with assets.
 - **Cognito Groups & Accounts**:
   - `Admin`: Administrator account for restaurant management.
-  - `Waiters`: Active waiters assigned to each restaurant location (`loc-baratashvili`, `loc-abashidze`, `loc-rustaveli`) registered in Cognito and DynamoDB `Waiters` table (enabling reservations, table service, and waiter dashboards).
+  - `Waiters`: Active waiters assigned to restaurant locations registered in Cognito and DynamoDB `Waiters` table (enabling reservations, table service, and waiter dashboards).
   - `Customer`: Test customer account for reservation verification.
   - *All account credentials are stored in `credentials.env` and `credentials.json` (git-ignored).*
 
