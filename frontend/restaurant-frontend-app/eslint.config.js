@@ -34,8 +34,7 @@ module.exports = tseslint.config(
       ],
       'no-restricted-imports': 'off',
       '@typescript-eslint/no-restricted-imports': [
-        //TODO: switch back to "error" when all existing violations in the repo are fixed (206 now)
-        'warn',
+        'error',
         {
           patterns: [
             {
@@ -46,7 +45,7 @@ module.exports = tseslint.config(
           ],
         },
       ],
-      '@angular-eslint/prefer-signals': 'warn',
+      '@angular-eslint/prefer-signals': 'off',
     },
   },
   {

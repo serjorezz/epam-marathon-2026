@@ -45,7 +45,7 @@ jobs:
       # a trace is only captured for a failed @ui scenario (or one tagged @trace-always).
       TRACE_MODE: "OnFailureOnly"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # Configuration reaches the tests as real environment variables. A repository variable/secret
       # (Settings -> Secrets and variables -> Actions) wins when it is set; anything not provided
@@ -95,7 +95,7 @@ jobs:
             echo "$name: set"
           done
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
 
@@ -143,7 +143,7 @@ jobs:
 
       - name: Upload TUnit report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tunit-report
           path: |
@@ -154,7 +154,7 @@ jobs:
 
       - name: Upload Reqnroll report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: reqnroll-report
           path: aqa/restaurant-aqa-framework/TestResults/reqnroll/
@@ -163,7 +163,7 @@ jobs:
 
       - name: Upload Playwright traces
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: playwright-traces
           path: aqa/restaurant-aqa-framework/TestResults/traces/*.zip
