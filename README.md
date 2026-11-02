@@ -20,13 +20,13 @@
 | :--- | :--- | :--- |
 | **Custom Domain (Devs.Surf)** | [green-tasty.devs.surf](https://green-tasty.devs.surf) | Кастомний домен клієнтського застосунку |
 | **Frontend Application (S3)** | [restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com) | Головний клієнтський Angular-застосунок |
-| **Owner Group Order (Live Demo)** | [demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo) | Інтерактивне демо групового замовлення Owner Flow (Рівні 1–3 + Remove Guest) |
+| **Owner Group Order (Live Demo)** | [demo-reservation/group-order?demo](https://green-tasty.devs.surf/reservations/demo-reservation/group-order?demo) | Інтерактивне демо групового замовлення Owner Flow (Рівні 1–3 + Remove Guest) |
 | **Backend API Gateway** | [pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop](https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop) | Базовий REST API Gateway ендпоінт (`develop`) |
 | **Swagger UI** | [restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com) | Інтерактивна документація API |
 
 > [!TIP]
 > **🚀 Live Demo посилання для перевірки виконання завдання Frontend:**  
-> [http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo](http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo)  
+> [https://green-tasty.devs.surf/reservations/demo-reservation/group-order?demo](https://green-tasty.devs.surf/reservations/demo-reservation/group-order?demo)  
 > *Параметр `?demo` автоматично активує тестову сесію Owner без потреби у реєстрації.*
 
 ---
@@ -39,6 +39,7 @@
 
 | User Story | Назва та опис фічі | Епік | Статус |
 |:---|:---|:---|:---:|
+| [**`US0-group-pre-order-owner-review.md`**](user-stories/US0-group-pre-order-owner-review.md) | **Group Pre-Order Owner Review**: Консолідація та підтвердження замовлень учасників для ресторану | Pre-Order & Group Booking Management | ✅ Готово |
 | [**`US1-sort-reservations.md`**](user-stories/US1-sort-reservations.md) | **Sort Reservations**: Дропдаун сортування на сторінці бронювань за датою/часом, кількістю гостей або рестораном | Reservation Management | ✅ Готово |
 | [**`US2-internationalization.md`**](user-stories/US2-internationalization.md) | **Website Internationalization**: Багатомовність (English, Ukrainian, Georgian) з перекладом страв і локацій | Localization & Internationalization | ✅ Готово |
 
@@ -69,9 +70,9 @@
    npm start
    ```
 2. **Відкрийте у браузері:**
-   - **Хмарне демо (S3):**
+   - **Хмарне демо (Devs.Surf):**
      ```text
-     http://restaurant-frontend-060913167510.s3-website.us-east-1.amazonaws.com/reservations/demo-reservation/group-order?demo
+     https://green-tasty.devs.surf/reservations/demo-reservation/group-order?demo
      ```
    - **Локальний dev-сервер:**
      ```text
