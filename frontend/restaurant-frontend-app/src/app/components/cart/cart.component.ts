@@ -199,8 +199,7 @@ export class CartComponent implements OnInit {
   }
 
   addDishToOrder(orderId: string): void {
-    console.log(`Adding a dish to order ${orderId}`);
-    void this.router.navigate(['/menu']);
+    void this.router.navigate(['/menu'], { queryParams: { orderId } });
   }
 
   updateDishQuantity(

@@ -16,7 +16,8 @@ import { OrderItem } from '@app/models/dishes/order-item.model';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { DishesService } from '@app/services/dishes/dishes.service';
 import { CreateOrderRequest } from '@app/models/cart/create-order-request.model';
-import {ToastService} from '@app/services/toast/toast.service';
+import { ToastService } from '@app/services/toast/toast.service';
+import { formatOrderNumber } from '@app/shared/helpers/order-helpers';
 
 @Component({
     selector: 'app-place-order-waiter',
@@ -35,6 +36,10 @@ export class PlaceOrderWaiterComponent implements OnInit {
   @Input() title = 'Place new Order';
   @Input() reservationId = 'RSV-RST14-T3-170625';
   @Input() customerId?: string;
+
+  get formattedReservationId(): string {
+    return formatOrderNumber(this.reservationId);
+  }
 
   waiterName = 'Jane Smith';
   customerName = 'John Doe';

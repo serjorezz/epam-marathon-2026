@@ -443,7 +443,7 @@ export class WaiterDashboardComponent implements OnInit {
           this.reservations.update((items) =>
             items.map((reservation) =>
               reservation.id === order.reservationId
-                ? { ...reservation, preOrder: createdOrder }
+                ? { ...reservation, preOrder: createdOrder, hasSubmittedPreOrder: true }
                 : reservation
             )
           );
@@ -509,10 +509,11 @@ export class WaiterDashboardComponent implements OnInit {
       )
       : of({ name: waiterName, role: 'Waiter' as const });
 
-    const preOrder$ = this.ordersService.getByReservationId(reservation.id).pipe(
-      retry({ count: 2, delay: 200 }),
-      catchError(() => of(undefined))
-    );
+    const preOrder$ = reservation.hasSubmittedPreOrder
+      ? this.ordersService.getByReservationId(reservation.id).pipe(
+          catchError(() => of(undefined))
+        )
+      : of(undefined);
 
     return forkJoin({ feedback: feedback$, creator: creator$, preOrder: preOrder$ }).pipe(
       map(({ feedback, creator, preOrder }) => ({
@@ -523,7 +524,9 @@ export class WaiterDashboardComponent implements OnInit {
         createdByName: creator.name,
         createdByRole: creator.role,
         preOrder,
-        hasSubmittedPreOrder: preOrder != null && (preOrder.status === 1 || preOrder.status === 3),
+        hasSubmittedPreOrder:
+          Boolean(reservation.hasSubmittedPreOrder) ||
+          (preOrder != null && (preOrder.status === 1 || preOrder.status === 3)),
       }))
     );
   }

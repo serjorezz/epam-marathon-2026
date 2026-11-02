@@ -422,6 +422,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Enter Dish Name": "Enter Dish Name",
     "Dish Name": "Dish Name",
     "Customer": "Customer",
+    "You have added": "You have added",
   },
 
   uk: {
@@ -855,6 +856,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Enter Dish Name": "Введіть назву страви",
     "Dish Name": "Назва страви",
     "Customer": "Клієнт",
+    "You have added": "Ви додали",
   },
 
   ka: {
@@ -1288,5 +1290,6 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Enter Dish Name": "შეიყვანეთ კერძის სახელი",
     "Dish Name": "კერძის სახელი",
     "Customer": "მომხმარებელი",
+    "You have added": "თქვენ დაამატეთ",
   },
 };

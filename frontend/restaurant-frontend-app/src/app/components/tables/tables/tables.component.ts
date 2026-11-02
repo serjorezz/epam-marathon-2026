@@ -78,7 +78,6 @@ export class TablesComponent implements OnInit {
   constructor() {
     this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.selectedLocationId = params['locationId'] ?? undefined;
-      console.log('location id: ' + this.selectedLocationId);
     });
 
     this.locationService
@@ -97,13 +96,11 @@ export class TablesComponent implements OnInit {
           );
 
           this.selectedFilter.location = foundLocation?.address || null;
-          console.log(this.selectedFilter);
         }
       });
   }
   ngOnInit(): void {
     this.dateOptions = generateDateOptions();
-    console.log('Date options:', this.dateOptions);
     this.timeOptions = generateTimeOptions(this.dateOptions[0]);
   }
 

@@ -49,7 +49,6 @@ export class WaiterPreOrderPageComponent implements OnInit {
       const stored = sessionStorage.getItem('waiterPreOrderData');
       if (stored) {
         data = JSON.parse(stored);
-        console.log('data', data);
       }
     }
 
@@ -65,12 +64,8 @@ export class WaiterPreOrderPageComponent implements OnInit {
 
     firstValueFrom(this.preOrdersService.getByReservationId(data.reservationId))
       .then((order) => {
-        console.log('order', order);
-        console.log('ORDER FROM SERVER:', JSON.stringify(order, null, 2));
-
         this.orderItems = order.orderItems ?? [];
         this.reservationTime = order.reservationTime || '';
-        // this.refreshOrder();
       })
       .catch((err) => {
         console.error('Error loading order:', err);
@@ -98,11 +93,10 @@ export class WaiterPreOrderPageComponent implements OnInit {
           this.orderItems.splice(index, 1, updatedItem);
           this.orderItems = [...this.orderItems];
           this.cdr.detectChanges();
-          console.log('Updated orderItems:', this.orderItems);
         }
       },
       error: (err) => {
-        console.error(err);
+        console.error('Failed to confirm dish:', err);
       },
     });
   }
@@ -124,8 +118,6 @@ export class WaiterPreOrderPageComponent implements OnInit {
           this.orderItems.splice(index, 1, updatedItem);
           this.orderItems = [...this.orderItems];
           this.cdr.detectChanges();
-          console.log('Dish rejected and updated locally:', updatedItem);
-          console.log('Updated orderItems:', this.orderItems);
         }
       },
       error: (err) => {
@@ -133,86 +125,4 @@ export class WaiterPreOrderPageComponent implements OnInit {
       },
     });
   }
-
-  // rejectDish(dishId: string) {
-  //   this.preOrdersService.rejectDishInOrder(this.reservationId, dishId).subscribe({
-  //     next: async () => {
-  //       const order = await firstValueFrom(
-  //         this.preOrdersService.getByReservationId(this.reservationId)
-  //       );
-  //       this.orderItems = order.orderItems ?? [];
-  //       this.cdr.detectChanges();
-  //       console.log('Order reloaded:', this.orderItems);
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to reject dish:', err);
-  //     },
-  //   });
-  // }
-
-  // confirmDish(dishId: string) {
-  //   this.preOrdersService.confirmDishInOrder(this.reservationId, dishId).subscribe({
-  //     next: async () => {
-  //       const index = this.orderItems.findIndex((i) => i.dish.id === dishId);
-  //       if (index !== -1) {
-  //         const item = this.orderItems[index];
-  //         const updatedItem: OrderItem = {
-  //           ...item,
-  //           dish: {
-  //             ...item.dish,
-  //             status: 'Confirmed',
-  //           },
-  //         };
-  //         this.orderItems.splice(index, 1, updatedItem);
-  //         this.orderItems = [...this.orderItems];
-  //         this.cdr.detectChanges();
-  //         console.log('Locally updated orderItems (confirmed):', this.orderItems);
-  //       }
-
-  //       const order = await firstValueFrom(
-  //         this.preOrdersService.getByReservationId(this.reservationId)
-  //       );
-  //       this.orderItems = order.orderItems ?? [];
-  //       this.cdr.detectChanges();
-  //       console.log('Order reloaded (confirmed):', this.orderItems);
-  //       console.log('ORDER FROM SERVER:', JSON.stringify(this.orderItems, null, 2));
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //     },
-  //   });
-  // }
-
-  // rejectDish(dishId: string) {
-  //   this.preOrdersService.rejectDishInOrder(this.reservationId, dishId).subscribe({
-  //     next: async () => {
-  //       const index = this.orderItems.findIndex((i) => i.dish.id === dishId);
-  //       if (index !== -1) {
-  //         const item = this.orderItems[index];
-  //         const updatedItem: OrderItem = {
-  //           ...item,
-  //           dish: {
-  //             ...item.dish,
-  //             status: 'Rejected',
-  //           },
-  //         };
-  //         this.orderItems.splice(index, 1, updatedItem);
-  //         this.orderItems = [...this.orderItems];
-  //         this.cdr.detectChanges();
-  //         console.log('Locally updated orderItems (rejected):', this.orderItems);
-  //       }
-
-  //       const order = await firstValueFrom(
-  //         this.preOrdersService.getByReservationId(this.reservationId)
-  //       );
-  //       this.orderItems = order.orderItems ?? [];
-  //       this.cdr.detectChanges();
-  //       console.log('Order reloaded (rejected):', this.orderItems);
-  //       console.log('ORDER FROM SERVER:', JSON.stringify(this.orderItems, null, 2));
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to reject dish:', err);
-  //     },
-  //   });
-  // }
 }

@@ -9,12 +9,12 @@
       <div class="modal-header">
         <h2 class="title">{{ title | translate }}</h2>
         <button class="close-btn" (click)="onClose()">
-          <img src="../../../assets/svg/close.svg" alt="close button" />
+          <img src="assets/svg/close.svg" alt="close button" />
         </button>
       </div>
 
       <p class="subtitle">
-        {{ 'Reservation' | translate }} <strong> #{{ reservationId }} </strong>
+        {{ 'Reservation' | translate }} <strong> #{{ formattedReservationId }} </strong>
       </p>
       <p class="subtitle">
         {{ 'Waiter' | translate }} <strong> {{ waiterName }} </strong>
@@ -28,7 +28,7 @@
       <div>
         <h4>{{ 'Dishes' | translate }}</h4>
         <p class="subtitle">
-          You have added <strong> {{ orderItems.length }} dishes </strong>
+          {{ 'You have added' | translate }} <strong> {{ orderItems.length }} {{ (orderItems.length === 1 ? 'dish' : 'dishes') | translate }} </strong>
         </p>
       </div>
       <div class="dishes-list">

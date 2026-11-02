@@ -23,7 +23,9 @@ export const tokenInterceptor: HttpInterceptorFn = (
   if (req.url.includes('/guest/')) {
     return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error);
+        if (req.context.get(SKIP_ERROR_TOAST)) {
+          return throwError(() => error);
+        }
 
         const serverMessage = getServerErrorMessage(error);
 
@@ -74,9 +76,6 @@ export const tokenInterceptor: HttpInterceptorFn = (
 
   return next(clonedRequest).pipe(
     catchError((error: HttpErrorResponse) => {
-      console.log(error);
-      const serverMessage = getServerErrorMessage(error);
-
       if (clonedRequest.url.includes('orders') && error.status === 404) {
         return throwError(() => error);
       }
@@ -84,6 +83,8 @@ export const tokenInterceptor: HttpInterceptorFn = (
       if (clonedRequest.context.get(SKIP_ERROR_TOAST)) {
         return throwError(() => error);
       }
+
+      const serverMessage = getServerErrorMessage(error);
 
       switch (error.status) {
         case 400:
