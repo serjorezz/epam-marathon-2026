@@ -1,161 +1,356 @@
 <app-header></app-header>
 
 <div class="subheading">
-  <h3>Hello, {{ firstName }} {{ lastName }} ({{ role }})</h3>
+  <div class="subheading-content">
+    <div class="user-greeting">
+      <h3>Hello, {{ firstName }} {{ lastName }}</h3>
+      <span class="role-badge">{{ role }}</span>
+    </div>
+    <p class="subheading-description">
+      Green & Tasty analytics dashboard. Track staff performance, sales trends, orders, and guest feedback.
+    </p>
+  </div>
 </div>
 
-<div class="select-container">
-  <div class="filters-wrapper">
-    <app-custom-select
-      class="custom-select-report"
-      [placeholder]="'Select report type'"
-      [options]="reportTypes"
-      [selectedOption]="selectedReportType"
-      (optionSelected)="onReportTypeSelected($event)"
-      [showIcon]="false"
-    >
-    </app-custom-select>
+<div class="dashboard-container">
+  <div class="filters-card">
+    <div class="filter-controls">
+      <div class="filter-group">
+        <span class="filter-label">Report Type</span>
+        <app-custom-select
+          class="report-select"
+          [placeholder]="'Select report type'"
+          [options]="reportTypes"
+          [selectedOption]="selectedReportType"
+          (optionSelected)="onReportTypeSelected($event)"
+          [showIcon]="false"
+        >
+        </app-custom-select>
+      </div>
 
-    <div class="custom-select-period custom-select-report"
+      <div class="filter-group">
+        <span class="filter-label">Report Period</span>
+        <div
+          class="custom-select-period"
           role="button"
           (click)="toggleCalendar()"
           (keydown.space)="toggleCalendar()"
           (keydown.enter)="toggleCalendar()"
-          tabindex="0">
-      <div class="selected-value">
-        <span>{{ getPeriodPlaceholder() }}</span>
-        <img
-          class="icon"
-          [src]="calendarVisible ? 'assets/svg/arrow-up.svg' : 'assets/svg/arrow-down.svg'"
-          alt="Toggle Calendar"
-        />
+          tabindex="0"
+        >
+          <div class="selected-value">
+            <div class="selected-text">
+              <img src="assets/svg/calendar-green.svg" alt="" class="calendar-icon" />
+              <span class="period-text">{{ getPeriodPlaceholder() }}</span>
+            </div>
+            <img
+              class="arrow-icon"
+              [src]="calendarVisible ? 'assets/svg/arrow-up.svg' : 'assets/svg/arrow-down.svg'"
+              alt=""
+            />
+          </div>
+
+          @if (calendarVisible) {
+            <div class="calendar-popup" role="presentation" (click)="$event.stopPropagation()">
+              <div class="calendar-header">
+                <button type="button" class="btn-cal-nav" (click)="previousMonth()" aria-label="Previous Month">
+                  <img src="assets/svg/arrow-left.svg" alt="Previous" class="icon" />
+                </button>
+                <span class="month-title">{{ currentMonth.format('MMMM YYYY') }}</span>
+                <button type="button" class="btn-cal-nav" (click)="nextMonth()" aria-label="Next Month">
+                  <img src="assets/svg/arrow-right.svg" alt="Next" class="icon" />
+                </button>
+              </div>
+              <div class="calendar-weekdays">
+                @for (day of weekDays; track $index) {
+                  <div class="weekday">{{ day }}</div>
+                }
+              </div>
+              <div class="calendar-grid">
+                @for (day of getDaysInMonth(); track $index) {
+                  <div
+                    class="day"
+                    role="button"
+                    tabindex="0"
+                    [class.empty]="isInvalidDate(day)"
+                    [class.in-range]="isInRange(day)"
+                    [class.selected]="isSelected(day)"
+                    (click)="!isInvalidDate(day) && onDayClicked(day)"
+                    (keydown.enter)="!isInvalidDate(day) && onDayClicked(day)"
+                  >
+                    {{ isInvalidDate(day) ? '' : day.getDate() }}
+                  </div>
+                }
+              </div>
+              <div class="calendar-presets">
+                <button type="button" class="preset-chip" (click)="selectPreset(7)">Last 7d</button>
+                <button type="button" class="preset-chip" (click)="selectPreset(30)">Last 30d</button>
+                <button type="button" class="preset-chip" (click)="selectThisMonth()">This Month</button>
+              </div>
+            </div>
+          }
+        </div>
       </div>
 
-      @if (calendarVisible) {
-        <div class="calendar-popup" role="presentation" (click)="$event.stopPropagation()">
-          <div class="calendar-header">
-            <button (click)="previousMonth()">
-              <img [src]="'assets/svg/arrow-left.svg'" alt="Previous" class="icon" />
-            </button>
-            <span>{{ currentMonth.format('MMMM YYYY') }}</span>
-            <button (click)="nextMonth()">
-              <img [src]="'assets/svg/arrow-right.svg'" alt="Next" class="icon" />
-            </button>
+      <div class="filter-group">
+        <span class="filter-label">Location</span>
+        <app-custom-select
+          class="report-select"
+          [placeholder]="'Select location'"
+          [options]="locationAddresses"
+          [selectedOption]="selectedLocationAddress"
+          (optionSelected)="onLocationSelected($event)"
+          [showIcon]="false"
+        >
+        </app-custom-select>
+      </div>
+
+      <div class="filter-action">
+        <span class="filter-label label-spacer">&nbsp;</span>
+        <app-custom-button
+          variant="primary"
+          size="large"
+          class="generate-btn"
+          (click)="genetateReportRequest()"
+        >
+          Generate Report
+        </app-custom-button>
+      </div>
+    </div>
+  </div>
+
+  @if (reportData.length > 0) {
+    <div class="kpi-grid">
+      @if (selectedReportType === 'Staff performance') {
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Active Waiters</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/person-green.svg" alt="" />
+            </div>
           </div>
-          <div class="calendar-weekdays">
-            @for (day of weekDays; track day) {
-              <div class="weekday">{{ day }}</div>
-            }
+          <div class="kpi-value">{{ activeStaffCount }}</div>
+          <div class="kpi-hint">Assigned to {{ selectedLocationAddress }}</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Orders Processed</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/pre-order.svg" alt="" />
+            </div>
           </div>
-          <div class="calendar-grid">
-            @for (day of getDaysInMonth(); track day) {
-              <div
-                class="day"
-                role="button"
-                tabindex="0"
-                [class.empty]="isInvalidDate(day)"
-                [class.in-range]="isInRange(day)"
-                [class.selected]="isSelected(day)"
-                (click)="!isInvalidDate(day) && onDayClicked(day)"
-                (keydown.enter)="!isInvalidDate(day) && onDayClicked(day)"
-              >
-                {{ isInvalidDate(day) ? '' : day.getDate() }}
-              </div>
-            }
+          <div class="kpi-value">{{ totalOrdersCount }}</div>
+          <div class="kpi-hint positive">Total shifts completed</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Avg Service Rating</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/star.svg" alt="" />
+            </div>
           </div>
+          <div class="kpi-value">{{ averageServiceRating | number: '1.2-2' }} <span class="rating-max">/ 5.0</span></div>
+          <div class="kpi-hint">Guest service feedback</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Working Hours</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/clock-green.svg" alt="" />
+            </div>
+          </div>
+          <div class="kpi-value">{{ totalWorkingHours }} hrs</div>
+          <div class="kpi-hint">Total cumulative shift time</div>
+        </div>
+      } @else {
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Total Revenue</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/pre-order.svg" alt="" />
+            </div>
+          </div>
+          <div class="kpi-value">{{ totalRevenue | currency: 'USD' }}</div>
+          <div class="kpi-hint positive">+{{ totalRevenueDelta | currency: 'USD' }} vs previous period</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Total Orders</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/table-green.svg" alt="" />
+            </div>
+          </div>
+          <div class="kpi-value">{{ totalOrdersCount }}</div>
+          <div class="kpi-hint">Across all monitored branches</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Avg Cuisine Rating</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/star.svg" alt="" />
+            </div>
+          </div>
+          <div class="kpi-value">{{ averageCuisineRating | number: '1.2-2' }} <span class="rating-max">/ 5.0</span></div>
+          <div class="kpi-hint">Guest cuisine feedback</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Locations Monitored</span>
+            <div class="kpi-icon-badge">
+              <img src="assets/svg/location-green.svg" alt="" />
+            </div>
+          </div>
+          <div class="kpi-value">{{ reportData.length }}</div>
+          <div class="kpi-hint">Active restaurant locations</div>
         </div>
       }
     </div>
+  }
 
-    <app-custom-select
-      class="custom-select-report"
-      [placeholder]="'Select location'"
-      [options]="locationAddresses"
-      [selectedOption]="selectedLocationAddress"
-      (optionSelected)="onLocationSelected($event)"
-      [showIcon]="false"
-    >
-    </app-custom-select>
+  <div class="report-content-card">
+    <div class="report-header-bar">
+      <div class="report-title-info">
+        <h3 class="report-title">{{ selectedReportType }} Report</h3>
+        <div class="report-meta">
+          <span class="meta-tag location-tag">
+            <img src="assets/svg/location-green.svg" alt="" />
+            {{ selectedLocationAddress }}
+          </span>
+          <span class="meta-tag period-tag">
+            <img src="assets/svg/calendar-green.svg" alt="" />
+            {{ getPeriodPlaceholder() }}
+          </span>
+          @if (isSampleData) {
+            <span class="meta-tag preview-tag">
+              Preview Data
+            </span>
+          }
+        </div>
+      </div>
+
+      <div class="report-actions">
+        <app-custom-select
+          class="export-select"
+          [placeholder]="'Download Report'"
+          [options]="downloadOptions"
+          (optionSelected)="onDownloadOptionSelected($event)"
+          [showIcon]="false"
+        >
+        </app-custom-select>
+      </div>
+    </div>
+
+    @if (reportData.length > 0 && selectedReportType === 'Staff performance') {
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Waiter</th>
+              <th>Location</th>
+              <th class="no-wrap">Period</th>
+              <th class="text-center">Hours</th>
+              <th class="text-center">Orders</th>
+              <th class="text-center">Orders Delta</th>
+              <th class="text-center">Service Rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of reportData; track row.waiterEmail) {
+              <tr>
+                <td>
+                  <div class="waiter-cell">
+                    <div class="avatar-circle">{{ getInitials(row.waiterName) }}</div>
+                    <div class="waiter-info">
+                      <span class="waiter-name">{{ row.waiterName }}</span>
+                      <span class="waiter-email">{{ row.waiterEmail }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ row.locationName }}</td>
+                <td class="no-wrap">{{ row.startDate | date: 'MMM d, y' }} – {{ row.endDate | date: 'MMM d, y' }}</td>
+                <td class="text-center font-medium">{{ row.workingHours }} hrs</td>
+                <td class="text-center font-semibold">{{ row.totalOrders }}</td>
+                <td class="text-center">
+                  <span
+                    class="trend-badge"
+                    [class.badge-positive]="isPositive(row.deltaTotalOrders)"
+                    [class.badge-negative]="isNegative(row.deltaTotalOrders)"
+                    [class.badge-neutral]="!isPositive(row.deltaTotalOrders) && !isNegative(row.deltaTotalOrders)"
+                  >
+                    {{ isPositive(row.deltaTotalOrders) ? '+' + row.deltaTotalOrders : row.deltaTotalOrders }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <span class="rating-badge">
+                    <img src="assets/svg/star.svg" alt="" />
+                    {{ row.avgServiceFeedback | number: '1.1-1' }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else if (reportData.length > 0 && selectedReportType === 'Sales') {
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th class="no-wrap">Period</th>
+              <th class="text-center">Total Orders</th>
+              <th class="text-right">Revenue</th>
+              <th class="text-center">Avg Cuisine Feedback</th>
+              <th class="text-center">Min Cuisine Feedback</th>
+              <th class="text-center">Rating Delta</th>
+              <th class="text-right">Revenue Delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of reportData; track row.locationId) {
+              <tr>
+                <td class="font-semibold">{{ row.locationName }}</td>
+                <td class="no-wrap">{{ row.startDate | date: 'MMM d, y' }} – {{ row.endDate | date: 'MMM d, y' }}</td>
+                <td class="text-center font-medium">{{ row.totalOrders }}</td>
+                <td class="text-right font-bold revenue-cell">{{ row.revenue | currency: 'USD' }}</td>
+                <td class="text-center">
+                  <span class="rating-badge">
+                    <img src="assets/svg/star.svg" alt="" />
+                    {{ row.avgCuisineFeedback | number: '1.1-1' }}
+                  </span>
+                </td>
+                <td class="text-center text-muted">{{ row.minCuisineFeedback | number: '1.1-1' }}</td>
+                <td class="text-center">
+                  <span
+                    class="trend-badge"
+                    [class.badge-positive]="isPositive(row.deltaAvgCuisineFeedback)"
+                    [class.badge-negative]="isNegative(row.deltaAvgCuisineFeedback)"
+                    [class.badge-neutral]="!isPositive(row.deltaAvgCuisineFeedback) && !isNegative(row.deltaAvgCuisineFeedback)"
+                  >
+                    {{ isPositive(row.deltaAvgCuisineFeedback) ? '+' + (row.deltaAvgCuisineFeedback | number: '1.1-1') : (row.deltaAvgCuisineFeedback | number: '1.1-1') }}
+                  </span>
+                </td>
+                <td class="text-right">
+                  <span
+                    class="trend-badge"
+                    [class.badge-positive]="isPositive(row.deltaRevenue)"
+                    [class.badge-negative]="isNegative(row.deltaRevenue)"
+                    [class.badge-neutral]="!isPositive(row.deltaRevenue) && !isNegative(row.deltaRevenue)"
+                  >
+                    {{ isPositive(row.deltaRevenue) ? '+' + (row.deltaRevenue | currency: 'USD') : (row.deltaRevenue | currency: 'USD') }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </div>
-  <app-custom-button class="btn-generate" (click)="genetateReportRequest()">
-    Generate Report
-  </app-custom-button>
 </div>
-@if (reportData.length > 0 && selectedReportType === 'Staff performance') {
-  <h2 class="report-heading">Report</h2>
-  <div class="report-table-wrapper">
-    <table class="report-table">
-      <thead>
-        <tr>
-          <th>Location</th>
-          <th>Waiter</th>
-          <th>Waiter's Email</th>
-          <th class="no-wrap">Report Period Start</th>
-          <th class="no-wrap">Report Period End</th>
-          <th>Waiter Working Hours</th>
-          <th>Waiter Orders Processed</th>
-          <th>Delta of Waiter Orders</th>
-          <th>Average Service Feedback</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (row of reportData; track row.waiterEmail) {
-          <tr>
-            <td>{{ row.locationName }}</td>
-            <td>{{ row.waiterName }}</td>
-            <td>{{ row.waiterEmail }}</td>
-            <td>{{ row.startDate | date: 'MMM d, y' }}</td>
-            <td>{{ row.endDate | date: 'MMM d, y' }}</td>
-            <td>{{ row.workingHours }}</td>
-            <td>{{ row.totalOrders }}</td>
-            <td>{{ row.deltaTotalOrders }}</td>
-            <td>{{ row.avgServiceFeedback | number: '1.1-1' }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-} @else if (reportData.length > 0 && selectedReportType === 'Sales') {
-  <h2 class="report-heading">Report</h2>
-  <div class="report-table-wrapper">
-    <table class="report-table">
-      <thead>
-        <tr>
-          <th>Location</th>
-          <th class="no-wrap">Report Period Start</th>
-          <th class="no-wrap">Report Period End</th>
-          <th>Total Orders Processed</th>
-          <th>Revenue</th>
-          <th>Average Cuisine Feedback</th>
-          <th>Minimal Cuisine Feedback</th>
-          <th>Delta Average Feedback</th>
-          <th>Delta Revenue</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (row of reportData; track row.locationId) {
-          <tr>
-            <td>{{ row.locationName }}</td>
-            <td>{{ row.startDate | date: 'MMM d, y' }}</td>
-            <td>{{ row.endDate | date: 'MMM d, y' }}</td>
-            <td>{{ row.totalOrders }}</td>
-            <td>{{ row.revenue | currency: 'USD' }}</td>
-            <td>{{ row.avgCuisineFeedback | number: '1.1-1' }}</td>
-            <td>{{ row.minCuisineFeedback | number: '1.1-1' }}</td>
-            <td>{{ row.deltaAvgCuisineFeedback | number: '1.1-1' }}</td>
-            <td>{{ row.deltaRevenue | currency: 'USD' }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-}
-
-<app-custom-select
-  class="btn-download-options"
-  [placeholder]="'Download'"
-  [options]="downloadOptions"
-  (optionSelected)="onDownloadOptionSelected($event)"
-  [showIcon]="false"
->
-</app-custom-select>
