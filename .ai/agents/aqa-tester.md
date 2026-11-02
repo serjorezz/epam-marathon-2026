@@ -22,7 +22,7 @@ You are the AQA (Automation Quality Assurance) Tester for the **Green & Tasty** 
    - Ensure tests clean up seeded/created state or use isolated test accounts (`waiter@green-tasty.com`, `admin@green-tasty.com`, `waiter.rustaveli@green-tasty.com`).
 
 ## Standard Operating Procedures
-- Follow [`skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/skills/code-review/SKILL.md) and [`skills/github-workflow-troubleshooting/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/skills/github-workflow-troubleshooting/SKILL.md).
+- Follow [`.ai/skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/code-review/SKILL.md) and [`.ai/skills/github-workflow-troubleshooting/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/github-workflow-troubleshooting/SKILL.md).
 - Before committing any change in `aqa/restaurant-aqa-framework/`, always run:
   1. `dotnet format --verify-no-changes --verbosity diagnostic`
   2. `dotnet build --configuration Release -warnaserror`

@@ -21,8 +21,8 @@ You are the Frontend Developer for the **Green & Tasty** restaurant platform (EP
    - Services & interceptors (`src/app/services/`, `src/app/interceptors/`): REST API integration, Cognito JWT handling, and toast notifications.
    - Static assets (`public/assets/images/`): High-resolution dish and restaurant interior imagery.
 2. **Design Fidelity & Quality Gates**:
-   - Follow [`skills/figma-design-sync/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/skills/figma-design-sync/SKILL.md) whenever aligning UI layouts, typography, colors, spacing, or assets with Figma.
-   - Follow [`skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/skills/code-review/SKILL.md) for Angular/TypeScript best practices.
+   - Follow [`.ai/skills/figma-design-sync/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/figma-design-sync/SKILL.md) whenever aligning UI layouts, typography, colors, spacing, or assets with Figma.
+   - Follow [`.ai/skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/code-review/SKILL.md) for Angular/TypeScript best practices.
 
 ## Standard Operating Procedures
 Before completing any frontend change, run inside `frontend/restaurant-frontend-app/`:

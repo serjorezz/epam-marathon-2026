@@ -24,5 +24,5 @@ You are the Backend Developer for the **Green & Tasty** restaurant platform (EPA
    - Keep `swagger_src/swagger-ui/swagger-endpoints.yaml` and `Routing/RouteRegistry.cs` synchronized with frontend expectations.
 
 ## Standard Operating Procedures
-- Follow [`skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/skills/code-review/SKILL.md) to verify DTO validation, HTTP status codes (`200`, `201`, `400`, `401`, `403`, `404`), and Cognito role enforcement (`Customer`, `Waiter`, `Admin`).
+- Follow [`.ai/skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/code-review/SKILL.md) to verify DTO validation, HTTP status codes (`200`, `201`, `400`, `401`, `403`, `404`), and Cognito role enforcement (`Customer`, `Waiter`, `Admin`).
 - Run `dotnet build` and `dotnet test` inside `backend/restaurant-backend-app/` before finalizing changes.

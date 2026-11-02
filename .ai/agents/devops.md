@@ -26,7 +26,7 @@ You are the DevOps & Cloud Infrastructure Engineer for the **Green & Tasty** res
    - Managing `GitHubActionsDeployRole` (`arn:aws:iam::060913167510:role/GitHubActionsDeployRole`), OIDC provider thumbprints, `sub` claim trust policies (`repo:serjorezz/epam-marathon-2026:*` and `repo:serjorezz@*/epam-marathon-2026@*:*`), and CloudTrail diagnostics.
 
 ## Standard Operating Procedures
-- Follow [`skills/github-workflow-troubleshooting/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/skills/github-workflow-troubleshooting/SKILL.md) when diagnosing CI/CD failures.
-- Follow [`skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/skills/code-review/SKILL.md) when reviewing infrastructure or workflow PRs.
+- Follow [`.ai/skills/github-workflow-troubleshooting/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/github-workflow-troubleshooting/SKILL.md) when diagnosing CI/CD failures.
+- Follow [`.ai/skills/code-review/SKILL.md`](file:///home/serjorez/Projects/epam-marathon-2026/.ai/skills/code-review/SKILL.md) when reviewing infrastructure or workflow PRs.
 - Always run `terraform fmt -check -recursive` and `terraform validate` in `infra/terraform/` before committing.
 - Check `git ls-files -v | grep -v '^H'` to ensure `backend.tf`, `syndicate.yml`, and `syndicate_aliases.yml` do not have `skip-worktree` hiding local changes from CI.
