@@ -14,9 +14,13 @@ import {
   catchError,
   finalize,
   forkJoin,
+  from,
   map,
+  mergeMap,
   of,
+  retry,
   switchMap,
+  toArray,
 } from 'rxjs';
 
 import { AuthenticationService } from '@app/auth/services/authentication.service';
@@ -482,53 +486,54 @@ export class ReservationDashboardComponent implements OnInit {
             return of<ReservationCustomer[]>([]);
           }
 
-          return forkJoin(
-            reservations.map((reservation) =>
-              this.reservationService
-                .getReservationFeedback(reservation.id)
-                .pipe(
-                  catchError((error: HttpErrorResponse) => {
-                    if (error.status !== 404) {
-                      console.error(
-                        `Failed to load feedback for reservation ${reservation.id}:`,
-                        error,
-                      );
-                    }
+          return from(reservations).pipe(
+            mergeMap(
+              (reservation, index) =>
+                this.reservationService
+                  .getReservationFeedback(reservation.id)
+                  .pipe(
+                    retry({ count: 2, delay: 200 }),
+                    catchError(() => of(null)),
+                    map(
+                      (feedback): { index: number; item: ReservationCustomer } => {
+                        const preOrder = orders.find(
+                          (order) =>
+                            order.reservationId ===
+                            reservation.id,
+                        );
 
-                    return of(null);
-                  }),
-                  map(
-                    (
-                      feedback,
-                    ): ReservationCustomer => {
-                      const preOrder = orders.find(
-                        (order) =>
-                          order.reservationId ===
-                          reservation.id,
-                      );
+                        const hasFeedback =
+                          feedback?.service != null ||
+                          feedback?.cuisineExperience != null;
 
-                      const hasFeedback =
-                        feedback?.service != null ||
-                        feedback?.cuisineExperience != null;
-
-                      return {
-                        ...reservation,
-                        status:
-                          reservation.status as unknown as ReservationStatusCustomer,
-                        restaurantName:
-                          reservation.restaurantName ?? '',
-                        feedback: hasFeedback
-                          ? feedback ?? undefined
-                          : undefined,
-                        preOrder,
-                        hasSubmittedPreOrder:
-                          preOrder != null &&
-                          (preOrder.status === 1 ||
-                            preOrder.status === 3),
-                      };
-                    },
+                        return {
+                          index,
+                          item: {
+                            ...reservation,
+                            status:
+                              reservation.status as unknown as ReservationStatusCustomer,
+                            restaurantName:
+                              reservation.restaurantName ?? '',
+                            feedback: hasFeedback
+                              ? feedback ?? undefined
+                              : undefined,
+                            preOrder,
+                            hasSubmittedPreOrder:
+                              preOrder != null &&
+                              (preOrder.status === 1 ||
+                                preOrder.status === 3),
+                          },
+                        };
+                      },
+                    ),
                   ),
-                ),
+              2,
+            ),
+            toArray(),
+            map((results) =>
+              results
+                .sort((left, right) => left.index - right.index)
+                .map((result) => result.item),
             ),
           );
         }),

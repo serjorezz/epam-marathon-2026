@@ -8,7 +8,7 @@ import { revertFormatTime } from '@app/shared/helpers/date-helpers';
 import { TimeRange } from '@app/models/tables/time-range.model';
 import { ReservationCustomer } from '@app/models/reservations/reservation.model';
 
-const TIME_SLOTS_CONCURRENCY = 6;
+const TIME_SLOTS_CONCURRENCY = 2;
 
 @Injectable({
   providedIn: 'root',

@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, forkJoin, from, map, mergeMap, Observable, of, retry, switchMap, toArray } from 'rxjs';
 
 import { AuthenticationService } from '@app/auth/services/authentication.service';
 import { CardReservationComponent } from '@app/components/reservations/card-reservation/card-reservation.component';
@@ -461,9 +461,21 @@ export class WaiterDashboardComponent implements OnInit {
         switchMap((reservations) =>
           reservations.length === 0
             ? of([] as ReservationCustomer[])
-            : forkJoin(
-              reservations.map((reservation) => this.enrichReservation(reservation, waiterName))
-            )
+            : from(reservations).pipe(
+                mergeMap(
+                  (reservation, index) =>
+                    this.enrichReservation(reservation, waiterName).pipe(
+                      map((res) => ({ index, res }))
+                    ),
+                  2
+                ),
+                toArray(),
+                map((items) =>
+                  items
+                    .sort((a, b) => a.index - b.index)
+                    .map((item) => item.res)
+                )
+              )
         ),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -484,28 +496,21 @@ export class WaiterDashboardComponent implements OnInit {
     waiterName: string
   ): Observable<ReservationCustomer> {
     const feedback$ = this.reservationService.getReservationFeedback(reservation.id).pipe(
-      catchError((error: unknown) => {
-        if (!(error instanceof HttpErrorResponse) || error.status !== 404) {
-          console.error('Could not load reservation feedback', error);
-        }
-        return of(null);
-      })
+      retry({ count: 2, delay: 200 }),
+      catchError(() => of(null))
     );
 
     const creator$ = reservation.customerId
       ? this.usersService.getUserName(reservation.customerId).pipe(
+        retry({ count: 2, delay: 200 }),
         map((name) => ({ name, role: 'Customer' as const })),
         catchError(() => of({ name: 'Unknown customer', role: 'Customer' as const }))
       )
       : of({ name: waiterName, role: 'Waiter' as const });
 
     const preOrder$ = this.ordersService.getByReservationId(reservation.id).pipe(
-      catchError((error: unknown) => {
-        if (!(error instanceof HttpErrorResponse) || error.status !== 404) {
-          console.error('Could not load reservation pre-order', error);
-        }
-        return of(undefined);
-      })
+      retry({ count: 2, delay: 200 }),
+      catchError(() => of(undefined))
     );
 
     return forkJoin({ feedback: feedback$, creator: creator$, preOrder: preOrder$ }).pipe(
