@@ -2,7 +2,7 @@
 """
 Seed script for Green & Tasty restaurant database.
 Populates initial sample data (Locations, Tables, Dishes) into AWS DynamoDB
-and ensures Cognito groups and a default Admin account exist.
+and ensures Cognito groups, Admin, Waiters, and Customer accounts exist.
 
 Usage:
     python3 scripts/seed-dynamodb.py [--region REGION] [--user-pool-id USER_POOL_ID]
@@ -10,6 +10,7 @@ Usage:
 """
 
 import argparse
+from datetime import datetime, timezone
 import json
 import subprocess
 import sys
@@ -31,7 +32,7 @@ def put_item(table_name: str, item: dict, region: str) -> bool:
     if code != 0:
         print(f"  [ERROR] {table_name}: {stderr.strip()}", file=sys.stderr)
         return False
-    identifier = item.get("id", {}).get("S") or item.get("name", {}).get("S")
+    identifier = item.get("id", {}).get("S") or item.get("name", {}).get("S") or item.get("userId", {}).get("S")
     print(f"  [OK] {table_name} -> {identifier}")
     return True
 
@@ -109,6 +110,158 @@ def ensure_cognito_admin(user_pool_id: str, email: str, password: str, region: s
     ]
     run_cmd(add_group_cmd)
     print("  [OK] Admin user assigned to 'Admin' group")
+
+
+def ensure_waiters(user_pool_id: str, waiters: list[dict], region: str):
+    print(f"\n5. Setting up Waiters in Cognito & DynamoDB 'Waiters' table...")
+
+    for w in waiters:
+        email = w["email"]
+        location_id = w["location_id"]
+        pwd = w["password"]
+        first_name = w["first_name"]
+        last_name = w["last_name"]
+
+        # 1. Ensure Cognito user exists
+        user_check_cmd = [
+            "aws", "cognito-idp", "admin-get-user",
+            "--user-pool-id", user_pool_id,
+            "--username", email,
+            "--region", region
+        ]
+        code, stdout, _ = run_cmd(user_check_cmd)
+        if code != 0:
+            create_user_cmd = [
+                "aws", "cognito-idp", "admin-create-user",
+                "--user-pool-id", user_pool_id,
+                "--username", email,
+                "--user-attributes",
+                f"Name=email,Value={email}",
+                "Name=email_verified,Value=true",
+                f"Name=given_name,Value={first_name}",
+                f"Name=family_name,Value={last_name}",
+                "--message-action", "SUPPRESS",
+                "--region", region
+            ]
+            run_cmd(create_user_cmd)
+            print(f"  [OK] Created waiter user: {email}")
+            _, stdout, _ = run_cmd(user_check_cmd)
+        else:
+            print(f"  [EXISTS] Waiter user: {email}")
+
+        # Extract Cognito sub ID
+        sub = None
+        try:
+            user_data = json.loads(stdout)
+            for attr in user_data.get("UserAttributes", []):
+                if attr.get("Name") == "sub":
+                    sub = attr.get("Value")
+                    break
+        except Exception as e:
+            print(f"  [WARN] Failed to parse Cognito user attributes for {email}: {e}")
+
+        # 2. Set permanent password
+        set_pass_cmd = [
+            "aws", "cognito-idp", "admin-set-user-password",
+            "--user-pool-id", user_pool_id,
+            "--username", email,
+            "--password", pwd,
+            "--permanent",
+            "--region", region
+        ]
+        run_cmd(set_pass_cmd)
+
+        # 3. Add user to Waiter group
+        add_group_cmd = [
+            "aws", "cognito-idp", "admin-add-user-to-group",
+            "--user-pool-id", user_pool_id,
+            "--username", email,
+            "--group-name", "Waiter",
+            "--region", region
+        ]
+        run_cmd(add_group_cmd)
+
+        # 4. Ensure record exists in Waiters DynamoDB table
+        if sub:
+            get_item_cmd = [
+                "aws", "dynamodb", "get-item",
+                "--table-name", "Waiters",
+                "--key", json.dumps({"userId": {"S": sub}}),
+                "--region", region
+            ]
+            c, item_out, _ = run_cmd(get_item_cmd)
+            exists = False
+            if c == 0:
+                try:
+                    exists = "Item" in json.loads(item_out)
+                except Exception:
+                    pass
+
+            if not exists:
+                now_str = datetime.now(timezone.utc).isoformat()
+                item = {
+                    "userId": {"S": sub},
+                    "locationId": {"S": location_id},
+                    "createdAt": {"S": now_str},
+                    "reservations": {"L": []}
+                }
+                put_item("Waiters", item, region)
+            else:
+                print(f"  [EXISTS] Waiters DynamoDB item for {email} ({sub}) -> {location_id}")
+
+
+def ensure_customers(user_pool_id: str, customers: list[dict], region: str):
+    print(f"\n6. Setting up Test Customers in Cognito...")
+
+    for c in customers:
+        email = c["email"]
+        pwd = c["password"]
+        first_name = c["first_name"]
+        last_name = c["last_name"]
+
+        user_check_cmd = [
+            "aws", "cognito-idp", "admin-get-user",
+            "--user-pool-id", user_pool_id,
+            "--username", email,
+            "--region", region
+        ]
+        code, _, _ = run_cmd(user_check_cmd)
+        if code != 0:
+            create_user_cmd = [
+                "aws", "cognito-idp", "admin-create-user",
+                "--user-pool-id", user_pool_id,
+                "--username", email,
+                "--user-attributes",
+                f"Name=email,Value={email}",
+                "Name=email_verified,Value=true",
+                f"Name=given_name,Value={first_name}",
+                f"Name=family_name,Value={last_name}",
+                "--message-action", "SUPPRESS",
+                "--region", region
+            ]
+            run_cmd(create_user_cmd)
+            print(f"  [OK] Created customer user: {email}")
+        else:
+            print(f"  [EXISTS] Customer user: {email}")
+
+        set_pass_cmd = [
+            "aws", "cognito-idp", "admin-set-user-password",
+            "--user-pool-id", user_pool_id,
+            "--username", email,
+            "--password", pwd,
+            "--permanent",
+            "--region", region
+        ]
+        run_cmd(set_pass_cmd)
+
+        add_group_cmd = [
+            "aws", "cognito-idp", "admin-add-user-to-group",
+            "--user-pool-id", user_pool_id,
+            "--username", email,
+            "--group-name", "Customer",
+            "--region", region
+        ]
+        run_cmd(add_group_cmd)
 
 
 LOCATIONS = [
@@ -313,9 +466,49 @@ DISHES = [
     }
 ]
 
+WAITERS = [
+    {
+        "email": "waiter.baratashvili@green-tasty.com",
+        "first_name": "Nino",
+        "last_name": "Beridze",
+        "location_id": "loc-baratashvili",
+        "password": "Waiter12345!"
+    },
+    {
+        "email": "waiter.abashidze@green-tasty.com",
+        "first_name": "Giorgi",
+        "last_name": "Kalandadze",
+        "location_id": "loc-abashidze",
+        "password": "Waiter12345!"
+    },
+    {
+        "email": "waiter.rustaveli@green-tasty.com",
+        "first_name": "Luka",
+        "last_name": "Maisuradze",
+        "location_id": "loc-rustaveli",
+        "password": "Waiter12345!"
+    },
+    {
+        "email": "waiter@green-tasty.com",
+        "first_name": "Green",
+        "last_name": "Waiter",
+        "location_id": "loc-rustaveli",
+        "password": "Waiter12345!"
+    }
+]
+
+CUSTOMERS = [
+    {
+        "email": "customer@green-tasty.com",
+        "first_name": "Customer",
+        "last_name": "User",
+        "password": "Customer12345!"
+    }
+]
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Seed Green & Tasty DynamoDB tables and Cognito admin.")
+    parser = argparse.ArgumentParser(description="Seed Green & Tasty DynamoDB tables and Cognito admin/waiters/customers.")
     parser.add_argument("--region", default="us-east-1", help="AWS region (default: us-east-1)")
     parser.add_argument("--user-pool-id", default="us-east-1_q9c2Wi6FD", help="Cognito User Pool ID")
     parser.add_argument("--admin-email", default="admin@green-tasty.com", help="Default Admin email")
@@ -337,8 +530,10 @@ def main():
         put_item("Dishes", dsh, args.region)
 
     ensure_cognito_admin(args.user_pool_id, args.admin_email, args.admin_password, args.region)
+    ensure_waiters(args.user_pool_id, WAITERS, args.region)
+    ensure_customers(args.user_pool_id, CUSTOMERS, args.region)
 
-    print("\n[SUCCESS] Seeding and admin account setup completed successfully!")
+    print("\n[SUCCESS] Seeding, admin, waiter, and customer accounts setup completed successfully!")
 
 
 if __name__ == "__main__":

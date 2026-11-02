@@ -338,7 +338,11 @@ The script populates:
 - **Locations (`Locations`)**: 3 restaurant locations in Tbilisi (Baratashvili, Abashidze, Rustaveli) with descriptions and photo assets.
 - **Tables (`Tables`)**: 17 bookable tables of various capacities (2, 4, 6, 8 guests) with GSI indexes.
 - **Dishes (`Dishes`)**: 9 menu items (Appetizers, Main courses, Desserts) in `Available` state with assets.
-- **Admin Account (`Cognito`)**: Sets up the `Admin` user group and provisions an administrator account (credentials are stored locally in `credentials.env`, git-ignored).
+- **Cognito Groups & Accounts**:
+  - `Admin`: Administrator account for restaurant management.
+  - `Waiters`: Active waiters assigned to each restaurant location (`loc-baratashvili`, `loc-abashidze`, `loc-rustaveli`) registered in Cognito and DynamoDB `Waiters` table (enabling reservations, table service, and waiter dashboards).
+  - `Customer`: Test customer account for reservation verification.
+  - *All account credentials are stored in `credentials.env` and `credentials.json` (git-ignored).*
 
 ---
 
