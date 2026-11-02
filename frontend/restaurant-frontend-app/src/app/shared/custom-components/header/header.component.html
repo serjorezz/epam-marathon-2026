@@ -28,7 +28,7 @@
 
     @if (user()?.role === Roles.WAITER) {
       <a routerLink="/waiter-reservations" class="nav-link" [routerLinkActive]="'active'"
-        >Reservations</a
+        >{{ 'Reservations' | translate }}</a
       >
       <a routerLink="/menu" class="nav-link" [routerLinkActive]="'active'">{{ 'Menu' | translate }}</a>
     }
@@ -158,7 +158,7 @@
               class="button button--tertiary button--small"
               (click)="logout($event)"
             >
-              Sign Out
+              {{ 'Sign Out' | translate }}
             </button>
           </div>
         </div>
@@ -329,7 +329,7 @@
                 class="button button--tertiary button--small"
                 (click)="logout($event)"
               >
-                Sign Out
+                {{ 'Sign Out' | translate }}
               </button>            </div>
           </div>
         }

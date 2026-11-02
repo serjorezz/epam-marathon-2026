@@ -44,10 +44,16 @@ describe("TranslationService", () => {
     service.setLanguage("uk");
     expect(service.translate("Book a Table")).toBe("Забронювати стіл");
     expect(service.translate("Main page")).toBe("Головна");
+    expect(service.translate("Green & Tasty Restaurants")).toBe("Ресторани Green & Tasty");
+    expect(service.translate("Sign Out")).toBe("Вийти");
+    expect(service.translate("Sort by")).toBe("Сортувати за");
 
     service.setLanguage("ka");
     expect(service.translate("Book a Table")).toBe("მაგიდის დაჯავშნა");
     expect(service.translate("Main page")).toBe("მთავარი");
+    expect(service.translate("Green & Tasty Restaurants")).toBe("Green & Tasty რესტორნები");
+    expect(service.translate("Sign Out")).toBe("გასვლა");
+    expect(service.translate("Sort by")).toBe("დახარისხება");
   });
 
   it("should translate location addresses into Ukrainian and Georgian", () => {
@@ -68,6 +74,83 @@ describe("TranslationService", () => {
     service.setLanguage("ka");
     expect(service.translate("Wild Mushroom Khinkali (4 pcs)")).toBe("ტყის სოკოს ხინკალი (4 ც)");
     expect(service.translate("Badrijani Nigvzit (Walnut Eggplant Rolls)")).toBe("ბადრიჯანი ნიგვზით");
+  });
+
+  it("should translate table numbers dynamically", () => {
+    service.setLanguage("uk");
+    expect(service.translate("Table 21")).toBe("Стіл 21");
+    expect(service.translate("Table 5")).toBe("Стіл 5");
+
+    service.setLanguage("ka");
+    expect(service.translate("Table 21")).toBe("მაგიდა 21");
+    expect(service.translate("Table 5")).toBe("მაგიდა 5");
+  });
+
+  it("should translate guest counts dynamically", () => {
+    service.setLanguage("uk");
+    expect(service.translate("2 people")).toBe("2 особи");
+    expect(service.translate("1 person")).toBe("1 особа");
+    expect(service.translate("5 people")).toBe("5 осіб");
+
+    service.setLanguage("ka");
+    expect(service.translate("2 people")).toBe("2 ადამიანი");
+    expect(service.translate("1 person")).toBe("1 ადამიანი");
+    expect(service.translate("5 people")).toBe("5 ადამიანი");
+  });
+
+  it("should translate weights dynamically", () => {
+    service.setLanguage("uk");
+    expect(service.translate("380g")).toBe("380г");
+    expect(service.translate("/380g")).toBe("/380г");
+
+    service.setLanguage("ka");
+    expect(service.translate("380g")).toBe("380გ");
+    expect(service.translate("/380g")).toBe("/380გ");
+  });
+
+  it("should translate dates and date ranges dynamically", () => {
+    service.setLanguage("uk");
+    expect(service.translate("Nov 5, 2026")).toBe("5 лист. 2026");
+    expect(service.translate("Oct 4, 2026 – Nov 3, 2026")).toBe("4 жовт. 2026 – 3 лист. 2026");
+
+    service.setLanguage("ka");
+    expect(service.translate("Nov 5, 2026")).toBe("5 ნოე, 2026");
+    expect(service.translate("Oct 4, 2026 – Nov 3, 2026")).toBe("4 ოქტ, 2026 – 3 ნოე, 2026");
+  });
+
+  it("should translate waiter reservations dashboard label", () => {
+    service.setLanguage("uk");
+    expect(service.translate("You have 0 reservations for any date, any time")).toBe(
+      "У вас 0 бронювань на будь-яку дату, будь-який час"
+    );
+
+    service.setLanguage("ka");
+    expect(service.translate("You have 0 reservations for any date, any time")).toBe(
+      "თქვენ გაქვთ 0 ჯავშანი ნებისმიერი თარიღისთვის, ნებისმიერი დროისთვის"
+    );
+  });
+
+  it("should translate vitamins and minerals", () => {
+    service.setLanguage("uk");
+    expect(service.translate("Vit C, Vit A, Calcium, and Ferum")).toBe(
+      "Віт. C, Віт. A, кальцій та залізо"
+    );
+
+    service.setLanguage("ka");
+    expect(service.translate("Vit C, Vit A, Calcium, and Ferum")).toBe(
+      "ვიტ. C, ვიტ. A, კალციუმი და რკინა"
+    );
+  });
+
+  it("should translate exact database atmosphere descriptions", () => {
+    const desc =
+      "Nestled in the historic heart of Old Tbilisi, our Baratashvili Street restaurant pairs traditional Georgian architectural charm with contemporary eco-friendly design. Guests can unwind on the sunlit veranda overlooking cobblestone streets and scenic hillside views, enjoying a tranquil, welcoming atmosphere perfect for leisurely family gatherings and romantic dinners.";
+
+    service.setLanguage("uk");
+    expect(service.translate(desc)).toContain("Затишно розташований в історичному центрі Старого Тбілісі");
+
+    service.setLanguage("ka");
+    expect(service.translate(desc)).toContain("ძველი თბილისის ისტორიულ გულში მდებარე");
   });
 
   it("should return original text if translation key is not found", () => {

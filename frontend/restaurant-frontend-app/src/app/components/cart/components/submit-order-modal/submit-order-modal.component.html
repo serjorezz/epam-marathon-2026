@@ -58,19 +58,19 @@
 
     <div class="details-grid">
       <span class="detail-label">{{ 'Restaurant' | translate }}</span>
-      <span class="detail-value">{{ restaurantName() }}</span>
+      <span class="detail-value">{{ restaurantName() | translate }}</span>
 
       <span class="detail-label">{{ 'Location' | translate }}</span>
       <span class="detail-value">{{ orderDetails().location | translate }}</span>
 
       <span class="detail-label">{{ 'Date' | translate }}</span>
-      <span class="detail-value">{{ orderDetails().date }}</span>
+      <span class="detail-value">{{ orderDetails().date | translate }}</span>
 
       <span class="detail-label">{{ 'Time' | translate }}</span>
       <span class="detail-value">{{ orderDetails().time }}</span>
 
       <span class="detail-label">{{ 'Guests' | translate }}</span>
-      <span class="detail-value">{{ orderDetails().guests }}</span>
+      <span class="detail-value">{{ orderDetails().guests | translate }}</span>
     </div>
 
     @if (order().orderItems.length > 0) {

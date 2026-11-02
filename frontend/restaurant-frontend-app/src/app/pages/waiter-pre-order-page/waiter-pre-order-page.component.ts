@@ -13,10 +13,11 @@ import { DishCardComponent } from '@app/shared/custom-components/dish-card/dish-
 import { firstValueFrom } from 'rxjs';
 import { WaiterPreOrderState } from '@app/models/orders/order.model';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-waiter-pre-order-page',
-  imports: [DishCardComponent, RouterLink, CustomButtonComponent],
+  imports: [DishCardComponent, RouterLink, CustomButtonComponent, TranslatePipe],
   templateUrl: './waiter-pre-order-page.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './waiter-pre-order-page.component.scss',

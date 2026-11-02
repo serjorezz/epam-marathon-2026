@@ -272,7 +272,7 @@
                   </div>
                 </td>
                 <td>{{ row.locationName | translate }}</td>
-                <td class="no-wrap">{{ row.startDate | date: 'MMM d, y' }} – {{ row.endDate | date: 'MMM d, y' }}</td>
+                <td class="no-wrap">{{ ((row.startDate | date: 'MMM d, y') + ' – ' + (row.endDate | date: 'MMM d, y')) | translate }}</td>
                 <td class="text-center font-medium">{{ row.workingHours }} {{ 'hrs' | translate }}</td>
                 <td class="text-center font-semibold">{{ row.totalOrders }}</td>
                 <td class="text-center">
@@ -315,7 +315,7 @@
             @for (row of reportData; track row.locationId) {
               <tr>
                 <td class="font-semibold">{{ row.locationName | translate }}</td>
-                <td class="no-wrap">{{ row.startDate | date: 'MMM d, y' }} – {{ row.endDate | date: 'MMM d, y' }}</td>
+                <td class="no-wrap">{{ ((row.startDate | date: 'MMM d, y') + ' – ' + (row.endDate | date: 'MMM d, y')) | translate }}</td>
                 <td class="text-center font-medium">{{ row.totalOrders }}</td>
                 <td class="text-right font-bold revenue-cell">{{ row.revenue | currency: 'USD' }}</td>
                 <td class="text-center">

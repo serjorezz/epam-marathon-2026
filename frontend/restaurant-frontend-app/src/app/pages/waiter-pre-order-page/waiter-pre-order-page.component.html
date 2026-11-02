@@ -1,11 +1,11 @@
 <nav class="breadcrumb">
-  <a class="breadcrumb-link" routerLink="/waiter-reservations">Reservations</a>
+  <a class="breadcrumb-link" routerLink="/waiter-reservations">{{ 'Reservations' | translate }}</a>
   <span class="breadcrumb-separator">›</span>
-  <span class="breadcrumb-current">Pre-order</span>
+  <span class="breadcrumb-current">{{ 'Pre-order' | translate }}</span>
 </nav>
 
 <h2 class="title">
-  Pre-order of {{ createdByRole.toLowerCase() }} {{ createdByName }}, Table {{ tableName }} ({{
+  {{ 'Pre-order of' | translate }} {{ createdByRole.toLowerCase() | translate }} {{ createdByName }}, {{ ('Table ' + tableName) | translate }} ({{
     reservationTime
   }})
 </h2>
@@ -17,21 +17,21 @@
       class="pre-order-dish"
     >
       <div dish-footer class="pre-order-footer">
-        <div class="pre-order-quantity">Quantity: {{ item.quantity }}</div>
+        <div class="pre-order-quantity">{{ 'Quantity:' | translate }} {{ item.quantity }}</div>
         <div class="preorder-actions">
           <app-custom-button
             class="btn-cancel"
             (click)="rejectDish(item.dish.id)"
             [disabled]="item.state === 2"
           >
-            Cancel
+            {{ 'Cancel' | translate }}
           </app-custom-button>
           <app-custom-button
             class="btn-confirm"
             (click)="confirmDish(item.dish.id)"
             [disabled]="item.state === 1"
           >
-            Confirm
+            {{ 'Confirm' | translate }}
           </app-custom-button>
         </div>
       </div>

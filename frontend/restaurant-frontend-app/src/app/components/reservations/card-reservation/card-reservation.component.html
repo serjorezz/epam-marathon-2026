@@ -43,7 +43,7 @@
           aria-hidden="true"
         />
 
-        {{ r().startTime | date: 'mediumDate' }}
+        {{ (r().startTime | date: 'mediumDate') | translate }}
       </span>
 
       @if (

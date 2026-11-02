@@ -33,12 +33,12 @@
             <strong>{{ 'Calories:' | translate }}</strong> {{ formatCalories(dish.calories) }}
           </div>
           <div class="nutrition-item nutrition-macros">
-            <span><strong>{{ 'Protein:' | translate }}</strong> {{ dish.proteins || 'N/A' }}</span>
-            <span><strong>{{ 'Fats:' | translate }}</strong> {{ formatGrams(dish.fats) }}</span>
-            <span><strong>{{ 'Carbs:' | translate }}</strong> {{ formatGrams(dish.carbohydrates) }}</span>
+            <span><strong>{{ 'Protein:' | translate }}</strong> {{ (dish.proteins || 'N/A') | translate }}</span>
+            <span><strong>{{ 'Fats:' | translate }}</strong> {{ formatGrams(dish.fats) | translate }}</span>
+            <span><strong>{{ 'Carbs:' | translate }}</strong> {{ formatGrams(dish.carbohydrates) | translate }}</span>
           </div>
           <div class="nutrition-item">
-            <strong>{{ 'Vitamins & minerals:' | translate }}</strong> {{ dish.vitamins || 'N/A' }}
+            <strong>{{ 'Vitamins & minerals:' | translate }}</strong> {{ (dish.vitamins || 'N/A') | translate }}
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
       <div class="modal-footer">
         <div class="price-weight">
           <span class="dish-price">${{ dish.price }}</span>
-          <span class="dish-weight">/{{ dish.weight }}</span>
+          <span class="dish-weight">/{{ dish.weight | translate }}</span>
         </div>
 
         @if (preOrderEnabled) {

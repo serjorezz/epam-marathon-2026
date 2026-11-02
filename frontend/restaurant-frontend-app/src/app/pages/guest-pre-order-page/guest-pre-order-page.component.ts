@@ -11,6 +11,7 @@ import { DishModalComponent } from '@app/components/dish-modal/dish-modal.compon
 import { MainCoverImageComponent } from '@app/shared/custom-components/main-cover-image/main-cover-image.component';
 import { ToastService } from '@app/services/toast/toast.service';
 import { GuestPreorderStore } from './state/guest-preorder.store';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 import { GuestNameModalComponent } from './ui/guest-name-modal/guest-name-modal.component';
 import { GuestCartDrawerComponent } from './ui/guest-cart-drawer/guest-cart-drawer.component';
@@ -28,7 +29,8 @@ import { GuestPreorderSubmittedComponent } from './ui/guest-preorder-submitted/g
         MainCoverImageComponent,
         GuestNameModalComponent,
         GuestCartDrawerComponent,
-        GuestPreorderSubmittedComponent
+        GuestPreorderSubmittedComponent,
+        TranslatePipe
     ],
 })
 export class GuestPreOrderPageComponent {

@@ -17,15 +17,14 @@
         <div class="dish-name">{{ dish().name | translate }}</div>
         <div class="dish-meta">
           <span class="dish-price">{{ dish().price | currency: '$' }}</span>
-          <span class="dish-weight">{{ dish().weight }}</span>
+          <span class="dish-weight">{{ dish().weight | translate }}</span>
         </div>
       </div>
       @if (preOrderEnabled()) {
         <app-custom-button size="small" fullWidth [disabled]="isUnavailable()" (click)="preOrderClicked.emit()">
-          Pre-Order
+          {{ 'Pre-Order' | translate }}
         </app-custom-button>
       }
     </div>
     <ng-content select="[dish-footer]"></ng-content>
   </div>
-

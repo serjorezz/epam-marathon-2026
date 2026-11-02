@@ -9,13 +9,13 @@
       <span class="detail-value">{{ orderDetails().location | translate }}</span>
 
       <span class="detail-label">{{ 'Date' | translate }}</span>
-      <span class="detail-value">{{ orderDetails().date }}</span>
+      <span class="detail-value">{{ orderDetails().date | translate }}</span>
 
       <span class="detail-label">{{ 'Time' | translate }}</span>
       <span class="detail-value">{{ orderDetails().time }}</span>
 
       <span class="detail-label">{{ 'Guests' | translate }}</span>
-      <span class="detail-value">{{ orderDetails().guests }}</span>
+      <span class="detail-value">{{ orderDetails().guests | translate }}</span>
     </div>
 
     @for (item of order().orderItems; track item.dish.id) {
