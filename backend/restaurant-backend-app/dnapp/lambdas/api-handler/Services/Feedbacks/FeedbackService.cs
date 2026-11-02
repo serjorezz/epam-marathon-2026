@@ -63,13 +63,18 @@ public class FeedbackService : IFeedbackService
             };
         }
 
-        var filteredFeedback = query
+        var matchingFeedback = query
             .Where(f => f.Type == type)
             .OrderBy(f => GetFeedbackSortValue(f, sortOrder))
+            .ToList();
+
+        var totalPages = (int)Math.Ceiling((double)matchingFeedback.Count / DefaultItemsPerPage);
+
+        var filteredFeedback = matchingFeedback
             .Skip((page - 1) * DefaultItemsPerPage)
             .Take(DefaultItemsPerPage)
             .ToList();
-        var totalPages = (int)Math.Ceiling((double)query.Count / DefaultItemsPerPage);
+
         return new FeedbackResponse
         {
             Items = [.. filteredFeedback.Select(f => f.ToResponseItem())],
