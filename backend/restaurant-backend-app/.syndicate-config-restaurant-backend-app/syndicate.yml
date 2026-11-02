@@ -1,4 +1,4 @@
-account_id: YOUR_AWS_ACCOUNT_ID
-project_path: /path/to/restaurant-backend-app
-region: us-east-1
-deploy_target_bucket: marathon2026-restaurant-artifacts-YOUR_AWS_ACCOUNT_ID
+account_id: "060913167510"
+region: "us-east-1"
+project_path: "/home/serjorez/Projects/epam-marathon-2026/backend/restaurant-backend-app"
+deploy_target_bucket: "marathon2026-restaurant-artifacts-060913167510"

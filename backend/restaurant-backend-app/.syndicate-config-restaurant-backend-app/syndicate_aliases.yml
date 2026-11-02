@@ -1,32 +1,34 @@
-account_id: "YOUR_AWS_ACCOUNT_ID" #replace with your AWS account ID
+account_id: "060913167510" #replace with your AWS account ID
 region: "us-east-1"
 lambdas_alias_name: "dev"
 logs_expiration: 30
 
-booking_notification_topic: "arn:aws:sns:us-east-1:YOUR_AWS_ACCOUNT_ID:restaurant-cloudwatch-alerts-topic"
-event_bridge_role: "arn:aws:iam::YOUR_AWS_ACCOUNT_ID:role/event-bridge-role"
-event_bridge_rule: "weekly-reports-schedule"
+api_gateway_name: "restaurant-backend-api"
+user_pool_name: "restaurant-backend-user-pool"
+reports_queue_name: "restaurant-reports-queue"
 
-reports_queue: "https://sqs.us-east-1.amazonaws.com/YOUR_AWS_ACCOUNT_ID/restaurant-reports-queue"
-reports_dlq: "https://sqs.us-east-1.amazonaws.com/YOUR_AWS_ACCOUNT_ID/restaurant-reports-queue-dlq"
+waiter_list_table_name: "Waiters"
+feedback_table_name: "Feedback"
+locations-table: "Locations"
+tables_table: "Tables"
+dishes-table: "Dishes"
+reservations-table: "Reservations"
+orders-table: "Orders"
+reports_table_name: "Reports"
+reports_history_table_name: "ReportsHistory"
+profile_images_table_name: "ProfileImages"
+notifications_table_name: "Notifications"
 
-reports_queue_arn: "arn:aws:sqs:us-east-1:YOUR_AWS_ACCOUNT_ID:restaurant-reports-queue"
-reports_dlq_arn: "arn:aws:sqs:us-east-1:YOUR_AWS_ACCOUNT_ID:restaurant-reports-queue-dlq"
-
-cognito_idp_name: "restaurant-backend-user-pool"
-user_pool_id: "us-east-1_q9c2Wi6FD"
-client_id: "rv8ltk3pcfuvtr8p6snv3fct5"
-
-tables-locationId-global-index: "GSI_LocationId"
-waiters-locationId-global-index: "GSI_LocationId"
-feedback-locationId-global-index: "GSI_LocationId"
-dishes-locationId-global-index: "GSI_LocationId"
-reservations-userId-global-index: "GSI_UserId"
+waiters_global_index: "locationId-index"
+feedback_global_index: "locationId-createdAt-index"
+tables-locationId-global-index: "locationId-tableNumber-index"
+reservations-table-global-index: "GSI_ByTableId"
+reservations-customerId-global-index: "GSI_UserId"
 reservations-waiterId-global-index: "GSI_WaiterId"
 orders_index_reservationid: "GSI_ReservationId"
 notifications_userId-global-index: "UserIdIndex"
 
-imagesBucketName: "restaurant-backend-dev-images-YOUR_AWS_ACCOUNT_ID" #replace with your S3 bucket name for images
-profileImagesBucketName: "restaurant-backend-dev-profile-images-YOUR_AWS_ACCOUNT_ID" #replace with your S3 bucket name for profile images
-swagger_ui_hoster_bucket_name: "restaurant-backend-dev-swagger-ui-YOUR_AWS_ACCOUNT_ID" #replace with your globally unique S3 bucket name for Swagger UI hosting
+imagesBucketName: "restaurant-backend-dev-images-060913167510" #replace with your S3 bucket name for images
+profileImagesBucketName: "restaurant-backend-dev-profile-images-060913167510" #replace with your S3 bucket name for profile images
+swagger_ui_hoster_bucket_name: "restaurant-backend-dev-swagger-ui-060913167510" #replace with your globally unique S3 bucket name for Swagger UI hosting
 email_from: "" #TODO: investigate how this value is used
