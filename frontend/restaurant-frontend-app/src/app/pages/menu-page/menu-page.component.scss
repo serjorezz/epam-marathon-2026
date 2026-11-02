@@ -150,13 +150,11 @@
 .category-buttons {
   display: flex;
   align-items: center;
-  overflow-x: auto;
-  border-bottom: 1px solid color.$neutral-200;
+  flex-wrap: wrap;
 
   button {
     flex: 0 0 auto;
     padding: 0.5rem 1.5rem;
-    margin-bottom: -1px;
     border: 0;
     border-bottom: 2px solid transparent;
     background-color: transparent;
