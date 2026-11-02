@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -16,7 +17,7 @@ import { FeedbackResponseItem } from '@app/models/feedbacks/feedback-response-it
 
 @Component({
   selector: 'app-location-overview',
-  imports: [CommonModule, HttpClientModule, HeaderComponent, RouterLink],
+  imports: [CommonModule, HttpClientModule, HeaderComponent, RouterLink, TranslatePipe],
   templateUrl: './location-overview.component.html',
   styleUrl: './location-overview.component.scss',
   standalone: true,

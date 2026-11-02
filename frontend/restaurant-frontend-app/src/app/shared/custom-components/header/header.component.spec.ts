@@ -50,4 +50,19 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("should toggle language dropdown and select language", () => {
+    expect(component.showLanguageDropdown()).toBeFalse();
+
+    component.toggleLanguageDropdown();
+    expect(component.showLanguageDropdown()).toBeTrue();
+
+    component.selectLanguage("uk");
+    expect(component.showLanguageDropdown()).toBeFalse();
+    expect(component.activeLanguage().code).toBe("uk");
+
+    component.selectLanguage("ka");
+    expect(component.activeLanguage().code).toBe("ka");
+  });
 });
+

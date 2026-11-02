@@ -11,10 +11,10 @@
     @if (isUnavailable()) {
       <div class="status-badge">{{ dishStateLabel() }}</div>
     }
-    <img [src]="dish().imageUrl" alt="{{ dish().name }}" class="dish-image" />
+    <img [src]="dish().imageUrl" alt="{{ dish().name | translate }}" class="dish-image" />
     <div class="dish-info">
       <div class="dish-heading">
-        <div class="dish-name">{{ dish().name }}</div>
+        <div class="dish-name">{{ dish().name | translate }}</div>
         <div class="dish-meta">
           <span class="dish-price">{{ dish().price | currency: '$' }}</span>
           <span class="dish-weight">{{ dish().weight }}</span>

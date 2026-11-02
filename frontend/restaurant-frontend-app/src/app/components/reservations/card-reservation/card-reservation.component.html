@@ -9,7 +9,7 @@
           aria-hidden="true"
         />
 
-        {{ r().locationAddress }}
+        {{ r().locationAddress | translate }}
       </div>
 
       @if (role() === Roles.WAITER) {
@@ -29,7 +29,7 @@
         <span
           [class]="'status-badge ' + statusView().class"
         >
-          {{ statusView().label }}
+          {{ statusView().label | translate }}
         </span>
       }
     </div>
@@ -50,7 +50,7 @@
         role() === Roles.WAITER &&
         preOrderItemCount() > 0
         ) {
-        <span class="preorder-badge">Pre-order</span>
+        <span class="preorder-badge">{{ 'Pre-order' | translate }}</span>
       }
     </div>
 

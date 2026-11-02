@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {Component, OnInit, ChangeDetectionStrategy, inject} from '@angular/core';
 import { DishCardComponent } from '@app/shared/custom-components/dish-card/dish-card.component';
 import { DishesService } from '@app/services/dishes/dishes.service';
@@ -18,7 +19,8 @@ import {ToastService} from '@app/services/toast/toast.service';
     RouterModule,
     DishCardComponent,
     MainCoverImageComponent,
-    DishModalComponent
+    DishModalComponent,
+    TranslatePipe
   ],
   templateUrl: './menu-page.component.html',
   styleUrl: './menu-page.component.scss',

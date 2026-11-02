@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
@@ -5,7 +6,7 @@ import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 @Component({
   selector: 'app-dish-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './dish-modal.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dish-modal.component.scss',

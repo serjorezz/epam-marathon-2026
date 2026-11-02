@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,7 +16,7 @@ import { LocationResponse } from '@app/models/locations/location-response.model'
   styleUrls: ['./location-card.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, TranslatePipe],
 })
 export class LocationCardComponent {
   readonly location = input.required<LocationResponse>();

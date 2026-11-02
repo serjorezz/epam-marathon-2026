@@ -19,7 +19,7 @@
         class="location-icon"
       />
       <span class="location-text">
-        {{ location().address }}
+        {{ location().address | translate }}
       </span>
     </div>
 
@@ -37,12 +37,12 @@
           {{ location().totalCapacity }}
         </span>
         <span class="label">
-          {{ tablesLabel }}
+          {{ tablesLabel | translate }}
         </span>
       </div>
 
       <div class="occupancy">
-        <span class="label">Daily occupancy: </span>
+        <span class="label">{{ 'Daily occupancy:' | translate }} </span>
         <span class="value">
           {{ location().averageOccupancy }}
         </span>

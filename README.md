@@ -40,6 +40,7 @@
 | User Story | Назва та опис фічі | Епік | Статус |
 |:---|:---|:---|:---:|
 | [**`US1-sort-reservations.md`**](user-stories/US1-sort-reservations.md) | **Sort Reservations**: Дропдаун сортування на сторінці бронювань за датою/часом, кількістю гостей або рестораном | Reservation Management | ✅ Готово |
+| [**`US2-internationalization.md`**](user-stories/US2-internationalization.md) | **Website Internationalization**: Багатомовність (English, Ukrainian, Georgian) з перекладом страв і локацій | Localization & Internationalization | ✅ Готово |
 
 ---
 

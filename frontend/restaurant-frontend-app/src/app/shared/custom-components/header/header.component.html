@@ -18,23 +18,23 @@
     }
 
     @if (user()?.role === Roles.CUSTOMER || !user()) {
-      <a routerLink="/" class="nav-link" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Main page</a>
-      <a routerLink="/tables" class="nav-link" [routerLinkActive]="'active'">Book a Table</a>
+      <a routerLink="/" class="nav-link" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">{{ 'Main page' | translate }}</a>
+      <a routerLink="/tables" class="nav-link" [routerLinkActive]="'active'">{{ 'Book a Table' | translate }}</a>
     }
 
     @if (user()?.role === Roles.CUSTOMER) {
-      <a routerLink="/reservations" class="nav-link" [routerLinkActive]="'active'">Reservations</a>
+      <a routerLink="/reservations" class="nav-link" [routerLinkActive]="'active'">{{ 'Reservations' | translate }}</a>
     }
 
     @if (user()?.role === Roles.WAITER) {
       <a routerLink="/waiter-reservations" class="nav-link" [routerLinkActive]="'active'"
         >Reservations</a
       >
-      <a routerLink="/menu" class="nav-link" [routerLinkActive]="'active'">Menu</a>
+      <a routerLink="/menu" class="nav-link" [routerLinkActive]="'active'">{{ 'Menu' | translate }}</a>
     }
 
     @if (user()?.role === Roles.ADMIN) {
-      <a routerLink="/reports" class="nav-link" [routerLinkActive]="'active'">Reports</a>
+      <a routerLink="/reports" class="nav-link" [routerLinkActive]="'active'">{{ 'Reports' | translate }}</a>
     }
 
     <div class="mobile-actions">
@@ -55,8 +55,25 @@
         <span>GitHub</span>
       </a>
 
+      <div class="mobile-language-selector">
+        <span class="mobile-lang-title">{{ 'Language' | translate }}:</span>
+        <div class="mobile-lang-options">
+          @for (lang of supportedLanguages; track lang.code) {
+            <button
+              type="button"
+              class="mobile-lang-btn"
+              [class.active]="lang.code === activeLanguage().code"
+              (click)="selectLanguage(lang.code)"
+            >
+              <img [src]="lang.flagUrl" [alt]="lang.name" class="flag-icon" />
+              <span>{{ lang.nativeName }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
       @if ((authService.isAuthorised$ | async) === false) {
-        <a class="button button--secondary button--large" routerLink="/login">Sign In</a>
+        <a class="button button--secondary button--large" routerLink="/login">{{ 'Sign In' | translate }}</a>
       }
 
       @if (user()?.role === Roles.CUSTOMER && !isGuestPreorderRoute) {
@@ -64,7 +81,7 @@
           <div>
             <button type="button" class="icon-button icon-button--large" (click)="toggleCart()">
               <img src="assets/svg/cart-empty.svg" alt="cart icon" class="action-icon" />
-              <h5> Cart</h5>
+              <h5> {{ 'Cart' | translate }}</h5>
             </button>
           </div>
         }
@@ -84,7 +101,7 @@
               (keydown.enter)="toggleNotificationsDropdown()"
               (keydown.space)="toggleNotificationsDropdown()">
           <img src="assets/svg/bell-regular.svg" alt="bell icon" class="action-icon" />
-          <span class="notification-text">Notifications</span>
+          <span class="notification-text">{{ 'Notifications' | translate }}</span>
           @if (unreadCount() > 0) {
             <span class="notification-badge">{{ unreadCount() }}</span>
           }
@@ -95,13 +112,13 @@
             (click)="$event.stopPropagation()"
           >
             <div class="dropdown-header">
-              <span>Notifications</span>
+              <span>{{ 'Notifications' | translate }}</span>
               <button class="icon-button icon-button--small" (click)="closeNotificationsDropdown()">
                 <img src="../../../../assets/svg/close.svg" alt="close icon" />
               </button>
             </div>
             @if (notifications().length === 0) {
-              <div class="no-notifications">No new notifications</div>
+              <div class="no-notifications">{{ 'No new notifications' | translate }}</div>
             }
             @if (notifications().length > 0) {
               <ul>
@@ -131,7 +148,7 @@
         <div class="user-menu">
           <div class="menu-item">
             <img [src]="'assets/svg/person.svg'" alt="profile icon" />
-            <a class="body-bold" [routerLink]="'/profile'">My Profile</a>
+            <a class="body-bold" [routerLink]="'/profile'">{{ 'My Profile' | translate }}</a>
           </div>
 
           <div class="menu-item">
@@ -164,8 +181,59 @@
       />
     </a>
 
+    <!-- Language selector dropdown right next after github button -->
+    <div
+      class="language-dropdown-wrapper"
+      tabindex="0"
+      (keydown.escape)="closeLanguageDropdown()"
+      (focusout)="onLanguageDropdownFocusOut($event)"
+    >
+      <button
+        type="button"
+        class="language-trigger-btn"
+        (click)="toggleLanguageDropdown()"
+        [attr.aria-expanded]="showLanguageDropdown()"
+        aria-label="Select language"
+      >
+        <img
+          [src]="activeLanguage().flagUrl"
+          [alt]="activeLanguage().name"
+          class="flag-icon"
+        />
+        <span class="lang-code">{{ activeLanguage().code.toUpperCase() }}</span>
+        <img
+          src="assets/svg/arrow-down.svg"
+          alt=""
+          class="dropdown-arrow-icon"
+          [class.open]="showLanguageDropdown()"
+        />
+      </button>
+
+      @if (showLanguageDropdown()) {
+        <ul class="language-dropdown-menu" role="menu">
+          @for (lang of supportedLanguages; track lang.code) {
+            <li
+              role="menuitem"
+              tabindex="0"
+              class="language-option"
+              [class.active]="lang.code === activeLanguage().code"
+              (click)="selectLanguage(lang.code)"
+              (keydown.enter)="selectLanguage(lang.code)"
+              (keydown.space)="selectLanguage(lang.code); $event.preventDefault()"
+            >
+              <img [src]="lang.flagUrl" [alt]="lang.name" class="flag-icon" />
+              <span class="lang-name">{{ lang.nativeName }}</span>
+              @if (lang.code === activeLanguage().code) {
+                <span class="lang-check">✓</span>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
     @if ((authService.isAuthorised$ | async) === false) {
-      <a class="button button--secondary button--large" routerLink="/login">Sign In</a>
+      <a class="button button--secondary button--large" routerLink="/login">{{ 'Sign In' | translate }}</a>
     }
 
     @if (user()?.role === Roles.CUSTOMER && !isGuestPreorderRoute) {
@@ -196,13 +264,13 @@
           (click)="$event.stopPropagation()"
         >
           <div class="dropdown-header">
-            <span>Notifications</span>
+            <span>{{ 'Notifications' | translate }}</span>
             <button class="icon-button icon-button--small" (click)="closeNotificationsDropdown()">
               <img src="../../../../assets/svg/close.svg" alt="close icon" />
             </button>
           </div>
           @if (notifications().length === 0) {
-            <div class="no-notifications">No new notifications</div>
+            <div class="no-notifications">{{ 'No new notifications' | translate }}</div>
           }
           @if (notifications().length > 0) {
             <ul>
@@ -252,7 +320,7 @@
 
             <div class="dropdown-item">
               <img [src]="'assets/svg/person.svg'" alt="profile icon" />
-              <a class="body-bold" [routerLink]="'/profile'">My Profile</a>
+              <a class="body-bold" [routerLink]="'/profile'">{{ 'My Profile' | translate }}</a>
             </div>
             <div class="dropdown-item">
               <img [src]="'assets/svg/logout.svg'" alt="logout icon" />
@@ -284,7 +352,7 @@
 
     <div class="mobile-notification-content" role="presentation" (click)="$event.stopPropagation()">
       <div class="dropdown-header">
-        <span>Notifications</span>
+        <span>{{ 'Notifications' | translate }}</span>
         <button class="icon-button icon-button--small"
                 (click)="closeNotificationsDropdown()"
                 (keydown.space)="closeNotificationsDropdown()"
@@ -295,7 +363,7 @@
       </div>
 
       @if (notifications().length === 0) {
-        <div class="no-notifications">No new notifications</div>
+        <div class="no-notifications">{{ 'No new notifications' | translate }}</div>
       }
 
       @if (notifications().length > 0) {

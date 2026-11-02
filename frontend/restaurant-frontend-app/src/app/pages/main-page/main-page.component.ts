@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, ChangeDetectionStrategy, OnInit, inject, computed } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,7 @@ import { LoginModalComponent } from '@app/auth/components/login/login-modal/logi
     FeedbackWindowComponent,
     LoginModalComponent,
     DishModalComponent,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.Eager,
   providers: [LocationsService, DishesService, ReservationService, UsersService, FeedbacksService],

@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {Component, ChangeDetectionStrategy, input, output, computed} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
@@ -11,7 +12,7 @@ import {CustomButtonComponent} from '@app/shared/custom-components/custom-button
   styleUrls: ['./dish-card.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [CommonModule, CustomButtonComponent],
+  imports: [CommonModule, CustomButtonComponent, TranslatePipe],
 })
 export class DishCardComponent {
   readonly dish = input.required<DishListResponse>();

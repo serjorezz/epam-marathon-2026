@@ -22,7 +22,7 @@
 
     <div class="hero-text-block">
       <p class="hero-subtitle">Green & Tasty Restaurants</p>
-      <h1 class="hero-title">Menu</h1>
+      <h1 class="hero-title">{{ 'Menu' | translate }}</h1>
     </div>
   </section>
 
@@ -35,17 +35,17 @@
               (click)="onCategorySelected(category)"
               [class.active]="selectedCategory === category"
             >
-              {{ menuCategoryLabels[category] }}
+              {{ menuCategoryLabels[category] | translate }}
             </button>
           }
         </div>
 
         <div class="sort-dropdown">
-          <label for="sortSelect">Sort by:</label>
+          <label for="sortSelect">{{ 'Sort by:' | translate }}</label>
           <select id="sortSelect" (change)="onSortChanged($event)">
             @for (sort of sortOptions; track sort) {
               <option [value]="sort" [selected]="sort === selectedSort">
-                {{ sortLabels[sort] }}
+                {{ sortLabels[sort] | translate }}
               </option>
             }
           </select>

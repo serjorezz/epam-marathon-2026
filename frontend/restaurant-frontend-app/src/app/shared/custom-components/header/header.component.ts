@@ -1,3 +1,6 @@
+import { TranslationService } from "@app/services/translation/translation.service";
+import { AppLanguage } from "@app/services/translation/translation.data";
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, signal, computed, effect, inject } from '@angular/core';
 import { Roles } from '@app/shared/constants/roles';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -12,7 +15,7 @@ import { GuestPreorderStore } from '@app/pages/guest-pre-order-page/state/guest-
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, AsyncPipe, CartComponent, CommonModule],
+  imports: [RouterLink, RouterLinkActive, AsyncPipe, CartComponent, CommonModule, TranslatePipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -45,6 +48,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private pollingSubscription?: Subscription;
   private userSubscription?: Subscription;
 
+  protected readonly translationService = inject(TranslationService);
+  readonly showLanguageDropdown = signal(false);
+  readonly supportedLanguages = this.translationService.supportedLanguages;
+  readonly activeLanguage = this.translationService.activeLanguage;
   protected readonly authService = inject(AuthenticationService);
   private readonly notificationsService = inject(NotificationsService);
   private readonly router = inject(Router);
@@ -176,6 +183,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
         console.error('Failed to mark notification as read', err);
       },
     });
+  }
+
+  toggleLanguageDropdown(): void {
+    this.showLanguageDropdown.update((v) => !v);
+  }
+
+  closeLanguageDropdown(): void {
+    this.showLanguageDropdown.set(false);
+  }
+
+  selectLanguage(lang: AppLanguage): void {
+    this.translationService.setLanguage(lang);
+    this.closeLanguageDropdown();
+  }
+
+  onLanguageDropdownFocusOut(event: FocusEvent): void {
+    const currentTarget = event.currentTarget as HTMLElement | null;
+    const relatedTarget = event.relatedTarget as Node | null;
+    if (currentTarget && !currentTarget.contains(relatedTarget)) {
+      this.closeLanguageDropdown();
+    }
   }
 
   toggleCart() {

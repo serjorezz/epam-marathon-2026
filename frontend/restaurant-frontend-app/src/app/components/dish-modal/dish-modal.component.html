@@ -23,22 +23,22 @@
     </div>
 
     <div class="dish-details">
-      <h2 class="dish-name">{{ dish.name }}</h2>
+      <h2 class="dish-name">{{ dish.name | translate }}</h2>
 
       <div class="dish-body">
-        <p class="dish-description">{{ dish.description }}</p>
+        <p class="dish-description">{{ dish.description | translate }}</p>
 
         <div class="dish-nutrition">
           <div class="nutrition-item">
-            <strong>Calories:</strong> {{ formatCalories(dish.calories) }}
+            <strong>{{ 'Calories:' | translate }}</strong> {{ formatCalories(dish.calories) }}
           </div>
           <div class="nutrition-item nutrition-macros">
-            <span><strong>Protein:</strong> {{ dish.proteins || 'N/A' }}</span>
-            <span><strong>Fats:</strong> {{ formatGrams(dish.fats) }}</span>
-            <span><strong>Carbs:</strong> {{ formatGrams(dish.carbohydrates) }}</span>
+            <span><strong>{{ 'Protein:' | translate }}</strong> {{ dish.proteins || 'N/A' }}</span>
+            <span><strong>{{ 'Fats:' | translate }}</strong> {{ formatGrams(dish.fats) }}</span>
+            <span><strong>{{ 'Carbs:' | translate }}</strong> {{ formatGrams(dish.carbohydrates) }}</span>
           </div>
           <div class="nutrition-item">
-            <strong>Vitamins & minerals:</strong> {{ dish.vitamins || 'N/A' }}
+            <strong>{{ 'Vitamins & minerals:' | translate }}</strong> {{ dish.vitamins || 'N/A' }}
           </div>
         </div>
       </div>

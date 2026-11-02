@@ -14,7 +14,7 @@
       <div class="restaurant-info__address-rating">
         <div class="restaurant-address-wrap">
           <img src="assets/svg/address.svg" alt="Location icon" class="address-icon" />
-          <p class="restaurant-address">{{ location?.address }}</p>
+          <p class="restaurant-address">{{ location?.address | translate }}</p>
         </div>
         <div class="rating">
           <img src="assets/svg/star-mini.svg" alt="star icon" />
@@ -22,9 +22,9 @@
         </div>
       </div>
 
-      <b>Atmosphere</b>
+      <b>{{ 'Atmosphere' | translate }}</b>
       <p class="location-description">
-        {{ location?.description }}
+        {{ location?.description | translate }}
       </p>
 
       <div class="restaurant-info__actions">
@@ -34,13 +34,13 @@
           [queryParams]="{ locationId: $safeNavigationMigration(location?.id) }"
           >Book a Table</a
         >
-        <a class="button button--secondary button--extra-large" [routerLink]="['/menu']">View menu</a>
+        <a class="button button--secondary button--extra-large" [routerLink]="['/menu']">{{ 'View menu' | translate }}</a>
       </div>
     </div>
   </div>
 
   <div class="reviews-section">
-    <h2>Customer Reviews</h2>
+    <h2>{{ 'Customer Reviews' | translate }}</h2>
 
     <!-- Review Filters -->
     <div class="reviews-section__options">
