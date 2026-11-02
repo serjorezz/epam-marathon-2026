@@ -136,9 +136,11 @@
   @if (submittedOrder(); as order) {
     <app-submit-order-modal
       [order]="order"
+      [reservation]="reservationsMap().get(order.reservationId)"
       (closed)="closeSubmitModal()"
       (edited)="editOrderModal()"
       (canceled)="openCancelModal(orderId)"
+      (createNew)="onCreateNewPreOrder()"
     />
   }
 }

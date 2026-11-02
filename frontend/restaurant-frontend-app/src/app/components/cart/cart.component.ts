@@ -119,6 +119,12 @@ export class CartComponent implements OnInit {
     void this.router.navigate(['/reservations']);
   }
 
+  onCreateNewPreOrder(): void {
+    this.closeSubmitModal();
+    this.closeCart();
+    void this.router.navigate(['/menu']);
+  }
+
   cancelOrder(orderId: string): void {
     const order = this.findOrder(orderId);
 

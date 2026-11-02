@@ -62,4 +62,12 @@ describe('SubmitOrderModalComponent', () => {
 
     expect(component.closed.emit).toHaveBeenCalled();
   });
+
+  it('should emit createNew when createNewPreOrder is called', () => {
+    spyOn(component.createNew, 'emit');
+
+    component.createNewPreOrder();
+
+    expect(component.createNew.emit).toHaveBeenCalled();
+  });
 });
