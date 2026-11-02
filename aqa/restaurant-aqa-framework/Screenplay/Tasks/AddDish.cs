@@ -23,9 +23,21 @@ public sealed class AddDish(DishType type = DishType.MainCourse, string? toLocat
         var dish = response.Json<DishResponse>();
         actor.Remember(dish);
 
-        var waiter = await actor.AsksForAsync(new TheWaiterSession());
         actor.Recall<CleanupScope>().TrackDelete(
             $"dish:{dish.Id}",
-            () => api.DeleteDishAsync(dish.Id, force: true, bearerToken: waiter.IdToken));
+            async () =>
+            {
+                string? token = null;
+                try
+                {
+                    var waiter = await actor.AsksForAsync(new TheWaiterSession());
+                    token = waiter.IdToken;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"[CleanupScope] Waiter sign-in during cleanup failed: {ex.Message}");
+                }
+                return await api.DeleteDishAsync(dish.Id, force: true, bearerToken: token);
+            });
     }
 }

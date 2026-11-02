@@ -91,9 +91,10 @@ public static class PreRunCleanupHooks
         {
             var waiterToken = await TrySignInAsync(api, settings.WaiterUsername, settings.WaiterPassword, "waiter");
             var adminToken = await TrySignInAsync(api, settings.AdminUsername, settings.AdminPassword, "admin");
+            var cleanupToken = waiterToken ?? adminToken;
 
-            await SweepDishesAsync(api, waiterToken);
-            await SweepLocationsAsync(api, waiterToken);
+            await SweepDishesAsync(api, cleanupToken);
+            await SweepLocationsAsync(api, cleanupToken);
             await SweepUsersAsync(api, waiterToken, adminToken);
 
             LogInfo("Reservations/Orders: out of scope, no free-text field exists to carry the AQA-Sample- prefix.");
@@ -132,33 +133,35 @@ public static class PreRunCleanupHooks
         }
     }
 
-    private static async Task SweepDishesAsync(IAPIRequestContext api, string? waiterToken)
+    private static async Task SweepDishesAsync(IAPIRequestContext api, string? token)
     {
         var dishesApi = new DishesApi(api);
-        var dishes = await TryFetchAsync<DishListResponse>(
-            "dishes", () => dishesApi.GetDishesAsync(name: SampleDataFactory.Prefix));
+        var allDishes = await TryFetchAsync<DishListResponse>("dishes", () => dishesApi.GetDishesAsync());
+        var staleDishes = allDishes
+            .Where(d => d.Name.StartsWith(SampleDataFactory.Prefix, StringComparison.OrdinalIgnoreCase))
+            .ToList();
 
         var (deleted, failed) = await DeleteAllAsync(
-            dishes, d => $"dish:{d.Id}", d => dishesApi.DeleteDishAsync(d.Id, force: true, bearerToken: waiterToken));
+            staleDishes, d => $"dish:{d.Id}", d => dishesApi.DeleteDishAsync(d.Id, force: true, bearerToken: token));
 
-        ReportSweep("Dishes", dishes.Count, deleted, failed);
+        ReportSweep("Dishes", staleDishes.Count, deleted, failed);
     }
 
-    private static async Task SweepLocationsAsync(IAPIRequestContext api, string? waiterToken)
+    private static async Task SweepLocationsAsync(IAPIRequestContext api, string? token)
     {
         var locationsApi = new LocationsApi(api);
         var allLocations = await TryFetchAsync<LocationResponse>("locations", locationsApi.GetLocationsAsync);
         var staleLocations = allLocations
-            .Where(l => l.Address.StartsWith(SampleDataFactory.Prefix, StringComparison.Ordinal))
+            .Where(l => l.Address.StartsWith(SampleDataFactory.Prefix, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         foreach (var location in staleLocations)
-            await SweepFeedbackForLocationAsync(api, location.Id, waiterToken);
+            await SweepFeedbackForLocationAsync(api, location.Id, token);
 
         var (deleted, failed) = await DeleteAllAsync(
             staleLocations,
             l => $"location:{l.Id}",
-            l => locationsApi.DeleteLocationAsync(l.Id, force: true, bearerToken: waiterToken));
+            l => locationsApi.DeleteLocationAsync(l.Id, force: true, bearerToken: token));
 
         ReportSweep(
             "Locations", staleLocations.Count, deleted, failed,

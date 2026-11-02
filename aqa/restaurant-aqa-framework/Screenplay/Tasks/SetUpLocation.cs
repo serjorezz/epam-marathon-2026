@@ -33,9 +33,21 @@ public sealed class SetUpLocation(CreateLocationRequest? request = null, string?
         else
             actor.Remember(name, location);
 
-        var waiter = await actor.AsksForAsync(new TheWaiterSession());
         actor.Recall<CleanupScope>().TrackDelete(
             $"location:{location.Id}",
-            () => api.DeleteLocationAsync(location.Id, force: true, bearerToken: waiter.IdToken));
+            async () =>
+            {
+                string? token = null;
+                try
+                {
+                    var waiter = await actor.AsksForAsync(new TheWaiterSession());
+                    token = waiter.IdToken;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"[CleanupScope] Waiter sign-in during cleanup failed: {ex.Message}");
+                }
+                return await api.DeleteLocationAsync(location.Id, force: true, bearerToken: token);
+            });
     }
 }

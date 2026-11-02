@@ -208,6 +208,21 @@ jobs:
           print("Reports, traces and the TRX are attached to this run as artifacts.")
           PY
 
+      - name: Delete garbage test data
+        if: always()
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+          AQA_API_URL: ${{ env.API_URL || vars.AQA_API_URL || 'https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop' }}
+          AQA_WAITER_USERNAME: ${{ env.WAITER_USERNAME || vars.AQA_WAITER_USERNAME || 'waiter@green-tasty.com' }}
+          AQA_WAITER_PASSWORD: ${{ env.WAITER_PASSWORD || secrets.AQA_WAITER_PASSWORD }}
+          AQA_ADMIN_USERNAME: ${{ env.ADMIN_USERNAME || vars.AQA_ADMIN_USERNAME || 'admin@green-tasty.com' }}
+          AQA_ADMIN_PASSWORD: ${{ env.ADMIN_PASSWORD || secrets.AQA_ADMIN_PASSWORD }}
+        run: |
+          python3 ../../scripts/cleanup-test-data.py
+
       - name: Fail the job if tests failed
         if: always() && steps.run_tests.outcome != 'success'
         run: exit 1

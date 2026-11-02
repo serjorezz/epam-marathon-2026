@@ -23,9 +23,21 @@ public sealed class AddTable(int? seats = null, string? toLocation = null) : ITa
         var table = response.Json<TableResponse>();
         actor.Remember(table);
 
-        var waiter = await actor.AsksForAsync(new TheWaiterSession());
         actor.Recall<CleanupScope>().TrackDelete(
             $"table:{table.Id}",
-            () => api.DeleteTableAsync(table.Id, bearerToken: waiter.IdToken));
+            async () =>
+            {
+                string? token = null;
+                try
+                {
+                    var waiter = await actor.AsksForAsync(new TheWaiterSession());
+                    token = waiter.IdToken;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"[CleanupScope] Waiter sign-in during cleanup failed: {ex.Message}");
+                }
+                return await api.DeleteTableAsync(table.Id, bearerToken: token);
+            });
     }
 }
