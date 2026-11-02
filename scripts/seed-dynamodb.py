@@ -337,16 +337,16 @@ DISHES = [
     },
     {
         "id": {"S": "dish-strawberry-salad"},
-        "name": {"S": "Fresh Strawberry & Mint Salad"},
-        "description": {"S": "Sweet organic strawberries, wild mint, baby spinach, vegan feta, and aged balsamic glaze."},
+        "name": {"S": "Fresh Strawberry Mint Salad"},
+        "description": {"S": "Strawberries, spinach, mint leaves, feta or goat cheese, walnuts, balsamic glaze, poppy seeds."},
         "dishType": {"N": "0"},  # 0 = Appetizer
-        "price": {"N": "14.00"},
-        "weight": {"S": "280g"},
-        "calories": {"S": "260"},
-        "proteins": {"S": "6g"},
-        "fats": {"S": "8g"},
-        "carbohydrates": {"S": "38g"},
-        "vitamins": {"S": "C, K, Folate"},
+        "price": {"N": "15.00"},
+        "weight": {"S": "430g"},
+        "calories": {"S": "~503"},
+        "proteins": {"S": "18-20g"},
+        "fats": {"S": "33-35g"},
+        "carbohydrates": {"S": "30-35g"},
+        "vitamins": {"S": "Vit C, Vit A, Calcium, and Ferum"},
         "imageUrl": {"S": "assets/img/dishes/fresh-strawberry-mint-salad.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-baratashvili"}

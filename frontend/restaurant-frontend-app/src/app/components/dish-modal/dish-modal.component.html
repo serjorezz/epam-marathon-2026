@@ -1,27 +1,48 @@
-<div class="modal-overlay" 
-      tabindex="0" 
-      role="button" 
-      (click)="onClose()"
-      (keydown.enter)="onClose()"
-      (keydown.space)="onClose()"></div>
-<div class="modal-content">
-  <button class="close-button" (click)="onClose()">×</button>
+@if (dish) {
+  <div
+    class="modal-overlay"
+    tabindex="0"
+    role="button"
+    aria-label="Close modal"
+    (click)="onClose()"
+    (keydown.enter)="onClose()"
+    (keydown.space)="onClose()"
+  ></div>
 
-  <img class="dish-image" [src]="dish.imageUrl" [alt]="dish.name" />
+  <div class="modal-content" role="dialog" aria-modal="true">
+    <button class="close-button" aria-label="Close" (click)="onClose()">×</button>
 
-  <h3 class="dish-name">{{ dish.name }}</h3>
+    <div class="dish-image-wrapper">
+      <img
+        class="dish-image"
+        [src]="dish.imageUrl || 'assets/img/dish.png'"
+        [alt]="dish.name"
+      />
+    </div>
 
-  <div class="dish-info">
-    <p class="dish-description">{{ dish.description }}</p>
-    <p><strong>Calories:</strong> {{ dish.calories }} kcal</p>
-    <p><strong>Protein:</strong> {{ dish.proteins }}</p>
-    <p><strong>Fats:</strong> {{ dish.fats }}g</p>
-    <p><strong>Carbohydrates:</strong> {{ dish.carbohydrates }}</p>
-    <p><strong>Vitamins and minerals:</strong> {{ dish.vitamins }}</p>
+    <div class="dish-details">
+      <h2 class="dish-name">{{ dish.name }}</h2>
+
+      <p class="dish-description">{{ dish.description }}</p>
+
+      <div class="dish-nutrition">
+        <div class="nutrition-item">
+          <strong>Calories:</strong> {{ formatCalories(dish.calories) }}
+        </div>
+        <div class="nutrition-item nutrition-macros">
+          <span><strong>Protein:</strong> {{ dish.proteins || 'N/A' }}</span>
+          <span><strong>Fats:</strong> {{ formatGrams(dish.fats) }}</span>
+          <span><strong>Carbs:</strong> {{ formatGrams(dish.carbohydrates) }}</span>
+        </div>
+        <div class="nutrition-item">
+          <strong>Vitamins & minerals:</strong> {{ dish.vitamins || 'N/A' }}
+        </div>
+      </div>
+
+      <div class="price-weight">
+        <span class="dish-price">${{ dish.price }}</span>
+        <span class="dish-weight">/{{ dish.weight }}</span>
+      </div>
+    </div>
   </div>
-
-  <div class="price-weight">
-    <span>{{ dish.price }}$</span>
-    <span>{{ dish.weight }}</span>
-  </div>
-</div>
+}

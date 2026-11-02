@@ -8,6 +8,7 @@ import { DishesService } from '@app/services/dishes/dishes.service';
 import { LocationCardComponent } from '@app/shared/custom-components/location-card/location-card.component';
 import { ReservationService } from '@app/services/reservation/reservation.service';
 import { FeedbackWindowComponent } from '@app/components/reservations/feedback-window/feedback-window.component';
+import { DishModalComponent } from '@app/components/dish-modal/dish-modal.component';
 import {
   Reservation,
   ReservationCustomer,
@@ -27,7 +28,14 @@ import { LoginModalComponent } from '@app/auth/components/login/login-modal/logi
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink, LocationCardComponent, FeedbackWindowComponent, LoginModalComponent, ],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LocationCardComponent,
+    FeedbackWindowComponent,
+    LoginModalComponent,
+    DishModalComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.Eager,
   providers: [LocationsService, DishesService, ReservationService, UsersService, FeedbacksService],
 })
@@ -35,6 +43,7 @@ export class MainPageComponent implements OnInit {
   dishes: DishListResponse[] = [];
   locations: LocationResponse[] = [];
 
+  selectedDish: DishListResponse | null = null;
   showFeedbackModal = false;
   selectedReservationCustomer!: ReservationCustomer;
   feedbackForUpdate: FeedbackReservationResponseItem | undefined;
@@ -42,9 +51,9 @@ export class MainPageComponent implements OnInit {
   anonymousFeedbackToken = '';
 
   private readonly locationsService = inject(LocationsService);
-  private readonly dishesService = inject (DishesService);
+  private readonly dishesService = inject(DishesService);
   private readonly route = inject(ActivatedRoute);
-  private readonly reservationsService = inject(ReservationService)
+  private readonly reservationsService = inject(ReservationService);
   private readonly userService = inject(UsersService);
   private readonly feedbackService = inject(FeedbacksService);
 
@@ -68,6 +77,14 @@ export class MainPageComponent implements OnInit {
     this.router.navigate(['/main']);
   }
 
+  openDishModal(dish: DishListResponse): void {
+    this.selectedDish = dish;
+  }
+
+  closeDishModal(): void {
+    this.selectedDish = null;
+  }
+
   ngOnInit(): void {
     this.loadPopularDishes();
     this.loadLocations();
@@ -89,6 +106,12 @@ export class MainPageComponent implements OnInit {
         name: dish.name || 'Unknown Dish',
         price: dish.price || 0,
         weight: dish.weight || 'N/A',
+        description: dish.description || 'N/A',
+        calories: dish.calories || '0',
+        proteins: dish.proteins || '0',
+        fats: dish.fats || '0',
+        carbohydrates: dish.carbohydrates || '0',
+        vitamins: dish.vitamins || '0',
       }));
     });
   }

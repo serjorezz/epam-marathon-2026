@@ -1,14 +1,13 @@
 @use 'app/shared/styles/abstracts/colors' as color;
-@use 'app/shared/styles/card' as card;
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 99;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 999;
 }
 
 .modal-content {
@@ -16,72 +15,134 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 31rem;
-  max-width: 90vw;
-  background: color.$neutral-100;
-  box-shadow: 0 0 0.625rem 0.25rem rgba(194, 194, 194, 0.5);
+  width: 50rem;
+  max-width: calc(100vw - 2.5rem);
+  background: #ffffff;
   border-radius: 1.5rem;
-  padding: 1.5rem;
-  transform: translate(-50%, -50%);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  isolation: isolate;
-  gap: 1.5rem;
-  z-index: 100;
-  height: auto;
-  overflow: hidden;
+  gap: 2.5rem;
+  z-index: 1000;
+  box-sizing: border-box;
 
-  @media (max-width: 560px) {
-    padding: 1rem;
-    border-radius: 0;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 1.5rem;
+    max-height: 90vh;
+    overflow-y: auto;
+    gap: 1.5rem;
   }
-}
-
-.dish-image {
-  width: min(18.375rem, 40vw);
-  height: min(18.375rem, 40vw);
-  aspect-ratio: 1 / 1;
-  @include card.common-image(circle);
-  box-shadow: 0 0 0.625rem 0.25rem rgba(194, 194, 194, 0.5);
-
-  @media (max-width: 560px) {
-    width: 60%;
-    height: 60%;
-  }
-}
-
-.dish-name {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: color.$neutral-900;
-  align-self: flex-start;
-  font-weight: 600;
-}
-
-.dish-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
-  font-size: 0.875rem;
-  color: color.$neutral-900;
-}
-
-.price-weight {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font-size: 1.125rem;
-  font-weight: 500;
 }
 
 .close-button {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1.25rem;
+  right: 1.25rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #6b7280;
   cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #111827;
+  }
+}
+
+.dish-image-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dish-image {
+  width: 16.5rem;
+  height: 16.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+
+  @media (max-width: 768px) {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+.dish-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.dish-name {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 1rem 0;
+  line-height: 1.25;
+
+  @media (max-width: 768px) {
+    font-size: 1.375rem;
+  }
+}
+
+.dish-description {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #4b5563;
+  margin: 0 0 1.25rem 0;
+}
+
+.dish-nutrition {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
+  margin-bottom: 1.5rem;
+
+  .nutrition-item {
+    margin: 0;
+    line-height: 1.4;
+
+    strong {
+      color: #111827;
+      font-weight: 600;
+    }
+  }
+
+  .nutrition-macros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+.price-weight {
+  display: flex;
+  align-items: baseline;
+  gap: 0.125rem;
+
+  .dish-price {
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: #0f7138;
+  }
+
+  .dish-weight {
+    font-size: 1rem;
+    color: #374151;
+  }
 }
