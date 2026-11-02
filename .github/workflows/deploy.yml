@@ -71,7 +71,7 @@ jobs:
         env:
           SDCT_CONF: .syndicate-config-restaurant-backend-app
         run: |
-          sed -i "s|project_path:.*|project_path: $(pwd)|g" .syndicate-config-restaurant-backend-app/syndicate.yml
+          sed -i "s|project_path:.*|project_path: '$(pwd)'|g" .syndicate-config-restaurant-backend-app/syndicate.yml
           syndicate build
 
       - name: Syndicate deploy
