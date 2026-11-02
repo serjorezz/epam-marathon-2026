@@ -34,9 +34,8 @@ $RECYCLE.BIN/
 .ionide/
 
 # AI Assistants & Agent state
-.claude/
 .codemie/
-skills/
+skills/system/
 
 # ------------------------------------------------------------------------------
 # Environment variables & local credentials (NEVER commit secrets)
