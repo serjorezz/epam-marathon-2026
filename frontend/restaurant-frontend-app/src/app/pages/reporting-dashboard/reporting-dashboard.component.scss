@@ -18,22 +18,12 @@
     .user-greeting {
       display: flex;
       align-items: center;
-      gap: 12px;
 
       h3 {
         margin: 0;
         font-size: 22px;
         font-weight: 700;
         color: color.$neutral-900;
-      }
-
-      .role-badge {
-        background-color: color.$green-600;
-        color: color.$neutral-0;
-        font-size: 12px;
-        font-weight: 600;
-        padding: 2px 10px;
-        border-radius: 12px;
       }
     }
 
