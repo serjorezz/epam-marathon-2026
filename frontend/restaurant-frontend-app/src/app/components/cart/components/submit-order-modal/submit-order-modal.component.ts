@@ -10,11 +10,12 @@ import {
 import { Order } from '@app/models/orders/order.model';
 import { Reservation } from '@app/models/reservations/reservation.model';
 import { parseOrderReservationDetails } from '@app/shared/helpers/order-helpers';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-submit-order-modal',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, TranslatePipe],
   templateUrl: './submit-order-modal.component.html',
   styleUrl: './submit-order-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

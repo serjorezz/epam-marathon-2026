@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { GuestCartItem } from '@app/pages/guest-pre-order-page/state/guest-preorder.store'; 
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
     standalone: true,
     selector: 'app-guest-cart-drawer',
     templateUrl: './guest-cart-drawer.component.html',
     styleUrl: './guest-cart-drawer.component.scss',
-    imports: [CurrencyPipe],
+    imports: [CurrencyPipe, TranslatePipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GuestCartDrawerComponent {

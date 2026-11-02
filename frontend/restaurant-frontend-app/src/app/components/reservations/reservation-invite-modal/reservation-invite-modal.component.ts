@@ -16,12 +16,13 @@ import { Reservation } from '@app/models/reservations/reservation.model';
 import { GuestInviteService } from '@app/services/reservation/guest-invite.service';
 import { ToastService } from '@app/services/toast/toast.service';
 import { ModalComponent } from '@app/shared/custom-components/modal/modal.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 const MIN_GUESTS_FOR_INVITE = 2;
 
 @Component({
   selector: 'app-reservation-invite-modal',
-  imports: [DatePipe, ModalComponent],
+  imports: [DatePipe, ModalComponent, TranslatePipe],
   templateUrl: './reservation-invite-modal.component.html',
   styleUrl: './reservation-invite-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.Eager,

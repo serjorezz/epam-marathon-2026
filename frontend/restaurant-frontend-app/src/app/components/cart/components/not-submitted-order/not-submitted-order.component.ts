@@ -13,11 +13,12 @@ import {
   formatOrderNumber,
   parseOrderReservationDetails,
 } from '@app/shared/helpers/order-helpers';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-not-submitted-order',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, TranslatePipe],
   templateUrl: './not-submitted-order.component.html',
   styleUrl: './not-submitted-order.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

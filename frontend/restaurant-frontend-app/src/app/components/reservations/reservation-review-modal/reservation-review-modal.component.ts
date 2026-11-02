@@ -3,10 +3,11 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { TimeRange } from '@app/models/tables/time-range.model';
 import { formatTime } from '@app/shared/helpers/date-helpers';
 import { ModalComponent } from '@app/shared/custom-components/modal/modal.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-reservation-review-modal',
-  imports: [DatePipe, ModalComponent],
+  imports: [DatePipe, ModalComponent, TranslatePipe],
   templateUrl: './reservation-review-modal.component.html',
   styleUrl: './reservation-review-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.Eager,

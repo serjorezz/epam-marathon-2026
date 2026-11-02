@@ -1,9 +1,10 @@
 import { Component, input, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-password',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: './password.component.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,

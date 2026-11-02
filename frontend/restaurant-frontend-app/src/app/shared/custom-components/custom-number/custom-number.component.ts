@@ -8,11 +8,12 @@ import {
   numberAttribute,
   OnInit,
 } from '@angular/core';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-custom-number',
   standalone: true,
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './custom-number.component.html',
   styleUrl: './custom-number.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

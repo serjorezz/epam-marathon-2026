@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,6 +30,7 @@ import { SubmittedOrderComponent } from './components/submitted-order/submitted-
     NotSubmittedOrderComponent,
     CancelOrderModalComponent,
     SubmitOrderModalComponent,
+    TranslatePipe,
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',

@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
@@ -24,7 +25,7 @@ import { consolidatePreOrder } from '@app/shared/helpers/consolidate-pre-order';
 
 @Component({
   selector: 'app-group-order-page',
-  imports: [CurrencyPipe, DatePipe, ParticipantCardComponent, ModalComponent],
+  imports: [CurrencyPipe, DatePipe, ParticipantCardComponent, ModalComponent, TranslatePipe],
   templateUrl: './group-order-page.component.html',
   styleUrl: './group-order-page.component.scss',
   changeDetection: ChangeDetectionStrategy.Eager,

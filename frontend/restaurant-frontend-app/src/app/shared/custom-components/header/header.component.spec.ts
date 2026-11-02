@@ -6,6 +6,7 @@ import { HeaderComponent } from './header.component';
 import { API_BASE_URL } from '@app/shared/config/api-base-url.token';
 import { AuthenticationService } from '@app/auth/services/authentication.service';
 import { NotificationsService } from '@app/services/notifications/notifications.service';
+import { TranslationService } from '@app/services/translation/translation.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -47,6 +48,12 @@ describe('HeaderComponent', () => {
   fixture.detectChanges();
 });
 
+  afterEach(() => {
+    const translationService = TestBed.inject(TranslationService);
+    translationService.setLanguage('en');
+    localStorage.clear();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -65,4 +72,3 @@ describe('HeaderComponent', () => {
     expect(component.activeLanguage().code).toBe("ka");
   });
 });
-

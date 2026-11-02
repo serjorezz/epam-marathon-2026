@@ -13,11 +13,12 @@ import {
   formatOrderNumber,
   parseOrderReservationDetails,
 } from '@app/shared/helpers/order-helpers';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-submitted-order',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, TranslatePipe],
   templateUrl: './submitted-order.component.html',
   styleUrl: './submitted-order.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

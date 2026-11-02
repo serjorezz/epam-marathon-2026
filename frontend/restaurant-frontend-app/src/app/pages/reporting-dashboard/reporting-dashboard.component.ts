@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
 import {
   ChangeDetectorRef,
@@ -27,6 +28,7 @@ import { ReportRow } from '@app/models/reports/reporsts.model';
     FormsModule,
     CustomButtonComponent,
     CommonModule,
+    TranslatePipe,
   ],
   templateUrl: './reporting-dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,

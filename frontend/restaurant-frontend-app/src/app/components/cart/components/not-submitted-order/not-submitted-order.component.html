@@ -2,20 +2,20 @@
   <div class="content">
     <div class="order">
       <span class="body-bold">
-        Pre-order #{{ formattedOrderId() }}
+        {{ 'Pre-order #' | translate }}{{ formattedOrderId() }}
       </span>
 
       <div class="order-details-grid">
-        <span class="detail-label">Location</span>
-        <span class="detail-value">{{ orderDetails().location }}</span>
+        <span class="detail-label">{{ 'Location' | translate }}</span>
+        <span class="detail-value">{{ orderDetails().location | translate }}</span>
 
-        <span class="detail-label">Date</span>
+        <span class="detail-label">{{ 'Date' | translate }}</span>
         <span class="detail-value">{{ orderDetails().date }}</span>
 
-        <span class="detail-label">Time</span>
+        <span class="detail-label">{{ 'Time' | translate }}</span>
         <span class="detail-value">{{ orderDetails().time }}</span>
 
-        <span class="detail-label">Guests</span>
+        <span class="detail-label">{{ 'Guests' | translate }}</span>
         <span class="detail-value">{{ orderDetails().guests }}</span>
       </div>
 
@@ -33,8 +33,8 @@
           <div class="container">
             <div class="details">
               <div class="dish-name">
-                <span class="body-bold">{{ item.dish.name }}</span>
-                  <span class="caption">Expected ready time – 10 minutes</span>
+                <span class="body-bold">{{ item.dish.name | translate }}</span>
+                  <span class="caption">{{ 'Expected ready time – 10 minutes' | translate }}</span>
                 </div>
 
                 <button
@@ -110,13 +110,13 @@
             height="24"
           />
 
-          Add dish
+          {{ 'Add dish' | translate }}
         </button>
       </div>
     </div>
 
     <div class="total">
-      <span class="total-label">Total payment</span>
+      <span class="total-label">{{ 'Total payment' | translate }}</span>
       <span class="total-value">{{ totalPrice() | currency }}</span>
     </div>
   </div>
@@ -126,6 +126,6 @@
     class="button button--primary button--extra-large submit-btn"
     (click)="submit()"
   >
-    Submit Pre-order
+    {{ 'Submit Pre-order' | translate }}
   </button>
 </div>

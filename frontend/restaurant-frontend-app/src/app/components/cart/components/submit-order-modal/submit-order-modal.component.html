@@ -46,48 +46,48 @@
     </div>
 
     <h2 id="submitted-order-title" class="submitted-title">
-      Pre-Order Submitted!
+      {{ 'Pre-Order Submitted!' | translate }}
     </h2>
 
     <p class="submitted-subtitle">
-      Your selections have been added to {{ tableTargetText() }}.<br />
-      The restaurant will have everything ready for you.
+      {{ 'Your selections have been added to' | translate }} {{ tableTargetText() }}.<br />
+      {{ 'The restaurant will have everything ready for you.' | translate }}
     </p>
 
     <hr class="divider" />
 
     <div class="details-grid">
-      <span class="detail-label">Restaurant</span>
+      <span class="detail-label">{{ 'Restaurant' | translate }}</span>
       <span class="detail-value">{{ restaurantName() }}</span>
 
-      <span class="detail-label">Location</span>
-      <span class="detail-value">{{ orderDetails().location }}</span>
+      <span class="detail-label">{{ 'Location' | translate }}</span>
+      <span class="detail-value">{{ orderDetails().location | translate }}</span>
 
-      <span class="detail-label">Date</span>
+      <span class="detail-label">{{ 'Date' | translate }}</span>
       <span class="detail-value">{{ orderDetails().date }}</span>
 
-      <span class="detail-label">Time</span>
+      <span class="detail-label">{{ 'Time' | translate }}</span>
       <span class="detail-value">{{ orderDetails().time }}</span>
 
-      <span class="detail-label">Guests</span>
+      <span class="detail-label">{{ 'Guests' | translate }}</span>
       <span class="detail-value">{{ orderDetails().guests }}</span>
     </div>
 
     @if (order().orderItems.length > 0) {
       <div class="items-section">
-        <h4 class="items-title">Your items</h4>
+        <h4 class="items-title">{{ 'Your items' | translate }}</h4>
 
         <div class="items-list">
           @for (item of order().orderItems; track item.dish.id) {
             <div class="item-row">
-              <span class="item-name">{{ item.dish.name }} × {{ item.quantity }}</span>
+              <span class="item-name">{{ item.dish.name | translate }} × {{ item.quantity }}</span>
               <span class="item-price">{{ item.dish.price * item.quantity | currency }}</span>
             </div>
           }
         </div>
 
         <div class="total-row">
-          <span class="total-label">Total</span>
+          <span class="total-label">{{ 'Total' | translate }}</span>
           <span class="total-amount">{{ totalPrice() | currency }}</span>
         </div>
       </div>
@@ -100,7 +100,7 @@
           class="button button--secondary button--large"
           (click)="cancelOrder()"
         >
-          Cancel Pre-order
+          {{ 'Cancel Pre-order' | translate }}
         </button>
 
         <button
@@ -108,7 +108,7 @@
           class="button button--primary button--large"
           (click)="editOrder()"
         >
-          Edit Pre-order
+          {{ 'Edit Pre-order' | translate }}
         </button>
       </div>
 
@@ -117,7 +117,7 @@
         class="create-order-btn"
         (click)="createNewPreOrder()"
       >
-        Create New Pre-Order
+        {{ 'Create New Pre-Order' | translate }}
       </button>
     </div>
   </div>

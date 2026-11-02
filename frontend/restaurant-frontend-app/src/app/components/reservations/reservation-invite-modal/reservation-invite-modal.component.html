@@ -1,22 +1,22 @@
-<app-modal title="Reservation Confirmed" (closed)="onClose()">
+<app-modal [title]="'Reservation Confirmed' | translate" (closed)="onClose()">
   <dl class="info">
     <div class="info-row">
-      <dt>Location</dt>
-      <dd>{{ reservation().locationAddress }}</dd>
+      <dt>{{ 'Location' | translate }}</dt>
+      <dd>{{ reservation().locationAddress | translate }}</dd>
     </div>
     <div class="info-row">
-      <dt>Date</dt>
+      <dt>{{ 'Date' | translate }}</dt>
       <dd>{{ reservation().startTime | date: 'MMM d, y' }}</dd>
     </div>
     <div class="info-row">
-      <dt>Time</dt>
+      <dt>{{ 'Time' | translate }}</dt>
       <dd>
         {{ reservation().startTime | date: 'HH:mm' }} - {{ reservation().endTime | date: 'HH:mm' }}
       </dd>
     </div>
     <div class="info-row">
-      <dt>Guests</dt>
-      <dd>{{ guestsLabel() }}</dd>
+      <dt>{{ 'Guests' | translate }}</dt>
+      <dd>{{ reservation().guestCount }} {{ (reservation().guestCount === 1 ? 'person' : 'people') | translate }}</dd>
     </div>
   </dl>
 
@@ -24,13 +24,13 @@
     <div class="invite">
       <hr class="divider" />
       <div class="invite-field">
-        <label class="invite-label" for="invite-link-input">Invite Link</label>
+        <label class="invite-label" for="invite-link-input">{{ 'Invite Link' | translate }}</label>
         <div class="invite-input">
           <input
             id="invite-link-input"
             type="text"
             readonly
-            [placeholder]="invitePlaceholder()"
+            [placeholder]="invitePlaceholder() | translate"
             [value]="inviteLink() ?? ''"
           />
           <button
@@ -43,15 +43,15 @@
             <img src="assets/svg/copy.svg" alt="" />
           </button>
         </div>
-        <p class="invite-hint">You are able to share this link for pre-order with your group.</p>
+        <p class="invite-hint">{{ 'You are able to share this link for pre-order with your group.' | translate }}</p>
       </div>
     </div>
   }
 
   <div modal-actions class="actions">
     <button type="button" class="button button--secondary button--full-width view-reservation-btn" (click)="onViewReservation()">
-      View Reservation
+      {{ 'View Reservation' | translate }}
     </button>
-    <button type="button" class="button button--primary button--full-width pre-order-btn" (click)="onMakePreOrder()">Make Pre-Order</button>
+    <button type="button" class="button button--primary button--full-width pre-order-btn" (click)="onMakePreOrder()">{{ 'Make Pre-Order' | translate }}</button>
   </div>
 </app-modal>

@@ -1,50 +1,50 @@
 <div class="submitted-order-item">
   <div class="text">
     <span class="body-bold">
-      Pre-order #{{ formattedOrderId() }}
+      {{ 'Pre-order #' | translate }}{{ formattedOrderId() }}
     </span>
 
     <div class="order-details-grid">
-      <span class="detail-label">Location</span>
-      <span class="detail-value">{{ orderDetails().location }}</span>
+      <span class="detail-label">{{ 'Location' | translate }}</span>
+      <span class="detail-value">{{ orderDetails().location | translate }}</span>
 
-      <span class="detail-label">Date</span>
+      <span class="detail-label">{{ 'Date' | translate }}</span>
       <span class="detail-value">{{ orderDetails().date }}</span>
 
-      <span class="detail-label">Time</span>
+      <span class="detail-label">{{ 'Time' | translate }}</span>
       <span class="detail-value">{{ orderDetails().time }}</span>
 
-      <span class="detail-label">Guests</span>
+      <span class="detail-label">{{ 'Guests' | translate }}</span>
       <span class="detail-value">{{ orderDetails().guests }}</span>
     </div>
 
     @for (item of order().orderItems; track item.dish.id) {
     <div class="order-item">
       <span class="body">
-    {{ item.quantity }}× {{ item.dish.name }}
+    {{ item.quantity }}× {{ item.dish.name | translate }}
 
     @switch (item.state) {
     @case (0) {
     <span class="body status-pending">
-      (Pending)
+      {{ '(Pending)' | translate }}
     </span>
     }
 
     @case (1) {
     <span class="body status-confirmed">
-      (Confirmed)
+      {{ '(Confirmed)' | translate }}
     </span>
     }
 
     @case (2) {
     <span class="body status-rejected">
-      (Rejected)
+      {{ '(Rejected)' | translate }}
     </span>
     }
 
     @default {
     <span class="body status-unknown">
-      (Unknown)
+      {{ '(Unknown)' | translate }}
     </span>
     }
     }
@@ -57,7 +57,7 @@
     }
 
     <div class="order-item">
-      <span class="body">Total price</span>
+      <span class="body">{{ 'Total price' | translate }}</span>
       <h3>{{ totalPrice() | currency }}</h3>
     </div>
   </div>
@@ -68,7 +68,7 @@
       class="button button--secondary button--large"
       (click)="cancelOrder()"
     >
-      Cancel Pre-order
+      {{ 'Cancel Pre-order' | translate }}
     </button>
 
     <button
@@ -76,7 +76,7 @@
       class="button button--primary button--large"
       (click)="editOrder()"
     >
-      Edit Pre-order
+      {{ 'Edit Pre-order' | translate }}
     </button>
   </div>
 </div>

@@ -24,10 +24,11 @@ import { ToastService } from '@app/services/toast/toast.service';
 import { AuthenticationService } from '@app/auth/services/authentication.service';
 import { UsersService } from '@app/services/users/users.service';
 import { FeedbackUpdatedEvent } from '@app/models/feedbacks/feedback.model';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
     selector: 'app-feedback-window',
-    imports: [CustomButtonComponent, RatingComponent, FormsModule],
+    imports: [CustomButtonComponent, RatingComponent, FormsModule, TranslatePipe],
     templateUrl: './feedback-window.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './feedback-window.component.scss',
@@ -67,14 +68,7 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
   authService = inject(AuthenticationService);
   userService = inject(UsersService);
 
-  // constructor(
-  //   private feedbacksService: FeedbacksService,
-  //   private toastr: ToastrService
-  // ) {}
-
   ngOnInit(): void {
-    // console.log('reservation:') ;
-    // console.log(this.selectedReservation);
     console.log(this.feedbackForUpdate);
 
     const isAnon =
@@ -147,10 +141,6 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
       });
     }
   }
-
-  // onRatingChange(value: number) {
-  //   this.currentRating = value;
-  // }
 
   ngAfterViewInit(): void {
     const wrapper = this.elRef.nativeElement.querySelector('.feedback-wrapper');

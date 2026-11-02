@@ -2,11 +2,11 @@
   <section class="booking">
     <div class="booking-left">
       <div class="booking-card">
-        <h2>Book a Table</h2>
+        <h2>{{ 'Book a Table' | translate }}</h2>
 
         <div class="input-list">
           <div class="field">
-            <span class="field-label">Location</span>
+            <span class="field-label">{{ 'Location' | translate }}</span>
 
             <app-custom-select
               [showIcon]="false"
@@ -18,7 +18,7 @@
           </div>
 
           <div class="field">
-            <span class="field-label">Date</span>
+            <span class="field-label">{{ 'Date' | translate }}</span>
 
             <app-custom-select
               [showIcon]="false"
@@ -32,7 +32,7 @@
 
           <div class="row">
             <div class="field field-time">
-              <span class="field-label">Time</span>
+              <span class="field-label">{{ 'Time' | translate }}</span>
 
               <app-custom-select
                 [showIcon]="false"
@@ -44,7 +44,7 @@
             </div>
 
             <div class="field field-guests">
-              <span class="field-label">Guests</span>
+              <span class="field-label">{{ 'Guests' | translate }}</span>
 
               <app-custom-number
                 [showIcon]="false"
@@ -62,7 +62,7 @@
           [disabled]="isLoading"
           (click)="onFilter()"
         >
-          Find a Table
+          {{ 'Find a Table' | translate }}
         </button>
       </div>
 
@@ -76,7 +76,7 @@
         />
 
         <p>
-          For groups larger than 4, please call us directly at +123 445 678 8990
+          {{ 'For groups larger than 4, please call us directly at +123 445 678 8990' | translate }}
         </p>
       </div>
     </div>
@@ -88,37 +88,37 @@
         <div class="table-card-list-wrapper">
           @if (isLoading && tables.length === 0) {
             <div class="results-summary">
-              <span class="body-bold">Searching for tables…</span>
+              <span class="body-bold">{{ 'Searching for tables…' | translate }}</span>
               <span class="filter-summary">{{ filterSummary }}</span>
             </div>
 
             <div class="loading-state" role="status" aria-live="polite">
               <span class="spinner" aria-hidden="true"></span>
-              <p>Looking for available tables. This may take a few seconds.</p>
+              <p>{{ 'Looking for available tables. This may take a few seconds.' | translate }}</p>
             </div>
           } @else if (tables.length === 0) {
             <div class="results-summary">
-              <span class="body-bold">No tables Available</span>
+              <span class="body-bold">{{ 'No tables Available' | translate }}</span>
               <span class="filter-summary">{{ filterSummary }}</span>
             </div>
 
             <div class="empty-state">
               <img src="assets/svg/no-tables-avaliable.svg" alt="No tables available" />
-              <h3>No Tables Available</h3>
-              <p>Try adjusting your date, time, or number of guests to find available tables.</p>
+              <h3>{{ 'No Tables Available' | translate }}</h3>
+              <p>{{ 'Try adjusting your date, time, or number of guests to find available tables.' | translate }}</p>
               <button
                 type="button"
                 class="button button--tertiary button--large show-all-link"
                 (click)="onShowAllSlots()"
               >
-                Show all slots on {{ lastAppliedFilter.date }}
+                {{ 'Show all slots on' | translate }} {{ lastAppliedFilter.date }}
               </button>
             </div>
           } @else {
             <div class="results-summary">
               <span class="body-bold">
                 {{ tables.length }}
-                {{ tables.length === 1 ? 'table' : 'tables' }} available
+                {{ (tables.length === 1 ? 'table available' : 'tables available') | translate }}
               </span>
               <span class="filter-summary">{{ filterSummary }}</span>
             </div>
@@ -183,7 +183,7 @@
 
 @if (showEditReservationModal) {
   <app-make-reservation
-    title="Edit Reservation"
+    [title]="'Edit Reservation' | translate"
     [table]="selectedTable!"
     [locationName]="selectedLocationName"
     [guests]="reservation?.guestCount || 1"

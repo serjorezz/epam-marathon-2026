@@ -32,6 +32,7 @@ import { Reservation } from '@app/models/reservations/reservation.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '@app/auth/services/authentication.service';
 import { ToastService } from '@app/services/toast/toast.service';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 const UNKNOWN_LOCATION_LABEL = 'Location unavailable';
 const ALL_LOCATIONS_LABEL = 'All Locations';
@@ -51,6 +52,7 @@ const RESERVATION_FAILED_MESSAGE = 'Could not create the reservation. Please try
     ReservationInviteModalComponent,
     ReservationReviewModalComponent,
     EditReservationModalComponent,
+    TranslatePipe,
   ],
   templateUrl: './tables.component.html',
   standalone: true,

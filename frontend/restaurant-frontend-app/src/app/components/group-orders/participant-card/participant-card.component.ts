@@ -1,10 +1,11 @@
 import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { Participant } from '@app/models/group-orders/participant.model';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-participant-card',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, TranslatePipe],
   templateUrl: './participant-card.component.html',
   styleUrl: './participant-card.component.scss',
   changeDetection: ChangeDetectionStrategy.Eager,

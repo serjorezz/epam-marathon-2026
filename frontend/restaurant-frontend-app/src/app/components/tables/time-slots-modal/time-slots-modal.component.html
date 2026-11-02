@@ -2,7 +2,7 @@
   <div class="modal-container" role="presentation" (click)="$event.stopPropagation()">
     <div>
       <div class="modal-header">
-        <h2 class="title">Available slots</h2>
+        <h2 class="title">{{ 'Available slots' | translate }}</h2>
         <button class="close-btn" (click)="onClose()">
           <img src="assets/svg/close.svg" alt="close button" />
         </button>
@@ -10,10 +10,10 @@
 
       <p class="subtitle">
         There are <span class="bold-text">{{ table.timeRanges.length }} slots</span> available at
-        <span class="bold-text">{{ locationName }}, Table {{ table.id }}</span> for
+        <span class="bold-text">{{ locationName | translate }}, Table {{ table.id }}</span> for
         <span class="bold-text">{{ date | date: 'MMM d, y' }}</span
         >. There are <span class="bold-text">{{ table.timeRanges.length }} slots</span> available at
-        <span class="bold-text">{{ locationName }}, Table {{ table.tableNumber }}</span> for
+        <span class="bold-text">{{ locationName | translate }}, Table {{ table.tableNumber }}</span> for
         <span class="bold-text">{{ date | date: 'MMM d, y' }}</span
         >.
       </p>

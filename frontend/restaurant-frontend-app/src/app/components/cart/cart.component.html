@@ -16,7 +16,7 @@
     (keydown)="$event.stopPropagation()"
   >
     <div class="cart-header">
-      <h3 id="cart-title">Cart</h3>
+      <h3 id="cart-title">{{ 'Cart' | translate }}</h3>
 
       <button
         type="button"
@@ -35,10 +35,10 @@
     @if (unsubmittedOrders().length > 0) {
       <div class="orders-list">
         <div class="list-header">
-          <h3>Not submitted pre-orders</h3>
+          <h3>{{ 'Not submitted pre-orders' | translate }}</h3>
 
           <span class="body">
-            You have not submitted pre-orders
+            {{ 'You have not submitted pre-orders' | translate }}
           </span>
         </div>
 
@@ -69,11 +69,10 @@
     @if (submittedOrders().length > 0) {
       <div class="orders-list">
         <div class="list-header">
-          <h3>Submitted pre-orders</h3>
+          <h3>{{ 'Submitted pre-orders' | translate }}</h3>
 
           <span class="body">
-            You can modify or cancel your pre-orders up to
-            30 minutes before your reserved table time.
+            {{ 'You can modify or cancel your pre-orders up to 30 minutes before your reserved table time.' | translate }}
           </span>
         </div>
 
@@ -103,11 +102,10 @@
 
         <div class="empty-cart-content">
           <div class="empty-cart-info">
-            <h3>Your cart is empty</h3>
+            <h3>{{ 'Your cart is empty' | translate }}</h3>
 
             <span class="body">
-              Looks like you haven’t added any dishes to
-              your cart yet.
+              {{ 'Looks like you haven’t added any dishes to your cart yet.' | translate }}
             </span>
           </div>
 
@@ -116,7 +114,7 @@
             class="button button--primary button--large"
             (click)="goToReservations()"
           >
-            Go To Reservations
+            {{ 'Go To Reservations' | translate }}
           </button>
         </div>
       </div>

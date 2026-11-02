@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -71,6 +72,7 @@ const ANY_TABLE_OPTION: SelectOption = {
     TimeSlotsModalComponent,
     CustomButtonComponent,
     FeedbackQrModalComponent,
+    TranslatePipe,
   ],
   templateUrl: './waiter-dashboard.component.html',
   styleUrl: './waiter-dashboard.component.scss',

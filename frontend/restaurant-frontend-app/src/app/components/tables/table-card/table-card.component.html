@@ -3,11 +3,11 @@
 
   <div class="card-content">
     <div class="card-header">
-      <span class="table-number">Table {{ table().tableNumber }}</span>
-      <span class="capacity">Up to {{ table().capacity }} guests</span>
+      <span class="table-number">{{ 'Table' | translate }} {{ table().tableNumber }}</span>
+      <span class="capacity">{{ 'Up to' | translate }} {{ table().capacity }} {{ (table().capacity === 1 ? 'guest' : 'guests') | translate }}</span>
     </div>
 
-    <span class="location-name">{{ location() }}</span>
+    <span class="location-name">{{ location() | translate }}</span>
 
     <div class="time-slots">
       @for (slot of hourSlots(); track $index) {
@@ -19,15 +19,6 @@
         >
         </app-time-slot>
       }
-
-      <!--
-      @if (table && table.timeRanges.length > 5) {
-        <button class="button button--secondary  button--small" (click)="onShowAllClick()">
-          <img src="/assets/svg/plus-green.svg" alt="Show All" class="icon" />
-          Show all
-        </button>
-      }
-      -->
     </div>
   </div>
 </div>

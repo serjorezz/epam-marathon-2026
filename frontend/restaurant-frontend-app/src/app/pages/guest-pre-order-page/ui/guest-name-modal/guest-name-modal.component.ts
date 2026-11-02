@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
 import { ModalComponent } from '@app/shared/custom-components/modal/modal.component';
 import { GuestInviteVm } from '@app/pages/guest-pre-order-page/state/guest-preorder.store';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
     standalone: true,
     selector: 'app-guest-name-modal',
-    imports: [ModalComponent, FormsModule, CustomButtonComponent],
+    imports: [ModalComponent, FormsModule, CustomButtonComponent, TranslatePipe],
     templateUrl: './guest-name-modal.component.html',
     styleUrl: './guest-name-modal.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

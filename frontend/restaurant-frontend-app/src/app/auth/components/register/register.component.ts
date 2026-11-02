@@ -14,6 +14,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '@app/auth/services/authentication.service';
 import { PasswordWithRulesComponent } from '@app/shared/custom-components/password-with-rules/password-with-rules.component';
 import { ConfirmPasswordComponent } from '@app/shared/custom-components/confirm-password/confirm-password.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,7 @@ import { ConfirmPasswordComponent } from '@app/shared/custom-components/confirm-
     GreenTastyImageComponent,
     PasswordWithRulesComponent,
     ConfirmPasswordComponent,
+    TranslatePipe,
   ],
 
   templateUrl: './register.component.html',

@@ -17,13 +17,14 @@ import { AuthenticationService } from '@app/auth/services/authentication.service
 import { UserModel } from '@app/auth/models/user.model';
 import { UsersService } from '@app/services/users/users.service';
 import { ToastService } from '@app/services/toast/toast.service';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 type ProfileControlName = 'firstName' | 'lastName';
 
 @Component({
   selector: 'app-general-user-info',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TranslatePipe],
   templateUrl: 'general-user-info.component.html',
   styleUrl: 'general-user-info.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

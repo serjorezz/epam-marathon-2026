@@ -32,7 +32,7 @@
           class="button button--primary button--extra-large"
           [routerLink]="['/tables']"
           [queryParams]="{ locationId: $safeNavigationMigration(location?.id) }"
-          >Book a Table</a
+          >{{ 'Book a Table' | translate }}</a
         >
         <a class="button button--secondary button--extra-large" [routerLink]="['/menu']">{{ 'View menu' | translate }}</a>
       </div>
@@ -55,17 +55,17 @@
             (keydown.enter)="onTabChange(type)"
             (keydown.space)="onTabChange(type); $event.preventDefault()"
           >
-            {{ reviewTypeLabels[type] }}
+            {{ reviewTypeLabels[type] | translate }}
           </span>
         }
       </div>
 
       <div class="reviews-section__options-sorting">
-        <span>Sort by:</span>
+        <span>{{ 'Sort by:' | translate }}</span>
         <select (change)="onSortChange($event.target)">
           @for (sort of reviewSortValues; track sort) {
             <option [value]="sort">
-              {{ reviewSortLabels[sort] }}
+              {{ reviewSortLabels[sort] | translate }}
             </option>
           }
         </select>
@@ -111,7 +111,7 @@
         }
       </div>
     } @else {
-      <p>{{ reviewsLabel }}</p>
+      <p>{{ reviewsLabel | translate }}</p>
     }
 
     @if (totalPages > 1) {

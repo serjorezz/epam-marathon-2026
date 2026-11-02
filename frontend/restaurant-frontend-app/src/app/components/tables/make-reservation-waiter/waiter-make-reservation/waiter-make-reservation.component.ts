@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {
   Component,
   EventEmitter,
@@ -37,6 +38,7 @@ import {ToastService} from '@app/services/toast/toast.service';
     CustomButtonComponent,
     CustomSelectComponent,
     CustomNumberComponent,
+    TranslatePipe,
   ],
   templateUrl: './waiter-make-reservation.component.html',
   styleUrl: './waiter-make-reservation.component.scss',

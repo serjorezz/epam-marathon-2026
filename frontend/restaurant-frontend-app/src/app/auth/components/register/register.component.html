@@ -1,102 +1,101 @@
 <div class="register-container">
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
     <div class="greeting-wrapper">
-      <div class="started">LETS GO STARTED</div>
-      <div class="title-create-account">Create an account</div>
+      <div class="started">{{ 'LETS GO STARTED' | translate }}</div>
+      <div class="title-create-account">{{ 'Create an account' | translate }}</div>
     </div>
 
     @if (unsuccessfulRegistration) {
       <div class="response-error-message">
         {{
           errorMessage ??
-            'There was an error during the registration process. Please try again later.'
+            ('There was an error during the registration process. Please try again later.' | translate)
         }}
       </div>
     }
 
     <div class="name">
       <label for="firstName">
-        First Name:
+        {{ 'First Name:' | translate }}
         <input
           class="default-input"
           type="text"
           id="firstName"
           formControlName="firstName"
-          placeholder="Enter your First Name"
+          [placeholder]="'Enter your First Name' | translate"
         />
 
         <div class="hint-or-error">
           @if (firstName?.invalid && (firstName?.touched || firstName?.dirty)) {
             @if (firstName?.errors?.['required']) {
-              <div class="error-message">First name is required.</div>
+              <div class="error-message">{{ 'First name is required.' | translate }}</div>
             }
             @if (firstName?.errors?.['maxlength']) {
-              <div class="error-message">First name must be up to 50 characters.</div>
+              <div class="error-message">{{ 'First name must be up to 50 characters.' | translate }}</div>
             }
             @if (firstName?.errors?.['pattern']) {
               <div class="error-message">
-                Only Latin letters, hyphens, and apostrophes are allowed.
+                {{ 'Only Latin letters, hyphens, and apostrophes are allowed.' | translate }}
               </div>
             }
           } @else {
-            <div class="field-hint">e.g. Jonson</div>
+            <div class="field-hint">{{ 'e.g. Jonson' | translate }}</div>
           }
         </div>
       </label>
 
       <label for="lastName">
-        Last Name:
+        {{ 'Last Name:' | translate }}
         <input
           class="default-input"
           id="lastName"
           type="text"
           formControlName="lastName"
-          placeholder="Enter your Last Name"
-          class="default-input"
+          [placeholder]="'Enter your Last Name' | translate"
         />
 
         <div class="hint-or-error">
           @if (lastName?.invalid && (lastName?.touched || lastName?.dirty)) {
             @if (lastName?.errors?.['required']) {
-              <div class="error-message">First name is required.</div>
+              <div class="error-message">{{ 'Last name is required.' | translate }}</div>
             }
             @if (lastName?.errors?.['maxlength']) {
-              <div class="error-message">First name must be up to 50 characters.</div>
+              <div class="error-message">{{ 'Last name must be up to 50 characters.' | translate }}</div>
             }
             @if (lastName?.errors?.['pattern']) {
               <div class="error-message">
-                Only Latin letters, hyphens, and apostrophes are allowed.
+                {{ 'Only Latin letters, hyphens, and apostrophes are allowed.' | translate }}
               </div>
             }
           } @else {
-            <div class="field-hint">e.g. Doe</div>
+            <div class="field-hint">{{ 'e.g. Doe' | translate }}</div>
           }
         </div>
       </label>
     </div>
 
     <label for="email">
-      Email:
+      {{ 'Email:' | translate }}
       <input
         id="email"
         type="email"
         formControlName="email"
-        placeholder="Enter your Email"
+        [placeholder]="'Enter your Email' | translate"
         class="email-input"
       />
 
       <div class="hint-or-error">
         @if (email?.invalid && (email?.touched || email?.dirty)) {
           @if (email?.errors?.['required']) {
-            <div class="error-message">Email is required.</div>
+            <div class="error-message">{{ 'Email is required.' | translate }}</div>
           }
           @if (email?.errors?.['pattern']) {
             <div class="error-message">
-              Invalid email address. Please ensure it follows the format: username&#64;domain.com
+              {{ 'Invalid email address. Please ensure it follows the format: username@domain.com' | translate }}
             </div>
           }
         } @else {
-          <div class="field-hint">e.g. username&#64;domain.com</div>
+          <div class="field-hint">{{ 'e.g. username@domain.com' | translate }}</div>
         }
       </div>
     </label>
@@ -112,12 +111,12 @@
     <app-confirm-password class="password" [control]="confirmPassword"> </app-confirm-password>
 
     <app-custom-button type="submit" class="btn-submit" [disabled]="registerForm.invalid">
-      Create an Account
+      {{ 'Create an Account' | translate }}
     </app-custom-button>
     <div class="login-link-wrapper">
-      Already have an account?
-      <a routerLink="/login" class="login-link">Login</a>
-      instead
+      {{ 'Already have an account?' | translate }}
+      <a routerLink="/login" class="login-link">{{ 'Login' | translate }}</a>
+      {{ 'instead' | translate }}
     </div>
   </form>
 

@@ -3,10 +3,10 @@
 <div class="subheading">
   <div class="subheading-content">
     <div class="user-greeting">
-      <h3>Hello, {{ firstName }} {{ lastName }}</h3>
+      <h3>{{ 'Hello,' | translate }} {{ firstName }} {{ lastName }}</h3>
     </div>
     <p class="subheading-description">
-      Green & Tasty analytics dashboard. Track staff performance, sales trends, orders, and guest feedback.
+      {{ 'Green & Tasty analytics dashboard. Track staff performance, sales trends, orders, and guest feedback.' | translate }}
     </p>
   </div>
 </div>
@@ -15,10 +15,10 @@
   <div class="filters-card">
     <div class="filter-controls">
       <div class="filter-group">
-        <span class="filter-label">Report Type</span>
+        <span class="filter-label">{{ 'Report Type' | translate }}</span>
         <app-custom-select
           class="report-select"
-          [placeholder]="'Select report type'"
+          [placeholder]="'Select report type' | translate"
           [options]="reportTypes"
           [selectedOption]="selectedReportType"
           (optionSelected)="onReportTypeSelected($event)"
@@ -28,7 +28,7 @@
       </div>
 
       <div class="filter-group">
-        <span class="filter-label">Report Period</span>
+        <span class="filter-label">{{ 'Report Period' | translate }}</span>
         <div
           class="custom-select-period"
           role="button"
@@ -40,7 +40,7 @@
           <div class="selected-value">
             <div class="selected-text">
               <img src="assets/svg/calendar-green.svg" alt="" class="calendar-icon" />
-              <span class="period-text">{{ getPeriodPlaceholder() }}</span>
+              <span class="period-text">{{ getPeriodPlaceholder() | translate }}</span>
             </div>
             <img
               class="arrow-icon"
@@ -82,9 +82,9 @@
                 }
               </div>
               <div class="calendar-presets">
-                <button type="button" class="preset-chip" (click)="selectPreset(7)">Last 7d</button>
-                <button type="button" class="preset-chip" (click)="selectPreset(30)">Last 30d</button>
-                <button type="button" class="preset-chip" (click)="selectThisMonth()">This Month</button>
+                <button type="button" class="preset-chip" (click)="selectPreset(7)">{{ 'Last 7d' | translate }}</button>
+                <button type="button" class="preset-chip" (click)="selectPreset(30)">{{ 'Last 30d' | translate }}</button>
+                <button type="button" class="preset-chip" (click)="selectThisMonth()">{{ 'This Month' | translate }}</button>
               </div>
             </div>
           }
@@ -92,10 +92,10 @@
       </div>
 
       <div class="filter-group">
-        <span class="filter-label">Location</span>
+        <span class="filter-label">{{ 'Location' | translate }}</span>
         <app-custom-select
           class="report-select"
-          [placeholder]="'Select location'"
+          [placeholder]="'Select location' | translate"
           [options]="locationAddresses"
           [selectedOption]="selectedLocationAddress"
           (optionSelected)="onLocationSelected($event)"
@@ -112,7 +112,7 @@
           class="generate-btn"
           (click)="genetateReportRequest()"
         >
-          Generate Report
+          {{ 'Generate Report' | translate }}
         </app-custom-button>
       </div>
     </div>
@@ -123,90 +123,90 @@
       @if (selectedReportType === 'Staff performance') {
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Active Waiters</span>
+            <span class="kpi-label">{{ 'Active Waiters' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/person-green.svg" alt="" />
             </div>
           </div>
           <div class="kpi-value">{{ activeStaffCount }}</div>
-          <div class="kpi-hint">Assigned to {{ selectedLocationAddress }}</div>
+          <div class="kpi-hint">{{ 'Assigned to' | translate }} {{ selectedLocationAddress | translate }}</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Orders Processed</span>
+            <span class="kpi-label">{{ 'Orders Processed' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/pre-order.svg" alt="" />
             </div>
           </div>
           <div class="kpi-value">{{ totalOrdersCount }}</div>
-          <div class="kpi-hint positive">Total shifts completed</div>
+          <div class="kpi-hint positive">{{ 'Total shifts completed' | translate }}</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Avg Service Rating</span>
+            <span class="kpi-label">{{ 'Avg Service Rating' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/star.svg" alt="" />
             </div>
           </div>
           <div class="kpi-value">{{ averageServiceRating | number: '1.2-2' }} <span class="rating-max">/ 5.0</span></div>
-          <div class="kpi-hint">Guest service feedback</div>
+          <div class="kpi-hint">{{ 'Guest service feedback' | translate }}</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Working Hours</span>
+            <span class="kpi-label">{{ 'Working Hours' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/clock-green.svg" alt="" />
             </div>
           </div>
-          <div class="kpi-value">{{ totalWorkingHours }} hrs</div>
-          <div class="kpi-hint">Total cumulative shift time</div>
+          <div class="kpi-value">{{ totalWorkingHours }} {{ 'hrs' | translate }}</div>
+          <div class="kpi-hint">{{ 'Total cumulative shift time' | translate }}</div>
         </div>
       } @else {
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Total Revenue</span>
+            <span class="kpi-label">{{ 'Total Revenue' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/pre-order.svg" alt="" />
             </div>
           </div>
           <div class="kpi-value">{{ totalRevenue | currency: 'USD' }}</div>
-          <div class="kpi-hint positive">+{{ totalRevenueDelta | currency: 'USD' }} vs previous period</div>
+          <div class="kpi-hint positive">+{{ totalRevenueDelta | currency: 'USD' }} {{ 'vs previous period' | translate }}</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Total Orders</span>
+            <span class="kpi-label">{{ 'Total Orders' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/table-green.svg" alt="" />
             </div>
           </div>
           <div class="kpi-value">{{ totalOrdersCount }}</div>
-          <div class="kpi-hint">Across all monitored branches</div>
+          <div class="kpi-hint">{{ 'Across all monitored branches' | translate }}</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Avg Cuisine Rating</span>
+            <span class="kpi-label">{{ 'Avg Cuisine Rating' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/star.svg" alt="" />
             </div>
           </div>
           <div class="kpi-value">{{ averageCuisineRating | number: '1.2-2' }} <span class="rating-max">/ 5.0</span></div>
-          <div class="kpi-hint">Guest cuisine feedback</div>
+          <div class="kpi-hint">{{ 'Guest cuisine feedback' | translate }}</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-top">
-            <span class="kpi-label">Locations Monitored</span>
+            <span class="kpi-label">{{ 'Locations Monitored' | translate }}</span>
             <div class="kpi-icon-badge">
               <img src="assets/svg/location-green.svg" alt="" />
             </div>
           </div>
           <div class="kpi-value">{{ reportData.length }}</div>
-          <div class="kpi-hint">Active restaurant locations</div>
+          <div class="kpi-hint">{{ 'Active restaurant locations' | translate }}</div>
         </div>
       }
     </div>
@@ -215,19 +215,19 @@
   <div class="report-content-card">
     <div class="report-header-bar">
       <div class="report-title-info">
-        <h3 class="report-title">{{ selectedReportType }} Report</h3>
+        <h3 class="report-title">{{ selectedReportType | translate }} {{ 'Report' | translate }}</h3>
         <div class="report-meta">
           <span class="meta-tag location-tag">
             <img src="assets/svg/location-green.svg" alt="" />
-            {{ selectedLocationAddress }}
+            {{ selectedLocationAddress | translate }}
           </span>
           <span class="meta-tag period-tag">
             <img src="assets/svg/calendar-green.svg" alt="" />
-            {{ getPeriodPlaceholder() }}
+            {{ getPeriodPlaceholder() | translate }}
           </span>
           @if (isSampleData) {
             <span class="meta-tag preview-tag">
-              Preview Data
+              {{ 'Preview Data' | translate }}
             </span>
           }
         </div>
@@ -236,7 +236,7 @@
       <div class="report-actions">
         <app-custom-select
           class="export-select"
-          [placeholder]="'Download Report'"
+          [placeholder]="'Download Report' | translate"
           [options]="downloadOptions"
           (optionSelected)="onDownloadOptionSelected($event)"
           [showIcon]="false"
@@ -250,13 +250,13 @@
         <table class="report-table">
           <thead>
             <tr>
-              <th>Waiter</th>
-              <th>Location</th>
-              <th class="no-wrap">Period</th>
-              <th class="text-center">Hours</th>
-              <th class="text-center">Orders</th>
-              <th class="text-center">Orders Delta</th>
-              <th class="text-center">Service Rating</th>
+              <th>{{ 'Waiter' | translate }}</th>
+              <th>{{ 'Location' | translate }}</th>
+              <th class="no-wrap">{{ 'Period' | translate }}</th>
+              <th class="text-center">{{ 'Hours' | translate }}</th>
+              <th class="text-center">{{ 'Orders' | translate }}</th>
+              <th class="text-center">{{ 'Orders Delta' | translate }}</th>
+              <th class="text-center">{{ 'Service Rating' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -271,9 +271,9 @@
                     </div>
                   </div>
                 </td>
-                <td>{{ row.locationName }}</td>
+                <td>{{ row.locationName | translate }}</td>
                 <td class="no-wrap">{{ row.startDate | date: 'MMM d, y' }} – {{ row.endDate | date: 'MMM d, y' }}</td>
-                <td class="text-center font-medium">{{ row.workingHours }} hrs</td>
+                <td class="text-center font-medium">{{ row.workingHours }} {{ 'hrs' | translate }}</td>
                 <td class="text-center font-semibold">{{ row.totalOrders }}</td>
                 <td class="text-center">
                   <span
@@ -301,20 +301,20 @@
         <table class="report-table">
           <thead>
             <tr>
-              <th>Location</th>
-              <th class="no-wrap">Period</th>
-              <th class="text-center">Total Orders</th>
-              <th class="text-right">Revenue</th>
-              <th class="text-center">Avg Cuisine Feedback</th>
-              <th class="text-center">Min Cuisine Feedback</th>
-              <th class="text-center">Rating Delta</th>
-              <th class="text-right">Revenue Delta</th>
+              <th>{{ 'Location' | translate }}</th>
+              <th class="no-wrap">{{ 'Period' | translate }}</th>
+              <th class="text-center">{{ 'Total Orders' | translate }}</th>
+              <th class="text-right">{{ 'Revenue' | translate }}</th>
+              <th class="text-center">{{ 'Avg Cuisine Feedback' | translate }}</th>
+              <th class="text-center">{{ 'Min Cuisine Feedback' | translate }}</th>
+              <th class="text-center">{{ 'Rating Delta' | translate }}</th>
+              <th class="text-right">{{ 'Revenue Delta' | translate }}</th>
             </tr>
           </thead>
           <tbody>
             @for (row of reportData; track row.locationId) {
               <tr>
-                <td class="font-semibold">{{ row.locationName }}</td>
+                <td class="font-semibold">{{ row.locationName | translate }}</td>
                 <td class="no-wrap">{{ row.startDate | date: 'MMM d, y' }} – {{ row.endDate | date: 'MMM d, y' }}</td>
                 <td class="text-center font-medium">{{ row.totalOrders }}</td>
                 <td class="text-right font-bold revenue-cell">{{ row.revenue | currency: 'USD' }}</td>

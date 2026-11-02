@@ -1,7 +1,7 @@
 <app-header />
 
 <div class="subheading">
-  <h3>Hello, {{ waiterName() }} ({{ role() }})</h3>
+  <h3>{{ 'Hello,' | translate }} {{ waiterName() }}</h3>
 </div>
 
 <section class="filtration">
@@ -45,7 +45,7 @@
 
   <app-custom-button class="btn-add-reservation" (click)="onOpenMakeReservationModal()">
     <img class="button-icon" src="assets/svg/plus-white.svg" alt="" />
-    New Reservation
+    {{ 'New Reservation' | translate }}
   </app-custom-button>
 </section>
 

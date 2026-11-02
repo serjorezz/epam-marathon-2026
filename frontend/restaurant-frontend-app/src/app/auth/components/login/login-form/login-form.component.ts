@@ -7,11 +7,12 @@ import { first } from 'rxjs/operators';
 import { AuthenticationService } from '@app/auth/services/authentication.service';
 import { LoginDraftService } from '@app/auth/services/login-draft.service';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
     selector: 'app-login-form',
     standalone: true,
-    imports: [ReactiveFormsModule, RouterModule, CustomButtonComponent],
+    imports: [ReactiveFormsModule, RouterModule, CustomButtonComponent, TranslatePipe],
     templateUrl: './login-form.component.html',
     styleUrl: './login-form.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

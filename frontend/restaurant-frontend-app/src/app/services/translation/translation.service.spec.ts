@@ -10,9 +10,11 @@ describe("TranslationService", () => {
       providers: [TranslationService],
     });
     service = TestBed.inject(TranslationService);
+    service.setLanguage("en");
   });
 
   afterEach(() => {
+    service.setLanguage("en");
     localStorage.clear();
   });
 

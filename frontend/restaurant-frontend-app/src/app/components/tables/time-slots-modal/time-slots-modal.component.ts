@@ -3,10 +3,11 @@ import { TimeSlotComponent } from '../time-slot/time-slot.component';
 import { DatePipe } from '@angular/common';
 import { TimeRange } from '@app/models/tables/time-range.model';
 import { Table } from '@app/models/tables/table.model';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-time-slots-modal',
-  imports: [TimeSlotComponent, DatePipe],
+  imports: [TimeSlotComponent, DatePipe, TranslatePipe],
   templateUrl: './time-slots-modal.component.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,

@@ -5,17 +5,17 @@
     </div>
   } @else if (error() === 'notFound') {
     <div class="state-container">
-      <p class="error-msg">Group reservation not found</p>
+      <p class="error-msg">{{ 'Group reservation not found' | translate }}</p>
     </div>
   } @else if (error() === 'general') {
     <div class="state-container">
-      <p class="error-msg">Failed to load group reservation</p>
-      <button type="button" class="btn-try-again" (click)="loadData()">Try again</button>
+      <p class="error-msg">{{ 'Failed to load group reservation' | translate }}</p>
+      <button type="button" class="btn-try-again" (click)="loadData()">{{ 'Try again' | translate }}</button>
     </div>
   } @else {
     <header class="page-header">
       <div class="title-row">
-        <h1 class="page-title">Group Pre-Order</h1>
+        <h1 class="page-title">{{ 'Group Pre-Order' | translate }}</h1>
         <span class="status-badge" [class.submitted]="groupStatus() === 'Submitted'">
           {{ statusBadge() }}
         </span>
@@ -25,7 +25,7 @@
         <div class="meta-row">
           <div class="meta-item">
             <span class="meta-icon" aria-hidden="true">📍</span>
-            <span>{{ inv.LocationAddress }}</span>
+            <span>{{ inv.LocationAddress | translate }}</span>
           </div>
           <div class="meta-item">
             <span class="meta-icon" aria-hidden="true">📅</span>
@@ -37,7 +37,7 @@
           </div>
           <div class="meta-item">
             <span class="meta-icon" aria-hidden="true">👥</span>
-            <span>{{ participants().length }} of {{ inv.MaxGuestCount }} guests</span>
+            <span>{{ participants().length }} of {{ inv.MaxGuestCount }} {{ 'guests' | translate }}</span>
           </div>
         </div>
       }
@@ -46,9 +46,9 @@
         @if (refreshError()) {
           <p class="sync-msg sync-error">Couldn't refresh. Showing data from {{ updatedAt() | date:'HH:mm:ss' }}</p>
         } @else {
-          <p class="sync-msg sync-time">Updated at {{ updatedAt() | date:'HH:mm:ss' }}</p>
+          <p class="sync-msg sync-time">{{ 'Updated at' | translate }} {{ updatedAt() | date:'HH:mm:ss' }}</p>
         }
-        <button type="button" class="btn-refresh" (click)="refreshNow()">Refresh</button>
+        <button type="button" class="btn-refresh" (click)="refreshNow()">{{ 'Refresh' | translate }}</button>
       </div>
     </header>
 
@@ -77,15 +77,15 @@
 
       <section class="consolidated-section" aria-label="Consolidated Pre-Order">
         <div class="consolidated-card">
-          <h2 class="consolidated-title">Consolidated Pre-Order</h2>
+          <h2 class="consolidated-title">{{ 'Consolidated Pre-Order' | translate }}</h2>
 
           @if (!hasAnyDishes()) {
-            <p class="empty-state">Participants haven't added any dishes yet</p>
+            <p class="empty-state">{{ "Participants haven't added any dishes yet" | translate }}</p>
           } @else {
             <ul class="consolidated-items">
               @for (item of consolidated().items; track item.dish.id) {
                 <li class="consolidated-item">
-                  <span class="dish-name">{{ item.dish.name }} × {{ item.quantity }}</span>
+                  <span class="dish-name">{{ item.dish.name | translate }} × {{ item.quantity }}</span>
                   <span class="dish-price">{{ item.dish.price * item.quantity | currency }}</span>
                 </li>
               }
@@ -93,7 +93,7 @@
           }
 
           <div class="grand-total-row">
-            <span class="grand-total-label">Grand Total</span>
+            <span class="grand-total-label">{{ 'Grand Total' | translate }}</span>
             <span class="grand-total-value">{{ grandTotal() | currency }}</span>
           </div>
 
@@ -104,7 +104,7 @@
               [disabled]="!hasSubmittedDishes() || submitting()"
               (click)="openSubmitModal()"
             >
-              Submit Pre-Order
+              {{ 'Submit Pre-Order' | translate }}
             </button>
           }
         </div>
@@ -113,34 +113,34 @@
   }
 
   @if (showSubmitModal()) {
-    <app-modal title="Submit Pre-Order" (closed)="closeSubmitModal()">
-      <p>Are you sure you want to submit the consolidated pre-order to the restaurant? Only dishes from submitted carts will be included.</p>
+    <app-modal [title]="'Submit Pre-Order' | translate" (closed)="closeSubmitModal()">
+      <p>{{ 'Are you sure you want to submit the consolidated pre-order to the restaurant? Only dishes from submitted carts will be included.' | translate }}</p>
       <div modal-actions>
-        <button type="button" class="btn-modal-cancel" (click)="closeSubmitModal()">Cancel</button>
+        <button type="button" class="btn-modal-cancel" (click)="closeSubmitModal()">{{ 'Cancel' | translate }}</button>
         <button
           type="button"
           class="btn-modal-submit"
           [disabled]="submitting()"
           (click)="confirmSubmitOrder()"
         >
-          {{ submitting() ? 'Submitting…' : 'Submit' }}
+          {{ submitting() ? ('Please wait...' | translate) : ('Submit' | translate) }}
         </button>
       </div>
     </app-modal>
   }
 
   @if (guestToRemove()) {
-    <app-modal title="Remove Guest" (closed)="cancelRemoveGuest()">
+    <app-modal [title]="'Remove Guest' | translate" (closed)="cancelRemoveGuest()">
       <p>Are you sure you want to remove <strong>{{ guestToRemove()?.name }}</strong> and their pre-order from this reservation? This action cannot be undone.</p>
       <div modal-actions>
-        <button type="button" class="btn-modal-cancel" (click)="cancelRemoveGuest()">Cancel</button>
+        <button type="button" class="btn-modal-cancel" (click)="cancelRemoveGuest()">{{ 'Cancel' | translate }}</button>
         <button
           type="button"
           class="btn-modal-danger"
           [disabled]="removing()"
           (click)="confirmRemoveGuest()"
         >
-          Remove Guest
+          {{ 'Remove Guest' | translate }}
         </button>
       </div>
     </app-modal>

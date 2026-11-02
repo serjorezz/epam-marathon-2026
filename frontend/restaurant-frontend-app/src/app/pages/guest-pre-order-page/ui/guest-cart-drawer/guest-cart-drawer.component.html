@@ -3,7 +3,7 @@
         <button type="button" class="backdrop-dismiss" (click)="closed.emit()" aria-label="Close cart"></button>
         <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="guest-cart-title">
             <div class="header">
-                <h3 id="guest-cart-title">Cart</h3>
+                <h3 id="guest-cart-title">{{ 'Cart' | translate }}</h3>
                 <button type="button" class="icon-button icon-button--small close" (click)="closed.emit()" aria-label="Close cart">
                     <img src="assets/svg/close.svg" alt="" aria-hidden="true" />
                 </button>
@@ -12,9 +12,9 @@
             @if (items().length === 0) {
                 <div class="empty">
                     <img src="assets/svg/cart-empty-preorder.svg" alt="" aria-hidden="true" />
-                    <h3 class="empty-title">Your cart is empty</h3>
-                    <span class="empty-text">Looks like you haven't added any dishes to your cart yet</span>
-                    <button type="button" class="button button--tertiary button--small go" (click)="goToMenu.emit()">Go to Menu</button>
+                    <h3 class="empty-title">{{ 'Your cart is empty' | translate }}</h3>
+                    <span class="empty-text">{{ "Looks like you haven't added any dishes to your cart yet" | translate }}</span>
+                    <button type="button" class="button button--tertiary button--small go" (click)="goToMenu.emit()">{{ 'Go to Menu' | translate }}</button>
                 </div>
             } @else {
                 <div class="list">
@@ -23,8 +23,8 @@
                             <img class="img" [src]="it.imageUrl" alt="" />
 
                             <div class="info">
-                                <div class="name">{{ it.title }}</div>
-                                <div class="sub">Expected ready time - 10 minutes</div>
+                                <div class="name">{{ it.title | translate }}</div>
+                                <div class="sub">{{ 'Expected ready time - 10 minutes' | translate }}</div>
 
                                 <div class="qty">
                                     <button type="button" class="qty-btn" [disabled]="busy()" (click)="dec.emit(it.dishId)" aria-label="Decrease quantity">
@@ -59,7 +59,7 @@
                         <p class="cart-error" role="alert">{{ error() }}</p>
                     }
                     <div class="total">
-                        <span class="total-label">Grand Total</span>
+                        <span class="total-label">{{ 'Grand Total' | translate }}</span>
                         <span class="total-value">{{ total() | currency: '$' }}</span>
                     </div>
 
@@ -69,7 +69,7 @@
                         [disabled]="items().length === 0 || busy()"
                         (click)="submitted.emit()"
                     >
-                    {{ busy() ? 'Please wait...' : 'Submit Pre-Order' }}
+                    {{ (busy() ? 'Please wait...' : 'Submit Pre-Order') | translate }}
                     </button>
                 </div>
             }

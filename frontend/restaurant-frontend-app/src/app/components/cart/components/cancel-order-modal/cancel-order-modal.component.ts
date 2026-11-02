@@ -7,11 +7,12 @@ import {
 } from '@angular/core';
 
 import { formatOrderNumber } from '@app/shared/helpers/order-helpers';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-cancel-order-modal',
   standalone: true,
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './cancel-order-modal.component.html',
   styleUrl: './cancel-order-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

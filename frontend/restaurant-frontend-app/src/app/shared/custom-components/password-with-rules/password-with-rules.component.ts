@@ -4,10 +4,11 @@ import { startWith } from 'rxjs/operators';
 import { PasswordComponent } from '../password/password.component';
 import { NgClass } from '@angular/common';
 import { FormValidatorsService } from '@app/auth/services/form-validators-service.service';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-password-with-rules',
-  imports: [ReactiveFormsModule, PasswordComponent, NgClass],
+  imports: [ReactiveFormsModule, PasswordComponent, NgClass, TranslatePipe],
   templateUrl: './password-with-rules.component.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,

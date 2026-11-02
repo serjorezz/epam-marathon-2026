@@ -2,7 +2,7 @@
 
 <div class="subheading">
   <h3>
-    Hello, {{ firstName() }} {{ lastName() }}
+    {{ 'Hello,' | translate }} {{ firstName() }} {{ lastName() }}
   </h3>
 
   @if (reservations().length > 0) {
@@ -57,7 +57,7 @@
       class="button button--primary button--large"
       routerLink="/tables"
     >
-      Book a table
+      {{ 'Book a table' | translate }}
     </a>
   </div>
 }
@@ -69,7 +69,7 @@
   selectedTimeRange()
   ) {
   <app-make-reservation
-    title="Edit Reservation"
+    [title]="'Edit Reservation' | translate"
     [table]="selectedTable()!"
     [guests]="selectedReservation()!.guestCount"
     [selectedTimeRange]="selectedTimeRange()!"

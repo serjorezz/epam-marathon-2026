@@ -21,7 +21,7 @@
         />
       }
 
-      <span [class.placeholder]="!selectedOption()">{{ displayText() }}</span>
+      <span [class.placeholder]="!selectedOption()">{{ displayText() | translate }}</span>
     </div>
 
     @if (trailingIconPath()) {
@@ -59,7 +59,7 @@
             selectOption(option)
           "
         >
-          {{ getOptionText(option) }}
+          {{ getOptionText(option) | translate }}
         </li>
       }
     </ul>
@@ -67,5 +67,5 @@
 </div>
 
 @if (error()) {
-  <span class="error-message" role="alert">{{ error() }}</span>
+  <span class="error-message" role="alert">{{ error() | translate }}</span>
 }

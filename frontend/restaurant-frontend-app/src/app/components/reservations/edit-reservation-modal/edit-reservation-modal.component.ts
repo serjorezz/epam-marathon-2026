@@ -21,10 +21,11 @@ import {
 } from '@app/shared/helpers/date-helpers';
 import { STAY_DURATION_OPTIONS } from './constants';
 import { ReservationDraftChanges } from './models';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-edit-reservation-modal',
-  imports: [DatePipe, ModalComponent, CustomSelectComponent, CustomNumberComponent],
+  imports: [DatePipe, ModalComponent, CustomSelectComponent, CustomNumberComponent, TranslatePipe],
   templateUrl: './edit-reservation-modal.component.html',
   styleUrl: './edit-reservation-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.Eager,

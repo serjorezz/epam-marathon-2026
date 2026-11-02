@@ -1,3 +1,4 @@
+import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {
   Component,
   EventEmitter,
@@ -19,7 +20,7 @@ import {ToastService} from '@app/services/toast/toast.service';
 
 @Component({
     selector: 'app-place-order-waiter',
-    imports: [CustomButtonComponent, DishSelectCardComponent, ReactiveFormsModule],
+    imports: [CustomButtonComponent, DishSelectCardComponent, ReactiveFormsModule, TranslatePipe],
     templateUrl: './place-order-waiter.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './place-order-waiter.component.scss',

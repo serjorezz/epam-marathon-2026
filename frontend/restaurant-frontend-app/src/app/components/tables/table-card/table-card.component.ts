@@ -11,6 +11,7 @@ import { Table } from '@app/models/tables/table.model';
 import { TimeRange } from '@app/models/tables/time-range.model';
 import { HourSlot } from './models';
 import { formatTime } from '@app/shared/helpers/date-helpers';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 const FIRST_SLOT_MINUTES = 10 * 60;
 const LAST_SLOT_MINUTES = 21 * 60 + 30;
@@ -18,7 +19,7 @@ const SLOT_STEP_MINUTES = 30;
 
 @Component({
   selector: 'app-table-card',
-  imports: [TimeSlotComponent],
+  imports: [TimeSlotComponent, TranslatePipe],
   templateUrl: './table-card.component.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.Eager,

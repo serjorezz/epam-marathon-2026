@@ -2,16 +2,16 @@
   <div class="modal-container" role="presentation" (click)="$event.stopPropagation()">
     <div>
       <div class="modal-header">
-        <h2 class="title">{{ title }}</h2>
+        <h2 class="title">{{ title | translate }}</h2>
         <button class="close-btn" (click)="onClose()">
           <img src="assets/svg/close.svg" alt="close button" />
         </button>
       </div>
 
       <p class="subtitle">
-        You are making a reservation at
-        <span class="body-bold">{{ locationName }}, Table {{ table.tableNumber }}</span>
-        for <span class="body-bold">{{ selectedTimeRange.start | date: 'MMM d, y' }}</span
+        {{ 'You are making a reservation at' | translate }}
+        <span class="body-bold">{{ locationName | translate }}, {{ 'Table' | translate }} {{ table.tableNumber }}</span>
+        {{ 'for' | translate }} <span class="body-bold">{{ selectedTimeRange.start | date: 'MMM d, y' }}</span
         >.
       </p>
     </div>
@@ -19,16 +19,16 @@
     <div class="reservation-details">
       <div class="reservation-guests">
         <div>
-          <h3>Guests</h3>
-          <p class="subtitle">Please specify the number of guests.</p>
-          <p class="subtitle">Table seating capacity: {{ table.capacity }} people</p>
+          <h3>{{ 'Guests' | translate }}</h3>
+          <p class="subtitle">{{ 'Please specify the number of guests.' | translate }}</p>
+          <p class="subtitle">{{ 'Table seating capacity: ' | translate }}{{ table.capacity }} {{ (table.capacity === 1 ? 'person' : 'people') | translate }}</p>
         </div>
 
         <app-custom-number
           class="guests-filter"
           [currentValue]="guests"
           [iconPath]="'assets/svg/people-green.svg'"
-          [placeholder]="'Guests'"
+          placeholder="Guests"
           [minValue]="1"
           [maxValue]="table.capacity"
           (currentValueChange)="onGuestsChange($event)"
@@ -37,13 +37,13 @@
 
       <div class="reservation-time">
         <div>
-          <h3>Time</h3>
-          <p class="subtitle">Please choose your preferred time from the dropdowns below</p>
+          <h3>{{ 'Time' | translate }}</h3>
+          <p class="subtitle">{{ 'Please choose your preferred time from the dropdowns below' | translate }}</p>
         </div>
 
         <div class="time-selectors">
           <div class="time-selector">
-            <p class="body-bold">From</p>
+            <p class="body-bold">{{ 'From' | translate }}</p>
             <app-custom-select
               [selectedOption]="selectStartTime()"
               [iconPath]="'assets/svg/clock-green.svg'"
@@ -54,7 +54,7 @@
           </div>
 
           <div class="time-selector">
-            <p class="body-bold">To</p>
+            <p class="body-bold">{{ 'To' | translate }}</p>
             <app-custom-select
               [selectedOption]="selectEndTime()"
               [iconPath]="'assets/svg/clock-green.svg'"
@@ -67,6 +67,6 @@
       </div>
     </div>
 
-    <app-custom-button (click)="onMakeReservation()">{{ title }}</app-custom-button>
+    <app-custom-button (click)="onMakeReservation()">{{ title | translate }}</app-custom-button>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="subheading">
-  <h3>My Profile</h3>
+  <h3>{{ 'My Profile' | translate }}</h3>
 </div>
 
 <main class="profile-wrapper">
@@ -14,7 +14,7 @@
       [attr.aria-selected]="selectedTab() === 'info'"
       (click)="selectTab('info')"
     >
-      General information
+      {{ 'General information' | translate }}
     </button>
 
     <button
@@ -27,7 +27,7 @@
       [attr.aria-selected]="selectedTab() === 'password'"
       (click)="selectTab('password')"
     >
-      Change Password
+      {{ 'Change Password' | translate }}
     </button>
   </div>
 

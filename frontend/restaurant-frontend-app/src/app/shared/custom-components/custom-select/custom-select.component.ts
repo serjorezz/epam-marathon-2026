@@ -8,10 +8,12 @@ import {
   signal,
 } from '@angular/core';
 import { SelectOption } from '@app/models/shared/select-option.model';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-custom-select',
   standalone: true,
+  imports: [TranslatePipe],
   templateUrl: './custom-select.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './custom-select.component.scss',

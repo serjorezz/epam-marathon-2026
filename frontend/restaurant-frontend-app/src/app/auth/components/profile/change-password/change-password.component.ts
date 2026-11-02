@@ -19,6 +19,7 @@ import { ConfirmPasswordComponent } from '@app/shared/custom-components/confirm-
 import { PasswordComponent } from '@app/shared/custom-components/password/password.component';
 import { PasswordWithRulesComponent } from '@app/shared/custom-components/password-with-rules/password-with-rules.component';
 import { ToastService } from '@app/services/toast/toast.service';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-change-password',
@@ -28,6 +29,7 @@ import { ToastService } from '@app/services/toast/toast.service';
     PasswordComponent,
     PasswordWithRulesComponent,
     ConfirmPasswordComponent,
+    TranslatePipe,
   ],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',

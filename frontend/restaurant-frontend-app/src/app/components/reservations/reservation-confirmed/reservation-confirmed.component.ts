@@ -12,6 +12,7 @@ import {
   ReservationStatus,
 } from '@app/models/reservations/reservation.model';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-reservation-confirmed',
@@ -19,6 +20,7 @@ import { CustomButtonComponent } from '@app/shared/custom-components/custom-butt
   imports: [
     DatePipe,
     CustomButtonComponent,
+    TranslatePipe,
   ],
   templateUrl: './reservation-confirmed.component.html',
   styleUrl: './reservation-confirmed.component.scss',

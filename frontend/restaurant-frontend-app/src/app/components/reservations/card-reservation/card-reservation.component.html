@@ -79,7 +79,7 @@
             aria-hidden="true"
           />
 
-          {{ creatorRole() }} {{ creatorName() }}
+          {{ creatorRole() | translate }} {{ creatorName() }}
         </span>
       </div>
 
@@ -92,12 +92,12 @@
             aria-hidden="true"
           />
 
-          Pre-order:
+          {{ 'Pre-order:' | translate }}
           {{ preOrderItemCount() }}
           {{
-            preOrderItemCount() === 1
+            (preOrderItemCount() === 1
               ? 'dish'
-              : 'dishes'
+              : 'dishes') | translate
           }}
         </span>
       </div>
@@ -114,9 +114,9 @@
 
         {{ r().guestCount }}
         {{
-          r().guestCount === 1
+          (r().guestCount === 1
             ? 'Guest'
-            : 'Guests'
+            : 'Guests') | translate
         }}
       </span>
     </div>
@@ -130,7 +130,7 @@
           class="button button--tertiary button--large"
           (click)="cancelReservation.emit(r().id)"
         >
-          Cancel
+          {{ 'Cancel' | translate }}
         </button>
 
         @if (role() === Roles.CUSTOMER) {
@@ -139,7 +139,7 @@
             class="button button--secondary button--large"
             (click)="editReservation.emit(r())"
           >
-            Edit
+            {{ 'Edit' | translate }}
           </button>
         }
 
@@ -149,7 +149,7 @@
             class="button button--secondary button--large"
             (click)="postponeReservation.emit(r())"
           >
-            Postpone
+            {{ 'Postpone' | translate }}
           </button>
 
           @if (canOpenWaiterPreOrder()) {
@@ -163,7 +163,7 @@
                 [disabled]="isPreOrderCutoffReached()"
                 (click)="onPreOrderWaiter()"
               >
-                Pre-order
+                {{ 'Pre-order' | translate }}
               </button>
               @if (isPreOrderCutoffReached()) {
                 <div class="tooltip-box" role="tooltip">
@@ -183,7 +183,7 @@
               [disabled]="isPreOrderCutoffReached()"
               (click)="onPreOrder()"
             >
-              Pre-order
+              {{ 'Pre-order' | translate }}
             </button>
             @if (isPreOrderCutoffReached()) {
               <div class="tooltip-box" role="tooltip">
@@ -200,7 +200,7 @@
           class="button button--tertiary button--large"
           (click)="cancelReservation.emit(r().id)"
         >
-          Cancel
+          {{ 'Cancel' | translate }}
         </button>
 
         @if (
@@ -212,7 +212,7 @@
             class="button button--primary button--large"
             (click)="onPreOrderWaiter()"
           >
-            Pre-order
+            {{ 'Pre-order' | translate }}
           </button>
         }
       }
@@ -231,7 +231,7 @@
           class="button button--secondary button--large"
           (click)="leaveFeedbackReservation.emit(r())"
         >
-          Leave Feedback
+          {{ 'Leave Feedback' | translate }}
         </button>
       }
 
@@ -247,7 +247,7 @@
           class="button button--secondary button--large"
           (click)="updateFeedbackReservation.emit(r())"
         >
-          Update Feedback
+          {{ 'Update Feedback' | translate }}
         </button>
       }
     }
@@ -265,7 +265,7 @@
           )
         "
       >
-        Start service
+        {{ 'Start service' | translate }}
       </button>
     }
 
@@ -283,7 +283,7 @@
           )
         "
       >
-        Finish service
+        {{ 'Finish service' | translate }}
       </button>
     }
 
@@ -301,7 +301,7 @@
         class="button button--primary button--large"
         (click)="sendAnonymousFeedback.emit(r())"
       >
-        Send feedback
+        {{ 'Send feedback' | translate }}
       </button>
     }
   </div>

@@ -13,6 +13,8 @@ import { Table } from '@app/models/tables/table.model';
 import { TimeRange } from '@app/models/tables/time-range.model';
 import { formatTime } from '@app/shared/helpers/date-helpers';
 import {ToastService} from '@app/services/toast/toast.service';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
+
 @Component({
   selector: 'app-make-reservation',
   imports: [
@@ -20,6 +22,7 @@ import {ToastService} from '@app/services/toast/toast.service';
     CustomButtonComponent,
     CustomNumberComponent,
     CustomSelectComponent,
+    TranslatePipe,
   ],
   templateUrl: './make-reservation.component.html',
   standalone: true,

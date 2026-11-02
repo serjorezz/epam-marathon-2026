@@ -3,13 +3,14 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { GuestInvite } from '@app/models/reservations/guest-invite.model';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
 import { GuestCartItem } from '@app/pages/guest-pre-order-page/state/guest-preorder.store';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
     standalone: true,
     selector: 'app-guest-preorder-submitted',
     templateUrl: './guest-preorder-submitted.component.html',
     styleUrl: './guest-preorder-submitted.component.scss',
-    imports: [CurrencyPipe, DatePipe, CustomButtonComponent],
+    imports: [CurrencyPipe, DatePipe, CustomButtonComponent, TranslatePipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GuestPreorderSubmittedComponent {

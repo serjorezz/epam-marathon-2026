@@ -15,7 +15,7 @@
         id="reservation-confirmed-title"
         class="confirmed-title"
       >
-        Reservation Confirmed!
+        {{ 'Reservation Confirmed!' | translate }}
       </h2>
 
       <button
@@ -36,43 +36,43 @@
 
     <div class="reservation-info">
       <p>
-        Your table reservation at
+        {{ 'Your table reservation at' | translate }}
 
         <strong class="bold-text">
           {{ reservation().restaurantName }}
         </strong>
 
-        for
+        {{ 'for' | translate }}
 
         <strong class="bold-text">
-          {{ reservation().guestCount }} people
+          {{ reservation().guestCount }} {{ (reservation().guestCount === 1 ? 'person' : 'people') | translate }}
         </strong>
 
-        on
+        {{ 'on' | translate }}
 
         <strong class="bold-text">
           {{ reservation().startTime | date: 'MMM d, y' }}
         </strong>,
 
-        from
+        {{ 'from' | translate }}
 
         <strong class="bold-text">
           {{ reservation().startTime | date: 'shortTime' }}
         </strong>
 
-        to
+        {{ 'to' | translate }}
 
         <strong class="bold-text">
           {{ reservation().endTime | date: 'shortTime' }}
         </strong>
 
-        at
+        {{ 'at' | translate }}
 
         <strong class="bold-text">
-          Table {{ reservation().tableId }}
+          {{ 'Table' | translate }} {{ reservation().tableId }}
         </strong>
 
-        has been successfully made.
+        {{ 'has been successfully made.' | translate }}
       </p>
 
       <p
@@ -80,16 +80,15 @@
           reservation().status === ReservationStatus.Cancelled
         "
       >
-        We look forward to welcoming you at
+        {{ 'We look forward to welcoming you at' | translate }}
 
         <strong class="bold-text">
-          {{ reservation().locationAddress }}
+          {{ reservation().locationAddress | translate }}
         </strong>.
       </p>
 
       <p>
-        If you need to modify or cancel your reservation, you
-        can do so up to 30 minutes before the reservation time.
+        {{ 'If you need to modify or cancel your reservation, you can do so up to 30 minutes before the reservation time.' | translate }}
       </p>
     </div>
 
@@ -100,7 +99,7 @@
         size="large"
         (click)="onCancel()"
       >
-        Cancel Reservation
+        {{ 'Cancel Reservation' | translate }}
       </app-custom-button>
 
       <app-custom-button
@@ -109,7 +108,7 @@
         size="large"
         (click)="onEdit()"
       >
-        Edit Reservation
+        {{ 'Edit Reservation' | translate }}
       </app-custom-button>
     </div>
   </section>

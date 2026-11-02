@@ -13,10 +13,11 @@ import {
 import QRCodeStyling from 'qr-code-styling';
 import { FeedbackQrService } from '@app/services/reservation/feedback-qr.service';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-feedback-qr',
-  imports: [CustomButtonComponent],
+  imports: [CustomButtonComponent, TranslatePipe],
   standalone: true,
   templateUrl: './feedback-qr-modal.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
