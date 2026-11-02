@@ -166,7 +166,7 @@ export class ReservationDashboardComponent implements OnInit {
     }
 
     if (user.role !== Roles.CUSTOMER) {
-      void this.router.navigate(['/main']);
+      void this.router.navigate(['/']);
       return;
     }
 

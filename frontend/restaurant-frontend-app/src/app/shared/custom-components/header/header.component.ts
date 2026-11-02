@@ -153,7 +153,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.closeNotificationsDropdown();
     this.showCart.set(false);
 
-    void this.router.navigate(['/main']);
+    void this.router.navigate(['/']);
   }
 
   toggleNotificationsDropdown() {

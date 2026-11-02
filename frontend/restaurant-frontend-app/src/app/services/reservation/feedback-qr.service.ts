@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FeedbackQrService {
-  private readonly frontendBaseUrl = window.location.origin + '/main';
+  private readonly frontendBaseUrl = window.location.origin;
   private readonly http: HttpClient = inject(HttpClient);
   private readonly baseUrl = inject(API_BASE_URL);
 

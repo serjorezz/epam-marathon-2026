@@ -74,7 +74,7 @@ export class MainPageComponent implements OnInit {
 
   // closing the modal returns to the main screen
   closeLogin() {
-    this.router.navigate(['/main']);
+    this.router.navigate(['/']);
   }
 
   openDishModal(dish: DishListResponse): void {

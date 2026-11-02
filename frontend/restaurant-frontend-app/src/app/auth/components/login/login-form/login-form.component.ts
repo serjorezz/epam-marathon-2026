@@ -103,7 +103,7 @@ export class LoginFormComponent {
             this.auth.user$.pipe(first((u) => !!u)).subscribe((user) => {
                 if (user.role === 'Waiter') this.router.navigate(['/waiter-reservations']);
                 else if (user.role === 'Admin') this.router.navigate(['/reports']);
-                else this.router.navigate(['/main']);
+                else this.router.navigate(['/']);
             });
         } finally {
             this.isLoading.set(false);

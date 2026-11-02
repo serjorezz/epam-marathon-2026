@@ -11,7 +11,7 @@ public sealed class MainPage(IPage page) : BasePage(page)
     public ILocator ViewMenuCta => Page.GetByRole(AriaRole.Link, new() { Name = "View Menu" });
     private ILocator LocationCards => Page.Locator(".location-cards > app-location-card");
 
-    public Task NavigateAsync() => NavigateToAsync("/main");
+    public Task NavigateAsync() => NavigateToAsync("/");
 
     public LocationCardComponent LocationCard(string address) =>
         new(LocationCards.Filter(new() { HasText = address }));

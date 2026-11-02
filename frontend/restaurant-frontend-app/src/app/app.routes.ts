@@ -54,7 +54,12 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'main',
+        component: MainPageComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'main',
+        redirectTo: '',
         pathMatch: 'full',
       },
       {
@@ -62,10 +67,6 @@ export const routes: Routes = [
         data: { authorized: true },
         path: 'profile',
         component: ProfileComponent,
-      },
-      {
-        path: 'main',
-        component: MainPageComponent,
       },
       {
         canActivate: [AuthGuard],

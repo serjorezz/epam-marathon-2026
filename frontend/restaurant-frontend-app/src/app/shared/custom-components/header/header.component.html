@@ -1,5 +1,5 @@
 <header class="header">
-  <a class="logo-container" routerLink="/main">
+  <a class="logo-container" routerLink="/">
     <img src="assets/svg/logo_vegeterian.svg" alt="vegetarian image" class="logo-image" />
   </a>
   @if (!isSubmittedGuestPreorder) {
@@ -18,7 +18,7 @@
     }
 
     @if (user()?.role === Roles.CUSTOMER || !user()) {
-      <a routerLink="/main" class="nav-link" [routerLinkActive]="'active'">Main page</a>
+      <a routerLink="/" class="nav-link" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">Main page</a>
       <a routerLink="/tables" class="nav-link" [routerLinkActive]="'active'">Book a Table</a>
     }
 
