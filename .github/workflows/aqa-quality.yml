@@ -17,6 +17,8 @@ on:
       - "aqa/restaurant-aqa-framework/**"
       - ".github/workflows/aqa-quality.yml"
 
+  workflow_dispatch:
+
 concurrency:
   group: aqa-quality-${{ github.ref }}
   cancel-in-progress: true
@@ -32,7 +34,7 @@ jobs:
       run:
         working-directory: aqa/restaurant-aqa-framework
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-dotnet@v4
         with:

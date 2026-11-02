@@ -1,77 +1,80 @@
-    name: PR
+name: PR
 
-    on:
-        pull_request:
-          branches:
-            - main
-          paths:
-            - "frontend/restaurant-frontend-app/**"
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "frontend/restaurant-frontend-app/**"
+      - ".github/workflows/pr.yml"
 
-        push:
-          branches: 
-            - main
-          paths:
-            - 'frontend/restaurant-frontend-app/**'
-        workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/restaurant-frontend-app/**"
+      - ".github/workflows/pr.yml"
 
-    concurrency:
-        group: pr-${{ github.ref }}
-        cancel-in-progress: true
-      
-    permissions:
-      id-token: write
-      contents: read
+  workflow_dispatch:
 
-    jobs:
-        frontend:
-            runs-on: ubuntu-latest
-            timeout-minutes: 15
-            defaults:
-                run:
-                    working-directory: frontend/restaurant-frontend-app
-            steps: 
-                - uses: actions/checkout@v5
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
 
-                - uses: actions/setup-node@v5
-                  with:
-                    node-version-file: frontend/restaurant-frontend-app/.nvmrc
-                    cache: npm
-                    cache-dependency-path: frontend/restaurant-frontend-app/package-lock.json
-                
-                - name: Install
-                  run: npm ci
+permissions:
+  id-token: write
+  contents: write
+  pages: write
 
-                # TODO(#57): enable after the Prettier sweep - 66 files unformatted (as of 28 august 2026)
-                # - name: Format check
-                #   run: npx prettier --check "src/**/*.{ts,html,scss}"
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend/restaurant-frontend-app
+    steps:
+      - uses: actions/checkout@v4
 
-                - name: Lint
-                  run: npm run lint
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: frontend/restaurant-frontend-app/.nvmrc
+          cache: npm
+          cache-dependency-path: frontend/restaurant-frontend-app/package-lock.json
 
-                - name: Type-check app
-                  run: npx tsc -p tsconfig.app.json --noEmit
+      - name: Install
+        run: npm ci
 
-                - name: Type-check specs
-                  run: npx tsc -p tsconfig.spec.json --noEmit
+      - name: Lint
+        run: npm run lint
 
-                # TODO(#90): enable once unit tests are stable in CI ()
-                # - name: Unit tests
-                #  run: npm test -- --watch=false --browsers=ChromeHeadless
-                #  env:
-                #    CHROME_BIN: /usr/bin/google-chrome
+      - name: Type-check app
+        run: npx tsc -p tsconfig.app.json --noEmit
 
-                - name: Production build
-                  run: npm run build
-                  env:
-                     BACKEND_URL: ${{ vars.BACKEND_URL }}
-                
-                - name: Configure AWS credentials
-                  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-                  uses: aws-actions/configure-aws-credentials@v4
-                  with:
-                    role-to-assume: ${{ secrets.AWS_DEPLOY_S3_ROLE }}
-                    aws-region: ${{ vars.AWS_REGION }}
+      - name: Type-check specs
+        run: npx tsc -p tsconfig.spec.json --noEmit
 
-                - name: Deploy to S3
-                  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-                  run: aws s3 sync dist/restaurant-frontend-app/browser s3://${{ vars.S3_BUCKET }}/ --delete
+      - name: Production build
+        run: npm run build
+        env:
+          BACKEND_URL: ${{ vars.BACKEND_URL || 'https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop' }}
+
+      - name: Configure AWS credentials
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_S3_ROLE || 'arn:aws:iam::060913167510:role/GitHubActionsDeployRole' }}
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+
+      - name: Deploy to S3
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        run: npm run deploy
+
+      - name: Deploy to GitHub Pages (gh-pages)
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: frontend/restaurant-frontend-app/dist/restaurant-frontend-app/browser
+          cname: green-tasty.devs.surf
+          force_orphan: true

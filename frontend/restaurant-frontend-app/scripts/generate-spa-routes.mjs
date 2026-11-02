@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync, existsSync } from 'node:fs';
+import { copyFileSync, mkdirSync, existsSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const BUNDLE_DIR = resolve('dist/restaurant-frontend-app/browser');
@@ -30,4 +30,11 @@ for (const route of routes) {
   copyFileSync(indexHtmlPath, join(routeDir, 'index.html'));
 }
 
-console.log(`Generated SPA route copies for: ${routes.join(', ')}`);
+// Create 404.html (SPA fallback for dynamic routes like /locations/:id and /reservations/:id/group-order)
+copyFileSync(indexHtmlPath, join(BUNDLE_DIR, '404.html'));
+
+// Create CNAME and .nojekyll for GitHub Pages custom domain hosting
+writeFileSync(join(BUNDLE_DIR, 'CNAME'), 'green-tasty.devs.surf\n');
+writeFileSync(join(BUNDLE_DIR, '.nojekyll'), '');
+
+console.log(`Generated SPA route copies, 404.html, and CNAME for: ${routes.join(', ')}`);
