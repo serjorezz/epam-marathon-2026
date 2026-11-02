@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReservationDashboardComponent, ReservationSortOption } from "./reservation-dashboard.component";
+import { ReservationDashboardComponent } from "./reservation-dashboard.component";
 import { API_BASE_URL } from "@app/shared/config/api-base-url.token";
 import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
