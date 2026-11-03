@@ -29,4 +29,13 @@ public class Location
 
     [DynamoDBProperty("specialtyDishIds")]
     public List<string>? SpecialtyDishIds { get; set; }
+
+    [DynamoDBProperty("happyHoursStart")]
+    public string? HappyHoursStart { get; set; }
+
+    [DynamoDBProperty("happyHoursEnd")]
+    public string? HappyHoursEnd { get; set; }
+
+    [DynamoDBProperty("discountPercentage")]
+    public int? DiscountPercentage { get; set; }
 }

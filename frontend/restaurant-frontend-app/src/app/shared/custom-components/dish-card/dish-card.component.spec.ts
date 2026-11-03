@@ -62,6 +62,7 @@ describe('DishCardComponent', () => {
     expect(favoriteBtn.classList.contains('is-favorite')).toBeTrue();
 
     const tooltip = fixture.nativeElement.querySelector('.favorite-tooltip');
+    expect(tooltip).toBeTruthy();
     expect(tooltip.textContent.trim()).toBe('In favorite');
     expect(favoriteBtn.getAttribute('aria-label')).toBe('In favorite');
   });
@@ -121,7 +122,7 @@ describe('DishCardComponent', () => {
     let emitted = false;
     component.favoriteToggle.subscribe(() => (emitted = true));
 
-    const fakeEvent = new Event('click');
+    const fakeEvent = new MouseEvent('click');
     component.onFavoriteClick(fakeEvent);
 
     expect(emitted).toBeFalse();
@@ -183,5 +184,29 @@ describe('DishCardComponent', () => {
 
     expect(allergenBadge).toBeTruthy();
     expect(spicyBadge).toBeTruthy();
+  });
+
+  it('should render regular price when happyHourDiscount is not provided', () => {
+    const priceText = fixture.nativeElement.querySelector('.dish-price');
+    expect(priceText).toBeTruthy();
+    expect(priceText.textContent).toContain('$15.00');
+    expect(fixture.nativeElement.querySelector('.old-price')).toBeNull();
+  });
+
+  it('should render crossed-out red old price with discount percentage and lower price under it when happyHourDiscount > 0', () => {
+    fixture.componentRef.setInput('happyHourDiscount', 10);
+    fixture.detectChanges();
+
+    const oldPrice = fixture.nativeElement.querySelector('.old-price');
+    expect(oldPrice).toBeTruthy();
+    expect(oldPrice.textContent).toContain('$15.00');
+
+    const discountBadge = fixture.nativeElement.querySelector('.discount-badge');
+    expect(discountBadge).toBeTruthy();
+    expect(discountBadge.textContent).toContain('-10%');
+
+    const discountedPrice = fixture.nativeElement.querySelector('.discounted-price');
+    expect(discountedPrice).toBeTruthy();
+    expect(discountedPrice.textContent).toContain('$13.50');
   });
 });

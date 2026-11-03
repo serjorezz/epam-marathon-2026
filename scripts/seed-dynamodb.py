@@ -317,7 +317,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "30"},
         "averageOccupancy": {"S": "75"},
         "imageUrl": {"S": "assets/img/locations/baratashvili-street-14.jpg"},
-        "rating": {"N": "4.8"}
+        "rating": {"N": "4.8"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     },
     {
         "id": {"S": "loc-abashidze"},
@@ -326,7 +329,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "35"},
         "averageOccupancy": {"S": "80"},
         "imageUrl": {"S": "assets/img/locations/abashidze-street-9.jpg"},
-        "rating": {"N": "4.9"}
+        "rating": {"N": "4.9"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     },
     {
         "id": {"S": "loc-rustaveli"},
@@ -335,7 +341,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "40"},
         "averageOccupancy": {"S": "65"},
         "imageUrl": {"S": "assets/img/locations/rustaveli-avenue-48.jpg"},
-        "rating": {"N": "4.8"}
+        "rating": {"N": "4.8"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     },
     {
         "id": {"S": "loc-chavchavadze"},
@@ -344,7 +353,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "32"},
         "averageOccupancy": {"S": "72"},
         "imageUrl": {"S": "assets/img/locations/chavchavadze-avenue-24.jpg"},
-        "rating": {"N": "4.9"}
+        "rating": {"N": "4.9"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     },
     {
         "id": {"S": "loc-agmashenebeli"},
@@ -353,7 +365,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "36"},
         "averageOccupancy": {"S": "78"},
         "imageUrl": {"S": "assets/img/locations/agmashenebeli-avenue-112.jpg"},
-        "rating": {"N": "4.8"}
+        "rating": {"N": "4.8"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     },
     {
         "id": {"S": "loc-pekini"},
@@ -362,7 +377,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "28"},
         "averageOccupancy": {"S": "70"},
         "imageUrl": {"S": "assets/img/locations/pekini-avenue-31.jpg"},
-        "rating": {"N": "4.7"}
+        "rating": {"N": "4.7"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     },
     {
         "id": {"S": "loc-marjanishvili"},
@@ -371,7 +389,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "34"},
         "averageOccupancy": {"S": "76"},
         "imageUrl": {"S": "assets/img/locations/marjanishvili-street-7.jpg"},
-        "rating": {"N": "4.9"}
+        "rating": {"N": "4.9"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     },
     {
         "id": {"S": "loc-gorgasali"},
@@ -380,7 +401,10 @@ LOCATIONS = [
         "totalCapacity": {"N": "38"},
         "averageOccupancy": {"S": "82"},
         "imageUrl": {"S": "assets/img/locations/gorgasali-street-19.jpg"},
-        "rating": {"N": "4.9"}
+        "rating": {"N": "4.9"},
+        "happyHoursStart": {"S": "12:00"},
+        "happyHoursEnd": {"S": "16:00"},
+        "discountPercentage": {"N": "10"}
     }
 ]
 

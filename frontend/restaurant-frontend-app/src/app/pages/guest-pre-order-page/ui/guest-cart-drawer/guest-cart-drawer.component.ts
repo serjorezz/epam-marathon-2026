@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { GuestCartItem } from '@app/pages/guest-pre-order-page/state/guest-preorder.store';
 import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
@@ -7,6 +7,7 @@ import {
   getAllergenDisplayName,
   DISH_ALLERGEN_METADATA,
 } from '@app/shared/helpers/dish-allergens.helper';
+import { calculateDiscountedPrice } from '@app/shared/helpers/happy-hours.helper';
 
 @Component({
   standalone: true,
@@ -23,6 +24,7 @@ export class GuestCartDrawerComponent {
   readonly busy = input(false);
   readonly error = input<string | null>(null);
   readonly isLocked = input(false);
+  readonly happyHourDiscount = input<number | null>(null);
 
   readonly closed = output<void>();
   readonly goToMenu = output<void>();
@@ -32,6 +34,19 @@ export class GuestCartDrawerComponent {
   readonly submitted = output<void>();
 
   readonly customizations = signal<Record<string, { removedAllergens: string[]; isNonSpicy: boolean }>>({});
+
+  readonly effectiveTotal = computed(() => {
+    const discount = this.happyHourDiscount();
+    if (!discount) return this.total();
+    return this.items().reduce((sum, item) => {
+      const discountedItemPrice = calculateDiscountedPrice(item.price, discount);
+      return sum + discountedItemPrice * item.qty;
+    }, 0);
+  });
+
+  getDiscountedPrice(price: number, discount: number): number {
+    return calculateDiscountedPrice(price, discount);
+  }
 
   getItemAllergens(item: GuestCartItem): string[] {
     return DISH_ALLERGEN_METADATA[item.dishId]?.allergens ?? [];

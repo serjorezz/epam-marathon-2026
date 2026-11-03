@@ -138,7 +138,17 @@
                                     <img src="assets/svg/trash.svg" alt="" />
                                 </button>
 
-                                <div class="price">{{ it.price | currency: '$' }}</div>
+                                @if (happyHourDiscount()) {
+                                    <div class="cart-pricing-happy-hour">
+                                        <div class="old-price-row">
+                                            <span class="old-price">{{ it.price * it.qty | currency: '$' }}</span>
+                                            <span class="discount-badge">-{{ happyHourDiscount() }}%</span>
+                                        </div>
+                                        <div class="discounted-price">{{ getDiscountedPrice(it.price, happyHourDiscount()!) * it.qty | currency: '$' }}</div>
+                                    </div>
+                                } @else {
+                                    <div class="price">{{ it.price * it.qty | currency: '$' }}</div>
+                                }
                             </div>
                         </div>
                     }
@@ -152,7 +162,7 @@
                     }
                     <div class="total">
                         <span class="total-label">{{ 'Grand Total' | translate }}</span>
-                        <span class="total-value">{{ total() | currency: '$' }}</span>
+                        <span class="total-value">{{ effectiveTotal() | currency: '$' }}</span>
                     </div>
 
                     <button

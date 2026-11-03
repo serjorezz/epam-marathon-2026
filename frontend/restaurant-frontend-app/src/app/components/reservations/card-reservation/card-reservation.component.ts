@@ -193,6 +193,8 @@ export class CardReservationComponent {
     const queryParams: Params = {
       preOrder: 'true',
       reservationId: reservation.id,
+      startTime: reservation.startTime,
+      endTime: reservation.endTime,
       reservationLabel: [
         reservation.locationAddress,
         tableLabel,

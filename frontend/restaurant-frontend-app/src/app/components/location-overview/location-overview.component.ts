@@ -1,3 +1,4 @@
+import { getHappyHoursConfig, getHappyHoursLocationDescription } from '@app/shared/helpers/happy-hours.helper';
 import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { inject } from '@angular/core';
@@ -58,6 +59,11 @@ export class LocationOverviewComponent implements OnInit {
 
     this.loadLocationData();
     this.loadReviews();
+  }
+
+  getHappyHoursDescription(location?: LocationResponse): string {
+    const config = getHappyHoursConfig(location);
+    return getHappyHoursLocationDescription(config);
   }
 
   loadLocationData(): void {

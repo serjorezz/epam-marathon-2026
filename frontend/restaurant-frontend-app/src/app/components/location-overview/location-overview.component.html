@@ -27,6 +27,11 @@
         {{ location?.description | translate }}
       </p>
 
+      <b>{{ 'Happy Hours' | translate }}</b>
+      <p class="location-description">
+        {{ getHappyHoursDescription(location) | translate }}
+      </p>
+
       <div class="restaurant-info__actions">
         <a
           class="button button--primary button--extra-large"

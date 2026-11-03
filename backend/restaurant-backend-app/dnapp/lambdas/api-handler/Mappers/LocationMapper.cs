@@ -19,6 +19,9 @@ public static class LocationMapper
                 : location.ImageUrl,
             Rating = location.Rating,
             TotalCapacity = location.TotalCapacity,
+            HappyHoursStart = location.HappyHoursStart,
+            HappyHoursEnd = location.HappyHoursEnd,
+            DiscountPercentage = location.DiscountPercentage,
         };
     }
 

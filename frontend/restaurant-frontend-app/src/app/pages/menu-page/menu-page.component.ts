@@ -1,3 +1,4 @@
+import { evaluateHappyHours } from '@app/shared/helpers/happy-hours.helper';
 import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -48,6 +49,8 @@ export class MenuPageComponent implements OnInit, OnDestroy {
   isPreOrderEnabled = false;
   preOrderReservationId?: string;
   preOrderReservationLabel?: string;
+  isHappyHourActive = false;
+  happyHourDiscount: number | null = null;
 
   sortOptions = Object.values(DishSort);
   sortLabels = DishSortingLabels;
@@ -104,11 +107,23 @@ export class MenuPageComponent implements OnInit, OnDestroy {
             .replace(/\.$/, '')
             .trim();
         }
+
+        const happyHoursEval = evaluateHappyHours({
+          locationId: params['locationId'],
+          startTime: params['startTime'],
+          reservationLabel: params['reservationLabel'],
+        });
+        this.isHappyHourActive = happyHoursEval.isHappyHour;
+        this.happyHourDiscount = this.isHappyHourActive ? happyHoursEval.discountPercentage : null;
+
         if (!this.preOrderReservationId) {
           console.error('Pre-order is enabled but no reservation ID provided.');
           this.toast.error('Pre-order is enabled but no reservation ID provided.', 'Error');
           this.isPreOrderEnabled = false;
         }
+      } else {
+        this.isHappyHourActive = false;
+        this.happyHourDiscount = null;
       }
 
       const category = params['category'] as DishType;

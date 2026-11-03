@@ -1,3 +1,8 @@
+import {
+  evaluateHappyHours,
+  calculateDiscountedPrice,
+} from '@app/shared/helpers/happy-hours.helper';
+import { OrderItem } from '@app/models/dishes/order-item.model';
 import { CurrencyPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -61,12 +66,33 @@ export class NotSubmittedOrderComponent {
     ),
   );
 
-  readonly totalPrice = computed(() =>
-    this.order().orderItems.reduce(
-      (total, item) => total + item.dish.price * item.quantity,
-      0,
-    ),
+  readonly happyHourEvaluation = computed(() => {
+    return evaluateHappyHours({
+      locationAddress: this.order().reservationAddress,
+      startTime: this.order().reservationTime,
+    });
+  });
+
+  readonly isHappyHourActive = computed(() => this.happyHourEvaluation().isHappyHour);
+  readonly happyHourDiscount = computed(() =>
+    this.isHappyHourActive() ? this.happyHourEvaluation().discountPercentage : null
   );
+
+  readonly totalPrice = computed(() => {
+    const discount = this.happyHourDiscount();
+    return this.order().orderItems.reduce((total, item) => {
+      const price = discount
+        ? calculateDiscountedPrice(item.dish.price, discount)
+        : item.dish.price;
+      return total + price * item.quantity;
+    }, 0);
+  });
+
+  getItemDiscountedPrice(item: OrderItem): number {
+    const discount = this.happyHourDiscount();
+    if (!discount) return item.dish.price * item.quantity;
+    return calculateDiscountedPrice(item.dish.price, discount) * item.quantity;
+  }
 
   getEnrichedDish(dish: DishListResponse): DishListResponse {
     return enrichDishWithAllergens(dish);

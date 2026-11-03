@@ -24,4 +24,13 @@ public class GetLocationResponse
 
     [JsonPropertyName("rating")]
     public double Rating { get; set; }
+
+    [JsonPropertyName("happyHoursStart")]
+    public string? HappyHoursStart { get; set; }
+
+    [JsonPropertyName("happyHoursEnd")]
+    public string? HappyHoursEnd { get; set; }
+
+    [JsonPropertyName("discountPercentage")]
+    public int? DiscountPercentage { get; set; }
 }

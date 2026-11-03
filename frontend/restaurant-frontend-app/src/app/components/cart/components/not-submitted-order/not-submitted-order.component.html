@@ -178,9 +178,19 @@
                 </button>
               </div>
 
-              <span class="body-bold">
-                {{ item.dish.price * item.quantity | currency }}
-              </span>
+              @if (happyHourDiscount()) {
+                <div class="cart-pricing-happy-hour">
+                  <div class="old-price-row">
+                    <span class="old-price">{{ item.dish.price * item.quantity | currency }}</span>
+                    <span class="discount-badge">-{{ happyHourDiscount() }}%</span>
+                  </div>
+                  <span class="discounted-price">{{ getItemDiscountedPrice(item) | currency }}</span>
+                </div>
+              } @else {
+                <span class="body-bold">
+                  {{ item.dish.price * item.quantity | currency }}
+                </span>
+              }
             </div>
           </div>
         </div>

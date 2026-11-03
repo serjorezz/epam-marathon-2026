@@ -6,4 +6,7 @@ export interface LocationResponse {
   averageOccupancy: string;
   imageUrl: string;
   rating: number;
+  happyHoursStart?: string;
+  happyHoursEnd?: string;
+  discountPercentage?: number;
 }

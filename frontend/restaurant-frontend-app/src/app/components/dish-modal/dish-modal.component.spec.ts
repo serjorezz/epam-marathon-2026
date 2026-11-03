@@ -53,7 +53,7 @@ describe('DishModalComponent', () => {
     const dietaryInfo = fixture.nativeElement.querySelector('.dish-dietary-info');
     expect(dietaryInfo).toBeTruthy();
 
-    const allergenRow = dietaryInfo.querySelector('.allergen-item');
+    const allergenRow = dietaryInfo.querySelector('.allergen-tag');
     expect(allergenRow).toBeTruthy();
     expect(allergenRow.textContent).toContain('Allergens:');
     expect(allergenRow.textContent).toContain('Nuts (cannot be removed)');
@@ -74,9 +74,26 @@ describe('DishModalComponent', () => {
     const dietaryInfo = fixture.nativeElement.querySelector('.dish-dietary-info');
     expect(dietaryInfo).toBeTruthy();
 
-    const spicyRow = dietaryInfo.querySelector('.spicy-item');
+    const spicyRow = dietaryInfo.querySelector('.spicy-tag');
     expect(spicyRow).toBeTruthy();
     expect(spicyRow.textContent).toContain('Spicy food');
     expect(spicyRow.textContent).toContain('Can be prepared non-spicy');
+  });
+
+  it('should render red struck-through old price with discount and lower price under it when happyHourDiscount > 0', () => {
+    component.happyHourDiscount = 10;
+    fixture.detectChanges();
+
+    const oldPrice = fixture.nativeElement.querySelector('.old-price');
+    expect(oldPrice).toBeTruthy();
+    expect(oldPrice.textContent).toContain('$12');
+
+    const discountBadge = fixture.nativeElement.querySelector('.discount-badge');
+    expect(discountBadge).toBeTruthy();
+    expect(discountBadge.textContent).toContain('-10%');
+
+    const discountedPrice = fixture.nativeElement.querySelector('.modal-pricing-happy-hour .dish-price');
+    expect(discountedPrice).toBeTruthy();
+    expect(discountedPrice.textContent).toContain('$10.8');
   });
 });

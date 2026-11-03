@@ -6,6 +6,7 @@ import {
   enrichDishWithAllergens,
   getAllergenDisplayName,
 } from '@app/shared/helpers/dish-allergens.helper';
+import { calculateDiscountedPrice } from '@app/shared/helpers/happy-hours.helper';
 
 @Component({
   selector: 'app-dish-modal',
@@ -18,6 +19,7 @@ import {
 export class DishModalComponent {
   @Input() dish?: DishListResponse | null;
   @Input() preOrderEnabled = false;
+  @Input() happyHourDiscount: number | null = null;
   @Output() closed = new EventEmitter<void>();
   @Output() preOrderClicked = new EventEmitter<void>();
 
@@ -50,6 +52,10 @@ export class DishModalComponent {
     return !!this.enrichedDish?.canBeNonSpicy;
   }
 
+  getDiscountedPrice(price: number, discount: number): number {
+    return calculateDiscountedPrice(price, discount);
+  }
+
   getAllergenLabel(allergen: string): string {
     const isRemovable = this.enrichedDish?.removableAllergens?.includes(allergen);
     const displayName = getAllergenDisplayName(allergen);
@@ -70,7 +76,9 @@ export class DishModalComponent {
   formatGrams(value?: string): string {
     if (!value) return 'N/A';
     const trimmed = value.trim();
-    if (trimmed.endsWith('g')) return trimmed;
+    if (trimmed.toLowerCase().endsWith('g') || trimmed.toLowerCase().endsWith('г')) {
+      return trimmed;
+    }
     return `${trimmed}g`;
   }
 }

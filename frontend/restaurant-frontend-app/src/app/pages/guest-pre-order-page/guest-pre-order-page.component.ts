@@ -1,3 +1,4 @@
+import { evaluateHappyHours } from '@app/shared/helpers/happy-hours.helper';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
@@ -45,6 +46,22 @@ export class GuestPreOrderPageComponent {
     readonly selectedDish = signal<DishListResponse | null>(null);
     readonly selectedCategory = signal<string | null>(null);
     readonly selectedSort = signal<'recommended' | 'price-asc' | 'price-desc'>('recommended');
+
+    readonly happyHoursEval = computed(() => {
+        const invite = this.store.invite();
+        const vm = this.store.inviteVm();
+        return evaluateHappyHours({
+            locationId: invite?.LocationId,
+            startTime: invite?.StartTime,
+            locationAddress: vm?.locationAddress,
+            reservationLabel: vm ? `${vm.locationAddress}, ${vm.timeText}` : null,
+        });
+    });
+
+    readonly isHappyHourActive = computed(() => this.happyHoursEval().isHappyHour);
+    readonly happyHourDiscount = computed(() =>
+        this.isHappyHourActive() ? this.happyHoursEval().discountPercentage : null
+    );
 
     readonly categoryOptions = computed(() =>
         this.store.menuCategories().map(key => ({ key, label: this.categoryLabel(key) }))

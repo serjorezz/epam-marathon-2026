@@ -15,7 +15,7 @@ describe('NotSubmittedOrderComponent', () => {
     status: 0,
     reservationId: 'res-1',
     reservationAddress: 'Test address',
-    reservationTime: '2026-09-07T12:15:00Z',
+    reservationTime: '19:00',
     orderItems: [
       {
         quantity: 2,
@@ -62,8 +62,35 @@ describe('NotSubmittedOrderComponent', () => {
     ).toHaveBeenCalledWith('order-1');
   });
 
-  it('should calculate the total price', () => {
+  it('should calculate the total price when outside happy hours', () => {
     expect(component.totalPrice()).toBe(30);
+  });
+
+  it('should calculate discounted total and show old price crossed out with discount when reservation is during happy hours', () => {
+    const happyHourOrder = {
+      ...order,
+      reservationTime: '13:00',
+    } as unknown as Order;
+
+    fixture.componentRef.setInput('order', happyHourOrder);
+    fixture.detectChanges();
+
+    expect(component.isHappyHourActive()).toBeTrue();
+    expect(component.happyHourDiscount()).toBe(10);
+    // 15 * 0.9 = 13.5 per item; 2 items = 27
+    expect(component.totalPrice()).toBe(27);
+
+    const oldPrice = fixture.nativeElement.querySelector('.old-price');
+    expect(oldPrice).toBeTruthy();
+    expect(oldPrice.textContent).toContain('$30.00');
+
+    const discountBadge = fixture.nativeElement.querySelector('.discount-badge');
+    expect(discountBadge).toBeTruthy();
+    expect(discountBadge.textContent).toContain('-10%');
+
+    const discountedPrice = fixture.nativeElement.querySelector('.discounted-price');
+    expect(discountedPrice).toBeTruthy();
+    expect(discountedPrice.textContent).toContain('$27.00');
   });
 
   it('should render customizable checkboxes for removable allergen and non-spicy toggle', () => {

@@ -1,32 +1,34 @@
-import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
+  computed,
   input,
   output,
-  computed,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { DishState } from '@app/models/enums/dish-state.model';
 import { DishStateLabels } from '@app/shared/mappers/dish-enum.mapper';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 import { enrichDishWithAllergens } from '@app/shared/helpers/dish-allergens.helper';
+import { calculateDiscountedPrice } from '@app/shared/helpers/happy-hours.helper';
 
 @Component({
   selector: 'app-dish-card',
-  templateUrl: './dish-card.component.html',
-  styleUrls: ['./dish-card.component.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [CommonModule, CustomButtonComponent, TranslatePipe],
+  imports: [CurrencyPipe, CustomButtonComponent, TranslatePipe],
+  templateUrl: './dish-card.component.html',
+  styleUrl: './dish-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DishCardComponent {
   readonly dish = input.required<DishListResponse>();
-  readonly maxWidth = input('');
-  readonly preOrderEnabled = input(false);
-  readonly showFavorite = input(true);
+  readonly preOrderEnabled = input<boolean>(false);
+  readonly maxWidth = input<string>('300px');
+  readonly showFavorite = input<boolean>(true);
+  readonly happyHourDiscount = input<number | null>(null);
 
   readonly dishClicked = output<void>();
   readonly preOrderClicked = output<void>();
@@ -66,20 +68,31 @@ export class DishCardComponent {
     );
   });
 
+  getDiscountedPrice(price: number, discount: number): number {
+    return calculateDiscountedPrice(price, discount);
+  }
+
   onCardClicked(): void {
     if (!this.isUnavailable() && !this.preOrderEnabled()) {
       this.dishClicked.emit();
     }
   }
 
-  onFavoriteClick(event: Event): void {
+  onFavoriteClick(event: MouseEvent): void {
+    if (!this.showFavorite()) return;
     event.stopPropagation();
     event.preventDefault();
-    if (!this.showFavorite()) {
-      return;
+    const newStatus = !this.isFavorite();
+    this.isFavoriteInternal.set(newStatus);
+    this.favoriteToggle.emit({
+      dish: this.dish(),
+      isFavorite: newStatus,
+    });
+  }
+
+  onPreOrderClicked(): void {
+    if (!this.isUnavailable()) {
+      this.preOrderClicked.emit();
     }
-    const nextState = !this.isFavorite();
-    this.isFavoriteInternal.set(nextState);
-    this.favoriteToggle.emit({ dish: this.dish(), isFavorite: nextState });
   }
 }

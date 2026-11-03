@@ -549,6 +549,10 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   uk: {
+    "Happy Hours": "Щасливі години",
+    "Happy hours": "Щасливі години",
+    "Daily from 12:00 to 16:00 — 10% discount on all menu dishes.": "Щодня з 12:00 до 16:00 — знижка 10% на всі страви меню.",
+    "Happy hours discount": "Знижка щасливих годин",
     "Contains allergy ingredients": "Містить алергени",
     "Spicy food": "Гостра їжа",
     "Non-spicy": "Негостре",
@@ -1106,6 +1110,10 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   ka: {
+    "Happy Hours": "ბედნიერი საათები",
+    "Happy hours": "ბედნიერი საათები",
+    "Daily from 12:00 to 16:00 — 10% discount on all menu dishes.": "ყოველდღე 12:00-დან 16:00-მდე — 10%-იანი ფასდაკლება მენიუს ყველა კერძზე.",
+    "Happy hours discount": "ბედნიერი საათების ფასდაკლება",
     "Contains allergy ingredients": "შეიცავს ალერგენულ ინგრედიენტებს",
     "Spicy food": "ცხარე კერძი",
     "Non-spicy": "არაცხარე",

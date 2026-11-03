@@ -162,6 +162,44 @@
       color: color.$green-600;
     }
 
+    .pricing-happy-hour {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+
+      .old-price-row {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .old-price {
+        font-size: 0.85rem;
+        line-height: 1rem;
+        font-weight: 500;
+        color: #dc2626;
+        text-decoration: line-through;
+      }
+
+      .discount-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 1px 4px;
+        background: #fef3c7;
+        color: #b45309;
+        border: 1px solid #f59e0b;
+        border-radius: 4px;
+      }
+
+      .discounted-price {
+        font-size: 1rem;
+        line-height: 1.3rem;
+        font-weight: 700;
+        color: color.$green-600;
+      }
+    }
+
     .dish-weight {
       font-size: 0.75rem;
       line-height: 1rem;
