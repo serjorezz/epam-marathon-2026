@@ -21,6 +21,7 @@
 
       <div class="order-item">
         @for (item of order().orderItems; track item.dish.id) {
+        @let enriched = getEnrichedDish(item.dish);
         <div class="order-item-dish">
           <img
             class="dish-image"
@@ -34,17 +35,141 @@
             <div class="details">
               <div class="dish-name">
                 <span class="body-bold">{{ item.dish.name | translate }}</span>
-                  <span class="caption">{{ 'Expected ready time – 10 minutes' | translate }}</span>
-                </div>
+                <span class="caption">{{ 'Expected ready time – 10 minutes' | translate }}</span>
+
+                @if ((enriched.allergens && enriched.allergens.length > 0) || enriched.isSpicy) {
+                  <div class="dish-customizations" aria-label="Customizations">
+                    @for (allergen of enriched.allergens; track allergen) {
+                      @if (canRemoveAllergen(item.dish, allergen)) {
+                        <label class="custom-checkbox">
+                          <input
+                            type="checkbox"
+                            [checked]="isAllergenRemoved(item.dish.id, allergen)"
+                            (change)="toggleAllergen(item.dish.id, allergen)"
+                          />
+                          <span class="checkbox-box" aria-hidden="true"></span>
+                          <span class="checkbox-text">{{ getAllergenRemovalLabel(allergen) | translate }}</span>
+                        </label>
+                      } @else {
+                        <div
+                          class="cart-dietary-badge allergen-badge"
+                          tabindex="0"
+                          role="img"
+                          [attr.aria-label]="('Contains ' + allergen + ' (cannot be removed)') | translate"
+                        >
+                          <svg
+                            class="cart-badge-icon nut-icon"
+                            viewBox="0 0 24 24"
+                            width="16"
+                            height="16"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              d="M7.5 14.5C6 13 5.5 10.5 6.5 8.5C7.5 6.5 10 5.5 12 6.5C13 4.5 15.5 3.5 17.5 4.5C19.5 5.5 20.5 8 19.5 10C18.5 12 18.5 13.5 19.5 15C20.5 17 19.5 19.5 17.5 20.5C15.5 21.5 13 20.5 12 18.5C10.5 19.5 8 19.5 6.5 18C5 16.5 6 15 7.5 14.5Z"
+                              fill="#FEF3C7"
+                              stroke="#D97706"
+                              stroke-width="1.8"
+                            />
+                            <path d="M10 10.5C11 11.5 13 11.5 14 10.5" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M10 15.5C11 16.5 13 16.5 14 15.5" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                          <span class="cart-tooltip" role="tooltip">
+                            {{ ('Contains ' + allergen + ' (cannot be removed)') | translate }}
+                          </span>
+                        </div>
+                      }
+                    }
+
+                    @if (enriched.isSpicy) {
+                      @if (enriched.canBeNonSpicy) {
+                        <label class="custom-checkbox">
+                          <input
+                            type="checkbox"
+                            [checked]="isNonSpicy(item.dish.id)"
+                            (change)="toggleNonSpicy(item.dish.id)"
+                          />
+                          <span class="checkbox-box" aria-hidden="true"></span>
+                          <span class="checkbox-text">{{ 'Non-spicy' | translate }}</span>
+                        </label>
+                      } @else {
+                        <div
+                          class="cart-dietary-badge spicy-badge"
+                          tabindex="0"
+                          role="img"
+                          [attr.aria-label]="'Spicy food' | translate"
+                        >
+                          <svg
+                            class="cart-badge-icon flame-icon"
+                            viewBox="0 0 24 24"
+                            width="16"
+                            height="16"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              d="M12 2C10.5 4.5 10 7 11 9C8.5 6.5 8 9.5 8 11.5C6.5 12.5 5.5 14.5 5.5 16.5C5.5 20 8.5 22 12 22C15.5 22 18.5 20 18.5 16.5C18.5 13 16 10.5 15.5 8C14.5 9 13.5 9.5 13 9.5C13 7.5 14 4.5 12 2Z"
+                              fill="#EF4444"
+                            />
+                            <path
+                              d="M12 14C11 15 10.5 16 10.5 17C10.5 18.5 11.2 19.5 12 19.5C12.8 19.5 13.5 18.5 13.5 17C13.5 16 13 15 12 14Z"
+                              fill="#FDE047"
+                            />
+                          </svg>
+                          <span class="cart-tooltip" role="tooltip">
+                            {{ 'Spicy food' | translate }}
+                          </span>
+                        </div>
+                      }
+                    }
+                  </div>
+                }
+              </div>
+
+              <button
+                type="button"
+                class="icon-button icon-button--small"
+                [attr.aria-label]="'Remove ' + item.dish.name"
+                (click)="removeDishFromOrder(item.dish.id)"
+              >
+                <img
+                  src="assets/svg/trash.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="24"
+                  height="24"
+                />
+              </button>
+            </div>
+
+            <div class="quantity">
+              <div class="quantity-buttons">
+                <button
+                  type="button"
+                  class="icon-button icon-button--small"
+                  aria-label="Decrease quantity"
+                  [disabled]="item.quantity <= 1"
+                  (click)="decrementItemQuantity(item.dish.id)"
+                >
+                  <img
+                    src="assets/svg/minus-green.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width="24"
+                    height="24"
+                  />
+                </button>
+
+                <span class="value">{{ item.quantity }}</span>
 
                 <button
                   type="button"
                   class="icon-button icon-button--small"
-                  [attr.aria-label]="'Remove ' + item.dish.name"
-                  (click)="removeDishFromOrder(item.dish.id)"
+                  aria-label="Increase quantity"
+                  (click)="incrementItemQuantity(item.dish.id)"
                 >
                   <img
-                    src="assets/svg/trash.svg"
+                    src="assets/svg/plus-green.svg"
                     alt=""
                     aria-hidden="true"
                     width="24"
@@ -53,48 +178,12 @@
                 </button>
               </div>
 
-              <div class="quantity">
-                <div class="quantity-buttons">
-                  <button
-                    type="button"
-                    class="icon-button icon-button--small"
-                    aria-label="Decrease quantity"
-                    [disabled]="item.quantity <= 1"
-                    (click)="decrementItemQuantity(item.dish.id)"
-                  >
-                    <img
-                      src="assets/svg/minus-green.svg"
-                      alt=""
-                      aria-hidden="true"
-                      width="24"
-                      height="24"
-                    />
-                  </button>
-
-                  <span class="value">{{ item.quantity }}</span>
-
-                  <button
-                    type="button"
-                    class="icon-button icon-button--small"
-                    aria-label="Increase quantity"
-                    (click)="incrementItemQuantity(item.dish.id)"
-                  >
-                    <img
-                      src="assets/svg/plus-green.svg"
-                      alt=""
-                      aria-hidden="true"
-                      width="24"
-                      height="24"
-                    />
-                  </button>
-                </div>
-
-                <span class="body-bold">
-        {{ item.dish.price * item.quantity | currency }}
-        </span>
-      </div>
-    </div>
-  </div>
+              <span class="body-bold">
+                {{ item.dish.price * item.quantity | currency }}
+              </span>
+            </div>
+          </div>
+        </div>
         }
 
         <button

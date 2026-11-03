@@ -6,6 +6,7 @@ import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { map, switchMap } from 'rxjs';
 import { CreateOrderRequest } from '@app/models/cart/create-order-request.model';
 import { SKIP_ERROR_TOAST } from '@app/auth/skip-error-toast.context';
+import { enrichDishWithAllergens } from '@app/shared/helpers/dish-allergens.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +16,36 @@ export class PreOrdersService {
   private readonly http = inject(HttpClient);
 
   getPreOrders() {
-    return this.http.get<Order[]>(`${this.baseUrl}/orders`);
+    return this.http.get<Order[]>(`${this.baseUrl}/orders`).pipe(
+      map((orders) =>
+        (orders ?? []).map((order) => ({
+          ...order,
+          orderItems: (order.orderItems ?? []).map((item) => ({
+            ...item,
+            dish: enrichDishWithAllergens(item.dish),
+          })),
+        }))
+      )
+    );
   }
 
   getByReservationId(reservationId: string) {
-    return this.http.get<Order>(`${this.baseUrl}/orders/${reservationId}`, {
-      context: new HttpContext().set(SKIP_ERROR_TOAST, true),
-    });
+    return this.http
+      .get<Order>(`${this.baseUrl}/orders/${reservationId}`, {
+        context: new HttpContext().set(SKIP_ERROR_TOAST, true),
+      })
+      .pipe(
+        map((order) => {
+          if (!order) return order;
+          return {
+            ...order,
+            orderItems: (order.orderItems ?? []).map((item) => ({
+              ...item,
+              dish: enrichDishWithAllergens(item.dish),
+            })),
+          };
+        })
+      );
   }
 
   addDishToPreOrderByReservationId(
@@ -40,7 +64,7 @@ export class PreOrdersService {
         if (existingItem) {
           existingItem.quantity += quantity;
         } else {
-          order.orderItems.push({ dish, quantity, state: 0 });
+          order.orderItems.push({ dish: enrichDishWithAllergens(dish), quantity, state: 0 });
         }
         return order;
       }),
@@ -48,7 +72,7 @@ export class PreOrdersService {
         if (!order) {
           const orderCreateRequest: CreateOrderRequest = {
             reservationId,
-            orderItems: [{ dish, quantity, state: 0 }],
+            orderItems: [{ dish: enrichDishWithAllergens(dish), quantity, state: 0 }],
           };
           return this.createPreOrder(orderCreateRequest);
         }

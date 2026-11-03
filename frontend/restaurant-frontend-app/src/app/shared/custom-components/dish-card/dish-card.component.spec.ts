@@ -22,6 +22,8 @@ describe('DishCardComponent', () => {
     fats: '25',
     vitamins: 'A, B',
     isFavorite: false,
+    allergens: [],
+    isSpicy: false,
   };
 
   beforeEach(async () => {
@@ -123,5 +125,63 @@ describe('DishCardComponent', () => {
     component.onFavoriteClick(fakeEvent);
 
     expect(emitted).toBeFalse();
+  });
+
+  it('should render nut circular badge in top left when dish contains allergens', () => {
+    const dishWithNuts: DishListResponse = {
+      ...dish,
+      allergens: ['nuts'],
+      isSpicy: false,
+    };
+    fixture.componentRef.setInput('dish', dishWithNuts);
+    fixture.detectChanges();
+
+    const allergenBadge = fixture.nativeElement.querySelector('.allergen-badge');
+    expect(allergenBadge).toBeTruthy();
+    expect(allergenBadge.getAttribute('aria-label')).toBe('Contains allergy ingredients');
+
+    const tooltip = allergenBadge.querySelector('.dietary-tooltip');
+    expect(tooltip).toBeTruthy();
+    expect(tooltip.textContent.trim()).toBe('Contains allergy ingredients');
+
+    const spicyBadge = fixture.nativeElement.querySelector('.spicy-badge');
+    expect(spicyBadge).toBeNull();
+  });
+
+  it('should render flame circular badge in top left when dish is spicy', () => {
+    const spicyDish: DishListResponse = {
+      ...dish,
+      allergens: [],
+      isSpicy: true,
+    };
+    fixture.componentRef.setInput('dish', spicyDish);
+    fixture.detectChanges();
+
+    const spicyBadge = fixture.nativeElement.querySelector('.spicy-badge');
+    expect(spicyBadge).toBeTruthy();
+    expect(spicyBadge.getAttribute('aria-label')).toBe('Spicy food');
+
+    const tooltip = spicyBadge.querySelector('.dietary-tooltip');
+    expect(tooltip).toBeTruthy();
+    expect(tooltip.textContent.trim()).toBe('Spicy food');
+
+    const allergenBadge = fixture.nativeElement.querySelector('.allergen-badge');
+    expect(allergenBadge).toBeNull();
+  });
+
+  it('should render both circular badges when dish has allergens and is spicy', () => {
+    const bothDish: DishListResponse = {
+      ...dish,
+      allergens: ['nuts', 'cilantro'],
+      isSpicy: true,
+    };
+    fixture.componentRef.setInput('dish', bothDish);
+    fixture.detectChanges();
+
+    const allergenBadge = fixture.nativeElement.querySelector('.allergen-badge');
+    const spicyBadge = fixture.nativeElement.querySelector('.spicy-badge');
+
+    expect(allergenBadge).toBeTruthy();
+    expect(spicyBadge).toBeTruthy();
   });
 });

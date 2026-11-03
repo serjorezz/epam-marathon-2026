@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace APIHandler.Models.Dishes;
@@ -46,4 +47,16 @@ public class DishListResponse
 
     [JsonPropertyName("isFavorite")]
     public bool IsFavorite { get; set; } = false;
+
+    [JsonPropertyName("allergens")]
+    public List<string>? Allergens { get; set; }
+
+    [JsonPropertyName("isSpicy")]
+    public bool IsSpicy { get; set; } = false;
+
+    [JsonPropertyName("removableAllergens")]
+    public List<string>? RemovableAllergens { get; set; }
+
+    [JsonPropertyName("canBeNonSpicy")]
+    public bool CanBeNonSpicy { get; set; } = false;
 }

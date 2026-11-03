@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace APIHandler.Models.Dishes;
 
@@ -42,4 +43,16 @@ public class DishResponse
 
     [JsonPropertyName("state")]
     public required string State { get; set; }
+
+    [JsonPropertyName("allergens")]
+    public List<string>? Allergens { get; set; }
+
+    [JsonPropertyName("isSpicy")]
+    public bool IsSpicy { get; set; } = false;
+
+    [JsonPropertyName("removableAllergens")]
+    public List<string>? RemovableAllergens { get; set; }
+
+    [JsonPropertyName("canBeNonSpicy")]
+    public bool CanBeNonSpicy { get; set; } = false;
 }

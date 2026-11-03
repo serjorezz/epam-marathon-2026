@@ -14,4 +14,8 @@ export interface DishListResponse {
   vitamins: string;
   status?: 'Confirmed' | 'Rejected' | 'Pending';
   isFavorite?: boolean;
+  allergens?: string[];
+  isSpicy?: boolean;
+  removableAllergens?: string[];
+  canBeNonSpicy?: boolean;
 }

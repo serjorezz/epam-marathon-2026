@@ -48,6 +48,10 @@ public class DishMapper
             Proteins = dish.Proteins,
             Vitamins = dish.Vitamins,
             IsFavorite = isFavorite,
+            Allergens = dish.Allergens,
+            IsSpicy = dish.IsSpicy,
+            RemovableAllergens = dish.RemovableAllergens,
+            CanBeNonSpicy = dish.CanBeNonSpicy,
         };
     }
 
@@ -70,6 +74,10 @@ public class DishMapper
                 ? null
                 : dish.ImageUrl,
             State = FormatDishState(dish.State),
+            Allergens = dish.Allergens,
+            IsSpicy = dish.IsSpicy,
+            RemovableAllergens = dish.RemovableAllergens,
+            CanBeNonSpicy = dish.CanBeNonSpicy,
         };
     }
 

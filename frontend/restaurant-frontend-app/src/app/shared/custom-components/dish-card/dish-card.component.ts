@@ -12,6 +12,7 @@ import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { DishState } from '@app/models/enums/dish-state.model';
 import { DishStateLabels } from '@app/shared/mappers/dish-enum.mapper';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
+import { enrichDishWithAllergens } from '@app/shared/helpers/dish-allergens.helper';
 
 @Component({
   selector: 'app-dish-card',
@@ -32,6 +33,19 @@ export class DishCardComponent {
   readonly favoriteToggle = output<{ dish: DishListResponse; isFavorite: boolean }>();
 
   private readonly isFavoriteInternal = signal<boolean | null>(null);
+
+  readonly enrichedDish = computed(() => {
+    return enrichDishWithAllergens(this.dish());
+  });
+
+  readonly hasAllergens = computed(() => {
+    const allergens = this.enrichedDish().allergens;
+    return Array.isArray(allergens) && allergens.length > 0;
+  });
+
+  readonly isSpicy = computed(() => {
+    return !!this.enrichedDish().isSpicy;
+  });
 
   readonly isFavorite = computed(() => {
     return this.isFavoriteInternal() ?? this.dish().isFavorite ?? false;

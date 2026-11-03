@@ -2,6 +2,10 @@ import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
+import {
+  enrichDishWithAllergens,
+  getAllergenDisplayName,
+} from '@app/shared/helpers/dish-allergens.helper';
 
 @Component({
   selector: 'app-dish-modal',
@@ -28,6 +32,31 @@ export class DishModalComponent {
   isUnavailable(): boolean {
     const state = this.dish?.state?.toLowerCase();
     return state === 'on stop' || state === 'unavailable' || state === 'sold out';
+  }
+
+  get enrichedDish(): DishListResponse | null {
+    return this.dish ? enrichDishWithAllergens(this.dish) : null;
+  }
+
+  get hasAllergens(): boolean {
+    return (this.enrichedDish?.allergens?.length ?? 0) > 0;
+  }
+
+  get isSpicy(): boolean {
+    return !!this.enrichedDish?.isSpicy;
+  }
+
+  get canBeNonSpicy(): boolean {
+    return !!this.enrichedDish?.canBeNonSpicy;
+  }
+
+  getAllergenLabel(allergen: string): string {
+    const isRemovable = this.enrichedDish?.removableAllergens?.includes(allergen);
+    const displayName = getAllergenDisplayName(allergen);
+    if (!isRemovable) {
+      return `${displayName} (cannot be removed)`;
+    }
+    return displayName;
   }
 
   formatCalories(calories?: string): string {

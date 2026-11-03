@@ -455,7 +455,11 @@ DISHES = [
         "vitamins": {"S": "A, C, E, K"},
         "imageUrl": {"S": "assets/img/dishes/avocado-pine-nut-bowl.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-baratashvili"}
+        "locationId": {"S": "loc-baratashvili"},
+        "allergens": {"L": [{"S": "nuts"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": [{"S": "nuts"}]},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-strawberry-salad"},
@@ -471,7 +475,11 @@ DISHES = [
         "vitamins": {"S": "Vit C, Vit A, Calcium, and Ferum"},
         "imageUrl": {"S": "assets/img/dishes/fresh-strawberry-mint-salad.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-baratashvili"}
+        "locationId": {"S": "loc-baratashvili"},
+        "allergens": {"L": [{"S": "nuts"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": [{"S": "nuts"}]},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-sweet-potato-salad"},
@@ -487,7 +495,11 @@ DISHES = [
         "vitamins": {"S": "A, B6, C, Iron"},
         "imageUrl": {"S": "assets/img/dishes/roasted-sweet-potato-and-lentil-salad.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-baratashvili"}
+        "locationId": {"S": "loc-baratashvili"},
+        "allergens": {"L": [{"S": "nuts"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": [{"S": "nuts"}]},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-spring-salad"},
@@ -503,7 +515,11 @@ DISHES = [
         "vitamins": {"S": "A, C, Potassium"},
         "imageUrl": {"S": "assets/img/dishes/spring-salad.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-baratashvili"}
+        "locationId": {"S": "loc-baratashvili"},
+        "allergens": {"L": [{"S": "cilantro"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": [{"S": "cilantro"}]},
+        "canBeNonSpicy": {"BOOL": False}
     },
     # Additional catalog dishes
     {
@@ -520,7 +536,11 @@ DISHES = [
         "vitamins": {"S": "B1, B6, E"},
         "imageUrl": {"S": "assets/img/dishes/eggplant-rolls.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-abashidze"}
+        "locationId": {"S": "loc-abashidze"},
+        "allergens": {"L": [{"S": "nuts"}, {"S": "cilantro"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": [{"S": "cilantro"}]},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-mushroom-khinkali"},
@@ -536,7 +556,11 @@ DISHES = [
         "vitamins": {"S": "D, Selenium, B"},
         "imageUrl": {"S": "assets/img/dishes/mushroom-khinkali.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-abashidze"}
+        "locationId": {"S": "loc-abashidze"},
+        "allergens": {"L": [{"S": "cilantro"}]},
+        "isSpicy": {"BOOL": True},
+        "removableAllergens": {"L": [{"S": "cilantro"}]},
+        "canBeNonSpicy": {"BOOL": True}
     },
     {
         "id": {"S": "dish-lobio-pot"},
@@ -552,7 +576,11 @@ DISHES = [
         "vitamins": {"S": "Iron, Folate, Fiber"},
         "imageUrl": {"S": "assets/img/dishes/lobio-pot.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-rustaveli"}
+        "locationId": {"S": "loc-rustaveli"},
+        "allergens": {"L": [{"S": "cilantro"}]},
+        "isSpicy": {"BOOL": True},
+        "removableAllergens": {"L": [{"S": "cilantro"}]},
+        "canBeNonSpicy": {"BOOL": True}
     },
     {
         "id": {"S": "dish-berry-chia"},
@@ -568,7 +596,11 @@ DISHES = [
         "vitamins": {"S": "C, Calcium, Omega-3"},
         "imageUrl": {"S": "assets/img/dishes/berry-chia-pudding.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-baratashvili"}
+        "locationId": {"S": "loc-baratashvili"},
+        "allergens": {"L": [{"S": "nuts"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": []},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-pelamushi-tart"},
@@ -584,7 +616,11 @@ DISHES = [
         "vitamins": {"S": "Antioxidants, E"},
         "imageUrl": {"S": "assets/img/dishes/pelamushi-tart.jpg"},
         "state": {"N": "1"},  # 1 = Available
-        "locationId": {"S": "loc-rustaveli"}
+        "locationId": {"S": "loc-rustaveli"},
+        "allergens": {"L": [{"S": "nuts"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": []},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-pkhali-trio"},
@@ -600,7 +636,11 @@ DISHES = [
         "vitamins": {"S": "A, C, E, Iron"},
         "imageUrl": {"S": "assets/img/dishes/pkhali-trio.jpg"},
         "state": {"N": "1"},
-        "locationId": {"S": "loc-rustaveli"}
+        "locationId": {"S": "loc-rustaveli"},
+        "allergens": {"L": [{"S": "nuts"}, {"S": "cilantro"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": []},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-honey-walnut-baklava"},
@@ -616,7 +656,11 @@ DISHES = [
         "vitamins": {"S": "B6, E, Magnesium"},
         "imageUrl": {"S": "assets/img/dishes/honey-walnut-baklava.jpg"},
         "state": {"N": "1"},
-        "locationId": {"S": "loc-baratashvili"}
+        "locationId": {"S": "loc-baratashvili"},
+        "allergens": {"L": [{"S": "nuts"}]},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": []},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-saperavi-wine"},
@@ -632,7 +676,11 @@ DISHES = [
         "vitamins": {"S": "Antioxidants, Resveratrol"},
         "imageUrl": {"S": "assets/img/dishes/saperavi-wine.jpg"},
         "state": {"N": "1"},
-        "locationId": {"S": "loc-rustaveli"}
+        "locationId": {"S": "loc-rustaveli"},
+        "allergens": {"L": []},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": []},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-rkatsiteli-wine"},
@@ -648,7 +696,11 @@ DISHES = [
         "vitamins": {"S": "Polyphenols, Antioxidants"},
         "imageUrl": {"S": "assets/img/dishes/rkatsiteli-wine.jpg"},
         "state": {"N": "1"},
-        "locationId": {"S": "loc-baratashvili"}
+        "locationId": {"S": "loc-baratashvili"},
+        "allergens": {"L": []},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": []},
+        "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-kindzmarauli-wine"},
@@ -664,7 +716,11 @@ DISHES = [
         "vitamins": {"S": "Antioxidants, Potassium"},
         "imageUrl": {"S": "assets/img/dishes/kindzmarauli-wine.jpg"},
         "state": {"N": "1"},
-        "locationId": {"S": "loc-abashidze"}
+        "locationId": {"S": "loc-abashidze"},
+        "allergens": {"L": []},
+        "isSpicy": {"BOOL": False},
+        "removableAllergens": {"L": []},
+        "canBeNonSpicy": {"BOOL": False}
     }
 ]
 
