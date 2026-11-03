@@ -149,6 +149,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "MainCourse": "Main Courses",
     "Desserts": "Desserts",
     "Dessert": "Desserts",
+    "Wine": "Wine",
 
     // Places / Locations Addresses
     "14 Baratashvili Street": "14 Baratashvili Street",
@@ -170,6 +171,14 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Traditional Lobio in Clay Pot": "Traditional Lobio in Clay Pot",
     "Wild Berry Chia Pudding": "Wild Berry Chia Pudding",
     "Artisanal Grape Pelamushi Tart": "Artisanal Grape Pelamushi Tart",
+    "Georgian Pkhali Trio": "Georgian Pkhali Trio",
+    "Honey Walnut Baklava": "Honey Walnut Baklava",
+    "Saperavi Reserve Dry Red Wine": "Saperavi Reserve Dry Red Wine",
+    "Rkatsiteli Qvevri Amber Wine": "Rkatsiteli Qvevri Amber Wine",
+    "Kindzmarauli Semi-Sweet Red Wine": "Kindzmarauli Semi-Sweet Red Wine",
+    "280g": "280g",
+    "170g": "170g",
+    "750ml": "750ml",
 
     // Auth & Forms
     "Sign In to Your Account": "Sign In to Your Account",
@@ -566,6 +575,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "MainCourse": "Основні страви",
     "Desserts": "Десерти",
     "Dessert": "Десерти",
+    "Wine": "Вино",
 
     // Places / Locations Addresses
     "14 Baratashvili Street": "вул. Бараташвілі, 14",
@@ -605,6 +615,14 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Traditional Lobio in Clay Pot": "Традиційне лобіо в глиняному горщику",
     "Wild Berry Chia Pudding": "Чіа-пудинг з лісовими ягодами",
     "Artisanal Grape Pelamushi Tart": "Крафтовий виноградний тарт пеламуші",
+    "Georgian Pkhali Trio": "Асорті грузинських пхалі",
+    "Honey Walnut Baklava": "Пахлава з медом та волоськими горіхами",
+    "Saperavi Reserve Dry Red Wine": "Сухе червоне вино Сапераві Резерв",
+    "Rkatsiteli Qvevri Amber Wine": "Бурштинове вино Ркацителі Квеврі",
+    "Kindzmarauli Semi-Sweet Red Wine": "Напівсолодке червоне вино Кіндзмараулі",
+    "280g": "280г",
+    "170g": "170г",
+    "750ml": "750мл",
 
     // Dishes Descriptions
     "Fresh avocado, roasted pine nuts, organic quinoa, cherry tomatoes, and lemon tahini dressing.":
@@ -1021,6 +1039,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "MainCourse": "ძირითადი კერძები",
     "Desserts": "დესერტები",
     "Dessert": "დესერტები",
+    "Wine": "ღვინო",
 
     // Places / Locations Addresses
     "14 Baratashvili Street": "ბარათაშვილის ქუჩა 14",
@@ -1060,6 +1079,14 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Traditional Lobio in Clay Pot": "ტრადიციული ლობიო თიხის ქოთანში",
     "Wild Berry Chia Pudding": "ტყის კენკრის ჩია პუდინგი",
     "Artisanal Grape Pelamushi Tart": "ფელამუშის ყურძნის ხელნაკეთი ტარტი",
+    "Georgian Pkhali Trio": "ქართული ფხალის ასორტი",
+    "Honey Walnut Baklava": "თაფლისა და ნიგვზის ფახლავა",
+    "Saperavi Reserve Dry Red Wine": "საფერავი რეზერვი მშრალი წითელი ღვინო",
+    "Rkatsiteli Qvevri Amber Wine": "რქაწითელი ქვევრის ქარვისფერი ღვინო",
+    "Kindzmarauli Semi-Sweet Red Wine": "ქინძმარაული ნახევრადტკბილი წითელი ღვინო",
+    "280g": "280გ",
+    "170g": "170გ",
+    "750ml": "750მლ",
 
     // Dishes Descriptions
     "Fresh avocado, roasted pine nuts, organic quinoa, cherry tomatoes, and lemon tahini dressing.":

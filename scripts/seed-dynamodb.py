@@ -585,6 +585,86 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/pelamushi-tart.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-rustaveli"}
+    },
+    {
+        "id": {"S": "dish-pkhali-trio"},
+        "name": {"S": "Georgian Pkhali Trio"},
+        "description": {"S": "Traditional Georgian vegetable pâté balls made of spinach, beetroot, and bell peppers blended with walnuts, garlic, and herbs, garnished with pomegranate seeds."},
+        "dishType": {"N": "0"},  # 0 = Appetizer
+        "price": {"N": "14.00"},
+        "weight": {"S": "280g"},
+        "calories": {"S": "290"},
+        "proteins": {"S": "7g"},
+        "fats": {"S": "18g"},
+        "carbohydrates": {"S": "24g"},
+        "vitamins": {"S": "A, C, E, Iron"},
+        "imageUrl": {"S": "assets/img/dishes/pkhali-trio.jpg"},
+        "state": {"N": "1"},
+        "locationId": {"S": "loc-rustaveli"}
+    },
+    {
+        "id": {"S": "dish-honey-walnut-baklava"},
+        "name": {"S": "Honey Walnut Baklava"},
+        "description": {"S": "Crispy flaky phyllo pastry layers packed with crushed Georgian walnuts and spiced with cardamom, baked golden and drizzled with mountain floral honey glaze."},
+        "dishType": {"N": "2"},  # 2 = Dessert
+        "price": {"N": "11.00"},
+        "weight": {"S": "170g"},
+        "calories": {"S": "340"},
+        "proteins": {"S": "6g"},
+        "fats": {"S": "19g"},
+        "carbohydrates": {"S": "38g"},
+        "vitamins": {"S": "B6, E, Magnesium"},
+        "imageUrl": {"S": "assets/img/dishes/honey-walnut-baklava.jpg"},
+        "state": {"N": "1"},
+        "locationId": {"S": "loc-baratashvili"}
+    },
+    {
+        "id": {"S": "dish-saperavi-wine"},
+        "name": {"S": "Saperavi Reserve Dry Red Wine"},
+        "description": {"S": "Classic Georgian dry red wine crafted from indigenous Saperavi grapes, featuring deep ruby color with notes of ripe dark cherries, blackcurrant, and subtle oak."},
+        "dishType": {"N": "3"},  # 3 = Wine
+        "price": {"N": "24.00"},
+        "weight": {"S": "750ml"},
+        "calories": {"S": "125"},
+        "proteins": {"S": "0.5g"},
+        "fats": {"S": "0g"},
+        "carbohydrates": {"S": "3.8g"},
+        "vitamins": {"S": "Antioxidants, Resveratrol"},
+        "imageUrl": {"S": "assets/img/dishes/saperavi-wine.jpg"},
+        "state": {"N": "1"},
+        "locationId": {"S": "loc-rustaveli"}
+    },
+    {
+        "id": {"S": "dish-rkatsiteli-wine"},
+        "name": {"S": "Rkatsiteli Qvevri Amber Wine"},
+        "description": {"S": "Traditional UNESCO heritage amber wine fermented in clay amphorae (Qvevri), showcasing harmonious aromas of dried apricots, walnut honey, and pleasant tannins."},
+        "dishType": {"N": "3"},  # 3 = Wine
+        "price": {"N": "22.50"},
+        "weight": {"S": "750ml"},
+        "calories": {"S": "120"},
+        "proteins": {"S": "0.4g"},
+        "fats": {"S": "0g"},
+        "carbohydrates": {"S": "3.2g"},
+        "vitamins": {"S": "Polyphenols, Antioxidants"},
+        "imageUrl": {"S": "assets/img/dishes/rkatsiteli-wine.jpg"},
+        "state": {"N": "1"},
+        "locationId": {"S": "loc-baratashvili"}
+    },
+    {
+        "id": {"S": "dish-kindzmarauli-wine"},
+        "name": {"S": "Kindzmarauli Semi-Sweet Red Wine"},
+        "description": {"S": "Famous naturally semi-sweet red wine from the Kvareli micro-zone in Kakheti, bursting with velvety flavors of fresh blackberries, wild forest plums, and smooth finish."},
+        "dishType": {"N": "3"},  # 3 = Wine
+        "price": {"N": "26.00"},
+        "weight": {"S": "750ml"},
+        "calories": {"S": "145"},
+        "proteins": {"S": "0.5g"},
+        "fats": {"S": "0g"},
+        "carbohydrates": {"S": "7.5g"},
+        "vitamins": {"S": "Antioxidants, Potassium"},
+        "imageUrl": {"S": "assets/img/dishes/kindzmarauli-wine.jpg"},
+        "state": {"N": "1"},
+        "locationId": {"S": "loc-abashidze"}
     }
 ]
 
