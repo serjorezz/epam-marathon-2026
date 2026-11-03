@@ -85,37 +85,56 @@
   max-width: 1360px;
   margin: 0 auto;
   padding: 24px 40px 0;
-  display: flex;
-  justify-content: flex-end;
 
   @media (max-width: 900px) {
     padding: 16px 24px 0;
-    justify-content: flex-start;
   }
 }
 
 .controls-bar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1.5rem;
+  width: 100%;
 }
 
-.filter-checkbox {
-  display: inline-flex;
+.category-buttons {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: color.$neutral-900;
-  cursor: pointer;
-  user-select: none;
+  flex-wrap: wrap;
 
-  input[type="checkbox"] {
-    width: 1.125rem;
-    height: 1.125rem;
-    accent-color: color.$green-600;
+  button {
+    flex: 0 0 auto;
+    padding: 0.5rem 1.5rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background-color: transparent;
+    color: color.$neutral-900;
+    font-family: inherit;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 2rem;
     cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      color: color.$green-600;
+    }
+
+    &.active {
+      border-bottom: 2px solid color.$green-600;
+      color: color.$green-600;
+      font-weight: 500;
+    }
+  }
+
+  @media (max-width: 600px) {
+    button {
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+    }
   }
 }
 

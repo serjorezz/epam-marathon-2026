@@ -98,17 +98,21 @@ export class ReservationDashboardComponent implements OnInit {
   readonly reservations = signal<ReservationCustomer[]>([]);
   readonly reservationsLoaded = signal(false);
   readonly selectedSort = signal<ReservationSortOption>("date-asc");
-  readonly onlyActive = signal<boolean>(false);
+  readonly selectedStatus = signal<ReservationStatusCustomer | null>(null);
+
+  readonly statusCategories: { status: ReservationStatusCustomer; label: string }[] = [
+    { status: ReservationStatusCustomer.Reserved, label: 'Reserved' },
+    { status: ReservationStatusCustomer.InProgress, label: 'In Progress' },
+    { status: ReservationStatusCustomer.Finished, label: 'Completed' },
+    { status: ReservationStatusCustomer.Cancelled, label: 'Cancelled' },
+  ];
   private readonly feedbackLoadedIds = new Set<string>();
 
   readonly sortedReservations = computed<ReservationCustomer[]>(() => {
     let list = [...this.reservations()];
-    if (this.onlyActive()) {
-      list = list.filter(
-        (r) =>
-          r.status === ReservationStatusCustomer.Reserved ||
-          r.status === ReservationStatusCustomer.InProgress
-      );
+    const statusFilter = this.selectedStatus();
+    if (statusFilter !== null) {
+      list = list.filter((r) => r.status === statusFilter);
     }
     const sort = this.selectedSort();
 
@@ -687,11 +691,8 @@ export class ReservationDashboardComponent implements OnInit {
     }
   }
 
-  onActiveFilterChanged(event: Event): void {
-    const target = event.target as HTMLInputElement | null;
-    if (target) {
-      this.onlyActive.set(target.checked);
-    }
+  onStatusSelected(status: ReservationStatusCustomer): void {
+    this.selectedStatus.update((current) => (current === status ? null : status));
   }
 
   private extractTableNumber(

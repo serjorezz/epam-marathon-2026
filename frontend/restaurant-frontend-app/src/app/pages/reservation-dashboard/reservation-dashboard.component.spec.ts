@@ -68,7 +68,7 @@ describe("ReservationDashboardComponent", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
     expect(component.selectedSort()).toBe("date-asc");
-    expect(component.onlyActive()).toBeFalse();
+    expect(component.selectedStatus()).toBeNull();
   });
 
   it("should sort reservations by date/time ascending by default", () => {
@@ -121,34 +121,51 @@ describe("ReservationDashboardComponent", () => {
     expect(component.selectedSort()).toBe("guests-desc");
   });
 
-  it("should filter only active bookings when onlyActive is enabled", () => {
+  it("should filter reservations by selected status category", () => {
     component.reservations.set([...mockReservations]);
     expect(component.sortedReservations().length).toBe(3);
 
-    component.onlyActive.set(true);
-    const activeOnly = component.sortedReservations();
-    expect(activeOnly.length).toBe(2);
-    expect(activeOnly.map(r => r.id)).toEqual(["res-2", "res-1"]);
+    // Filter Reserved
+    component.onStatusSelected(ReservationStatusCustomer.Reserved);
+    expect(component.selectedStatus()).toBe(ReservationStatusCustomer.Reserved);
+    expect(component.sortedReservations().length).toBe(1);
+    expect(component.sortedReservations()[0].id).toBe("res-1");
+
+    // Filter InProgress
+    component.onStatusSelected(ReservationStatusCustomer.InProgress);
+    expect(component.selectedStatus()).toBe(ReservationStatusCustomer.InProgress);
+    expect(component.sortedReservations().length).toBe(1);
+    expect(component.sortedReservations()[0].id).toBe("res-2");
+
+    // Filter Cancelled
+    component.onStatusSelected(ReservationStatusCustomer.Cancelled);
+    expect(component.selectedStatus()).toBe(ReservationStatusCustomer.Cancelled);
+    expect(component.sortedReservations().length).toBe(1);
+    expect(component.sortedReservations()[0].id).toBe("res-3");
   });
 
-  it("should update onlyActive on checkbox change event", () => {
-    const mockEvent = {
-      target: { checked: true } as unknown as HTMLInputElement,
-    } as unknown as Event;
+  it("should toggle off status category filter when clicking the active category", () => {
+    component.reservations.set([...mockReservations]);
 
-    component.onActiveFilterChanged(mockEvent);
-    expect(component.onlyActive()).toBeTrue();
+    component.onStatusSelected(ReservationStatusCustomer.Reserved);
+    expect(component.selectedStatus()).toBe(ReservationStatusCustomer.Reserved);
+    expect(component.sortedReservations().length).toBe(1);
+
+    // Click again to toggle off
+    component.onStatusSelected(ReservationStatusCustomer.Reserved);
+    expect(component.selectedStatus()).toBeNull();
+    expect(component.sortedReservations().length).toBe(3);
   });
 
-  it("should display 'No active bookings found' when active filter matches 0 bookings", () => {
+  it("should display 'No reservations found' when status filter matches 0 bookings", () => {
     component.reservationsLoaded.set(true);
     component.reservations.set([mockReservations[2]]); // only Cancelled reservation
-    component.onlyActive.set(true);
+    component.onStatusSelected(ReservationStatusCustomer.Reserved);
     fixture.detectChanges();
 
     const emptyMsg = fixture.nativeElement.querySelector(".reservation-empty");
     expect(emptyMsg).toBeTruthy();
-    expect(emptyMsg.textContent).toContain("No active bookings found");
+    expect(emptyMsg.textContent).toContain("No reservations found");
   });
 
   it("should only request feedback for eligible reservations and skip Reserved and Cancelled", () => {

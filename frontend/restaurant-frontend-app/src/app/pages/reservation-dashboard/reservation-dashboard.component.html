@@ -25,15 +25,17 @@
 @if (reservations().length > 0) {
   <div class="controls-container">
     <div class="controls-bar">
-      <label class="filter-checkbox" for="activeOnlyCheckbox">
-        <input
-          type="checkbox"
-          [checked]="onlyActive()"
-          (change)="onActiveFilterChanged($event)"
-          id="activeOnlyCheckbox"
-        />
-        <span>{{ 'Active bookings only' | translate }}</span>
-      </label>
+      <div class="category-buttons">
+        @for (category of statusCategories; track category.status) {
+          <button
+            type="button"
+            (click)="onStatusSelected(category.status)"
+            [class.active]="selectedStatus() === category.status"
+          >
+            {{ category.label | translate }}
+          </button>
+        }
+      </div>
 
       <div class="sort-dropdown">
         <label for="reservationSort">{{ 'Sort by:' | translate }}</label>
@@ -77,7 +79,7 @@
   </ul>
 } @else if (reservations().length > 0) {
   <div class="reservation-empty">
-    <p>{{ 'No active bookings found' | translate }}</p>
+    <p>{{ 'No reservations found' | translate }}</p>
   </div>
 } @else {
   <div class="reservation-empty">
