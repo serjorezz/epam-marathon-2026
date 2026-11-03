@@ -30,7 +30,7 @@
 
         <div class="dish-nutrition">
           <div class="nutrition-item">
-            <strong>{{ 'Calories:' | translate }}</strong> {{ formatCalories(dish.calories) }}
+            <strong>{{ 'Calories:' | translate }}</strong> {{ formatCalories(dish.calories) | translate }}
           </div>
           <div class="nutrition-item nutrition-macros">
             <span><strong>{{ 'Protein:' | translate }}</strong> {{ (dish.proteins || 'N/A') | translate }}</span>

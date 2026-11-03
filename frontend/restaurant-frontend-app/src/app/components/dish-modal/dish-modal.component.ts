@@ -34,8 +34,8 @@ export class DishModalComponent {
     if (!calories) return 'N/A';
     const trimmed = calories.trim();
     const prefix = trimmed.startsWith('~') ? '' : '~';
-    const suffix = trimmed.toLowerCase().includes('kcal') ? '' : ' kcal';
-    return `${prefix}${trimmed}${suffix}`;
+    const num = trimmed.replace(/^~/, '').replace(/\s*kcal\s*/i, '').trim();
+    return `${prefix}${num} kcal`;
   }
 
   formatGrams(value?: string): string {
