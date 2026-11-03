@@ -1,0 +1,165 @@
+<!-- Floating Action Button -->
+<button
+  type="button"
+  class="chat-floating-btn"
+  [class.active]="isOpen()"
+  (click)="toggleChat()"
+  aria-label="Toggle Reservation Chat Assistant"
+>
+  @if (!isOpen()) {
+    <div class="chat-btn-content">
+      <svg class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+      <span class="sparkle-badge" aria-hidden="true">✨</span>
+    </div>
+  } @else {
+    <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  }
+</button>
+
+<!-- Chat Window -->
+@if (isOpen()) {
+  <div class="chat-window" role="dialog" aria-label="Restaurant Reservation Assistant">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="avatar">
+          <span class="avatar-icon">🌿</span>
+          <span class="online-indicator" title="Online"></span>
+        </div>
+        <div class="title-wrap">
+          <h3 class="host-title">Green &amp; Tasty Host</h3>
+          <span class="host-subtitle">AI Reservation Assistant</span>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="header-close-btn"
+        (click)="closeChat()"
+        aria-label="Close Chat"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="chat-messages" #messagesContainer>
+      @for (msg of messages(); track msg.id) {
+        <div class="message-row" [class.user]="msg.sender === 'user'" [class.assistant]="msg.sender === 'assistant'">
+          @if (msg.sender === 'assistant') {
+            <div class="msg-avatar" aria-hidden="true">🌿</div>
+          }
+
+          <div class="message-content">
+            <div class="bubble">
+              <p class="bubble-text">{{ msg.text }}</p>
+
+              <!-- Reservation Confirmation Card -->
+              @if (msg.reservation) {
+                <div class="reservation-card">
+                  <div class="card-header">
+                    <span class="card-badge">
+                      <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      Confirmed Reservation
+                    </span>
+                  </div>
+
+                  <div class="card-details">
+                    <div class="detail-row">
+                      <span class="detail-label">📍 Location:</span>
+                      <span class="detail-val">{{ msg.reservation.address }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">📅 Date:</span>
+                      <span class="detail-val">{{ formatDate(msg.reservation.startTime) }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">⏰ Time:</span>
+                      <span class="detail-val">{{ formatTime(msg.reservation.startTime) }} – {{ formatTime(msg.reservation.endTime) }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">👥 Party Size:</span>
+                      <span class="detail-val">{{ msg.reservation.guestCount }} guests</span>
+                    </div>
+                    @if (msg.reservation.customerName) {
+                      <div class="detail-row">
+                        <span class="detail-label">👤 Reserved for:</span>
+                        <span class="detail-val">{{ msg.reservation.customerName }}</span>
+                      </div>
+                    }
+                  </div>
+
+                  <button
+                    type="button"
+                    class="view-res-btn"
+                    (click)="navigateToReservations()"
+                  >
+                    View in Reservations →
+                  </button>
+                </div>
+              }
+            </div>
+
+            <span class="message-time">
+              {{ formatTime(msg.timestamp.toISOString()) }}
+            </span>
+          </div>
+        </div>
+      }
+
+      <!-- Typing Indicator -->
+      @if (isLoading()) {
+        <div class="message-row assistant">
+          <div class="msg-avatar" aria-hidden="true">🌿</div>
+          <div class="message-content">
+            <div class="bubble typing-bubble">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Input Footer -->
+    <div class="chat-footer">
+      <div class="input-container">
+        <textarea
+          rows="1"
+          class="chat-input"
+          placeholder="Ask for availability or book a table..."
+          [ngModel]="inputMessage()"
+          (ngModelChange)="inputMessage.set($event)"
+          (keydown)="onKeyDown($event)"
+          [disabled]="isLoading()"
+          aria-label="Message Input"
+        ></textarea>
+        <button
+          type="button"
+          class="send-btn"
+          (click)="sendMessage()"
+          [disabled]="!inputMessage().trim() || isLoading()"
+          aria-label="Send Message"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <div class="powered-by">
+        <span>Powered by <strong>Gemini</strong></span>
+      </div>
+    </div>
+  </div>
+}

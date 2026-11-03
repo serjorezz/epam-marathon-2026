@@ -6,6 +6,7 @@ using Amazon.S3;
 using Amazon.SQS;
 using APIHandler.Constants;
 using APIHandler.Handlers;
+using APIHandler.Handlers.Chat;
 using APIHandler.Handlers.Dishes;
 using APIHandler.Handlers.Feedbacks;
 using APIHandler.Handlers.GroupReservations;
@@ -36,6 +37,7 @@ using APIHandler.Repositories.Tables;
 using APIHandler.Repositories.Waiters;
 using APIHandler.Services;
 using APIHandler.Services.Auth;
+using APIHandler.Services.Chat;
 using APIHandler.Services.Dishes;
 using APIHandler.Services.Feedbacks;
 using APIHandler.Services.GroupReservations;
@@ -50,6 +52,7 @@ using APIHandler.Services.Tables;
 using APIHandler.Services.Waiters;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace APIHandler.Routing;
 
@@ -99,6 +102,7 @@ public static class RouteRegistry
         services.AddSingleton<ITableRepository, TableRepository>();
 
         // 3. Services
+        services.AddSingleton(new HttpClient());
         services.AddSingleton<S3ImageService>();
         services.AddSingleton<IReportFileService, ReportFileService>();
         services.AddSingleton<IUserService, UserService>();
@@ -114,6 +118,7 @@ public static class RouteRegistry
         services.AddSingleton<IGuestSessionService, GuestSessionService>();
         services.AddSingleton<IGuestAuthorizationService, GuestAuthorizationService>();
         services.AddSingleton<IReportService, ReportService>();
+        services.AddSingleton<IChatService, ChatService>();
 
         var provider = services.BuildServiceProvider();
 
@@ -214,6 +219,11 @@ public static class RouteRegistry
             new RouteHandler(new Route(HttpMethods.PATCH, "/notifications/{id}/read"), ActivatorUtilities.CreateInstance<MarkNotificationReadHandler>(provider))
         ];
 
+        List<RouteHandler> GetChatRoutes() => [
+            new RouteHandler(new Route(HttpMethods.POST, "/chat"), ActivatorUtilities.CreateInstance<ChatHandler>(provider)),
+            new RouteHandler(new Route(HttpMethods.POST, "/api/chat"), ActivatorUtilities.CreateInstance<ChatHandler>(provider))
+        ];
+
         var allRoutes = new List<RouteHandler>();
         allRoutes.AddRange(GetAuthAndUserRoutes());
         allRoutes.AddRange(GetLocationTableAndWaiterRoutes());
@@ -221,6 +231,7 @@ public static class RouteRegistry
         allRoutes.AddRange(GetReservationAndOrderRoutes());
         allRoutes.AddRange(GetGuestAndGroupRoutes());
         allRoutes.AddRange(GetAuxiliaryRoutes());
+        allRoutes.AddRange(GetChatRoutes());
 
         return allRoutes;
     }
