@@ -1,11 +1,29 @@
 <app-header />
 
 <div class="subheading">
-  <h3>
-    {{ 'Hello,' | translate }} {{ firstName() }} {{ lastName() }}
-  </h3>
+  <div class="subheading-content">
+    <div class="subheading-title-wrapper">
+      <h2 class="subheading-title">
+        {{ 'Hello,' | translate }} {{ firstName() }} {{ lastName() }}
+      </h2>
+    </div>
 
-  @if (reservations().length > 0) {
+    <div class="support-message">
+      <img
+        src="assets/svg/phone-call.svg"
+        alt=""
+        aria-hidden="true"
+        class="support-icon"
+      />
+      <span class="support-text">
+        {{ 'For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.' | translate }}
+      </span>
+    </div>
+  </div>
+</div>
+
+@if (reservations().length > 0) {
+  <div class="controls-container">
     <div class="controls-bar">
       <label class="filter-checkbox" for="activeOnlyCheckbox">
         <input
@@ -34,8 +52,8 @@
         </select>
       </div>
     </div>
-  }
-</div>
+  </div>
+}
 
 @if (!reservationsLoaded()) {
   <ul class="reservation-list" aria-busy="true">
@@ -69,7 +87,7 @@
       aria-hidden="true"
     />
 
-    <p>{{ 'It looks like you don\x27t have any reservations.' | translate }}</p>
+    <p>{{ 'It looks like you don\'t have any reservations.' | translate }}</p>
 
     <a
       class="button button--primary button--large"

@@ -1,18 +1,96 @@
 @use 'app/shared/styles/abstracts/colors' as color;
 
+:host {
+  display: block;
+  background-color: color.$bg-yellow;
+  min-height: 100vh;
+}
+
 .subheading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-
-  padding: 2rem;
-
+  position: relative;
+  width: 100%;
   background-color: color.$bg-green;
+  background-image: url('/assets/img/main-page-cover.jpg');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
 
-  @media (max-width: 540px) {
-    padding: 1rem;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(217, 229, 217, 0.95) 0%,
+      rgba(217, 229, 217, 0.90) 50%,
+      rgba(217, 229, 217, 0.75) 100%
+    );
+    z-index: 1;
+  }
+
+  .subheading-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 24px 40px;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px 24px;
+    }
+  }
+
+  .subheading-title {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: color.$neutral-900;
+    line-height: 36px;
+  }
+
+  .support-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 460px;
+    padding: 8px 14px;
+    background-color: color.$bg-yellow;
+    border: 1px solid color.$green-150;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    .support-icon {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .support-text {
+      font-size: 13px;
+      line-height: 18px;
+      color: color.$neutral-900;
+      font-weight: 400;
+    }
+  }
+}
+
+.controls-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 24px 40px 0;
+  display: flex;
+  justify-content: flex-end;
+
+  @media (max-width: 900px) {
+    padding: 16px 24px 0;
+    justify-content: flex-start;
   }
 }
 
@@ -76,25 +154,17 @@
 
 .reservation-list {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-      minmax(17.5rem, 30%)
-  );
-  grid-auto-rows: 1fr;
-  justify-content: center;
-  gap: 2rem;
-
-  padding: 1.5rem;
-
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+  max-width: 1360px;
+  margin: 24px auto 0;
+  padding: 0 40px 48px;
   list-style: none;
 
-  @media (max-width: 1150px) {
-    grid-template-columns: repeat(
-      auto-fill,
-        minmax(17.5rem, 100%)
-    );
-
-    gap: 1rem;
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+    padding: 0 20px 32px;
+    gap: 16px;
   }
 }
 
@@ -119,5 +189,11 @@
       width: 88px;
       height: 88px;
     }
+  }
+
+  p {
+    margin: 0;
+    color: color.$neutral-900;
+    font-size: 1.25rem;
   }
 }

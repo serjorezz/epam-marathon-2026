@@ -30,6 +30,12 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 
 export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   en: {
+    "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.": "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.",
+    "Completed": "Completed",
+    "Add Pre-Order": "Add Pre-Order",
+    "View Pre-Order": "View Pre-Order",
+    "Pre-orders:": "Pre-orders:",
+    "None": "None",
     "Contains allergy ingredients": "Contains allergy ingredients",
     "Spicy food": "Spicy food",
     "Non-spicy": "Non-spicy",
@@ -556,6 +562,12 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   uk: {
+    "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.": "Якщо вам потрібна допомога з бронюванням столика або передзамовленням, зателефонуйте нам: +123 445 678 8990.",
+    "Completed": "Завершено",
+    "Add Pre-Order": "Додати передзамовлення",
+    "View Pre-Order": "Переглянути передзамовлення",
+    "Pre-orders:": "Передзамовлення:",
+    "None": "Немає",
     "Happy Hours": "Щасливі години",
     "Happy hours": "Щасливі години",
     "Daily from 12:00 to 16:00 — 10% discount on all menu dishes.": "Щодня з 12:00 до 16:00 — знижка 10% на всі страви меню.",
@@ -1131,6 +1143,12 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   ka: {
+    "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.": "მაგიდის დაჯავშნასთან ან წინასწარ შეკვეთასთან დაკავშირებით დახმარებისთვის, გთხოვთ დაგვიკავშირდეთ ნომერზე: +123 445 678 8990.",
+    "Completed": "დასრულებულია",
+    "Add Pre-Order": "წინასწარი შეკვეთის დამატება",
+    "View Pre-Order": "წინასწარი შეკვეთის ნახვა",
+    "Pre-orders:": "წინასწარი შეკვეთები:",
+    "None": "არ არის",
     "Happy Hours": "ბედნიერი საათები",
     "Happy hours": "ბედნიერი საათები",
     "Daily from 12:00 to 16:00 — 10% discount on all menu dishes.": "ყოველდღე 12:00-დან 16:00-მდე — 10%-იანი ფასდაკლება მენიუს ყველა კერძზე.",

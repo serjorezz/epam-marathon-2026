@@ -189,7 +189,7 @@ export class ReservationDashboardComponent implements OnInit {
     },
     [ReservationStatusCustomer.Finished]: {
       class: 'finished',
-      label: 'Finished',
+      label: 'Completed',
     },
   };
 

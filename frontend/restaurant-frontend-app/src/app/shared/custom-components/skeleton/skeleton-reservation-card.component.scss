@@ -5,62 +5,57 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 14rem;
-  padding: 1.5rem;
   background-color: color.$neutral-0;
   border-radius: 1.5rem;
-  box-shadow: 0 0 10px 4px color.$shadow;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 10px 4px color.$shadow;
   list-style: none;
-  gap: 1.25rem;
+  overflow: hidden;
+  min-height: 280px;
 
   .skeleton-res-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .loc-bar {
-      height: 1rem;
-      width: 55%;
-    }
-
-    .badge-box {
-      width: 4.875rem;
-      height: 1.5rem;
-      border-radius: 1rem;
-    }
+    width: 100%;
+    height: 32px;
+    background-color: color.$neutral-100;
   }
 
   .skeleton-res-body {
+    padding: 20px 24px;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 16px;
+    flex: 1;
 
-    .date-bar {
-      height: 0.875rem;
-      width: 45%;
+    .loc-bar {
+      height: 1.25rem;
+      width: 60%;
     }
 
-    .time-bar {
-      height: 0.875rem;
-      width: 40%;
-    }
+    .details-grid-skel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
 
-    .guests-bar {
-      height: 0.875rem;
-      width: 30%;
+      .date-bar,
+      .time-bar,
+      .preorder-bar,
+      .guests-bar {
+        height: 1rem;
+        width: 80%;
+      }
     }
   }
 
   .skeleton-res-footer {
+    padding: 0 24px 24px;
     display: flex;
-    gap: 0.75rem;
+    gap: 12px;
     justify-content: flex-end;
 
     .btn-box {
-      width: 6.25rem;
-      height: 2.25rem;
-      border-radius: 0.5rem;
+      flex: 1;
+      height: 40px;
+      border-radius: 8px;
     }
   }
 }

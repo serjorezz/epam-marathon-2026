@@ -152,6 +152,13 @@ export class CardReservationComponent {
     );
   });
 
+  readonly hasActions = computed(() => {
+    if (this.role() === Roles.CUSTOMER) {
+      return this.r().status !== ReservationStatusCustomer.Cancelled;
+    }
+    return true;
+  });
+
   readonly isPreOrderCutoffReached = computed(() => {
     const startTimeRaw = this.r().startTime;
     if (!startTimeRaw) {
