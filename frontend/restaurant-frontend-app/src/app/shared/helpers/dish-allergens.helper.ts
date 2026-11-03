@@ -96,14 +96,39 @@ export const DISH_ALLERGEN_METADATA: Record<string, DishAllergenInfo> = {
 
 export function enrichDishWithAllergens(dish: DishListResponse): DishListResponse {
   if (!dish) return dish;
-  const meta = DISH_ALLERGEN_METADATA[dish.id];
 
-  const allergens = dish.allergens !== undefined ? dish.allergens : (meta?.allergens ?? []);
-  const isSpicy = dish.isSpicy !== undefined ? dish.isSpicy : (meta?.isSpicy ?? false);
+  let meta = DISH_ALLERGEN_METADATA[dish.id];
+
+  if (!meta && dish.name) {
+    const nameLower = dish.name.toLowerCase();
+    for (const [idKey, val] of Object.entries(DISH_ALLERGEN_METADATA)) {
+      const simplifiedKey = idKey.replace('dish-', '').replace(/-/g, ' ');
+      if (nameLower.includes(simplifiedKey)) {
+        meta = val;
+        break;
+      }
+    }
+  }
+
+  const allergens =
+    Array.isArray(dish.allergens) && dish.allergens.length > 0
+      ? dish.allergens
+      : (meta?.allergens ?? (Array.isArray(dish.allergens) ? dish.allergens : []));
+
+  const isSpicy =
+    typeof dish.isSpicy === 'boolean' && dish.isSpicy
+      ? true
+      : (meta?.isSpicy ?? dish.isSpicy ?? false);
+
   const removableAllergens =
-    dish.removableAllergens !== undefined ? dish.removableAllergens : (meta?.removableAllergens ?? []);
+    Array.isArray(dish.removableAllergens) && dish.removableAllergens.length > 0
+      ? dish.removableAllergens
+      : (meta?.removableAllergens ?? (Array.isArray(dish.removableAllergens) ? dish.removableAllergens : []));
+
   const canBeNonSpicy =
-    dish.canBeNonSpicy !== undefined ? dish.canBeNonSpicy : (meta?.canBeNonSpicy ?? false);
+    typeof dish.canBeNonSpicy === 'boolean' && dish.canBeNonSpicy
+      ? true
+      : (meta?.canBeNonSpicy ?? dish.canBeNonSpicy ?? false);
 
   return {
     ...dish,
