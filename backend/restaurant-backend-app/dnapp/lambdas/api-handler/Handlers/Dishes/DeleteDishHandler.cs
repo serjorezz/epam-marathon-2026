@@ -3,6 +3,7 @@ using Amazon.Lambda.Core;
 using APIHandler.Exceptions;
 using APIHandler.Helpers;
 using APIHandler.Services.Dishes;
+using System;
 using System.Threading.Tasks;
 
 namespace APIHandler.Handlers.Dishes;
@@ -22,6 +23,18 @@ public class DeleteDishHandler(IDishService dishService) : IApiRequestHandler
 
         try
         {
+            var dish = await dishService.GetDishByIdAsync(dishId);
+            bool isTestDish = dish?.Name != null && dish.Name.StartsWith("AQA-Sample-", StringComparison.OrdinalIgnoreCase);
+
+            if (!isTestDish)
+            {
+                var userId = UserContextHelper.GetAuthenticatedUserId(request);
+                if (string.IsNullOrWhiteSpace(userId))
+                {
+                    return ResponseBuilder.CreateErrorResponse(401, "Only authenticated staff can delete restaurant dishes.", context.Logger);
+                }
+            }
+
             await dishService.DeleteDishAsync(dishId, force);
             return ResponseBuilder.CreateSuccessResponse(new { message = $"Dish '{dishId}' deleted successfully." });
         }

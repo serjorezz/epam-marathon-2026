@@ -19,6 +19,13 @@ public static class SampleDataFactory
 {
     public const string Prefix = "AQA-Sample-";
 
+    private static readonly string[] SampleDishNames =
+    [
+        "Khachapuri", "Shkmeruli", "Lobio Pot", "Chashushuli", "Pkhali Platter",
+        "Elarji Croquettes", "Kupati Skewers", "Mtsvadi Plate", "Adjapsandali Stew",
+        "Satsivi Chicken", "Georgian Herb Salad", "Tkemali Roasted Potatoes"
+    ];
+
     // Bogus' Faker isn't thread-safe and scenarios run in parallel, so each thread gets its own.
     [ThreadStatic]
     private static Faker? _faker;
@@ -56,7 +63,7 @@ public static class SampleDataFactory
     public static CreateDishRequest CreateDishRequest(
         IReadOnlyList<string> locationIds, DishType dishType = DishType.MainCourse) =>
         new(
-            Name: Prefix + Faker.Commerce.ProductName(),
+            Name: $"{Prefix}{Faker.PickRandom(SampleDishNames)} {Faker.Random.Int(100, 999)}",
             Description: Faker.Lorem.Sentence(),
             DishType: dishType,
             Price: Faker.Random.Decimal(5, 50),
