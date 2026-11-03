@@ -13,4 +13,5 @@ export interface DishListResponse {
   fats: string;
   vitamins: string;
   status?: 'Confirmed' | 'Rejected' | 'Pending';
+  isFavorite?: boolean;
 }

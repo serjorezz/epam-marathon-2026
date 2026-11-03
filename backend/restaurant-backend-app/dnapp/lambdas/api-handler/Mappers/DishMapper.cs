@@ -28,7 +28,9 @@ public class DishMapper
         };
     }
 
-    public static DishListResponse ToDishListResponse(Dish dish)
+    public static DishListResponse ToDishListResponse(Dish dish) => ToDishListResponse(dish, false);
+
+    public static DishListResponse ToDishListResponse(Dish dish, bool isFavorite)
     {
         return new DishListResponse
         {
@@ -45,6 +47,7 @@ public class DishMapper
             Fats = dish.Fats,
             Proteins = dish.Proteins,
             Vitamins = dish.Vitamins,
+            IsFavorite = isFavorite,
         };
     }
 

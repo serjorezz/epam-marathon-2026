@@ -30,6 +30,8 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 
 export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   en: {
+    "Add to favorite": "Add to favorite",
+    "In favorite": "In favorite",
     "Green & Tasty Restaurants": "Green & Tasty Restaurants",
     "Green &amp; Tasty Restaurants": "Green & Tasty Restaurants",
     "Restaurants": "Restaurants",
@@ -426,6 +428,8 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   uk: {
+    "Add to favorite": "Додати до улюблених",
+    "In favorite": "В улюблених",
     "Green & Tasty Restaurants": "Ресторани Green & Tasty",
     "Green &amp; Tasty Restaurants": "Ресторани Green & Tasty",
     "Restaurants": "Ресторани",
@@ -860,6 +864,8 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   ka: {
+    "Add to favorite": "ფავორიტებში დამატება",
+    "In favorite": "ფავორიტებშია",
     "Green & Tasty Restaurants": "Green & Tasty რესტორნები",
     "Green &amp; Tasty Restaurants": "Green & Tasty რესტორნები",
     "Restaurants": "რესტორნები",

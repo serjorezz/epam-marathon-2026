@@ -1397,5 +1397,15 @@
       "index_document": "index.html",
       "error_document": "error.html"
     }
+  },
+  "CustomerFavorites": {
+    "resource_type": "dynamodb_table",
+    "hash_key_name": "userId",
+    "hash_key_type": "S",
+    "read_capacity": 1,
+    "write_capacity": 1,
+    "global_indexes": [],
+    "autoscaling": [],
+    "tags": {}
   }
 }

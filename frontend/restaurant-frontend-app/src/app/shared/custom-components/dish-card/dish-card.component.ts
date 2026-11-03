@@ -1,10 +1,17 @@
 import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
-import {Component, ChangeDetectionStrategy, input, output, computed} from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  output,
+  computed,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { DishState } from '@app/models/enums/dish-state.model';
 import { DishStateLabels } from '@app/shared/mappers/dish-enum.mapper';
-import {CustomButtonComponent} from '@app/shared/custom-components/custom-button/custom-button.component';
+import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-dish-card',
@@ -18,9 +25,17 @@ export class DishCardComponent {
   readonly dish = input.required<DishListResponse>();
   readonly maxWidth = input('');
   readonly preOrderEnabled = input(false);
+  readonly showFavorite = input(true);
 
   readonly dishClicked = output<void>();
   readonly preOrderClicked = output<void>();
+  readonly favoriteToggle = output<{ dish: DishListResponse; isFavorite: boolean }>();
+
+  private readonly isFavoriteInternal = signal<boolean | null>(null);
+
+  readonly isFavorite = computed(() => {
+    return this.isFavoriteInternal() ?? this.dish().isFavorite ?? false;
+  });
 
   readonly dishStateLabel = computed(() => {
     const state = this.dish().state;
@@ -41,5 +56,13 @@ export class DishCardComponent {
     if (!this.isUnavailable() && !this.preOrderEnabled()) {
       this.dishClicked.emit();
     }
+  }
+
+  onFavoriteClick(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+    const nextState = !this.isFavorite();
+    this.isFavoriteInternal.set(nextState);
+    this.favoriteToggle.emit({ dish: this.dish(), isFavorite: nextState });
   }
 }

@@ -45,7 +45,8 @@
     "feedbackGlobalIndex": "${feedback_global_index}",
     "groupReservationsTable": "GroupReservations",
     "guestSessionTable": "GuestSessions",
-    "tableLocationIdIndex": "${tables-locationId-global-index}"
+    "tableLocationIdIndex": "${tables-locationId-global-index}",
+    "customerFavoritesTable": "CustomerFavorites"
   },
   "publish_version": true,
   "alias": "${lambdas_alias_name}",

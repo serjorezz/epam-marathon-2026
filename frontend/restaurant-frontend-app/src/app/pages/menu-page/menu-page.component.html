@@ -53,12 +53,13 @@
       </div>
 
       <div class="dish-cards">
-        @for (dish of filteredDishes; track dish) {
+        @for (dish of filteredDishes; track dish.id) {
           <app-dish-card
             [dish]="dish"
             [preOrderEnabled]="isPreOrderEnabled"
             (dishClicked)="openModal(dish)"
             (preOrderClicked)="addDishToCart(dish)"
+            (favoriteToggle)="onFavoriteToggle($event)"
             maxWidth="288px"
           ></app-dish-card>
         }

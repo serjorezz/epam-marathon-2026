@@ -116,4 +116,6 @@ public static class ResourceNames
 
     public static string TablesLocationIdIndex => Environment.GetEnvironmentVariable("tableLocationIdIndex")
         ?? throw new InvalidOperationException("Environment variable 'tableLocationIdIndex' is not set.");
+
+    public static string CustomerFavoritesTableName => Environment.GetEnvironmentVariable("customerFavoritesTable") ?? "CustomerFavorites";
 }

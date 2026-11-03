@@ -79,7 +79,30 @@ public class GetAllDishesHandler : IApiRequestHandler
 
         dishes = SortDishes(dishes, sortBy, popularityMap);
 
-        var response = dishes.ConvertAll(DishMapper.ToDishListResponse);
+        var userId = UserContextHelper.GetAuthenticatedUserId(request);
+        var favoriteDishIds = new HashSet<string>();
+
+        if (!string.IsNullOrEmpty(userId))
+        {
+            try
+            {
+                var customerFavorite = await _dbContext.LoadAsync<CustomerFavorite>(userId, new DynamoDBOperationConfig
+                {
+                    OverrideTableName = ResourceNames.CustomerFavoritesTableName
+                });
+
+                if (customerFavorite?.DishIds != null)
+                {
+                    favoriteDishIds = new HashSet<string>(customerFavorite.DishIds);
+                }
+            }
+            catch (Exception ex)
+            {
+                context.Logger.LogLine($"Could not load customer favorites for user {userId}: {ex.Message}");
+            }
+        }
+
+        var response = dishes.ConvertAll(d => DishMapper.ToDishListResponse(d, favoriteDishIds.Contains(d.Id)));
         return ResponseBuilder.CreateSuccessResponse(response);
     }
 

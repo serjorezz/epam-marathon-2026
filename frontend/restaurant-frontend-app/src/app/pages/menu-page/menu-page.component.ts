@@ -1,5 +1,5 @@
 import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
-import {Component, OnInit, ChangeDetectionStrategy, inject} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { DishCardComponent } from '@app/shared/custom-components/dish-card/dish-card.component';
 import { DishesService } from '@app/services/dishes/dishes.service';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
@@ -10,7 +10,10 @@ import { DishType } from '@app/models/enums/dish-type.model';
 import { DishSortingLabels, DishTypeLabels } from '@app/shared/mappers/dish-enum.mapper';
 import { DishModalComponent } from '@app/components/dish-modal/dish-modal.component';
 import { PreOrdersService } from '@app/services/pre-orders/pre-orders.service';
-import {ToastService} from '@app/services/toast/toast.service';
+import { ToastService } from '@app/services/toast/toast.service';
+import { AuthenticationService } from '@app/auth/services/authentication.service';
+
+const FAVORITES_STORAGE_KEY = 'gt_favorite_dishes';
 
 @Component({
   selector: 'app-menu-page',
@@ -20,7 +23,7 @@ import {ToastService} from '@app/services/toast/toast.service';
     DishCardComponent,
     MainCoverImageComponent,
     DishModalComponent,
-    TranslatePipe
+    TranslatePipe,
   ],
   templateUrl: './menu-page.component.html',
   styleUrl: './menu-page.component.scss',
@@ -28,7 +31,13 @@ import {ToastService} from '@app/services/toast/toast.service';
   providers: [DishesService],
 })
 export class MenuPageComponent implements OnInit {
-  private toast = inject(ToastService);
+  private readonly toast = inject(ToastService);
+  private readonly authService = inject(AuthenticationService);
+  private readonly dishesService = inject(DishesService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly orderService = inject(PreOrdersService);
+
   dishes: DishListResponse[] = [];
   filteredDishes: DishListResponse[] = [];
 
@@ -44,11 +53,6 @@ export class MenuPageComponent implements OnInit {
 
   selectedCategory: DishType | null = null; // initially show all
   selectedSort: DishSort = DishSort.PopularityDescending;
-
-  private readonly dishesService = inject(DishesService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private  readonly orderService = inject(PreOrdersService);
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -81,6 +85,8 @@ export class MenuPageComponent implements OnInit {
     const sort = this.selectedSort;
 
     this.dishesService.getDishes(category, sort).subscribe((data) => {
+      const localFavorites = this.getLocalFavorites();
+
       this.dishes = data.map((dish) => ({
         ...dish,
         imageUrl: dish.imageUrl || 'assets/img/dish.png',
@@ -95,10 +101,73 @@ export class MenuPageComponent implements OnInit {
         fats: dish.fats || '0',
         carbohydrates: dish.carbohydrates || '0',
         vitamins: dish.vitamins || '0',
+        isFavorite: dish.isFavorite !== undefined ? dish.isFavorite : localFavorites.has(dish.id),
       }));
 
       this.filteredDishes = this.dishes;
     });
+  }
+
+  onFavoriteToggle(event: { dish: DishListResponse; isFavorite: boolean }): void {
+    const token = this.authService.getTokens()?.idToken;
+
+    if (!token) {
+      this.toast.error('Please log in to add dishes to your favorites.', 'Unauthorized');
+      event.dish.isFavorite = !event.isFavorite;
+      return;
+    }
+
+    // Apply optimistic update immediately
+    event.dish.isFavorite = event.isFavorite;
+    this.saveLocalFavorite(event.dish.id, event.isFavorite);
+
+    const operation$ = event.isFavorite
+      ? this.dishesService.addFavorite(event.dish.id)
+      : this.dishesService.removeFavorite(event.dish.id);
+
+    operation$.subscribe({
+      next: () => {
+        // Successfully synchronized with backend database
+      },
+      error: () => {
+        // Revert on error
+        event.dish.isFavorite = !event.isFavorite;
+        this.saveLocalFavorite(event.dish.id, event.dish.isFavorite);
+        this.toast.error(
+          event.isFavorite ? 'Failed to add to favorites' : 'Failed to remove from favorites',
+          'Error'
+        );
+      },
+    });
+  }
+
+  private getLocalFavorites(): Set<string> {
+    try {
+      const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          return new Set<string>(parsed);
+        }
+      }
+    } catch {
+      // Storage unavailable or invalid JSON
+    }
+    return new Set<string>();
+  }
+
+  private saveLocalFavorite(dishId: string, isFavorite: boolean): void {
+    try {
+      const favorites = this.getLocalFavorites();
+      if (isFavorite) {
+        favorites.add(dishId);
+      } else {
+        favorites.delete(dishId);
+      }
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify([...favorites]));
+    } catch {
+      // Storage unavailable
+    }
   }
 
   onCategorySelected(category: DishType): void {

@@ -4,6 +4,16 @@ import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
+export interface FavoriteResponse {
+  message: string;
+  dishId: string;
+  isFavorite: boolean;
+}
+
+export interface FavoriteDishIdsResponse {
+  dishIds: string[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class DishesService {
   private readonly baseUrl = inject(API_BASE_URL);
@@ -29,5 +39,17 @@ export class DishesService {
     }
 
     return this.http.get<DishListResponse[]>(`${this.baseUrl}/dishes`, { params });
+  }
+
+  addFavorite(dishId: string): Observable<FavoriteResponse> {
+    return this.http.post<FavoriteResponse>(`${this.baseUrl}/dishes/${dishId}/favorite`, {});
+  }
+
+  removeFavorite(dishId: string): Observable<FavoriteResponse> {
+    return this.http.delete<FavoriteResponse>(`${this.baseUrl}/dishes/${dishId}/favorite`);
+  }
+
+  getFavorites(): Observable<FavoriteDishIdsResponse> {
+    return this.http.get<FavoriteDishIdsResponse>(`${this.baseUrl}/dishes/favorites`);
   }
 }

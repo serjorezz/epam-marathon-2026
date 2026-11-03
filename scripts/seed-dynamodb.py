@@ -211,7 +211,7 @@ def ensure_waiters(user_pool_id: str, waiters: list[dict], region: str):
 
 
 def ensure_customers(user_pool_id: str, customers: list[dict], region: str):
-    print(f"\n6. Setting up Test Customers in Cognito...")
+    print(f"\n6. Setting up Test Customers in Cognito & CustomerFavorites DynamoDB table...")
 
     for c in customers:
         email = c["email"]
@@ -225,7 +225,7 @@ def ensure_customers(user_pool_id: str, customers: list[dict], region: str):
             "--username", email,
             "--region", region
         ]
-        code, _, _ = run_cmd(user_check_cmd)
+        code, stdout, _ = run_cmd(user_check_cmd)
         if code != 0:
             create_user_cmd = [
                 "aws", "cognito-idp", "admin-create-user",
@@ -241,6 +241,7 @@ def ensure_customers(user_pool_id: str, customers: list[dict], region: str):
             ]
             run_cmd(create_user_cmd)
             print(f"  [OK] Created customer user: {email}")
+            _, stdout, _ = run_cmd(user_check_cmd)
         else:
             run_cmd([
                 "aws", "cognito-idp", "admin-update-user-attributes",
@@ -252,6 +253,17 @@ def ensure_customers(user_pool_id: str, customers: list[dict], region: str):
                 "--region", region
             ])
             print(f"  [EXISTS] Updated customer user attributes: {email} ({first_name} {last_name})")
+
+        # Extract Cognito sub ID
+        sub = None
+        try:
+            user_data = json.loads(stdout)
+            for attr in user_data.get("UserAttributes", []):
+                if attr.get("Name") == "sub":
+                    sub = attr.get("Value")
+                    break
+        except Exception as e:
+            print(f"  [WARN] Failed to parse Cognito user attributes for {email}: {e}")
 
         set_pass_cmd = [
             "aws", "cognito-idp", "admin-set-user-password",
@@ -271,6 +283,30 @@ def ensure_customers(user_pool_id: str, customers: list[dict], region: str):
             "--region", region
         ]
         run_cmd(add_group_cmd)
+
+        # Ensure sample favorites for the customer
+        if sub:
+            get_fav_cmd = [
+                "aws", "dynamodb", "get-item",
+                "--table-name", "CustomerFavorites",
+                "--key", json.dumps({"userId": {"S": sub}}),
+                "--region", region
+            ]
+            c_fav, fav_out, _ = run_cmd(get_fav_cmd)
+            fav_exists = False
+            if c_fav == 0:
+                try:
+                    fav_exists = "Item" in json.loads(fav_out)
+                except Exception:
+                    pass
+            if not fav_exists:
+                fav_item = {
+                    "userId": {"S": sub},
+                    "dishIds": {"L": [{"S": "dish-avocado-bowl"}, {"S": "dish-strawberry-salad"}]}
+                }
+                put_item("CustomerFavorites", fav_item, region)
+            else:
+                print(f"  [EXISTS] CustomerFavorites DynamoDB item for {email} ({sub})")
 
 
 LOCATIONS = [

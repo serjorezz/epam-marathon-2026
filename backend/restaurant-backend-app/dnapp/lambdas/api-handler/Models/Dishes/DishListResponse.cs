@@ -43,4 +43,7 @@ public class DishListResponse
 
     [JsonPropertyName("vitamins")]
     public required string Vitamins { get; set; }
+
+    [JsonPropertyName("isFavorite")]
+    public bool IsFavorite { get; set; } = false;
 }
