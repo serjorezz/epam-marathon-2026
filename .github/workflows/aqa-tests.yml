@@ -60,7 +60,7 @@ jobs:
           AQA_WAITER_USERNAME: ${{ secrets.AQA_WAITER_USERNAME || 'waiter@green-tasty.com' }}
           AQA_WAITER_PASSWORD: ${{ secrets.AQA_WAITER_PASSWORD || 'Waiter12345!' }}
           AQA_ADMIN_USERNAME: ${{ secrets.AQA_ADMIN_USERNAME || 'admin@green-tasty.com' }}
-          AQA_ADMIN_PASSWORD: ${{ secrets.AQA_ADMIN_PASSWORD || 'Admin12345!' }}
+          AQA_ADMIN_PASSWORD: ${{ secrets.AQA_ADMIN_PASSWORD }}
           AQA_TESTTABLE_WAITER_USERNAME: ${{ secrets.AQA_TESTTABLE_WAITER_USERNAME || 'waiter.rustaveli@green-tasty.com' }}
           AQA_TESTTABLE_WAITER_PASSWORD: ${{ secrets.AQA_TESTTABLE_WAITER_PASSWORD || 'Waiter12345!' }}
         run: |
@@ -219,7 +219,7 @@ jobs:
           AQA_WAITER_USERNAME: ${{ env.WAITER_USERNAME || vars.AQA_WAITER_USERNAME || 'waiter@green-tasty.com' }}
           AQA_WAITER_PASSWORD: ${{ env.WAITER_PASSWORD || secrets.AQA_WAITER_PASSWORD || 'Waiter12345!' }}
           AQA_ADMIN_USERNAME: ${{ env.ADMIN_USERNAME || vars.AQA_ADMIN_USERNAME || 'admin@green-tasty.com' }}
-          AQA_ADMIN_PASSWORD: ${{ env.ADMIN_PASSWORD || secrets.AQA_ADMIN_PASSWORD || 'Admin12345!' }}
+          AQA_ADMIN_PASSWORD: ${{ env.ADMIN_PASSWORD || secrets.AQA_ADMIN_PASSWORD }}
         run: |
           python3 ../../scripts/cleanup-test-data.py
 

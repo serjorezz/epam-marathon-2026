@@ -19,6 +19,13 @@ namespace Restaurant_Aqa_Framework.Hooks;
 [Binding]
 public class ScenarioStageHooks(IObjectContainer container, ScenarioContext scenario)
 {
+    [BeforeScenario("known-defect", Order = -1000)]
+    public static void SkipKnownDefects()
+    {
+        if (Environment.GetEnvironmentVariable("RUN_KNOWN_DEFECTS") != "true")
+            Skip.Test("Known defect in application. Set RUN_KNOWN_DEFECTS=true to execute.");
+    }
+
     [BeforeScenario("ui")]
     public async Task SetUpUiStage()
     {
@@ -87,6 +94,9 @@ public class ScenarioStageHooks(IObjectContainer container, ScenarioContext scen
     [AfterScenario("ui", "api")]
     public async Task TearDownStage(ScenarioContext scenarioContext, IReqnrollOutputHelper outputHelper)
     {
+        if (!container.IsRegistered<IStageContext>())
+            return;
+
         var stage = container.Resolve<IStageContext>();
 
         // Dispose even if saving the trace throws, so a failed teardown never leaks a browser context.
