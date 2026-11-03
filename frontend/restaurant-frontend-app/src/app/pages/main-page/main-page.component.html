@@ -23,24 +23,30 @@
     <h2 class="section-heading">{{ 'Most Popular Dishes' | translate }}</h2>
 
     <div class="dish-cards">
-      @for (dish of dishes; track dish) {
-        <div
-          class="dish-card"
-          role="button"
-          tabindex="0"
-          (click)="openDishModal(dish)"
-          (keydown.enter)="openDishModal(dish)"
-          (keydown.space)="openDishModal(dish); $event.preventDefault()"
-        >
-          <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="dish-image" />
-          <div class="dish-info">
-            <div class="dish-name">{{ dish.name | translate }}</div>
-            <div class="dish-meta">
-              <span class="dish-price">{{ dish.price | currency: '$' }}</span>
-              <span class="dish-weight">{{ dish.weight }}</span>
+      @if (dishesLoading) {
+        @for (_ of [1, 2, 3, 4, 5]; track $index) {
+          <app-skeleton-dish-card />
+        }
+      } @else {
+        @for (dish of dishes; track dish) {
+          <div
+            class="dish-card"
+            role="button"
+            tabindex="0"
+            (click)="openDishModal(dish)"
+            (keydown.enter)="openDishModal(dish)"
+            (keydown.space)="openDishModal(dish); $event.preventDefault()"
+          >
+            <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="dish-image" />
+            <div class="dish-info">
+              <div class="dish-name">{{ dish.name | translate }}</div>
+              <div class="dish-meta">
+                <span class="dish-price">{{ dish.price | currency: '$' }}</span>
+                <span class="dish-weight">{{ dish.weight }}</span>
+              </div>
             </div>
           </div>
-        </div>
+        }
       }
     </div>
   </div>
@@ -50,8 +56,14 @@
     <h2 class="section-heading">{{ 'Locations' | translate }}</h2>
 
     <div class="location-cards">
-      @for (location of locations; track location) {
-        <app-location-card [location]="location" maxWidth="100%"></app-location-card>
+      @if (locationsLoading) {
+        @for (_ of [1, 2, 3]; track $index) {
+          <app-skeleton-location-card />
+        }
+      } @else {
+        @for (location of locations; track location) {
+          <app-location-card [location]="location" maxWidth="100%"></app-location-card>
+        }
       }
     </div>
   </div>

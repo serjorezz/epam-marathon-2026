@@ -1,4 +1,5 @@
 @use 'app/shared/styles/abstracts/colors' as color;
+@use 'app/shared/custom-components/skeleton/skeleton.scss' as *;
 
 .group-order-page {
   max-width: 75rem;

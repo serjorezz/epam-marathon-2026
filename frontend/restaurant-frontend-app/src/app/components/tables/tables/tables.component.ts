@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TableCardComponent } from '../table-card/table-card.component';
+import { SkeletonTableCardComponent } from '@app/shared/custom-components/skeleton';
 import { CustomSelectComponent } from '@app/shared/custom-components/custom-select/custom-select.component';
 import { CustomNumberComponent } from '@app/shared/custom-components/custom-number/custom-number.component';
 // import { TimeSlotsModalComponent } from '../time-slots-modal/time-slots-modal.component';
@@ -44,6 +45,7 @@ const RESERVATION_FAILED_MESSAGE = 'Could not create the reservation. Please try
   selector: 'app-reservations-page',
   imports: [
     TableCardComponent,
+    SkeletonTableCardComponent,
     CustomSelectComponent,
     CustomNumberComponent,
     // TimeSlotsModalComponent,

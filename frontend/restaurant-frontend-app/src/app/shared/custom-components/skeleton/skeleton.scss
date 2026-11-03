@@ -1,0 +1,42 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+
+@keyframes gt-skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@mixin shimmer-base {
+  background: linear-gradient(
+    90deg,
+    #e8eaed 0%,
+    #f2f4f7 25%,
+    #ffffff 50%,
+    #f2f4f7 75%,
+    #e8eaed 100%
+  );
+  background-size: 200% 100%;
+  animation: gt-skeleton-shimmer 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.skeleton-shimmer {
+  @include shimmer-base;
+}
+
+.skeleton-bar {
+  @include shimmer-base;
+  border-radius: 0.25rem;
+}
+
+.skeleton-box {
+  @include shimmer-base;
+  border-radius: 0.5rem;
+}
+
+.skeleton-circle {
+  @include shimmer-base;
+  border-radius: 50%;
+}

@@ -3,6 +3,7 @@
 @use 'app/shared/styles/abstracts/typography' as typography;
 @use 'app/shared/styles/buttons';
 @use 'app/shared/styles/modal';
+@use 'app/shared/custom-components/skeleton/skeleton';
 
 @include typography.global-typography;
 

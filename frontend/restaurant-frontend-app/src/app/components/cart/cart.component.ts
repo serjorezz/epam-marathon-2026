@@ -21,6 +21,7 @@ import { CancelOrderModalComponent } from './components/cancel-order-modal/cance
 import { NotSubmittedOrderComponent } from './components/not-submitted-order/not-submitted-order.component';
 import { SubmitOrderModalComponent } from './components/submit-order-modal/submit-order-modal.component';
 import { SubmittedOrderComponent } from './components/submitted-order/submitted-order.component';
+import { SkeletonOrderItemComponent } from '@app/shared/custom-components/skeleton';
 
 @Component({
   selector: 'app-cart',
@@ -28,6 +29,7 @@ import { SubmittedOrderComponent } from './components/submitted-order/submitted-
   imports: [
     SubmittedOrderComponent,
     NotSubmittedOrderComponent,
+    SkeletonOrderItemComponent,
     CancelOrderModalComponent,
     SubmitOrderModalComponent,
     TranslatePipe,
@@ -47,6 +49,7 @@ export class CartComponent implements OnInit {
 
   readonly closeCartEvent = output<void>();
 
+  readonly isLoading = signal(true);
   readonly orders = signal<Order[]>([]);
   readonly reservations = signal<Reservation[]>([]);
 
@@ -297,16 +300,19 @@ export class CartComponent implements OnInit {
   }
 
   private loadOrders(): void {
+    this.isLoading.set(true);
     this.preOrdersService
       .getPreOrders()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (orders) => {
           this.orders.set(orders);
+          this.isLoading.set(false);
         },
         error: (error) => {
           console.error('Error loading orders:', error);
           this.orders.set([]);
+          this.isLoading.set(false);
         },
       });
 

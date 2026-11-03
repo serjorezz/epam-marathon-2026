@@ -96,6 +96,12 @@
               <span class="spinner" aria-hidden="true"></span>
               <p>{{ 'Looking for available tables. This may take a few seconds.' | translate }}</p>
             </div>
+
+            <div class="table-card-list" role="status" aria-busy="true">
+              @for (_ of [1, 2]; track $index) {
+                <app-skeleton-table-card />
+              }
+            </div>
           } @else if (tables.length === 0) {
             <div class="results-summary">
               <span class="body-bold">{{ 'No tables Available' | translate }}</span>

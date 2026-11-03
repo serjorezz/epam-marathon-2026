@@ -1,6 +1,7 @@
 import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { DishCardComponent } from '@app/shared/custom-components/dish-card/dish-card.component';
+import { SkeletonDishCardComponent } from '@app/shared/custom-components/skeleton';
 import { DishesService } from '@app/services/dishes/dishes.service';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { MainCoverImageComponent } from '@app/shared/custom-components/main-cover-image/main-cover-image.component';
@@ -21,6 +22,7 @@ const FAVORITES_STORAGE_KEY = 'gt_favorite_dishes';
   imports: [
     RouterModule,
     DishCardComponent,
+    SkeletonDishCardComponent,
     MainCoverImageComponent,
     DishModalComponent,
     TranslatePipe,
@@ -38,6 +40,7 @@ export class MenuPageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly orderService = inject(PreOrdersService);
 
+  isLoading = true;
   dishes: DishListResponse[] = [];
   filteredDishes: DishListResponse[] = [];
 
@@ -91,7 +94,9 @@ export class MenuPageComponent implements OnInit {
     const category = this.selectedCategory ?? undefined;
     const sort = this.selectedSort;
 
-    this.dishesService.getDishes(category, sort).subscribe((data) => {
+    this.isLoading = true;
+    this.dishesService.getDishes(category, sort).subscribe({
+      next: (data) => {
       const localFavorites = this.getLocalFavorites();
 
       this.dishes = data.map((dish) => ({
@@ -112,7 +117,11 @@ export class MenuPageComponent implements OnInit {
       }));
 
       this.applyFilters();
-    });
+      this.isLoading = false;
+    },
+    error: () => {
+      this.isLoading = false;
+    }});
   }
 
   applyFilters(): void {

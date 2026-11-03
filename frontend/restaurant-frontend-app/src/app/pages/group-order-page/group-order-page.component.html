@@ -1,7 +1,19 @@
 <main class="group-order-page">
   @if (loading()) {
-    <div class="state-container">
-      <div class="loader" aria-label="Loading"></div>
+    <header class="page-header" role="status" aria-busy="true">
+      <div class="title-row">
+        <div class="skeleton-bar" style="height: 2rem; width: 14rem; border-radius: 0.5rem;"></div>
+        <div class="skeleton-box" style="height: 1.75rem; width: 7rem; border-radius: 1rem;"></div>
+      </div>
+      <div class="meta-row">
+        <div class="skeleton-bar" style="height: 1.25rem; width: 10rem; border-radius: 0.25rem;"></div>
+        <div class="skeleton-bar" style="height: 1.25rem; width: 8rem; border-radius: 0.25rem;"></div>
+        <div class="skeleton-bar" style="height: 1.25rem; width: 6rem; border-radius: 0.25rem;"></div>
+      </div>
+    </header>
+
+    <div class="participants-section" role="status" aria-busy="true">
+      <app-skeleton-order-item [count]="2" />
     </div>
   } @else if (error() === 'notFound') {
     <div class="state-container">

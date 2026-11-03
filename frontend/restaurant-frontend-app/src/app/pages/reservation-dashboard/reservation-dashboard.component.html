@@ -38,9 +38,11 @@
 </div>
 
 @if (!reservationsLoaded()) {
-  <p class="reservation-empty">
-    {{ 'Please wait while we load your reservations.' | translate }}
-  </p>
+  <ul class="reservation-list" aria-busy="true">
+    @for (_ of [1, 2, 3]; track $index) {
+      <app-skeleton-reservation-card />
+    }
+  </ul>
 } @else if (sortedReservations().length > 0) {
   <ul class="reservation-list">
     @for (reservation of sortedReservations(); track reservation.id) {

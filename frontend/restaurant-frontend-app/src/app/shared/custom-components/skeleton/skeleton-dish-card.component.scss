@@ -1,0 +1,65 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+@use './skeleton.scss' as *;
+
+:host {
+  display: contents;
+}
+
+.skeleton-dish-card {
+  width: 100%;
+  aspect-ratio: 316 / 304;
+  border-radius: 1.5rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  box-sizing: border-box;
+  background-color: color.$neutral-0;
+  box-shadow: 0 0 0.625rem 0.25rem color.$shadow;
+
+  .skeleton-dish-circle {
+    width: 62%;
+    aspect-ratio: 1 / 1;
+    max-width: 12.25rem;
+    max-height: 12.25rem;
+    border-radius: 50%;
+  }
+
+  .skeleton-dish-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .skeleton-dish-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+
+      .title-bar {
+        height: 1rem;
+        width: 60%;
+      }
+
+      .price-bar {
+        height: 1rem;
+        width: 25%;
+      }
+    }
+
+    .weight-bar {
+      height: 0.75rem;
+      width: 35%;
+    }
+
+    .action-btn {
+      height: 2.25rem;
+      width: 100%;
+      border-radius: 0.75rem;
+    }
+  }
+}

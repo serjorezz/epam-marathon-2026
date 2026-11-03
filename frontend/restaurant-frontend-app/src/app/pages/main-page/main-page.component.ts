@@ -7,6 +7,7 @@ import { LocationResponse } from '@app/models/locations/location-response.model'
 import { LocationsService } from '@app/services/locations/locations.service';
 import { DishesService } from '@app/services/dishes/dishes.service';
 import { LocationCardComponent } from '@app/shared/custom-components/location-card/location-card.component';
+import { SkeletonDishCardComponent, SkeletonLocationCardComponent } from '@app/shared/custom-components/skeleton';
 import { ReservationService } from '@app/services/reservation/reservation.service';
 import { FeedbackWindowComponent } from '@app/components/reservations/feedback-window/feedback-window.component';
 import { DishModalComponent } from '@app/components/dish-modal/dish-modal.component';
@@ -33,6 +34,8 @@ import { LoginModalComponent } from '@app/auth/components/login/login-modal/logi
     CommonModule,
     RouterLink,
     LocationCardComponent,
+    SkeletonDishCardComponent,
+    SkeletonLocationCardComponent,
     FeedbackWindowComponent,
     LoginModalComponent,
     DishModalComponent,
@@ -42,6 +45,8 @@ import { LoginModalComponent } from '@app/auth/components/login/login-modal/logi
   providers: [LocationsService, DishesService, ReservationService, UsersService, FeedbacksService],
 })
 export class MainPageComponent implements OnInit {
+  dishesLoading = true;
+  locationsLoading = true;
   dishes: DishListResponse[] = [];
   locations: LocationResponse[] = [];
 
@@ -101,32 +106,46 @@ export class MainPageComponent implements OnInit {
   }
 
   loadPopularDishes(): void {
-    this.dishesService.getPopularDishes().subscribe((data) => {
-      this.dishes = data.slice(0, 5).map((dish) => ({
-        ...dish,
-        imageUrl: dish.imageUrl || 'assets/img/dish.png',
-        name: dish.name || 'Unknown Dish',
-        price: dish.price || 0,
-        weight: dish.weight || 'N/A',
-        description: dish.description || 'N/A',
-        calories: dish.calories || '0',
-        proteins: dish.proteins || '0',
-        fats: dish.fats || '0',
-        carbohydrates: dish.carbohydrates || '0',
-        vitamins: dish.vitamins || '0',
-      }));
+    this.dishesLoading = true;
+    this.dishesService.getPopularDishes().subscribe({
+      next: (data) => {
+        this.dishes = data.slice(0, 5).map((dish) => ({
+          ...dish,
+          imageUrl: dish.imageUrl || 'assets/img/dish.png',
+          name: dish.name || 'Unknown Dish',
+          price: dish.price || 0,
+          weight: dish.weight || 'N/A',
+          description: dish.description || 'N/A',
+          calories: dish.calories || '0',
+          proteins: dish.proteins || '0',
+          fats: dish.fats || '0',
+          carbohydrates: dish.carbohydrates || '0',
+          vitamins: dish.vitamins || '0',
+        }));
+        this.dishesLoading = false;
+      },
+      error: () => {
+        this.dishesLoading = false;
+      },
     });
   }
 
   loadLocations(): void {
-    this.locationsService.getLocations().subscribe((data) => {
-      this.locations = data.slice(0, 8).map((location) => ({
-        ...location,
-        imageUrl: location.imageUrl || 'assets/img/locations/baratashvili-street-14.jpg',
-        address: location.address || 'Unknown Address',
-        totalCapacity: location.totalCapacity || 0,
-        averageOccupancy: location.averageOccupancy || 'N/A',
-      }));
+    this.locationsLoading = true;
+    this.locationsService.getLocations().subscribe({
+      next: (data) => {
+        this.locations = data.slice(0, 8).map((location) => ({
+          ...location,
+          imageUrl: location.imageUrl || 'assets/img/locations/baratashvili-street-14.jpg',
+          address: location.address || 'Unknown Address',
+          totalCapacity: location.totalCapacity || 0,
+          averageOccupancy: location.averageOccupancy || 'N/A',
+        }));
+        this.locationsLoading = false;
+      },
+      error: () => {
+        this.locationsLoading = false;
+      },
     });
   }
 

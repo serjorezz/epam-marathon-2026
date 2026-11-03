@@ -22,10 +22,11 @@ import { GroupOrdersService } from '@app/services/group-orders/group-orders.serv
 import { ToastService } from '@app/services/toast/toast.service';
 import { ModalComponent } from '@app/shared/custom-components/modal/modal.component';
 import { consolidatePreOrder } from '@app/shared/helpers/consolidate-pre-order';
+import { SkeletonOrderItemComponent } from '@app/shared/custom-components/skeleton';
 
 @Component({
   selector: 'app-group-order-page',
-  imports: [CurrencyPipe, DatePipe, ParticipantCardComponent, ModalComponent, TranslatePipe],
+  imports: [CurrencyPipe, DatePipe, ParticipantCardComponent, ModalComponent, SkeletonOrderItemComponent, TranslatePipe],
   templateUrl: './group-order-page.component.html',
   styleUrl: './group-order-page.component.scss',
   changeDetection: ChangeDetectionStrategy.Eager,

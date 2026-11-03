@@ -7,6 +7,7 @@ import { map } from 'rxjs';
 import { DishListResponse } from '@app/models/dishes/dish-list-response.model';
 import { GuestMenuDish } from '@app/services/guest-sessions/guest-sessions.service';
 import { DishCardComponent } from '@app/shared/custom-components/dish-card/dish-card.component';
+import { SkeletonDishCardComponent } from '@app/shared/custom-components/skeleton';
 import { DishModalComponent } from '@app/components/dish-modal/dish-modal.component';
 import { MainCoverImageComponent } from '@app/shared/custom-components/main-cover-image/main-cover-image.component';
 import { ToastService } from '@app/services/toast/toast.service';
@@ -25,6 +26,7 @@ import { GuestPreorderSubmittedComponent } from './ui/guest-preorder-submitted/g
     imports: [
         RouterLink,
         DishCardComponent,
+        SkeletonDishCardComponent,
         DishModalComponent,
         MainCoverImageComponent,
         GuestNameModalComponent,

@@ -53,7 +53,13 @@
 
     <main class="content-sections">
         @if (store.menuLoading()) {
-            <div class="menu-placeholder">{{ 'Loading menu...' | translate }}</div>
+            <section class="menu-section" aria-label="Loading menu">
+                <div class="dish-cards">
+                    @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
+                        <app-skeleton-dish-card [preOrderEnabled]="true" />
+                    }
+                </div>
+            </section>
         } @else if (store.menuError()) {
             <div class="menu-placeholder">{{ store.menuError() }}</div>
         } @else if (!store.hasMenu()) {

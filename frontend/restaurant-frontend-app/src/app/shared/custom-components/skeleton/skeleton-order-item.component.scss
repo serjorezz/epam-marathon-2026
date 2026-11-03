@@ -1,0 +1,90 @@
+@use 'app/shared/styles/abstracts/colors' as color;
+@use './skeleton.scss' as *;
+
+.skeleton-order-container {
+  width: 100%;
+  box-sizing: border-box;
+  background: color.$neutral-0;
+  border: 1px solid #e0e3e7;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-order-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 640px) {
+    flex-wrap: wrap;
+  }
+}
+
+.skeleton-thumb {
+  width: 6.5rem;
+  height: 6.5rem;
+  min-width: 6.5rem;
+  min-height: 6.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.skeleton-middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  min-width: 0;
+
+  .title-bar {
+    height: 0.875rem;
+    width: 88%;
+  }
+
+  .desc-box {
+    height: 2.25rem;
+    width: 68%;
+    border-radius: 0.375rem;
+  }
+
+  .detail-line-1 {
+    height: 0.625rem;
+    width: 95%;
+  }
+
+  .detail-line-2 {
+    height: 0.625rem;
+    width: 95%;
+  }
+}
+
+.skeleton-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 6.5rem;
+
+  .qty-price-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 0.125rem;
+  }
+
+  .price-line-1 {
+    height: 0.75rem;
+    width: 5.5rem;
+  }
+
+  .price-line-2 {
+    height: 0.75rem;
+    width: 5.5rem;
+  }
+}

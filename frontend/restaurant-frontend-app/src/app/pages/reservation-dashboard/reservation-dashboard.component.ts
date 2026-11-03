@@ -21,6 +21,7 @@ import {
 
 import { AuthenticationService } from '@app/auth/services/authentication.service';
 import { CardReservationComponent } from '@app/components/reservations/card-reservation/card-reservation.component';
+import { SkeletonReservationCardComponent } from '@app/shared/custom-components/skeleton';
 import { FeedbackWindowComponent } from '@app/components/reservations/feedback-window/feedback-window.component';
 import { ReservationConfirmedComponent } from '@app/components/reservations/reservation-confirmed/reservation-confirmed.component';
 import { MakeReservationComponent } from '@app/components/tables/make-reservation/make-reservation.component';
@@ -64,6 +65,7 @@ interface ReservationStatusView {
     HeaderComponent,
     RouterLink,
     CardReservationComponent,
+    SkeletonReservationCardComponent,
     MakeReservationComponent,
     ReservationConfirmedComponent,
     FeedbackWindowComponent,
