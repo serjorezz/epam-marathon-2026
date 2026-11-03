@@ -100,9 +100,17 @@ export class ReservationDashboardComponent implements OnInit {
   readonly reservations = signal<ReservationCustomer[]>([]);
   readonly reservationsLoaded = signal(false);
   readonly selectedSort = signal<ReservationSortOption>("date-asc");
+  readonly onlyActive = signal<boolean>(false);
 
   readonly sortedReservations = computed<ReservationCustomer[]>(() => {
-    const list = [...this.reservations()];
+    let list = [...this.reservations()];
+    if (this.onlyActive()) {
+      list = list.filter(
+        (r) =>
+          r.status === ReservationStatusCustomer.Reserved ||
+          r.status === ReservationStatusCustomer.InProgress
+      );
+    }
     const sort = this.selectedSort();
 
     return list.sort((a, b) => {
@@ -626,6 +634,13 @@ export class ReservationDashboardComponent implements OnInit {
     const target = event.target as HTMLSelectElement | null;
     if (target) {
       this.selectedSort.set(target.value as ReservationSortOption);
+    }
+  }
+
+  onActiveFilterChanged(event: Event): void {
+    const target = event.target as HTMLInputElement | null;
+    if (target) {
+      this.onlyActive.set(target.checked);
     }
   }
 

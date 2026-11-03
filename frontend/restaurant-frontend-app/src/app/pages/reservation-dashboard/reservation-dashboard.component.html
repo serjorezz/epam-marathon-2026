@@ -6,21 +6,33 @@
   </h3>
 
   @if (reservations().length > 0) {
-    <div class="sort-dropdown">
-      <label for="reservationSort">{{ 'Sort by:' | translate }}</label>
-      <select
-        id="reservationSort"
-        [value]="selectedSort()"
-        (change)="onSortChanged($event)"
-        aria-label="Sort reservations"
-      >
-        <option value="date-asc">{{ 'Date / Time (Earliest first)' | translate }}</option>
-        <option value="date-desc">{{ 'Date / Time (Latest first)' | translate }}</option>
-        <option value="guests-desc">{{ 'Guests (High to Low)' | translate }}</option>
-        <option value="guests-asc">{{ 'Guests (Low to High)' | translate }}</option>
-        <option value="restaurant-asc">{{ 'Restaurant (A to Z)' | translate }}</option>
-        <option value="restaurant-desc">{{ 'Restaurant (Z to A)' | translate }}</option>
-      </select>
+    <div class="controls-bar">
+      <label class="filter-checkbox" for="activeOnlyCheckbox">
+        <input
+          type="checkbox"
+          [checked]="onlyActive()"
+          (change)="onActiveFilterChanged($event)"
+          id="activeOnlyCheckbox"
+        />
+        <span>{{ 'Active bookings only' | translate }}</span>
+      </label>
+
+      <div class="sort-dropdown">
+        <label for="reservationSort">{{ 'Sort by:' | translate }}</label>
+        <select
+          id="reservationSort"
+          [value]="selectedSort()"
+          (change)="onSortChanged($event)"
+          aria-label="Sort reservations"
+        >
+          <option value="date-asc">{{ 'Date / Time (Earliest first)' | translate }}</option>
+          <option value="date-desc">{{ 'Date / Time (Latest first)' | translate }}</option>
+          <option value="guests-desc">{{ 'Guests (High to Low)' | translate }}</option>
+          <option value="guests-asc">{{ 'Guests (Low to High)' | translate }}</option>
+          <option value="restaurant-asc">{{ 'Restaurant (A to Z)' | translate }}</option>
+          <option value="restaurant-desc">{{ 'Restaurant (Z to A)' | translate }}</option>
+        </select>
+      </div>
     </div>
   }
 </div>
@@ -29,7 +41,7 @@
   <p class="reservation-empty">
     {{ 'Please wait while we load your reservations.' | translate }}
   </p>
-} @else if (reservations().length > 0) {
+} @else if (sortedReservations().length > 0) {
   <ul class="reservation-list">
     @for (reservation of sortedReservations(); track reservation.id) {
       <app-card-reservation
@@ -43,6 +55,10 @@
       />
     }
   </ul>
+} @else if (reservations().length > 0) {
+  <div class="reservation-empty">
+    <p>{{ 'No active bookings found' | translate }}</p>
+  </div>
 } @else {
   <div class="reservation-empty">
     <img

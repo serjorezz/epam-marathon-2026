@@ -28,7 +28,7 @@ describe("ReservationDashboardComponent", () => {
       startTime: new Date("2026-11-05T12:00:00Z"),
       endTime: new Date("2026-11-05T13:30:00Z"),
       guestCount: 2,
-      status: ReservationStatusCustomer.Reserved,
+      status: ReservationStatusCustomer.InProgress,
       restaurantName: "Green & Tasty Agmashenebeli",
       locationAddress: "112 Agmashenebeli Avenue",
       waiterId: "w-2",
@@ -39,7 +39,7 @@ describe("ReservationDashboardComponent", () => {
       startTime: new Date("2026-11-15T20:00:00Z"),
       endTime: new Date("2026-11-15T21:30:00Z"),
       guestCount: 8,
-      status: ReservationStatusCustomer.Reserved,
+      status: ReservationStatusCustomer.Cancelled,
       restaurantName: "Green & Tasty Pekini",
       locationAddress: "31 Pekini Avenue",
       waiterId: "w-3",
@@ -65,6 +65,7 @@ describe("ReservationDashboardComponent", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
     expect(component.selectedSort()).toBe("date-asc");
+    expect(component.onlyActive()).toBeFalse();
   });
 
   it("should sort reservations by date/time ascending by default", () => {
@@ -115,5 +116,35 @@ describe("ReservationDashboardComponent", () => {
 
     component.onSortChanged(mockEvent);
     expect(component.selectedSort()).toBe("guests-desc");
+  });
+
+  it("should filter only active bookings when onlyActive is enabled", () => {
+    component.reservations.set([...mockReservations]);
+    expect(component.sortedReservations().length).toBe(3);
+
+    component.onlyActive.set(true);
+    const activeOnly = component.sortedReservations();
+    expect(activeOnly.length).toBe(2);
+    expect(activeOnly.map(r => r.id)).toEqual(["res-2", "res-1"]);
+  });
+
+  it("should update onlyActive on checkbox change event", () => {
+    const mockEvent = {
+      target: { checked: true } as unknown as HTMLInputElement,
+    } as unknown as Event;
+
+    component.onActiveFilterChanged(mockEvent);
+    expect(component.onlyActive()).toBeTrue();
+  });
+
+  it("should display 'No active bookings found' when active filter matches 0 bookings", () => {
+    component.reservationsLoaded.set(true);
+    component.reservations.set([mockReservations[2]]); // only Cancelled reservation
+    component.onlyActive.set(true);
+    fixture.detectChanges();
+
+    const emptyMsg = fixture.nativeElement.querySelector(".reservation-empty");
+    expect(emptyMsg).toBeTruthy();
+    expect(emptyMsg.textContent).toContain("No active bookings found");
   });
 });

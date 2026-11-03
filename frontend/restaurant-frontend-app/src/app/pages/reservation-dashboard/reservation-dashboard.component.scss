@@ -16,6 +16,31 @@
   }
 }
 
+.controls-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.filter-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: color.$neutral-900;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: color.$green-600;
+    cursor: pointer;
+  }
+}
+
 .sort-dropdown {
   display: flex;
   align-items: center;

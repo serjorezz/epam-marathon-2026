@@ -3,9 +3,9 @@
 | Field | Value |
 | --- | --- |
 | **Epic** | Reservation Management |
-| **US name** | Sort Reservations |
+| **US name** | Sort & Status Filtering for Reservations |
 | **Role** | Customer (Reservation Owner) |
-| **Description** | As a Customer, I want to sort my reservations by date/time, number of guests, or restaurant, so that I can easily find and manage my upcoming or past bookings. |
+| **Description** | As a Customer, I want to sort my reservations by date/time, number of guests, or restaurant, and filter them to show only active bookings, so that I can easily find and manage my upcoming or past bookings. |
 
 ### Pre-conditions:
 - The Customer is logged in to the Green & Tasty platform.
@@ -47,11 +47,19 @@
 
 7. **Empty State & Loading Handling**:
    - When the page is still loading, the dropdown is either disabled or hidden to prevent premature interaction.
-   - If the customer has no reservations (0 reservations), the sort dropdown is hidden, and the standard empty-state illustration with the "Book a table" button is shown.
-   - If only one reservation is present, the dropdown remains accessible and functional.
+   - If the customer has no reservations (0 reservations), the sort dropdown and filter controls are hidden, and the standard empty-state illustration with the "Book a table" button is shown.
+   - If only one reservation is present, the controls remain accessible and functional.
 
-8. **Accessibility & Responsiveness**:
-   - The dropdown is navigable and selectable via keyboard controls.
+8. **Active Bookings Status Filter Checkbox**:
+   - A checkbox labeled "Active bookings only" is available alongside the "Sort by" dropdown in the controls bar above the reservations list.
+   - In the default state, the checkbox is unchecked, showing all reservations regardless of status.
+   - When checked, the reservations list dynamically filters to display only active bookings (`Reserved` and `In Progress`). Past (`Finished`) and cancelled (`Cancelled`) bookings are hidden.
+   - Unchecking the checkbox immediately restores all reservations without requiring a page refresh.
+   - Active filtering works simultaneously with sorting: the filtered active bookings remain ordered by the currently selected sort option.
+   - If no bookings match the active status filter, an informative message ("No active bookings found") is displayed.
+
+9. **Accessibility & Responsiveness**:
+   - The dropdown and checkbox controls are navigable and operable via keyboard.
    - The layout adapts gracefully to mobile screens without overlapping text or breaking alignment.
 
 ---
@@ -64,4 +72,4 @@
   - The sort preference resets to the default option ("Date / Time (Earliest first)") on every page visit without client-side persistence across visits.
 - **Open Questions**:
   - *UX / Product*: Should the user's chosen sort preference persist across visits, or reset to the default on every page visit? -> **Resolved**: Resets to default ("Date / Time (Earliest first)") on every page visit.
-  - *Product*: Should future iterations introduce status filtering (e.g. active bookings only) alongside sorting?
+  - *Product*: Should future iterations introduce status filtering (e.g. active bookings only) alongside sorting? -> **Resolved**: Added "Active bookings only" checkbox filter alongside the sort dropdown.
