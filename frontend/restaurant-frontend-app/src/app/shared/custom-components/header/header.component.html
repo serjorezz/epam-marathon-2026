@@ -77,20 +77,12 @@
       }
 
       @if (user()?.role === Roles.CUSTOMER && !isGuestPreorderRoute) {
-        @if (!showCart()) {
-          <div>
-            <button type="button" class="icon-button icon-button--large" (click)="toggleCart()">
-              <img src="assets/svg/cart-empty.svg" alt="cart icon" class="action-icon" />
-              <h5> {{ 'Cart' | translate }}</h5>
-            </button>
-          </div>
-        }
-
-        @if (showCart()) {
-          <div>
-            <app-cart (closeCartEvent)="toggleCart()"></app-cart>
-          </div>
-        }
+        <div>
+          <button type="button" class="icon-button icon-button--large" (click)="toggleCart()">
+            <img src="assets/svg/cart-empty.svg" alt="cart icon" class="action-icon" />
+            <h5> {{ 'Cart' | translate }}</h5>
+          </button>
+        </div>
       }
 
       @if (user()?.role === Roles.WAITER) {

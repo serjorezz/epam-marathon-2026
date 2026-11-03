@@ -1,6 +1,5 @@
 @use 'app/shared/styles/abstracts/colors' as color;
 
-
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -14,6 +13,8 @@
   z-index: 1000;
   inset: 0;
   padding: 0;
+  overflow: hidden;
+  animation: cartBackdropFadeIn 0.3s ease-out forwards;
 }
 
 .cart {
@@ -22,7 +23,7 @@
   flex-direction: column;
   align-items: stretch;
   background-color: color.$neutral-0;
-  box-shadow: 0 0 10px 4px color.$shadow;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15), 0 0 10px 4px color.$shadow;
   top: 0;
   right: 0;
   padding: 24px 40px 40px;
@@ -32,12 +33,38 @@
   height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
-
+  animation: cartSlideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform;
 
   @media (max-width: 650px) {
     width: 100%;
     padding: 24px 16px;
     gap: 24px;
+  }
+}
+
+@keyframes cartSlideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes cartBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .cart {
+    animation: none;
   }
 }
 
@@ -74,7 +101,6 @@
   justify-content: start;
 }
 
-
 .list {
   display: flex;
   justify-content: start;
@@ -108,7 +134,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .body {
   font-size: 14px;
