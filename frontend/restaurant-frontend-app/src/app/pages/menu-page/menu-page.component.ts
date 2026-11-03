@@ -1,5 +1,6 @@
 import { TranslatePipe } from "@app/shared/pipes/translate.pipe";
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DishCardComponent } from '@app/shared/custom-components/dish-card/dish-card.component';
 import { SkeletonDishCardComponent } from '@app/shared/custom-components/skeleton';
 import { DishesService } from '@app/services/dishes/dishes.service';
@@ -32,7 +33,7 @@ const FAVORITES_STORAGE_KEY = 'gt_favorite_dishes';
   changeDetection: ChangeDetectionStrategy.Eager,
   providers: [DishesService],
 })
-export class MenuPageComponent implements OnInit {
+export class MenuPageComponent implements OnInit, OnDestroy {
   private readonly toast = inject(ToastService);
   private readonly authService = inject(AuthenticationService);
   private readonly dishesService = inject(DishesService);
@@ -57,12 +58,37 @@ export class MenuPageComponent implements OnInit {
   selectedCategory: DishType | null = null; // initially show all
   selectedSort: DishSort = DishSort.PopularityDescending;
   onlyFavorites = false;
+  private authSubscription?: Subscription;
+
+  get isCustomerLoggedIn(): boolean {
+    const tokens = this.authService.getTokens();
+    if (!tokens?.idToken) {
+      return false;
+    }
+    const user = typeof this.authService.getUser === 'function' ? this.authService.getUser() : null;
+    if (user?.role && user.role !== 'Customer') {
+      return false;
+    }
+    return true;
+  }
 
   get favoritesCount(): number {
     return this.dishes.filter((dish) => dish.isFavorite).length;
   }
 
   ngOnInit(): void {
+    this.authSubscription = this.authService.isAuthorised$.subscribe((isAuth) => {
+      if (!isAuth) {
+        if (this.onlyFavorites) {
+          this.onlyFavorites = false;
+        }
+        for (const dish of this.dishes) {
+          dish.isFavorite = false;
+        }
+        this.applyFilters();
+      }
+    });
+
     this.route.queryParams.subscribe((params) => {
       const preOrder = params['preOrder'];
       this.isPreOrderEnabled = !!preOrder;
@@ -93,10 +119,14 @@ export class MenuPageComponent implements OnInit {
         category && Object.values(DishType).includes(category) ? category : null;
       this.selectedSort =
         sort && Object.values(DishSort).includes(sort) ? sort : DishSort.PopularityDescending;
-      this.onlyFavorites = favorites;
+      this.onlyFavorites = this.isCustomerLoggedIn && favorites;
 
       this.loadDishes();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.authSubscription?.unsubscribe();
   }
 
   loadDishes(): void {
@@ -106,7 +136,7 @@ export class MenuPageComponent implements OnInit {
     this.isLoading = true;
     this.dishesService.getDishes(category, sort).subscribe({
       next: (data) => {
-      const localFavorites = this.getLocalFavorites();
+      const localFavorites = this.isCustomerLoggedIn ? this.getLocalFavorites() : new Set<string>();
 
       this.dishes = data.map((dish) => ({
         ...dish,
@@ -122,7 +152,9 @@ export class MenuPageComponent implements OnInit {
         fats: dish.fats || '0',
         carbohydrates: dish.carbohydrates || '0',
         vitamins: dish.vitamins || '0',
-        isFavorite: dish.isFavorite !== undefined ? dish.isFavorite : localFavorites.has(dish.id),
+        isFavorite: this.isCustomerLoggedIn
+          ? (dish.isFavorite !== undefined ? dish.isFavorite : localFavorites.has(dish.id))
+          : false,
       }));
 
       this.applyFilters();
@@ -134,7 +166,7 @@ export class MenuPageComponent implements OnInit {
   }
 
   applyFilters(): void {
-    if (this.onlyFavorites) {
+    if (this.onlyFavorites && this.isCustomerLoggedIn) {
       this.filteredDishes = this.dishes.filter((dish) => dish.isFavorite);
     } else {
       this.filteredDishes = this.dishes;
@@ -142,6 +174,9 @@ export class MenuPageComponent implements OnInit {
   }
 
   onToggleFavoritesFilter(): void {
+    if (!this.isCustomerLoggedIn) {
+      return;
+    }
     this.onlyFavorites = !this.onlyFavorites;
     this.applyFilters();
 
@@ -157,9 +192,7 @@ export class MenuPageComponent implements OnInit {
   }
 
   onFavoriteToggle(event: { dish: DishListResponse; isFavorite: boolean }): void {
-    const token = this.authService.getTokens()?.idToken;
-
-    if (!token) {
+    if (!this.isCustomerLoggedIn) {
       this.toast.error('Please log in to add dishes to your favorites.', 'Unauthorized');
       event.dish.isFavorite = !event.isFavorite;
       return;

@@ -61,6 +61,9 @@ export class DishCardComponent {
   onFavoriteClick(event: Event): void {
     event.stopPropagation();
     event.preventDefault();
+    if (!this.showFavorite()) {
+      return;
+    }
     const nextState = !this.isFavorite();
     this.isFavoriteInternal.set(nextState);
     this.favoriteToggle.emit({ dish: this.dish(), isFavorite: nextState });

@@ -103,4 +103,25 @@ describe('DishCardComponent', () => {
     const tooltip = fixture.nativeElement.querySelector('.favorite-tooltip');
     expect(tooltip.textContent.trim()).toBe('Add to favorite');
   });
+
+  it('should NOT render favorite button when showFavorite is false', () => {
+    fixture.componentRef.setInput('showFavorite', false);
+    fixture.detectChanges();
+
+    const favoriteBtn = fixture.nativeElement.querySelector('.favorite-btn');
+    expect(favoriteBtn).toBeNull();
+  });
+
+  it('should not emit favoriteToggle when onFavoriteClick is called and showFavorite is false', () => {
+    fixture.componentRef.setInput('showFavorite', false);
+    fixture.detectChanges();
+
+    let emitted = false;
+    component.favoriteToggle.subscribe(() => (emitted = true));
+
+    const fakeEvent = new Event('click');
+    component.onFavoriteClick(fakeEvent);
+
+    expect(emitted).toBeFalse();
+  });
 });

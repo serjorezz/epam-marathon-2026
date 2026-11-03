@@ -73,8 +73,17 @@ describe('MenuPageComponent', () => {
       of({ message: 'Removed', dishId: 'dish-1', isFavorite: false })
     );
 
-    authServiceSpy = jasmine.createSpyObj('AuthenticationService', ['getTokens']);
+    authServiceSpy = jasmine.createSpyObj('AuthenticationService', ['getTokens', 'getUser'], {
+      isAuthorised$: of(true),
+    });
     authServiceSpy.getTokens.and.returnValue(mockTokens);
+    authServiceSpy.getUser.and.returnValue({
+      id: 'user-1',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+      role: 'Customer',
+    });
 
     toastServiceSpy = jasmine.createSpyObj('ToastService', ['error', 'success']);
 
@@ -194,6 +203,22 @@ describe('MenuPageComponent', () => {
     );
     expect(dishesServiceSpy.addFavorite).not.toHaveBeenCalled();
     expect(dish.isFavorite).toBeFalse();
+  });
+
+  it('should NOT render Favorites filter button and should set isCustomerLoggedIn to false when not logged in', () => {
+    authServiceSpy.getTokens.and.returnValue(null);
+    fixture.detectChanges();
+
+    expect(component.isCustomerLoggedIn).toBeFalse();
+    const favFilterBtn = fixture.nativeElement.querySelector('.favorites-filter-btn');
+    expect(favFilterBtn).toBeNull();
+  });
+
+  it('should not filter to favorites when customer is not logged in', () => {
+    authServiceSpy.getTokens.and.returnValue(null);
+    component.onlyFavorites = true;
+    component.applyFilters();
+    expect(component.filteredDishes.length).toBe(2);
   });
 
   it('should render translated pre-order notice banner in Ukrainian', () => {

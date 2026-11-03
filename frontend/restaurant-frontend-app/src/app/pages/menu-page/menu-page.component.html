@@ -34,21 +34,23 @@
             </button>
           }
 
-          <button
-            type="button"
-            class="favorites-filter-btn"
-            [class.active]="onlyFavorites"
-            (click)="onToggleFavoritesFilter()"
-            [attr.aria-pressed]="onlyFavorites"
-          >
-            <svg class="star-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <span>{{ 'Favorites' | translate }}</span>
-            @if (favoritesCount > 0) {
-              <span class="favorites-badge">({{ favoritesCount }})</span>
-            }
-          </button>
+          @if (isCustomerLoggedIn) {
+            <button
+              type="button"
+              class="favorites-filter-btn"
+              [class.active]="onlyFavorites"
+              (click)="onToggleFavoritesFilter()"
+              [attr.aria-pressed]="onlyFavorites"
+            >
+              <svg class="star-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <span>{{ 'Favorites' | translate }}</span>
+              @if (favoritesCount > 0) {
+                <span class="favorites-badge">({{ favoritesCount }})</span>
+              }
+            </button>
+          }
         </div>
 
         <div class="sort-dropdown">
@@ -76,6 +78,7 @@
             <app-dish-card
               [dish]="dish"
               [preOrderEnabled]="isPreOrderEnabled"
+              [showFavorite]="isCustomerLoggedIn"
               (dishClicked)="openModal(dish)"
               (preOrderClicked)="addDishToCart(dish)"
               (favoriteToggle)="onFavoriteToggle($event)"

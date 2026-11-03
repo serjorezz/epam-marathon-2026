@@ -92,6 +92,7 @@
                     @for (dish of visibleDishes(); track dish.id) {
                         <app-dish-card
                             [dish]="dish"
+                            [showFavorite]="false"
                             [preOrderEnabled]="!store.isLocked()"
                             (dishClicked)="openDishModal(dish)"
                             (preOrderClicked)="addDishToCart(dish)"
