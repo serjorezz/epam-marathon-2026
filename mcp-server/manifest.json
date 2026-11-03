@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "green_tasty_reservations",
+  "name_for_human": "Green & Tasty Table Reservations",
+  "description_for_model": "Assistant bridge for Green & Tasty restaurant booking system. Use 'check_availability' to check table availability and time slots for a given date and party size. Use 'create_reservation' to confirm and book a table for guests with contact details and dining datetime.",
+  "description_for_human": "Check table availability and book dining reservations at Green & Tasty restaurant.",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer",
+    "verification_tokens": {
+      "gemini": "gt-agent-secret-key-2026"
+    }
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://localhost:3000/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://green-tasty.devs.surf/assets/img/logo.svg",
+  "contact_email": "reservations@green-tasty.com",
+  "legal_info_url": "https://green-tasty.devs.surf"
+}

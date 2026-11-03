@@ -1,0 +1,63 @@
+{
+  "name": "green_tasty_reservations",
+  "displayName": "Green & Tasty Table Reservations",
+  "description": "Enables the Gemini App to check table availability and book dining reservations at Green & Tasty restaurant.",
+  "version": "1.0.0",
+  "openApiSpecUrl": "http://localhost:3000/openapi.json",
+  "authentication": {
+    "type": "apiKey",
+    "headerName": "x-api-key",
+    "key": "gt-agent-secret-key-2026"
+  },
+  "instructions": "You are the Green & Tasty restaurant booking assistant. When users ask about table availability for dining, call 'check_availability' with the desired date and number of guests. When the user confirms they want to book and provides their name, phone, party size, and datetime, call 'create_reservation' and provide them with the reservation confirmation.",
+  "tools": [
+    {
+      "name": "check_availability",
+      "description": "Checks available dining time slots for a given date and guest count.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Dining date in YYYY-MM-DD format (e.g. 2026-11-10)"
+          },
+          "guests_count": {
+            "type": "integer",
+            "description": "Number of guests (party size, 1-20)"
+          }
+        },
+        "required": ["date", "guests_count"]
+      }
+    },
+    {
+      "name": "create_reservation",
+      "description": "Creates a table reservation at Green & Tasty restaurant in our database.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Customer full name or contact name"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Customer contact phone number (e.g. +995555123456)"
+          },
+          "guests_count": {
+            "type": "integer",
+            "description": "Number of guests (party size, 1-20)"
+          },
+          "datetime": {
+            "type": "string",
+            "description": "Reservation start date and time in ISO 8601 format (e.g. 2026-11-10T18:00:00Z)"
+          },
+          "special_requests": {
+            "type": "string",
+            "description": "Optional dietary notes or table seating preferences"
+          }
+        },
+        "required": ["name", "phone", "guests_count", "datetime"]
+      }
+    }
+  ]
+}

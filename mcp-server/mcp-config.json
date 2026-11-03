@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/mcp-server-config.json",
+  "mcpServers": {
+    "green-tasty-reservations": {
+      "command": "node",
+      "args": ["dist/index.js", "--stdio"],
+      "env": {
+        "RESTAURANT_BACKEND_URL": "https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop",
+        "MCP_API_KEY": "gt-agent-secret-key-2026",
+        "CUSTOMER_EMAIL": "customer@green-tasty.com",
+        "CUSTOMER_PASSWORD": "Customer12345!"
+      }
+    },
+    "green-tasty-remote-sse": {
+      "url": "http://localhost:3000/sse",
+      "headers": {
+        "x-api-key": "gt-agent-secret-key-2026"
+      }
+    }
+  }
+}
