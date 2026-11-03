@@ -97,7 +97,7 @@ describe('NotSubmittedOrderComponent', () => {
     const checkboxes = fixture.nativeElement.querySelectorAll('.custom-checkbox');
     expect(checkboxes.length).toBe(2);
 
-    const labels = Array.from(checkboxes).map((cb: any) => cb.textContent.trim());
+    const labels = Array.from(checkboxes).map((cb) => (cb as HTMLElement).textContent?.trim());
     expect(labels).toContain('No cilantro');
     expect(labels).toContain('Non-spicy');
   });
