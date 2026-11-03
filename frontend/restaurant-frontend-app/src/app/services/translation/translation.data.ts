@@ -197,6 +197,13 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "750ml": "750ml",
     "Traditional Georgian vegetable pâté balls made of spinach, beetroot, and bell peppers blended with walnuts, garlic, and herbs, garnished with pomegranate seeds.": "Traditional Georgian vegetable pâté balls made of spinach, beetroot, and bell peppers blended with walnuts, garlic, and herbs, garnished with pomegranate seeds.",
     "Crispy flaky phyllo pastry layers packed with crushed Georgian walnuts and spiced with cardamom, baked golden and drizzled with mountain floral honey glaze.": "Crispy flaky phyllo pastry layers packed with crushed Georgian walnuts and spiced with cardamom, baked golden and drizzled with mountain floral honey glaze.",
+    "Strawberries, spinach, mint leaves, feta or goat cheese, balsamic glaze, and poppy seeds.": "Strawberries, spinach, mint leaves, feta or goat cheese, balsamic glaze, and poppy seeds.",
+    "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy citrus dressing.": "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy citrus dressing.",
+    "Tender grilled eggplant slices filled with seasoned garlic walnut paste and topped with fresh cilantro and pomegranate seeds.": "Tender grilled eggplant slices filled with seasoned garlic walnut paste and topped with fresh cilantro and pomegranate seeds.",
+    "Traditional Georgian dumplings handmade with seasoned wild mountain mushrooms, fresh herbs, aromatic cilantro, and spicy broth.": "Traditional Georgian dumplings handmade with seasoned wild mountain mushrooms, fresh herbs, aromatic cilantro, and spicy broth.",
+    "Slow-cooked red kidney beans with savory, blue fenugreek, and spicy chili herbs, served with cornbread mchadi and pickles.": "Slow-cooked red kidney beans with savory, blue fenugreek, and spicy chili herbs, served with cornbread mchadi and pickles.",
+    "Organic chia seeds soaked in oat milk, layered with Georgian mountain raspberry coulis and fresh mint.": "Organic chia seeds soaked in oat milk, layered with Georgian mountain raspberry coulis and fresh mint.",
+    "Delicate pastry crust filled with natural Saperavi grape juice pudding and dusted with sweet powdered sugar.": "Delicate pastry crust filled with natural Saperavi grape juice pudding and dusted with sweet powdered sugar.",
     "Classic Georgian dry red wine crafted from indigenous Saperavi grapes, featuring deep ruby color with notes of ripe dark cherries, blackcurrant, and subtle oak.": "Classic Georgian dry red wine crafted from indigenous Saperavi grapes, featuring deep ruby color with notes of ripe dark cherries, blackcurrant, and subtle oak.",
     "Traditional UNESCO heritage amber wine fermented in clay amphorae (Qvevri), showcasing harmonious aromas of dried apricots, walnut honey, and pleasant tannins.": "Traditional UNESCO heritage amber wine fermented in clay amphorae (Qvevri), showcasing harmonious aromas of dried apricots, walnut honey, and pleasant tannins.",
     "Famous naturally semi-sweet red wine from the Kvareli micro-zone in Kakheti, bursting with velvety flavors of fresh blackberries, wild forest plums, and smooth finish.": "Famous naturally semi-sweet red wine from the Kvareli micro-zone in Kakheti, bursting with velvety flavors of fresh blackberries, wild forest plums, and smooth finish.",
@@ -817,6 +824,20 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     // Dishes Descriptions
     "Fresh avocado, roasted pine nuts, organic quinoa, cherry tomatoes, and lemon tahini dressing.":
       "Свіже авокадо, обсмажені кедрові горіхи, органічне кіноа, томати чері та лимонно-тахінна заправка.",
+    "Strawberries, spinach, mint leaves, feta or goat cheese, balsamic glaze, and poppy seeds.":
+      "Свіжа полуниця, бейбі-шпинат, листя м'яти, козячий сир або фета, бальзамічний крем та насіння маку.",
+    "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy citrus dressing.":
+      "Теплий пряний батат, французька зелена сочевиця, соковиті зерна граната та ніжна цитрусова заправка.",
+    "Tender grilled eggplant slices filled with seasoned garlic walnut paste and topped with fresh cilantro and pomegranate seeds.":
+      "Ніжні обсмажені слайси баклажанів, наповнені пряною пастою з волоських горіхів з часником, прикрашені свіжою кінзою та зернами граната.",
+    "Traditional Georgian dumplings handmade with seasoned wild mountain mushrooms, fresh herbs, aromatic cilantro, and spicy broth.":
+      "Традиційні грузинські хінкалі ручної ліпки з начинкою з ароматних гірських грибів, свіжої зелені, ароматної кінзи та пікантного гострого бульйону.",
+    "Slow-cooked red kidney beans with savory, blue fenugreek, and spicy chili herbs, served with cornbread mchadi and pickles.":
+      "Томлена червона квасоля з чабером, блакитним пажитником та гострими перцевими травами, подається з кукурудзяним хлібом мчаді та соліннями.",
+    "Organic chia seeds soaked in oat milk, layered with Georgian mountain raspberry coulis and fresh mint.":
+      "Органічне насіння чіа на вівсяному молоці з шарами кулі з гірської малини та свіжою м'ятою.",
+    "Delicate pastry crust filled with natural Saperavi grape juice pudding and dusted with sweet powdered sugar.":
+      "Тонка пісочна основа з ніжним пудингом із натурального виноградного соку Сапераві, притрушена солодкою пудрою.",
     "Strawberries, spinach, mint leaves, feta or goat cheese, walnuts, balsamic glaze, poppy seeds.":
       "Свіжа полуниця, бейбі-шпинат, листя м'яти, козячий сир або фета, волоські горіхи, бальзамічний крем та насіння маку.",
     "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy cashew dressing.":
@@ -1378,6 +1399,20 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     // Dishes Descriptions
     "Fresh avocado, roasted pine nuts, organic quinoa, cherry tomatoes, and lemon tahini dressing.":
       "ახალი ავოკადო, მოხალული ფიჭვის კაკალი, ორგანული კინოა, ჩერი პომიდორი და ლიმონიანი ტაჰინის დრესინგი.",
+    "Strawberries, spinach, mint leaves, feta or goat cheese, balsamic glaze, and poppy seeds.":
+      "მარწყვი, ისპანახი, პიტნის ფოთლები, თხის ყველი ან ფეტა, ბალზამიკოს კრემი და ყაყაჩოს თესლი.",
+    "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy citrus dressing.":
+      "თბილი სანელებლებით შეზავებული ტკბილი კარტოფილი, ფრანგული მწვანე ოსპი, ბროწეულის მარცვლები და ნაზი ციტრუსის დრესინგი.",
+    "Tender grilled eggplant slices filled with seasoned garlic walnut paste and topped with fresh cilantro and pomegranate seeds.":
+      "გრილზე შემწვარი ბადრიჯანი ნიგვზით, ნივრით, სანელებლებით, ცოცხალი ქინძითა და ბროწეულის მარცვლებით.",
+    "Traditional Georgian dumplings handmade with seasoned wild mountain mushrooms, fresh herbs, aromatic cilantro, and spicy broth.":
+      "ხელნაკეთი ხინკალი ტყის სოკოს, მთის მწვანილების, არომატული ქინძისა და ცხარე ბულიონის გულსართით.",
+    "Slow-cooked red kidney beans with savory, blue fenugreek, and spicy chili herbs, served with cornbread mchadi and pickles.":
+      "თიხის ქოთანში ნელ-ნელა მოხარშული წითელი ლობიო ქონდრით, უცხო სუნელითა და ცხარე წიწაკით, მჭადთან და მწნილთან ერთად.",
+    "Organic chia seeds soaked in oat milk, layered with Georgian mountain raspberry coulis and fresh mint.":
+      "შვრიის რძეში დამბალი ორგანული ჩიას თესლი მთის ჟოლოს კულის ფენებითა და ცოცხალი პიტნით.",
+    "Delicate pastry crust filled with natural Saperavi grape juice pudding and dusted with sweet powdered sugar.":
+      "ნაზი ფხვიერი ცომის ტარტი ბუნებრივი საფერავის ბადაგისგან დამზადებული ფელამუშითა და შაქრის პუდრით.",
     "Strawberries, spinach, mint leaves, feta or goat cheese, walnuts, balsamic glaze, poppy seeds.":
       "მარწყვი, ისპანახი, პიტნის ფოთლები, თხის ყველი ან ფეტა, ნიგოზი, ბალზამიკოს კრემი და ყაყაჩოს თესლი.",
     "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy cashew dressing.":

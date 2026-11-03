@@ -44,7 +44,7 @@
    - Selecting the checkbox updates the order item to request non-spicy preparation.
 
 6. **Protection for Non-Removable Allergens**:
-   - For dishes where allergens are baked-in or blended (e.g., Honey Walnut Baklava, Georgian Pkhali Trio, Wild Berry Chia Pudding, Grape Pelamushi Tart), removal checkboxes are not displayed.
+   - For dishes where allergens are baked-in or blended (e.g., Honey Walnut Baklava, Georgian Pkhali Trio), removal checkboxes are not displayed.
    - The cart displays only the circular allergen and spicy badges without checkboxes, visually confirming the presence of allergens that cannot be omitted.
 
 7. **Multi-Language Localization**:

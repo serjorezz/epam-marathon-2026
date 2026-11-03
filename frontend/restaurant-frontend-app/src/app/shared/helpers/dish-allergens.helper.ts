@@ -15,27 +15,27 @@ export const DISH_ALLERGEN_METADATA: Record<string, DishAllergenInfo> = {
     canBeNonSpicy: false,
   },
   'dish-strawberry-salad': {
-    allergens: ['nuts'],
+    allergens: [],
     isSpicy: false,
-    removableAllergens: ['nuts'],
+    removableAllergens: [],
     canBeNonSpicy: false,
   },
   'dish-sweet-potato-salad': {
-    allergens: ['nuts'],
+    allergens: [],
     isSpicy: false,
-    removableAllergens: ['nuts'],
+    removableAllergens: [],
     canBeNonSpicy: false,
   },
   'dish-spring-salad': {
-    allergens: ['cilantro'],
+    allergens: [],
     isSpicy: false,
-    removableAllergens: ['cilantro'],
+    removableAllergens: [],
     canBeNonSpicy: false,
   },
   'dish-eggplant-rolls': {
     allergens: ['nuts', 'cilantro'],
     isSpicy: false,
-    removableAllergens: ['cilantro'], // Walnut filling is paste/baked inside; cilantro garnish is removable
+    removableAllergens: ['cilantro'], // Walnut filling is inside; cilantro garnish is removable
     canBeNonSpicy: false,
   },
   'dish-mushroom-khinkali': {
@@ -45,25 +45,25 @@ export const DISH_ALLERGEN_METADATA: Record<string, DishAllergenInfo> = {
     canBeNonSpicy: true,
   },
   'dish-lobio-pot': {
-    allergens: ['cilantro'],
+    allergens: [],
     isSpicy: true,
-    removableAllergens: ['cilantro'],
+    removableAllergens: [],
     canBeNonSpicy: true,
   },
   'dish-berry-chia': {
-    allergens: ['nuts'], // Almond milk base
+    allergens: [],
     isSpicy: false,
-    removableAllergens: [], // Base cannot be removed
+    removableAllergens: [],
     canBeNonSpicy: false,
   },
   'dish-pelamushi-tart': {
-    allergens: ['nuts'], // Almond crust & walnut topping
+    allergens: [],
     isSpicy: false,
-    removableAllergens: [], // Almond crust baked in
+    removableAllergens: [],
     canBeNonSpicy: false,
   },
   'dish-pkhali-trio': {
-    allergens: ['nuts', 'cilantro'],
+    allergens: ['nuts'],
     isSpicy: false,
     removableAllergens: [], // Nuts blended into vegetable pâté
     canBeNonSpicy: false,
@@ -113,22 +113,22 @@ export function enrichDishWithAllergens(dish: DishListResponse): DishListRespons
   const allergens =
     Array.isArray(dish.allergens) && dish.allergens.length > 0
       ? dish.allergens
-      : (meta?.allergens ?? (Array.isArray(dish.allergens) ? dish.allergens : []));
+      : (meta ? meta.allergens : (Array.isArray(dish.allergens) ? dish.allergens : []));
 
   const isSpicy =
-    typeof dish.isSpicy === 'boolean' && dish.isSpicy
-      ? true
-      : (meta?.isSpicy ?? dish.isSpicy ?? false);
+    typeof dish.isSpicy === 'boolean'
+      ? dish.isSpicy
+      : (meta?.isSpicy ?? false);
 
   const removableAllergens =
     Array.isArray(dish.removableAllergens) && dish.removableAllergens.length > 0
       ? dish.removableAllergens
-      : (meta?.removableAllergens ?? (Array.isArray(dish.removableAllergens) ? dish.removableAllergens : []));
+      : (meta ? meta.removableAllergens : (Array.isArray(dish.removableAllergens) ? dish.removableAllergens : []));
 
   const canBeNonSpicy =
-    typeof dish.canBeNonSpicy === 'boolean' && dish.canBeNonSpicy
-      ? true
-      : (meta?.canBeNonSpicy ?? dish.canBeNonSpicy ?? false);
+    typeof dish.canBeNonSpicy === 'boolean'
+      ? dish.canBeNonSpicy
+      : (meta?.canBeNonSpicy ?? false);
 
   return {
     ...dish,

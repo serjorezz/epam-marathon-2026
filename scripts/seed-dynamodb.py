@@ -488,7 +488,7 @@ DISHES = [
     {
         "id": {"S": "dish-strawberry-salad"},
         "name": {"S": "Fresh Strawberry Mint Salad"},
-        "description": {"S": "Strawberries, spinach, mint leaves, feta or goat cheese, walnuts, balsamic glaze, poppy seeds."},
+        "description": {"S": "Strawberries, spinach, mint leaves, feta or goat cheese, balsamic glaze, and poppy seeds."},
         "dishType": {"N": "0"},  # 0 = Appetizer
         "price": {"N": "15.00"},
         "weight": {"S": "430g"},
@@ -500,15 +500,15 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/fresh-strawberry-mint-salad.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-baratashvili"},
-        "allergens": {"L": [{"S": "nuts"}]},
+        "allergens": {"L": []},
         "isSpicy": {"BOOL": False},
-        "removableAllergens": {"L": [{"S": "nuts"}]},
+        "removableAllergens": {"L": []},
         "canBeNonSpicy": {"BOOL": False}
     },
     {
         "id": {"S": "dish-sweet-potato-salad"},
         "name": {"S": "Roasted Sweet Potato & Lentil Salad"},
-        "description": {"S": "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy cashew dressing."},
+        "description": {"S": "Warm spiced sweet potatoes, French green lentils, pomegranate seeds, and creamy citrus dressing."},
         "dishType": {"N": "1"},  # 1 = MainCourse
         "price": {"N": "16.50"},
         "weight": {"S": "350g"},
@@ -520,9 +520,9 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/roasted-sweet-potato-and-lentil-salad.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-baratashvili"},
-        "allergens": {"L": [{"S": "nuts"}]},
+        "allergens": {"L": []},
         "isSpicy": {"BOOL": False},
-        "removableAllergens": {"L": [{"S": "nuts"}]},
+        "removableAllergens": {"L": []},
         "canBeNonSpicy": {"BOOL": False}
     },
     {
@@ -540,16 +540,16 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/spring-salad.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-baratashvili"},
-        "allergens": {"L": [{"S": "cilantro"}]},
+        "allergens": {"L": []},
         "isSpicy": {"BOOL": False},
-        "removableAllergens": {"L": [{"S": "cilantro"}]},
+        "removableAllergens": {"L": []},
         "canBeNonSpicy": {"BOOL": False}
     },
     # Additional catalog dishes
     {
         "id": {"S": "dish-eggplant-rolls"},
         "name": {"S": "Badrijani Nigvzit (Walnut Eggplant Rolls)"},
-        "description": {"S": "Tender grilled eggplant slices filled with seasoned garlic walnut paste and topped with pomegranate seeds."},
+        "description": {"S": "Tender grilled eggplant slices filled with seasoned garlic walnut paste and topped with fresh cilantro and pomegranate seeds."},
         "dishType": {"N": "0"},  # 0 = Appetizer
         "price": {"N": "13.50"},
         "weight": {"S": "240g"},
@@ -561,7 +561,7 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/eggplant-rolls.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-abashidze"},
-        "allergens": {"L": [{"S": "nuts"}, {"S": "cilantro"}]},
+        "allergens": {"L": [{"S": "nuts"}]},
         "isSpicy": {"BOOL": False},
         "removableAllergens": {"L": [{"S": "cilantro"}]},
         "canBeNonSpicy": {"BOOL": False}
@@ -569,7 +569,7 @@ DISHES = [
     {
         "id": {"S": "dish-mushroom-khinkali"},
         "name": {"S": "Wild Mushroom Khinkali (4 pcs)"},
-        "description": {"S": "Traditional Georgian dumplings handmade with seasoned wild mountain mushrooms, fresh herbs, and spicy broth."},
+        "description": {"S": "Traditional Georgian dumplings handmade with seasoned wild mountain mushrooms, fresh herbs, aromatic cilantro, and spicy broth."},
         "dishType": {"N": "1"},  # 1 = MainCourse
         "price": {"N": "15.00"},
         "weight": {"S": "360g"},
@@ -589,7 +589,7 @@ DISHES = [
     {
         "id": {"S": "dish-lobio-pot"},
         "name": {"S": "Traditional Lobio in Clay Pot"},
-        "description": {"S": "Slow-cooked red kidney beans with coriander, savory, blue fenugreek, served with cornbread mchadi and pickles."},
+        "description": {"S": "Slow-cooked red kidney beans with savory, blue fenugreek, and spicy chili herbs, served with cornbread mchadi and pickles."},
         "dishType": {"N": "1"},  # 1 = MainCourse
         "price": {"N": "14.50"},
         "weight": {"S": "400g"},
@@ -601,15 +601,15 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/lobio-pot.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-rustaveli"},
-        "allergens": {"L": [{"S": "cilantro"}]},
+        "allergens": {"L": []},
         "isSpicy": {"BOOL": True},
-        "removableAllergens": {"L": [{"S": "cilantro"}]},
+        "removableAllergens": {"L": []},
         "canBeNonSpicy": {"BOOL": True}
     },
     {
         "id": {"S": "dish-berry-chia"},
         "name": {"S": "Wild Berry Chia Pudding"},
-        "description": {"S": "Organic chia seeds soaked in almond milk, layered with Georgian mountain raspberry coulis and fresh mint."},
+        "description": {"S": "Organic chia seeds soaked in oat milk, layered with Georgian mountain raspberry coulis and fresh mint."},
         "dishType": {"N": "2"},  # 2 = Dessert
         "price": {"N": "9.50"},
         "weight": {"S": "200g"},
@@ -621,7 +621,7 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/berry-chia-pudding.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-baratashvili"},
-        "allergens": {"L": [{"S": "nuts"}]},
+        "allergens": {"L": []},
         "isSpicy": {"BOOL": False},
         "removableAllergens": {"L": []},
         "canBeNonSpicy": {"BOOL": False}
@@ -629,7 +629,7 @@ DISHES = [
     {
         "id": {"S": "dish-pelamushi-tart"},
         "name": {"S": "Artisanal Grape Pelamushi Tart"},
-        "description": {"S": "Delicate almond crust filled with natural Saperavi grape juice pudding and topped with crushed walnuts."},
+        "description": {"S": "Delicate pastry crust filled with natural Saperavi grape juice pudding and dusted with sweet powdered sugar."},
         "dishType": {"N": "2"},  # 2 = Dessert
         "price": {"N": "10.50"},
         "weight": {"S": "180g"},
@@ -641,7 +641,7 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/pelamushi-tart.jpg"},
         "state": {"N": "1"},  # 1 = Available
         "locationId": {"S": "loc-rustaveli"},
-        "allergens": {"L": [{"S": "nuts"}]},
+        "allergens": {"L": []},
         "isSpicy": {"BOOL": False},
         "removableAllergens": {"L": []},
         "canBeNonSpicy": {"BOOL": False}
@@ -661,7 +661,7 @@ DISHES = [
         "imageUrl": {"S": "assets/img/dishes/pkhali-trio.jpg"},
         "state": {"N": "1"},
         "locationId": {"S": "loc-rustaveli"},
-        "allergens": {"L": [{"S": "nuts"}, {"S": "cilantro"}]},
+        "allergens": {"L": [{"S": "nuts"}]},
         "isSpicy": {"BOOL": False},
         "removableAllergens": {"L": []},
         "canBeNonSpicy": {"BOOL": False}
