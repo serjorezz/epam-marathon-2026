@@ -62,4 +62,47 @@
       border-radius: 0.75rem;
     }
   }
+
+  &.compact {
+    aspect-ratio: auto;
+    height: auto;
+    padding: 1.5rem;
+    justify-content: flex-start;
+
+    .skeleton-dish-circle {
+      width: 100%;
+      max-width: 12.25rem;
+    }
+
+    .skeleton-dish-info-compact {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+
+      .title-bar {
+        height: 1.25rem;
+        width: 55%;
+      }
+
+      .meta-col {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.25rem;
+        width: 35%;
+
+        .price-bar {
+          height: 1.125rem;
+          width: 80%;
+        }
+
+        .weight-bar {
+          height: 0.75rem;
+          width: 60%;
+        }
+      }
+    }
+  }
 }

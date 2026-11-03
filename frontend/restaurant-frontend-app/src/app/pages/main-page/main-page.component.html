@@ -25,7 +25,7 @@
     <div class="dish-cards">
       @if (dishesLoading) {
         @for (_ of [1, 2, 3, 4, 5]; track $index) {
-          <app-skeleton-dish-card />
+          <app-skeleton-dish-card [compact]="true" />
         }
       } @else {
         @for (dish of dishes; track dish) {
