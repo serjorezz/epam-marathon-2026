@@ -1,6 +1,6 @@
 # Green & Tasty — EPAM IT Marathon 6.0
 
-[![devs.surf](https://devs.surf/badges/subdomain.svg)](https://green-tasty.devs.surf)
+[![devs.surf](https://devs.surf/badges/subdomain.svg)](https://green-tasty.devs.surf) [![Build](https://github.com/serjorezz/epam-marathon-2026/actions/workflows/pr.yml/badge.svg?branch=main)](https://github.com/serjorezz/epam-marathon-2026/actions/workflows/pr.yml)
 
 Ласкаво просимо до об'єднаного репозиторію проєкту **Green & Tasty** в межах **EPAM IT Marathon 6.0**.  
 Цей репозиторій містить повний стек застосунку:
