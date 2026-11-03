@@ -194,6 +194,39 @@ describe("TranslationService", () => {
     expect(service.translate("Owner: Yevhenii")).toBe("ორგანიზატორი: Yevhenii");
   });
 
+  it("should translate reservation pre-order notice and composite reservation labels", () => {
+    service.setLanguage("uk");
+    expect(service.translate("You are making a pre-order for a reservation")).toBe(
+      "Ви робите попереднє замовлення для бронювання"
+    );
+    expect(service.translate("Table table-r3")).toBe("Стіл table-r3");
+    expect(
+      service.translate("48 Rustaveli Avenue, Table table-r3, Tue Nov 03 2026, 18:00 - 19:30")
+    ).toBe("проспект Руставелі, 48, Стіл table-r3, Вт, 03 лист. 2026, 18:00 - 19:30");
+    expect(
+      service.translate("48 Rustaveli Avenue, Table table-r3, Вт, 03 лист. 2026, 18:00 - 19:30")
+    ).toBe("проспект Руставелі, 48, Стіл table-r3, Вт, 03 лист. 2026, 18:00 - 19:30");
+    expect(
+      service.translate("You are making a pre-order for a reservation 48 Rustaveli Avenue, Table table-r3, Вт, 03 лист. 2026, 18:00 - 19:30.")
+    ).toBe(
+      "Ви робите попереднє замовлення для бронювання проспект Руставелі, 48, Стіл table-r3, Вт, 03 лист. 2026, 18:00 - 19:30."
+    );
+
+    service.setLanguage("ka");
+    expect(service.translate("You are making a pre-order for a reservation")).toBe(
+      "თქვენ აკეთებთ წინასწარ შეკვეთას ჯავშნისთვის"
+    );
+    expect(service.translate("Table table-r3")).toBe("მაგიდა table-r3");
+    expect(
+      service.translate("48 Rustaveli Avenue, Table table-r3, Tue Nov 03 2026, 18:00 - 19:30")
+    ).toBe("რუსთაველის გამზირი 48, მაგიდა table-r3, სამ, 03 ნოე, 2026, 18:00 - 19:30");
+    expect(
+      service.translate("You are making a pre-order for a reservation 48 Rustaveli Avenue, Table table-r3, Вт, 03 лист. 2026, 18:00 - 19:30.")
+    ).toBe(
+      "თქვენ აკეთებთ წინასწარ შეკვეთას ჯავშნისთვის რუსთაველის გამზირი 48, მაგიდა table-r3, სამ, 03 ნოე, 2026, 18:00 - 19:30."
+    );
+  });
+
   it("should return original text if translation key is not found", () => {
     service.setLanguage("uk");
     expect(service.translate("Unknown Custom Text")).toBe("Unknown Custom Text");

@@ -69,6 +69,15 @@ export class MenuPageComponent implements OnInit {
       if (this.isPreOrderEnabled) {
         this.preOrderReservationId = params['reservationId'];
         this.preOrderReservationLabel = params['reservationLabel'];
+        if (this.preOrderReservationLabel) {
+          this.preOrderReservationLabel = this.preOrderReservationLabel
+            .replace(
+              /^(?:You are making a pre-order for (?:a|the) reservation|Ви робите попереднє замовлення для бронювання|თქვენ აკეთებთ წინასწარ შეკვეთას ჯავშნისთვის)\s*/i,
+              ''
+            )
+            .replace(/\.$/, '')
+            .trim();
+        }
         if (!this.preOrderReservationId) {
           console.error('Pre-order is enabled but no reservation ID provided.');
           this.toast.error('Pre-order is enabled but no reservation ID provided.', 'Error');

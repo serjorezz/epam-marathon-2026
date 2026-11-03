@@ -1,3 +1,4 @@
+import { TranslationService } from "@app/services/translation/translation.service";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MenuPageComponent } from './menu-page.component';
 import { API_BASE_URL } from '@app/shared/config/api-base-url.token';
@@ -100,6 +101,10 @@ describe('MenuPageComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    TestBed.inject(TranslationService).setLanguage('en');
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -190,4 +195,26 @@ describe('MenuPageComponent', () => {
     expect(dishesServiceSpy.addFavorite).not.toHaveBeenCalled();
     expect(dish.isFavorite).toBeFalse();
   });
+
+  it('should render translated pre-order notice banner in Ukrainian', () => {
+    const translationService = TestBed.inject(TranslationService);
+    translationService.setLanguage('uk');
+
+    component.isPreOrderEnabled = true;
+    component.preOrderReservationId = 'res-123';
+    component.preOrderReservationLabel = '48 Rustaveli Avenue, Table table-r3, Вт, 03 лист. 2026, 18:00 - 19:30';
+    fixture.detectChanges();
+
+    const noticeEl = fixture.nativeElement.querySelector('.pre-order-notice');
+    expect(noticeEl).toBeTruthy();
+    expect(noticeEl.textContent).toContain('Ви робите попереднє замовлення для бронювання');
+    expect(noticeEl.textContent).toContain('проспект Руставелі, 48');
+    expect(noticeEl.textContent).toContain('Стіл table-r3');
+    expect(noticeEl.textContent).toContain('Вт, 03 лист. 2026');
+    expect(noticeEl.textContent).toContain('18:00 - 19:30');
+
+    translationService.setLanguage('en');
+  });
+
+
 });
