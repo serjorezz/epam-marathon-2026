@@ -40,7 +40,14 @@ public class RemoveFavoriteDishHandler : IApiRequestHandler
         if (favorites != null && favorites.DishIds.Contains(dishId))
         {
             favorites.DishIds.Remove(dishId);
-            await _dbContext.SaveAsync(favorites, config);
+            if (favorites.DishIds.Count == 0)
+            {
+                await _dbContext.DeleteAsync(favorites, config);
+            }
+            else
+            {
+                await _dbContext.SaveAsync(favorites, config);
+            }
         }
 
         return ResponseBuilder.CreateSuccessResponse(new
