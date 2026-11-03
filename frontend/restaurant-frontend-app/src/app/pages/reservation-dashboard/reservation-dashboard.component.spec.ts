@@ -6,6 +6,7 @@ import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ReservationCustomer, ReservationStatusCustomer } from "@app/models/reservations/reservation.model";
+import { FeedbackReservationResponseItem } from "@app/models/feedbacks/feedback-reservation-response-item.model";
 import { ReservationService } from "@app/services/reservation/reservation.service";
 
 describe("ReservationDashboardComponent", () => {
@@ -149,6 +150,7 @@ describe("ReservationDashboardComponent", () => {
     expect(emptyMsg).toBeTruthy();
     expect(emptyMsg.textContent).toContain("No active bookings found");
   });
+
   it("should only request feedback for eligible reservations and skip Reserved and Cancelled", () => {
     const reservationService = TestBed.inject(ReservationService);
     const feedbackSpy = spyOn(reservationService, "getReservationFeedback").and.returnValue(of(null));
@@ -170,7 +172,7 @@ describe("ReservationDashboardComponent", () => {
       feedback: {
         reservationId: "res-2",
         service: { rating: 5, comment: "Great!" },
-      } as any,
+      } as unknown as FeedbackReservationResponseItem,
     };
 
     component.openFeedback(resWithFeedback);
