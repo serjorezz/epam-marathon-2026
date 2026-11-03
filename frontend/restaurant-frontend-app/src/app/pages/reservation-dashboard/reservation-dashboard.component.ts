@@ -14,13 +14,9 @@ import {
   catchError,
   finalize,
   forkJoin,
-  from,
   map,
-  mergeMap,
   of,
-  retry,
   switchMap,
-  toArray,
 } from 'rxjs';
 
 import { AuthenticationService } from '@app/auth/services/authentication.service';
@@ -101,6 +97,7 @@ export class ReservationDashboardComponent implements OnInit {
   readonly reservationsLoaded = signal(false);
   readonly selectedSort = signal<ReservationSortOption>("date-asc");
   readonly onlyActive = signal<boolean>(false);
+  private readonly feedbackLoadedIds = new Set<string>();
 
   readonly sortedReservations = computed<ReservationCustomer[]>(() => {
     let list = [...this.reservations()];
@@ -498,8 +495,37 @@ export class ReservationDashboardComponent implements OnInit {
   }
 
   openFeedback(reservation: ReservationCustomer): void {
-    this.selectedReservation.set(reservation);
-    this.showFeedbackModal.set(true);
+    if (reservation.feedback || this.feedbackLoadedIds.has(reservation.id)) {
+      this.selectedReservation.set(reservation);
+      this.showFeedbackModal.set(true);
+      return;
+    }
+
+    this.reservationService
+      .getReservationFeedback(reservation.id)
+      .pipe(
+        catchError(() => of(null)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((feedback) => {
+        this.feedbackLoadedIds.add(reservation.id);
+        const hasFeedback =
+          feedback?.service != null || feedback?.cuisineExperience != null;
+
+        const updatedReservation: ReservationCustomer = {
+          ...reservation,
+          feedback: hasFeedback ? feedback ?? undefined : undefined,
+        };
+
+        this.reservations.update((list) =>
+          list.map((item) =>
+            item.id === reservation.id ? updatedReservation : item,
+          ),
+        );
+
+        this.selectedReservation.set(updatedReservation);
+        this.showFeedbackModal.set(true);
+      });
   }
 
   closeFeedback(): void {
@@ -512,6 +538,7 @@ export class ReservationDashboardComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (feedback) => {
+          this.feedbackLoadedIds.add(event.reservationId);
           this.reservations.update((reservations) =>
             reservations.map((reservation) =>
               reservation.id === event.reservationId
@@ -543,6 +570,7 @@ export class ReservationDashboardComponent implements OnInit {
 
   private loadReservations(): void {
     this.reservationsLoaded.set(false);
+    this.feedbackLoadedIds.clear();
 
     forkJoin({
       reservations:
@@ -555,70 +583,39 @@ export class ReservationDashboardComponent implements OnInit {
       ),
     })
       .pipe(
-        switchMap(({ reservations, orders }) => {
-          if (reservations.length === 0) {
-            return of<ReservationCustomer[]>([]);
-          }
-
-          return from(reservations).pipe(
-            mergeMap(
-              (reservation, index) =>
-                this.reservationService
-                  .getReservationFeedback(reservation.id)
-                  .pipe(
-                    retry({ count: 2, delay: 200 }),
-                    catchError(() => of(null)),
-                    map(
-                      (feedback): { index: number; item: ReservationCustomer } => {
-                        const preOrder = orders.find(
-                          (order) =>
-                            order.reservationId ===
-                            reservation.id,
-                        );
-
-                        const hasFeedback =
-                          feedback?.service != null ||
-                          feedback?.cuisineExperience != null;
-
-                        return {
-                          index,
-                          item: {
-                            ...reservation,
-                            status:
-                              reservation.status as unknown as ReservationStatusCustomer,
-                            restaurantName:
-                              reservation.restaurantName ?? '',
-                            feedback: hasFeedback
-                              ? feedback ?? undefined
-                              : undefined,
-                            preOrder,
-                            hasSubmittedPreOrder:
-                              preOrder != null &&
-                              (preOrder.status === 1 ||
-                                preOrder.status === 3),
-                          },
-                        };
-                      },
-                    ),
-                  ),
-              2,
-            ),
-            toArray(),
-            map((results) =>
-              results
-                .sort((left, right) => left.index - right.index)
-                .map((result) => result.item),
-            ),
-          );
-        }),
         finalize(() => {
           this.reservationsLoaded.set(true);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: (reservations) => {
-          this.reservations.set(reservations);
+        next: ({ reservations, orders }) => {
+          const customerReservations: ReservationCustomer[] = reservations.map(
+            (reservation) => {
+              const preOrder = orders.find(
+                (order) =>
+                  order.reservationId ===
+                  reservation.id,
+              );
+
+              return {
+                ...reservation,
+                status:
+                  reservation.status as unknown as ReservationStatusCustomer,
+                restaurantName:
+                  reservation.restaurantName ?? '',
+                feedback: undefined,
+                preOrder,
+                hasSubmittedPreOrder:
+                  preOrder != null &&
+                  (preOrder.status === 1 ||
+                    preOrder.status === 3),
+              };
+            },
+          );
+
+          this.reservations.set(customerReservations);
+          this.loadFeedbackForReservations(customerReservations);
         },
         error: (error) => {
           console.error(
@@ -629,6 +626,57 @@ export class ReservationDashboardComponent implements OnInit {
         },
       });
   }
+
+  private loadFeedbackForReservations(
+    reservations: ReservationCustomer[],
+  ): void {
+    const eligibleReservations = reservations.filter(
+      (r) =>
+        r.status !== ReservationStatusCustomer.Reserved &&
+        r.status !== ReservationStatusCustomer.Cancelled,
+    );
+
+    for (const reservation of eligibleReservations) {
+      this.reservationService
+        .getReservationFeedback(reservation.id)
+        .pipe(
+          catchError(() => of(null)),
+          takeUntilDestroyed(this.destroyRef),
+        )
+        .subscribe((feedback) => {
+          this.feedbackLoadedIds.add(reservation.id);
+          if (!feedback) {
+            return;
+          }
+
+          const hasFeedback =
+            feedback.service != null ||
+            feedback.cuisineExperience != null;
+
+          if (hasFeedback) {
+            this.reservations.update((list) =>
+              list.map((item) =>
+                item.id === reservation.id
+                  ? {
+                    ...item,
+                    feedback: feedback ?? undefined,
+                  }
+                  : item,
+              ),
+            );
+
+            const selected = this.selectedReservation();
+            if (selected?.id === reservation.id) {
+              this.selectedReservation.set({
+                ...selected,
+                feedback: feedback ?? undefined,
+              });
+            }
+          }
+        });
+    }
+  }
+
 
   onSortChanged(event: Event): void {
     const target = event.target as HTMLSelectElement | null;

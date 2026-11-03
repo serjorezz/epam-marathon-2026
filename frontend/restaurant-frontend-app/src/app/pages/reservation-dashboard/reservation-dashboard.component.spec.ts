@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
 import { ReservationDashboardComponent } from "./reservation-dashboard.component";
 import { API_BASE_URL } from "@app/shared/config/api-base-url.token";
 import { provideRouter } from "@angular/router";
 import { provideHttpClient } from "@angular/common/http";
 import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ReservationCustomer, ReservationStatusCustomer } from "@app/models/reservations/reservation.model";
+import { ReservationService } from "@app/services/reservation/reservation.service";
 
 describe("ReservationDashboardComponent", () => {
   let component: ReservationDashboardComponent;
@@ -146,5 +148,35 @@ describe("ReservationDashboardComponent", () => {
     const emptyMsg = fixture.nativeElement.querySelector(".reservation-empty");
     expect(emptyMsg).toBeTruthy();
     expect(emptyMsg.textContent).toContain("No active bookings found");
+  });
+  it("should only request feedback for eligible reservations and skip Reserved and Cancelled", () => {
+    const reservationService = TestBed.inject(ReservationService);
+    const feedbackSpy = spyOn(reservationService, "getReservationFeedback").and.returnValue(of(null));
+
+    (component as unknown as { loadFeedbackForReservations: (r: ReservationCustomer[]) => void })
+      .loadFeedbackForReservations(mockReservations);
+
+    // res-1 is Reserved, res-3 is Cancelled, res-2 is InProgress
+    expect(feedbackSpy).toHaveBeenCalledTimes(1);
+    expect(feedbackSpy).toHaveBeenCalledWith("res-2");
+  });
+
+  it("should open feedback modal without extra network request if feedback is already loaded", () => {
+    const reservationService = TestBed.inject(ReservationService);
+    const feedbackSpy = spyOn(reservationService, "getReservationFeedback").and.returnValue(of(null));
+
+    const resWithFeedback: ReservationCustomer = {
+      ...mockReservations[1],
+      feedback: {
+        reservationId: "res-2",
+        service: { rating: 5, comment: "Great!" },
+      } as any,
+    };
+
+    component.openFeedback(resWithFeedback);
+
+    expect(component.showFeedbackModal()).toBeTrue();
+    expect(component.selectedReservation()?.id).toBe("res-2");
+    expect(feedbackSpy).not.toHaveBeenCalled();
   });
 });
