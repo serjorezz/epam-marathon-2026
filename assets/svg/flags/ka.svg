@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="24" height="24" style="border-radius: 3px; box-shadow: 0 0 1px rgba(0,0,0,0.3);">
+  <rect width="600" height="400" fill="#fff"/>
+  <path fill="#f00" d="M260 0h80v400h-80zM0 160h600v80H0z"/>
+  <!-- Cross 1 (top-left) -->
+  <g transform="translate(130, 80)">
+    <path fill="#f00" d="M-6 -22h12v44h-12zM-22 -6h44v12h-44z"/>
+    <path fill="#f00" d="M-6 -26c0 0 6 2 12 0v4c-6 2-12 0-12 0zM-6 22c0 0 6-2 12 0v4c-6-2-12 0-12 0zM-26 -6c0 0 2 6 0 12h4c2-6 0-12 0-12zM22 -6c0 0-2 6 0 12h4c-2-6 0-12 0-12z"/>
+  </g>
+  <!-- Cross 2 (top-right) -->
+  <g transform="translate(470, 80)">
+    <path fill="#f00" d="M-6 -22h12v44h-12zM-22 -6h44v12h-44z"/>
+    <path fill="#f00" d="M-6 -26c0 0 6 2 12 0v4c-6 2-12 0-12 0zM-6 22c0 0 6-2 12 0v4c-6-2-12 0-12 0zM-26 -6c0 0 2 6 0 12h4c2-6 0-12 0-12zM22 -6c0 0-2 6 0 12h4c-2-6 0-12 0-12z"/>
+  </g>
+  <!-- Cross 3 (bottom-left) -->
+  <g transform="translate(130, 320)">
+    <path fill="#f00" d="M-6 -22h12v44h-12zM-22 -6h44v12h-44z"/>
+    <path fill="#f00" d="M-6 -26c0 0 6 2 12 0v4c-6 2-12 0-12 0zM-6 22c0 0 6-2 12 0v4c-6-2-12 0-12 0zM-26 -6c0 0 2 6 0 12h4c2-6 0-12 0-12zM22 -6c0 0-2 6 0 12h4c-2-6 0-12 0-12z"/>
+  </g>
+  <!-- Cross 4 (bottom-right) -->
+  <g transform="translate(470, 320)">
+    <path fill="#f00" d="M-6 -22h12v44h-12zM-22 -6h44v12h-44z"/>
+    <path fill="#f00" d="M-6 -26c0 0 6 2 12 0v4c-6 2-12 0-12 0zM-6 22c0 0 6-2 12 0v4c-6-2-12 0-12 0zM-26 -6c0 0 2 6 0 12h4c2-6 0-12 0-12zM22 -6c0 0-2 6 0 12h4c-2-6 0-12 0-12z"/>
+  </g>
+</svg>
