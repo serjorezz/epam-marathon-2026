@@ -1,4 +1,4 @@
-# US6_Happy Hours Discount
+# US5_Happy Hours Discount
 
 | Field | Value |
 | --- | --- |
