@@ -157,12 +157,12 @@ public static class RouteRegistry
             new RouteHandler(new Route(HttpMethods.POST, "/dishes"), ActivatorUtilities.CreateInstance<CreateDishHandler>(provider)),
             new RouteHandler(new Route(HttpMethods.GET, "/dishes"), ActivatorUtilities.CreateInstance<GetAllDishesHandler>(provider)),
             new RouteHandler(new Route(HttpMethods.GET, "/dishes/popular"), ActivatorUtilities.CreateInstance<GetPopularDishesHandler>(provider)),
-            new RouteHandler(new Route(HttpMethods.GET, "/dishes/{id}"), ActivatorUtilities.CreateInstance<GetDishByIdHandler>(provider)),
-            new RouteHandler(new Route(HttpMethods.PUT, "/dishes/{id}"), ActivatorUtilities.CreateInstance<EditDishHandler>(provider)),
-            new RouteHandler(new Route(HttpMethods.DELETE, "/dishes/{id}"), ActivatorUtilities.CreateInstance<DeleteDishHandler>(provider)),
+            new RouteHandler(new Route(HttpMethods.GET, "/dishes/favorites"), ActivatorUtilities.CreateInstance<GetFavoriteDishesHandler>(provider)),
             new RouteHandler(new Route(HttpMethods.POST, "/dishes/{id}/favorite"), ActivatorUtilities.CreateInstance<AddFavoriteDishHandler>(provider)),
             new RouteHandler(new Route(HttpMethods.DELETE, "/dishes/{id}/favorite"), ActivatorUtilities.CreateInstance<RemoveFavoriteDishHandler>(provider)),
-            new RouteHandler(new Route(HttpMethods.GET, "/dishes/favorites"), ActivatorUtilities.CreateInstance<GetFavoriteDishesHandler>(provider))
+            new RouteHandler(new Route(HttpMethods.GET, "/dishes/{id}"), ActivatorUtilities.CreateInstance<GetDishByIdHandler>(provider)),
+            new RouteHandler(new Route(HttpMethods.PUT, "/dishes/{id}"), ActivatorUtilities.CreateInstance<EditDishHandler>(provider)),
+            new RouteHandler(new Route(HttpMethods.DELETE, "/dishes/{id}"), ActivatorUtilities.CreateInstance<DeleteDishHandler>(provider))
         ];
 
         List<RouteHandler> GetReservationAndOrderRoutes() => [
