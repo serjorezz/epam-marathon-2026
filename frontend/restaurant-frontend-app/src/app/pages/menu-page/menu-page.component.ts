@@ -53,6 +53,11 @@ export class MenuPageComponent implements OnInit {
 
   selectedCategory: DishType | null = null; // initially show all
   selectedSort: DishSort = DishSort.PopularityDescending;
+  onlyFavorites = false;
+
+  get favoritesCount(): number {
+    return this.dishes.filter((dish) => dish.isFavorite).length;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -70,11 +75,13 @@ export class MenuPageComponent implements OnInit {
 
       const category = params['category'] as DishType;
       const sort = params['sort'] as DishSort;
+      const favorites = params['favorites'] === 'true';
 
       this.selectedCategory =
         category && Object.values(DishType).includes(category) ? category : null;
       this.selectedSort =
         sort && Object.values(DishSort).includes(sort) ? sort : DishSort.PopularityDescending;
+      this.onlyFavorites = favorites;
 
       this.loadDishes();
     });
@@ -104,7 +111,30 @@ export class MenuPageComponent implements OnInit {
         isFavorite: dish.isFavorite !== undefined ? dish.isFavorite : localFavorites.has(dish.id),
       }));
 
+      this.applyFilters();
+    });
+  }
+
+  applyFilters(): void {
+    if (this.onlyFavorites) {
+      this.filteredDishes = this.dishes.filter((dish) => dish.isFavorite);
+    } else {
       this.filteredDishes = this.dishes;
+    }
+  }
+
+  onToggleFavoritesFilter(): void {
+    this.onlyFavorites = !this.onlyFavorites;
+    this.applyFilters();
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        category: this.selectedCategory || null,
+        sort: this.selectedSort,
+        favorites: this.onlyFavorites ? 'true' : null,
+      },
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -120,6 +150,9 @@ export class MenuPageComponent implements OnInit {
     // Apply optimistic update immediately
     event.dish.isFavorite = event.isFavorite;
     this.saveLocalFavorite(event.dish.id, event.isFavorite);
+    if (this.onlyFavorites) {
+      this.applyFilters();
+    }
 
     const operation$ = event.isFavorite
       ? this.dishesService.addFavorite(event.dish.id)
@@ -133,6 +166,9 @@ export class MenuPageComponent implements OnInit {
         // Revert on error
         event.dish.isFavorite = !event.isFavorite;
         this.saveLocalFavorite(event.dish.id, event.dish.isFavorite);
+        if (this.onlyFavorites) {
+          this.applyFilters();
+        }
         this.toast.error(
           event.isFavorite ? 'Failed to add to favorites' : 'Failed to remove from favorites',
           'Error'
@@ -178,6 +214,7 @@ export class MenuPageComponent implements OnInit {
       queryParams: {
         category: this.selectedCategory || null,
         sort: this.selectedSort,
+        favorites: this.onlyFavorites ? 'true' : null,
       },
       queryParamsHandling: 'merge',
     });
@@ -193,6 +230,7 @@ export class MenuPageComponent implements OnInit {
       queryParams: {
         category: this.selectedCategory || null,
         sort: this.selectedSort,
+        favorites: this.onlyFavorites ? 'true' : null,
       },
       queryParamsHandling: 'merge',
       replaceUrl: true,

@@ -5,7 +5,7 @@
 | **Epic** | Menu & Dish Management |
 | **US name** | Customer Favorite Dishes |
 | **Role** | Customer |
-| **Description** | As a Customer, I want to mark dishes as favorites directly on menu cards and have my favorites appear whenever I view the menu, so that I can quickly recognize and reorder the meals I enjoy most. |
+| **Description** | As a Customer, I want to mark dishes as favorites directly on menu cards and filter the menu to view only my favorite dishes, so that I can quickly recognize, review, and reorder the meals I enjoy most. |
 
 ### Pre-conditions:
 - The customer is browsing the Menu page on the Green & Tasty platform.
@@ -43,11 +43,21 @@
    - When an authenticated customer opens or refreshes the Menu page, the dishes are loaded and displayed together with their favorite status already applied.
    - Favorite dishes appear with their filled golden star immediately visible, with no delayed pop-in or flickering.
 
-6. **Card Click Isolation**:
+6. **Favorites Filter Tab / Quick Toggle**:
+   - A "Favorites" filter option with a golden star icon is available alongside the category filters on the Menu page.
+   - The button displays the translated label (*"Favorites"*) and dynamically shows the count of favorite dishes currently available (e.g., `(2)`).
+   - Clicking the "Favorites" filter toggles the view to display only dishes marked as favorites by the customer.
+   - If a customer is viewing a specific category and activates the favorites filter, only favorite dishes within that category are shown; if no category is selected, all favorite dishes across the entire menu are displayed.
+   - When the favorites filter is active, the tab/button is visually highlighted with an active golden accent and filled star.
+   - Clicking the "Favorites" filter again deactivates the filter and restores the display of all dishes.
+   - If no dishes match the favorites filter, a user-friendly message (*"No favorite dishes found"*) is displayed.
+   - The favorites filter state is reflected in the URL query parameters (`?favorites=true`) to support bookmarking and browser navigation.
+
+7. **Card Click Isolation**:
    - Clicking the favorite star button toggles the favorite state without opening the dish details popup or triggering any card-level navigation.
 
-7. **Accessibility & Responsive Presentation**:
-   - The favorite toggle button is keyboard-accessible with visible focus indicators and accessible labels indicating the current state.
+8. **Accessibility & Responsive Presentation**:
+   - The favorite toggle button and filter tab are keyboard-accessible with visible focus indicators and accessible labels indicating the current state.
    - On touch-enabled devices where hover is unavailable, favorite controls remain accessible and responsive without blocking other card interactions.
 
 ---
@@ -57,5 +67,6 @@
 - **Assumptions**:
   - Unauthenticated visitors who attempt to add a dish to favorites are prompted to log in to save their preferences.
   - A customer's saved favorites persist across browser sessions and across different devices upon logging in.
+  - When an unauthenticated visitor activates the favorites filter, locally stored favorite dishes (if any) are displayed.
 - **Open Questions**:
-  - *Product / UX*: Should a future enhancement introduce a "Favorites" filter tab or quick toggle alongside the category filters on the menu page?
+  - None (the previously raised question regarding the "Favorites" filter tab has been confirmed, designed, and incorporated into this story).

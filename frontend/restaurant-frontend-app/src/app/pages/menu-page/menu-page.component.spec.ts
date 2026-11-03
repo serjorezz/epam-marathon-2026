@@ -111,6 +111,56 @@ describe('MenuPageComponent', () => {
     expect(component.dishes[1].isFavorite).toBeFalse();
   });
 
+  it('should render Favorites filter button with count of favorite dishes', () => {
+    const favFilterBtn = fixture.nativeElement.querySelector('.favorites-filter-btn');
+    expect(favFilterBtn).toBeTruthy();
+    expect(component.favoritesCount).toBe(1);
+
+    const badge = fixture.nativeElement.querySelector('.favorites-badge');
+    expect(badge).toBeTruthy();
+    expect(badge.textContent.trim()).toBe('(1)');
+  });
+
+  it('should filter dishes to only show favorites when Favorites filter is toggled', () => {
+    expect(component.filteredDishes.length).toBe(2);
+
+    component.onToggleFavoritesFilter();
+    fixture.detectChanges();
+
+    expect(component.onlyFavorites).toBeTrue();
+    expect(component.filteredDishes.length).toBe(1);
+    expect(component.filteredDishes[0].id).toBe('dish-1');
+
+    const favFilterBtn = fixture.nativeElement.querySelector('.favorites-filter-btn');
+    expect(favFilterBtn.classList.contains('active')).toBeTrue();
+  });
+
+  it('should restore all dishes when Favorites filter is toggled off', () => {
+    component.onToggleFavoritesFilter(); // turn on
+    fixture.detectChanges();
+    expect(component.filteredDishes.length).toBe(1);
+
+    component.onToggleFavoritesFilter(); // turn off
+    fixture.detectChanges();
+    expect(component.onlyFavorites).toBeFalse();
+    expect(component.filteredDishes.length).toBe(2);
+  });
+
+  it('should update filtered dishes if a dish is unfavorited while Favorites filter is active', () => {
+    component.onToggleFavoritesFilter(); // filter active
+    fixture.detectChanges();
+    expect(component.filteredDishes.length).toBe(1);
+
+    const dishToUnfav = component.dishes[0];
+    component.onFavoriteToggle({ dish: dishToUnfav, isFavorite: false });
+    fixture.detectChanges();
+
+    expect(component.filteredDishes.length).toBe(0);
+    const emptyState = fixture.nativeElement.querySelector('.empty-favorites-state');
+    expect(emptyState).toBeTruthy();
+    expect(emptyState.textContent.trim()).toBe('No favorite dishes found');
+  });
+
   it('should call addFavorite when an un-favorited dish is toggled by logged-in customer', () => {
     const dishToFav = component.dishes[1];
     component.onFavoriteToggle({ dish: dishToFav, isFavorite: true });

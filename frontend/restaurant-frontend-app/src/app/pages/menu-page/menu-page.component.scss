@@ -176,6 +176,52 @@
       font-weight: 500;
     }
   }
+
+  .favorites-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    .star-icon {
+      width: 1.125rem;
+      height: 1.125rem;
+      fill: none;
+      stroke: #d97706;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: fill 0.2s ease, stroke 0.2s ease;
+    }
+
+    .favorites-badge {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #d97706;
+    }
+
+    &:hover {
+      color: #d97706;
+
+      .star-icon {
+        stroke: #f59e0b;
+      }
+    }
+
+    &.active {
+      border-bottom: 2px solid #f59e0b;
+      color: #b45309;
+      font-weight: 500;
+
+      .star-icon {
+        fill: #f59e0b;
+        stroke: #d97706;
+      }
+
+      .favorites-badge {
+        color: #b45309;
+      }
+    }
+  }
 }
 
 .sort-dropdown {
@@ -259,4 +305,11 @@
       gap: 1rem;
     }
   }
+}
+
+.empty-favorites-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: color.$neutral-700;
+  font-size: 1.125rem;
 }
