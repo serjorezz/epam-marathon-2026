@@ -23,7 +23,7 @@ export const tokenInterceptor: HttpInterceptorFn = (
   if (req.url.includes('/guest/')) {
     return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (req.context.get(SKIP_ERROR_TOAST)) {
+        if (req.context.get(SKIP_ERROR_TOAST) || req.url.includes('/chat')) {
           return throwError(() => error);
         }
 
@@ -80,7 +80,7 @@ export const tokenInterceptor: HttpInterceptorFn = (
         return throwError(() => error);
       }
 
-      if (clonedRequest.context.get(SKIP_ERROR_TOAST)) {
+      if (clonedRequest.context.get(SKIP_ERROR_TOAST) || clonedRequest.url.includes('/chat')) {
         return throwError(() => error);
       }
 
