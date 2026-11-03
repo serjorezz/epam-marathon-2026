@@ -36,23 +36,41 @@
           aria-hidden="true"
         />
         <span class="location-text">{{ r().locationAddress | translate }}</span>
+        @if (isHappyHourActive()) {
+          <span class="happy-hours-badge">
+            {{ 'Happy hours' | translate }} ★
+          </span>
+        }
       </div>
 
       @if (role() === Roles.CUSTOMER && (r().status === ReservationStatusCustomer.Reserved || r().status === ReservationStatusCustomer.InProgress)) {
-        <button
-          type="button"
-          class="icon-button icon-button--small delete-btn"
-          [attr.aria-label]="'Cancel reservation' | translate"
-          (click)="cancelReservation.emit(r().id)"
+        <div
+          class="delete-btn-wrapper"
+          [class.is-disabled]="isCancelTooLate()"
         >
-          <img
-            src="assets/svg/trash.svg"
-            alt=""
-            aria-hidden="true"
-            width="20"
-            height="20"
-          />
-        </button>
+          <button
+            type="button"
+            class="icon-button icon-button--small delete-btn"
+            [class.disabled]="isCancelTooLate()"
+            [disabled]="isCancelTooLate()"
+            [attr.aria-label]="isCancelTooLate() ? ('Too late to cancel reservation. Must be 30 minutes before reservation time' | translate) : ('Cancel reservation' | translate)"
+            [title]="isCancelTooLate() ? ('Too late to cancel reservation. Must be 30 minutes before reservation time' | translate) : ('Cancel reservation' | translate)"
+            (click)="!isCancelTooLate() && cancelReservation.emit(r().id)"
+          >
+            <img
+              src="assets/svg/trash.svg"
+              alt=""
+              aria-hidden="true"
+              width="20"
+              height="20"
+            />
+          </button>
+          @if (isCancelTooLate()) {
+            <div class="delete-tooltip" role="tooltip">
+              {{ 'Too late to cancel reservation. Must be 30 minutes before reservation time' | translate }}
+            </div>
+          }
+        </div>
       }
     </div>
 
@@ -92,7 +110,7 @@
           <span class="detail-text">
             {{ 'Pre-orders:' | translate }}
             @if (preOrderItemCount() > 0) {
-              <strong>{{ preOrderItemCount() }}</strong>
+              <span>{{ preOrderItemCount() }}</span>
             } @else {
               <span>{{ 'None' | translate }}</span>
             }

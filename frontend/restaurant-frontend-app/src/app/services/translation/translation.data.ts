@@ -32,6 +32,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   en: {
     "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.": "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.",
     "Completed": "Completed",
+    "Too late to cancel reservation. Must be 30 minutes before reservation time": "Too late to cancel reservation. Must be 30 minutes before reservation time",
     "Add Pre-Order": "Add Pre-Order",
     "View Pre-Order": "View Pre-Order",
     "Pre-orders:": "Pre-orders:",
@@ -566,6 +567,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   uk: {
     "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.": "Якщо вам потрібна допомога з бронюванням столика або передзамовленням, зателефонуйте нам: +123 445 678 8990.",
     "Completed": "Завершено",
+    "Too late to cancel reservation. Must be 30 minutes before reservation time": "Запізно для скасування бронювання. Має бути принаймні за 30 хвилин до часу бронювання",
     "Add Pre-Order": "Додати передзамовлення",
     "View Pre-Order": "Переглянути передзамовлення",
     "Pre-orders:": "Передзамовлення:",
@@ -1149,6 +1151,7 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   ka: {
     "For any assistance with your table reservation or pre-order, please call us at this number: +123 445 678 8990.": "მაგიდის დაჯავშნასთან ან წინასწარ შეკვეთასთან დაკავშირებით დახმარებისთვის, გთხოვთ დაგვიკავშირდეთ ნომერზე: +123 445 678 8990.",
     "Completed": "დასრულებულია",
+    "Too late to cancel reservation. Must be 30 minutes before reservation time": "დაჯავშნის გაუქმება დაგვიანებულია. დაჯავშნის დრომდე უნდა დარჩეს მინიმუმ 30 წუთი",
     "Add Pre-Order": "წინასწარი შეკვეთის დამატება",
     "View Pre-Order": "წინასწარი შეკვეთის ნახვა",
     "Pre-orders:": "წინასწარი შეკვეთები:",

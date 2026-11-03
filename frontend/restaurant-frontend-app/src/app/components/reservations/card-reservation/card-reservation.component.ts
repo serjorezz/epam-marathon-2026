@@ -19,6 +19,7 @@ import {
 import { PlaceOrderWaiterComponent } from '@app/components/place-order-waiter/place-order-waiter.component';
 import { Roles } from '@app/shared/constants/roles';
 import { formatTime } from '@app/shared/helpers/date-helpers';
+import { evaluateHappyHours } from '@app/shared/helpers/happy-hours.helper';
 import { CustomSelectComponent } from '@app/shared/custom-components/custom-select/custom-select.component';
 
 interface ReservationStatusView {
@@ -157,6 +158,31 @@ export class CardReservationComponent {
       return this.r().status !== ReservationStatusCustomer.Cancelled;
     }
     return true;
+  });
+
+  readonly isHappyHourActive = computed(() => {
+    const reservation = this.r();
+    if (!reservation) {
+      return false;
+    }
+    const evaluation = evaluateHappyHours({
+      locationAddress: reservation.locationAddress,
+      startTime: reservation.startTime,
+    });
+    return evaluation.isHappyHour;
+  });
+
+  readonly isCancelTooLate = computed(() => {
+    const startTimeRaw = this.r().startTime;
+    if (!startTimeRaw) {
+      return false;
+    }
+    const startTimeMs = new Date(startTimeRaw).getTime();
+    if (isNaN(startTimeMs)) {
+      return false;
+    }
+    const cutoffMs = startTimeMs - 30 * 60 * 1000;
+    return Date.now() > cutoffMs;
   });
 
   readonly isPreOrderCutoffReached = computed(() => {

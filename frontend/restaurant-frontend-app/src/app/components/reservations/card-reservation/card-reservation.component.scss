@@ -134,6 +134,43 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    .happy-hours-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      color: #b45309;
+      border: 1px solid #f59e0b;
+      border-radius: 9999px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(245, 158, 11, 0.25);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  }
+
+  .delete-btn-wrapper {
+    position: relative;
+    display: inline-flex;
+
+    &.is-disabled {
+      cursor: not-allowed;
+
+      .delete-btn {
+        opacity: 0.4;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      &:hover .delete-tooltip,
+      &:focus-within .delete-tooltip {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
   }
 
   .delete-btn {
@@ -145,15 +182,47 @@
     align-items: center;
     justify-content: center;
     border-radius: 6px;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: color.$red-100;
     }
 
     img {
       width: 20px;
       height: 20px;
+    }
+  }
+
+  .delete-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    z-index: 10;
+    width: 240px;
+    max-width: 260px;
+    padding: 8px 12px;
+    background-color: color.$neutral-900;
+    color: color.$neutral-0;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 150ms ease, visibility 150ms ease;
+    white-space: normal;
+    text-align: left;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      right: 8px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: color.$neutral-900 transparent transparent transparent;
     }
   }
 }
@@ -197,8 +266,9 @@
       text-overflow: ellipsis;
       white-space: nowrap;
 
-      strong {
-        font-weight: 600;
+      strong,
+      span {
+        font-weight: 400;
       }
     }
   }

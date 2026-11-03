@@ -29,6 +29,30 @@ const FUTURE_RESERVATION: ReservationCustomer = {
   waiterId: 'waiter-1',
 };
 
+const HAPPY_HOUR_RESERVATION: ReservationCustomer = {
+  id: 'res-happy',
+  tableId: 'table-1',
+  startTime: new Date('2026-11-05T13:30:00Z'), // 13:30 is in 12:00-16:00
+  endTime: new Date('2026-11-05T15:00:00Z'),
+  guestCount: 2,
+  status: ReservationStatusCustomer.Reserved,
+  restaurantName: 'Green & Tasty',
+  locationAddress: '48 Rustaveli Avenue',
+  waiterId: 'waiter-1',
+};
+
+const NON_HAPPY_HOUR_RESERVATION: ReservationCustomer = {
+  id: 'res-non-happy',
+  tableId: 'table-1',
+  startTime: new Date('2026-11-05T18:00:00Z'), // 18:00 is outside 12:00-16:00
+  endTime: new Date('2026-11-05T19:30:00Z'),
+  guestCount: 2,
+  status: ReservationStatusCustomer.Reserved,
+  restaurantName: 'Green & Tasty',
+  locationAddress: '48 Rustaveli Avenue',
+  waiterId: 'waiter-1',
+};
+
 describe('CardReservationComponent', () => {
   let component: CardReservationComponent;
   let fixture: ComponentFixture<CardReservationComponent>;
@@ -102,5 +126,57 @@ describe('CardReservationComponent', () => {
 
     const dividers = fixture.nativeElement.querySelectorAll('.card-divider');
     expect(dividers.length).toBe(2);
+  });
+
+  it('should disable delete button and render explanation tooltip for past / <30 min reservations', () => {
+    fixture.componentRef.setInput('r', PAST_RESERVATION);
+    fixture.detectChanges();
+
+    expect(component.isCancelTooLate()).toBeTrue();
+
+    const element: HTMLElement = fixture.nativeElement;
+    const deleteBtn = element.querySelector('.delete-btn') as HTMLButtonElement;
+    expect(deleteBtn).toBeTruthy();
+    expect(deleteBtn.disabled).toBeTrue();
+
+    const deleteTooltip = element.querySelector('.delete-tooltip');
+    expect(deleteTooltip).toBeTruthy();
+    expect(deleteTooltip?.textContent).toContain('Too late to cancel reservation. Must be 30 minutes before reservation time');
+  });
+
+  it('should enable delete button and not render explanation tooltip for future reservations', () => {
+    fixture.componentRef.setInput('r', FUTURE_RESERVATION);
+    fixture.detectChanges();
+
+    expect(component.isCancelTooLate()).toBeFalse();
+
+    const element: HTMLElement = fixture.nativeElement;
+    const deleteBtn = element.querySelector('.delete-btn') as HTMLButtonElement;
+    expect(deleteBtn).toBeTruthy();
+    expect(deleteBtn.disabled).toBeFalse();
+
+    const deleteTooltip = element.querySelector('.delete-tooltip');
+    expect(deleteTooltip).toBeFalsy();
+  });
+
+  it('should render happy hours badge when reservation falls in happy hours window', () => {
+    fixture.componentRef.setInput('r', HAPPY_HOUR_RESERVATION);
+    fixture.detectChanges();
+
+    expect(component.isHappyHourActive()).toBeTrue();
+
+    const badge = fixture.nativeElement.querySelector('.happy-hours-badge');
+    expect(badge).toBeTruthy();
+    expect(badge.textContent).toContain('Happy hours');
+  });
+
+  it('should not render happy hours badge outside happy hours window', () => {
+    fixture.componentRef.setInput('r', NON_HAPPY_HOUR_RESERVATION);
+    fixture.detectChanges();
+
+    expect(component.isHappyHourActive()).toBeFalse();
+
+    const badge = fixture.nativeElement.querySelector('.happy-hours-badge');
+    expect(badge).toBeFalsy();
   });
 });
