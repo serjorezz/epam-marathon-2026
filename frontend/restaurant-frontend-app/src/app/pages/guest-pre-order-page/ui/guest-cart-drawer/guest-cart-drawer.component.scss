@@ -181,6 +181,15 @@
     border: 1px solid #fca5a5;
   }
 
+  .cart-badge-emoji {
+    font-size: 0.875rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+
   .cart-badge-icon {
     display: block;
     flex-shrink: 0;
