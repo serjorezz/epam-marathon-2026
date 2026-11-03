@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -71,14 +71,21 @@ describe('CartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit closeCartEvent when closeCart is called', () => {
+  it('should emit closeCartEvent after animation when closeCart is called', fakeAsync(() => {
     spyOn(component.closeCartEvent, 'emit');
 
     component.closeCart();
+    expect(component.closeCartEvent.emit).not.toHaveBeenCalled();
 
-    expect(
-      component.closeCartEvent.emit,
-    ).toHaveBeenCalled();
+    tick(300);
+    expect(component.closeCartEvent.emit).toHaveBeenCalled();
+  }));
+
+  it('should emit closeCartEvent immediately when closeCart(true) is called', () => {
+    spyOn(component.closeCartEvent, 'emit');
+
+    component.closeCart(true);
+    expect(component.closeCartEvent.emit).toHaveBeenCalled();
   });
 
   it('should return submitted orders with statuses 1 and 3', () => {

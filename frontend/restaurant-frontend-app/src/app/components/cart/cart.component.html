@@ -1,5 +1,6 @@
 <div
   class="modal-backdrop"
+  [class.closing]="isClosing()"
   tabindex="0"
   role="button"
   aria-label="Close cart"
@@ -9,6 +10,7 @@
 >
   <div
     class="cart"
+    [class.closing]="isClosing()"
     role="dialog"
     aria-modal="true"
     aria-labelledby="cart-title"
@@ -36,92 +38,106 @@
       <div class="orders-list">
         <app-skeleton-order-item [count]="2" />
       </div>
-    } @else if (unsubmittedOrders().length > 0) {
-      <div class="orders-list">
-        <div class="list-header">
-          <h3>{{ 'Not submitted pre-orders' | translate }}</h3>
-
-          <span class="body">
-            {{ 'You have not submitted pre-orders' | translate }}
-          </span>
-        </div>
-
-        @for (
-            item of unsubmittedOrders();
-          track item.orderId
-          ) {
-          <app-not-submitted-order
-            [order]="item"
-            [reservation]="reservationsMap().get(item.reservationId)"
-            (submitted)="submitOrder($event)"
-            (removeDish)="
-              removeDishFromOrder(item.orderId, $event)
-            "
-            (addDish)="addDishToOrder(item.orderId)"
-            (updateQuantity)="
-              updateDishQuantity(
-                item.orderId,
-                $event.itemId,
-                $event.quantity
-              )
-            "
-          />
-        }
-      </div>
-    }
-
-    @if (submittedOrders().length > 0) {
-      <div class="orders-list">
-        <div class="list-header">
-          <h3>{{ 'Submitted pre-orders' | translate }}</h3>
-
-          <span class="body">
-            {{ 'You can modify or cancel your pre-orders up to 30 minutes before your reserved table time.' | translate }}
-          </span>
-        </div>
-
-        <div>
-          @for (
-              item of submittedOrders();
-            track item.orderId
-            ) {
-            <app-submitted-order
-              [order]="item"
-              [reservation]="reservationsMap().get(item.reservationId)"
-              (canceled)="openCancelModal(item.orderId)"
-              (edited)="editOrder(item.orderId)"
-            />
-          }
-        </div>
-      </div>
-    }
-
-    @if (!isLoading() && orders().length === 0) {
-      <div class="empty-cart">
-        <img
-          src="assets/img/empty-cart.png"
-          alt=""
-          aria-hidden="true"
-        />
-
-        <div class="empty-cart-content">
-          <div class="empty-cart-info">
-            <h3>{{ 'Your cart is empty' | translate }}</h3>
+    } @else {
+      @if (unsubmittedOrders().length > 0) {
+        <div class="orders-list">
+          <div class="list-header">
+            <h3>{{ 'Not submitted pre-orders' | translate }}</h3>
 
             <span class="body">
-              {{ 'Looks like you haven’t added any dishes to your cart yet.' | translate }}
+              {{ 'You have not submitted pre-orders' | translate }}
             </span>
           </div>
 
-          <button
-            type="button"
-            class="button button--primary button--large"
-            (click)="goToReservations()"
-          >
-            {{ 'Go To Reservations' | translate }}
-          </button>
+          @for (
+              item of unsubmittedOrders();
+            track item.orderId;
+            let last = $last
+            ) {
+            <app-not-submitted-order
+              [order]="item"
+              [reservation]="reservationsMap().get(item.reservationId)"
+              (submitted)="submitOrder($event)"
+              (removeDish)="
+                removeDishFromOrder(item.orderId, $event)
+              "
+              (addDish)="addDishToOrder(item.orderId)"
+              (updateQuantity)="
+                updateDishQuantity(
+                  item.orderId,
+                  $event.itemId,
+                  $event.quantity
+                )
+              "
+            />
+            @if (!last) {
+              <hr class="order-divider" />
+            }
+          }
         </div>
-      </div>
+      }
+
+      @if (unsubmittedOrders().length > 0 && submittedOrders().length > 0) {
+        <hr class="section-divider" />
+      }
+
+      @if (submittedOrders().length > 0) {
+        <div class="orders-list">
+          <div class="list-header">
+            <h3>{{ 'Submitted pre-orders' | translate }}</h3>
+
+            <span class="body">
+              {{ 'You can modify or cancel your pre-orders up to 30 minutes before your reserved table time.' | translate }}
+            </span>
+          </div>
+
+          <div>
+            @for (
+                item of submittedOrders();
+              track item.orderId;
+              let last = $last
+              ) {
+              <app-submitted-order
+                [order]="item"
+                [reservation]="reservationsMap().get(item.reservationId)"
+                (canceled)="openCancelModal(item.orderId)"
+                (edited)="editOrder(item.orderId)"
+              />
+              @if (!last) {
+                <hr class="order-divider" />
+              }
+            }
+          </div>
+        </div>
+      }
+
+      @if (orders().length === 0) {
+        <div class="empty-cart">
+          <img
+            src="assets/img/empty-cart.png"
+            alt=""
+            aria-hidden="true"
+          />
+
+          <div class="empty-cart-content">
+            <div class="empty-cart-info">
+              <h3>{{ 'Your cart is empty' | translate }}</h3>
+
+              <span class="body">
+                {{ 'Looks like you haven’t added any dishes to your cart yet.' | translate }}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              class="button button--primary button--large"
+              (click)="goToReservations()"
+            >
+              {{ 'Go To Reservations' | translate }}
+            </button>
+          </div>
+        </div>
+      }
     }
   </div>
 </div>

@@ -11,6 +11,8 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { Order } from '@app/models/orders/order.model';
 import { Reservation } from '@app/models/reservations/reservation.model';
@@ -50,6 +52,7 @@ export class CartComponent implements OnInit {
   readonly closeCartEvent = output<void>();
 
   readonly isLoading = signal(true);
+  readonly isClosing = signal(false);
   readonly orders = signal<Order[]>([]);
   readonly reservations = signal<Reservation[]>([]);
 
@@ -90,8 +93,20 @@ export class CartComponent implements OnInit {
     this.loadOrders();
   }
 
-  closeCart(): void {
-    this.closeCartEvent.emit();
+  closeCart(immediate = false): void {
+    if (this.isClosing()) {
+      return;
+    }
+
+    if (immediate) {
+      this.closeCartEvent.emit();
+      return;
+    }
+
+    this.isClosing.set(true);
+    setTimeout(() => {
+      this.closeCartEvent.emit();
+    }, 300);
   }
 
   openCancelModal(orderId: string): void {
@@ -120,13 +135,13 @@ export class CartComponent implements OnInit {
   }
 
   goToReservations(): void {
-    this.closeCart();
+    this.closeCart(true);
     void this.router.navigate(['/reservations']);
   }
 
   onCreateNewPreOrder(): void {
     this.closeSubmitModal();
-    this.closeCart();
+    this.closeCart(true);
     void this.router.navigate(['/menu']);
   }
 
@@ -301,34 +316,39 @@ export class CartComponent implements OnInit {
 
   private loadOrders(): void {
     this.isLoading.set(true);
-    this.preOrdersService
-      .getPreOrders()
+
+    const orders$ = this.preOrdersService.getPreOrders().pipe(
+      catchError((error) => {
+        console.error('Error loading orders:', error);
+        return of([] as Order[]);
+      }),
+    );
+
+    const reservations$ = this.reservationService
+      ? this.reservationService.getReservationsForUser$().pipe(
+          catchError((error) => {
+            console.error('Error loading reservations for cart:', error);
+            return of([] as Reservation[]);
+          }),
+        )
+      : of([] as Reservation[]);
+
+    forkJoin({
+      orders: orders$,
+      reservations: reservations$,
+    })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (orders) => {
-          this.orders.set(orders);
+        next: ({ orders, reservations }) => {
+          this.reservations.set(reservations ?? []);
+          this.orders.set(orders ?? []);
           this.isLoading.set(false);
         },
-        error: (error) => {
-          console.error('Error loading orders:', error);
+        error: () => {
           this.orders.set([]);
+          this.reservations.set([]);
           this.isLoading.set(false);
         },
       });
-
-    if (this.reservationService) {
-      this.reservationService
-        .getReservationsForUser$()
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (reservations) => {
-            this.reservations.set(reservations ?? []);
-          },
-          error: (error) => {
-            console.error('Error loading reservations for cart:', error);
-            this.reservations.set([]);
-          },
-        });
-    }
   }
 }

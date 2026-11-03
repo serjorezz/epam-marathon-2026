@@ -1,10 +1,6 @@
 <div class="not-submitted-order">
   <div class="content">
     <div class="order">
-      <span class="body-bold">
-        {{ 'Pre-order #' | translate }}{{ formattedOrderId() }}
-      </span>
-
       <div class="order-details-grid">
         <span class="detail-label">{{ 'Location' | translate }}</span>
         <span class="detail-value">{{ orderDetails().location | translate }}</span>
@@ -163,22 +159,6 @@
           </div>
         </div>
         }
-
-        <button
-          type="button"
-          class="button button--tertiary button--large add-dish-btn"
-          (click)="addDishToOrder()"
-        >
-          <img
-            src="assets/svg/plus-green.svg"
-            alt=""
-            aria-hidden="true"
-            width="24"
-            height="24"
-          />
-
-          {{ 'Add dish' | translate }}
-        </button>
       </div>
     </div>
 

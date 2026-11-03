@@ -15,6 +15,10 @@
   padding: 0;
   overflow: hidden;
   animation: cartBackdropFadeIn 0.3s ease-out forwards;
+
+  &.closing {
+    animation: cartBackdropFadeOut 0.3s ease-in forwards;
+  }
 }
 
 .cart {
@@ -36,6 +40,10 @@
   animation: cartSlideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform;
 
+  &.closing {
+    animation: cartSlideOutRight 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  }
+
   @media (max-width: 650px) {
     width: 100%;
     padding: 24px 16px;
@@ -52,6 +60,15 @@
   }
 }
 
+@keyframes cartSlideOutRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 @keyframes cartBackdropFadeIn {
   from {
     opacity: 0;
@@ -61,11 +78,36 @@
   }
 }
 
+@keyframes cartBackdropFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .modal-backdrop,
-  .cart {
+  .cart,
+  .modal-backdrop.closing,
+  .cart.closing {
     animation: none;
   }
+}
+
+.order-divider {
+  border: none;
+  border-top: 1px solid color.$neutral-200;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.section-divider {
+  border: none;
+  border-top: 2px solid color.$neutral-200;
+  margin: 24px 0;
+  width: 100%;
 }
 
 .cart-header {
