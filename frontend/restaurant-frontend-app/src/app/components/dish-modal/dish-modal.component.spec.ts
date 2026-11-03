@@ -97,7 +97,7 @@ describe('DishModalComponent', () => {
     expect(discountedPrice.textContent).toContain('$10.8');
   });
 
-  it("should render 'Sold out' badge in footer and header when dish is sold out", () => {
+  it("should render 'Sold out' badge in footer replacing price and not duplicate tag in header", () => {
     component.dish = {
       ...baseDish,
       state: "OutOfStock",
@@ -105,8 +105,7 @@ describe('DishModalComponent', () => {
     fixture.detectChanges();
 
     const titleTag = fixture.nativeElement.querySelector(".sold-out-tag");
-    expect(titleTag).toBeTruthy();
-    expect(titleTag.textContent.trim()).toBe('Sold out');
+    expect(titleTag).toBeNull();
 
     const footerBadge = fixture.nativeElement.querySelector(".sold-out-row .sold-out-badge");
     expect(footerBadge).toBeTruthy();
@@ -125,7 +124,9 @@ describe('DishModalComponent', () => {
 
     expect(component.isUnavailable()).toBeTrue();
     const titleTag = fixture.nativeElement.querySelector(".sold-out-tag");
-    expect(titleTag).toBeTruthy();
+    expect(titleTag).toBeNull();
+    const footerBadge = fixture.nativeElement.querySelector(".sold-out-row .sold-out-badge");
+    expect(footerBadge).toBeTruthy();
   });
 
   it("should disable pre-order button in modal when dish is sold out", () => {

@@ -31,12 +31,7 @@
       </div>
 
       <div class="dish-details">
-        <div class="dish-title-row">
-          <h2 id="dish-modal-title" class="dish-title">{{ dish.name | translate }}</h2>
-          @if (isUnavailable()) {
-            <span class="sold-out-tag">{{ 'Sold out' | translate }}</span>
-          }
-        </div>
+        <h2 id="dish-modal-title" class="dish-title">{{ dish.name | translate }}</h2>
 
         <p class="dish-description">{{ dish.description | translate }}</p>
 
