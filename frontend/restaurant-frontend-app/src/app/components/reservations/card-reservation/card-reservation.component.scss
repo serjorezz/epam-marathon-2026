@@ -39,9 +39,13 @@
       align-items: center;
       justify-content: center;
 
-      width: 78px;
+      min-width: 78px;
+      width: max-content;
+      max-width: 100%;
       min-height: 1.5rem;
-      padding: 0 0.5rem;
+      padding: 0.125rem 0.625rem;
+      box-sizing: border-box;
+      white-space: nowrap;
 
       color: color.$neutral-900;
       background-color: color.$neutral-100;
