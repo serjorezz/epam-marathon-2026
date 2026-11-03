@@ -123,9 +123,11 @@
       </div>
     }
 
-    @if (hasActions()) {
+    @if (hasActions() || r().status === ReservationStatusCustomer.Cancelled) {
       <hr class="card-divider" />
+    }
 
+    @if (hasActions()) {
       <div class="actions">
         @if (role() === Roles.CUSTOMER) {
           @switch (r().status) {

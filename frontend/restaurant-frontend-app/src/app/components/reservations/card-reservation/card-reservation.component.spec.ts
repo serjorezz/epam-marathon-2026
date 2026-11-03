@@ -91,4 +91,16 @@ describe('CardReservationComponent', () => {
     component.onPreOrder();
     expect(router.navigate).toHaveBeenCalledWith(['/menu'], jasmine.any(Object));
   });
+
+  it('should render second card divider for cancelled reservations', () => {
+    const cancelledRes: ReservationCustomer = {
+      ...PAST_RESERVATION,
+      status: ReservationStatusCustomer.Cancelled,
+    };
+    fixture.componentRef.setInput('r', cancelledRes);
+    fixture.detectChanges();
+
+    const dividers = fixture.nativeElement.querySelectorAll('.card-divider');
+    expect(dividers.length).toBe(2);
+  });
 });
