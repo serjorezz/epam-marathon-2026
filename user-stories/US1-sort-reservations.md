@@ -30,17 +30,17 @@
      6. Restaurant (Z to A)
 
 3. **Default Selection Behavior**:
-   - When opening the Reservations page, the default selected sort option is **Date / Time (Earliest first)**.
+   - When opening or navigating to the Reservations page, the default selected sort option is **Date / Time (Earliest first)**.
    - Reservations appear in chronological order with the earliest upcoming bookings first.
+   - The sort preference resets to this default on every new page visit or refresh.
 
 4. **Immediate Reordering**:
    - Selecting any option from the dropdown immediately reorders the displayed reservation cards.
    - Reordering occurs smoothly without a full page reload or disruptive screen flicker.
 
 5. **Stability & Action Retention**:
-   - Performing an action on any reservation card (such as cancelling, editing, or leaving feedback) preserves the currently selected sort option.
+   - Performing an action on any reservation card (such as cancelling, editing, or leaving feedback) preserves the currently selected sort option during the active session.
    - The list remains sorted according to the active criterion after updates.
-   - The sort selection resets back to default when opening a new session.
 
 6. **Tie-Breaking Rule**:
    - If two or more reservations have identical values for the selected sort criteria (for example, same number of guests or same restaurant), they are ordered chronologically by Date / Time (Earliest first).
@@ -61,6 +61,7 @@
 - **Assumptions**:
   - Sorting applies to all reservations displayed on the customer's dashboard.
   - Sorting by restaurant compares restaurant names alphabetically.
+  - The sort preference resets to the default option ("Date / Time (Earliest first)") on every page visit without client-side persistence across visits.
 - **Open Questions**:
-  - *UX / Product*: Should the user's chosen sort preference persist across visits, or reset to the default on every page visit?
+  - *UX / Product*: Should the user's chosen sort preference persist across visits, or reset to the default on every page visit? -> **Resolved**: Resets to default ("Date / Time (Earliest first)") on every page visit.
   - *Product*: Should future iterations introduce status filtering (e.g. active bookings only) alongside sorting?
