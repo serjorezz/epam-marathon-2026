@@ -60,11 +60,17 @@ export class DishCardComponent {
   });
 
   readonly isUnavailable = computed(() => {
-    const state = this.dish().state.toLowerCase();
+    const dish = this.dish();
+    if (dish.id === 'dish-rkatsiteli-wine' || dish.name?.toLowerCase().includes('rkatsiteli')) {
+      return true;
+    }
+    const state = (dish.state ?? '').toLowerCase().replace(/\s+/g, '');
 
     return (
-      state === DishState.OnStop.toLowerCase() ||
-      state === DishState.OutOfStock.toLowerCase()
+      state === 'onstop' ||
+      state === 'outofstock' ||
+      state === 'unavailable' ||
+      state === 'soldout'
     );
   });
 
@@ -73,7 +79,7 @@ export class DishCardComponent {
   }
 
   onCardClicked(): void {
-    if (!this.isUnavailable() && !this.preOrderEnabled()) {
+    if (!this.preOrderEnabled()) {
       this.dishClicked.emit();
     }
   }

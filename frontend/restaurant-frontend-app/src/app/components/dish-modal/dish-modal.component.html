@@ -31,7 +31,12 @@
       </div>
 
       <div class="dish-details">
-        <h2 id="dish-modal-title" class="dish-title">{{ dish.name | translate }}</h2>
+        <div class="dish-title-row">
+          <h2 id="dish-modal-title" class="dish-title">{{ dish.name | translate }}</h2>
+          @if (isUnavailable()) {
+            <span class="sold-out-tag">{{ 'Sold out' | translate }}</span>
+          }
+        </div>
 
         <p class="dish-description">{{ dish.description | translate }}</p>
 
@@ -88,7 +93,12 @@
 
         <div class="modal-footer">
           <div class="price-weight">
-            @if (happyHourDiscount) {
+            @if (isUnavailable()) {
+              <div class="sold-out-row">
+                <span class="sold-out-badge">{{ 'Sold out' | translate }}</span>
+                <span class="dish-weight">/{{ dish.weight | translate }}</span>
+              </div>
+            } @else if (happyHourDiscount) {
               <div class="modal-pricing-happy-hour">
                 <div class="old-price-row">
                   <span class="old-price">${{ dish.price }}</span>

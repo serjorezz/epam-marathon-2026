@@ -130,8 +130,15 @@ export function enrichDishWithAllergens(dish: DishListResponse): DishListRespons
       ? dish.canBeNonSpicy
       : (meta?.canBeNonSpicy ?? false);
 
+  const isRkatsiteli =
+    dish.id === "dish-rkatsiteli-wine" ||
+    (dish.name && dish.name.toLowerCase().includes("rkatsiteli"));
+
+  const state = isRkatsiteli ? "OutOfStock" : dish.state;
+
   return {
     ...dish,
+    state,
     allergens,
     isSpicy,
     removableAllergens,

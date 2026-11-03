@@ -96,4 +96,48 @@ describe('DishModalComponent', () => {
     expect(discountedPrice).toBeTruthy();
     expect(discountedPrice.textContent).toContain('$10.8');
   });
+
+  it("should render 'Sold out' badge in footer and header when dish is sold out", () => {
+    component.dish = {
+      ...baseDish,
+      state: "OutOfStock",
+    };
+    fixture.detectChanges();
+
+    const titleTag = fixture.nativeElement.querySelector(".sold-out-tag");
+    expect(titleTag).toBeTruthy();
+    expect(titleTag.textContent.trim()).toBe('Sold out');
+
+    const footerBadge = fixture.nativeElement.querySelector(".sold-out-row .sold-out-badge");
+    expect(footerBadge).toBeTruthy();
+    expect(footerBadge.textContent.trim()).toBe('Sold out');
+    expect(fixture.nativeElement.querySelector(".dish-price")).toBeNull();
+  });
+
+  it("should treat Rkatsiteli Qvevri Amber Wine as sold out in modal", () => {
+    component.dish = {
+      ...baseDish,
+      id: "dish-rkatsiteli-wine",
+      name: "Rkatsiteli Qvevri Amber Wine",
+      state: "Available",
+    };
+    fixture.detectChanges();
+
+    expect(component.isUnavailable()).toBeTrue();
+    const titleTag = fixture.nativeElement.querySelector(".sold-out-tag");
+    expect(titleTag).toBeTruthy();
+  });
+
+  it("should disable pre-order button in modal when dish is sold out", () => {
+    component.dish = {
+      ...baseDish,
+      state: "OutOfStock",
+    };
+    component.preOrderEnabled = true;
+    fixture.detectChanges();
+
+    const preOrderBtn = fixture.nativeElement.querySelector(".pre-order-btn");
+    expect(preOrderBtn).toBeTruthy();
+    expect(preOrderBtn.disabled).toBeTrue();
+  });
 });

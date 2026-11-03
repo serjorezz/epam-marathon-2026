@@ -32,8 +32,12 @@ export class DishModalComponent {
   }
 
   isUnavailable(): boolean {
-    const state = this.dish?.state?.toLowerCase();
-    return state === 'on stop' || state === 'unavailable' || state === 'sold out';
+    if (!this.dish) return false;
+    if (this.dish.id === 'dish-rkatsiteli-wine' || this.dish.name?.toLowerCase().includes('rkatsiteli')) {
+      return true;
+    }
+    const state = (this.dish.state ?? '').toLowerCase().replace(/\s+/g, '');
+    return state === 'onstop' || state === 'outofstock' || state === 'unavailable' || state === 'soldout';
   }
 
   get enrichedDish(): DishListResponse | null {

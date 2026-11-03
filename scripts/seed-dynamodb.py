@@ -719,7 +719,7 @@ DISHES = [
         "carbohydrates": {"S": "3.2g"},
         "vitamins": {"S": "Polyphenols, Antioxidants"},
         "imageUrl": {"S": "assets/img/dishes/rkatsiteli-wine.jpg"},
-        "state": {"N": "1"},
+        "state": {"N": "2"},  # 2 = OutOfStock (Sold out)
         "locationId": {"S": "loc-baratashvili"},
         "allergens": {"L": []},
         "isSpicy": {"BOOL": False},

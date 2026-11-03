@@ -209,4 +209,48 @@ describe('DishCardComponent', () => {
     expect(discountedPrice).toBeTruthy();
     expect(discountedPrice.textContent).toContain('$13.50');
   });
+
+  it("should render 'Sold out' badge replacing price when dish is OutOfStock", () => {
+    const soldOutDish: DishListResponse = { ...dish, state: DishState.OutOfStock };
+    fixture.componentRef.setInput("dish", soldOutDish);
+    fixture.detectChanges();
+
+    const card = fixture.nativeElement.querySelector(".dish-card");
+    expect(card.classList.contains("unavailable")).toBeTrue();
+
+    const soldOutBadge = fixture.nativeElement.querySelector(".sold-out-badge");
+    expect(soldOutBadge).toBeTruthy();
+    expect(soldOutBadge.textContent.trim()).toBe('Sold out');
+    expect(fixture.nativeElement.querySelector(".dish-price")).toBeNull();
+  });
+
+  it("should treat Rkatsiteli Qvevri Amber Wine as sold out", () => {
+    const rkatsiteli: DishListResponse = {
+      ...dish,
+      id: "dish-rkatsiteli-wine",
+      name: "Rkatsiteli Qvevri Amber Wine",
+      state: "Available",
+    };
+    fixture.componentRef.setInput("dish", rkatsiteli);
+    fixture.detectChanges();
+
+    expect(component.isUnavailable()).toBeTrue();
+    const soldOutBadge = fixture.nativeElement.querySelector(".sold-out-badge");
+    expect(soldOutBadge).toBeTruthy();
+    expect(soldOutBadge.textContent.trim()).toBe('Sold out');
+  });
+
+  it("should still emit dishClicked on sold-out card click when pre-order is disabled", () => {
+    const soldOutDish: DishListResponse = { ...dish, state: DishState.OutOfStock };
+    fixture.componentRef.setInput("dish", soldOutDish);
+    fixture.detectChanges();
+
+    let clicked = false;
+    component.dishClicked.subscribe(() => (clicked = true));
+
+    const card = fixture.nativeElement.querySelector(".dish-card");
+    card.click();
+
+    expect(clicked).toBeTrue();
+  });
 });
