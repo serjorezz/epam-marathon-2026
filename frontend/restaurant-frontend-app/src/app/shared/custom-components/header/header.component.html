@@ -18,7 +18,7 @@
     }
 
     @if (user()?.role === Roles.CUSTOMER || !user()) {
-      <a routerLink="/" class="nav-link" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">{{ 'Main page' | translate }}</a>
+      <a routerLink="/menu" class="nav-link" [routerLinkActive]="'active'">{{ 'Menu' | translate }}</a>
       <a routerLink="/tables" class="nav-link" [routerLinkActive]="'active'">{{ 'Book a Table' | translate }}</a>
     }
 

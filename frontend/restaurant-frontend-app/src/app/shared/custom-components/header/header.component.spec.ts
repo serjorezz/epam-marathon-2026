@@ -58,6 +58,13 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should render "Menu" link instead of "Main page" for unauthenticated visitors', () => {
+    const navLinks = fixture.nativeElement.querySelectorAll('.nav a.nav-link');
+    const linkTexts = Array.from(navLinks).map((el: Element) => (el as HTMLElement).textContent?.trim());
+    expect(linkTexts).toContain('Menu');
+    expect(linkTexts).not.toContain('Main page');
+  });
+
   it("should toggle language dropdown and select language", () => {
     expect(component.showLanguageDropdown()).toBeFalse();
 
