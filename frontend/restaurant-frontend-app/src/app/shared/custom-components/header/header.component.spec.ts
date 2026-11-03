@@ -60,7 +60,7 @@ describe('HeaderComponent', () => {
 
   it('should render "Menu" link instead of "Main page" for unauthenticated visitors', () => {
     const navLinks = fixture.nativeElement.querySelectorAll('.nav a.nav-link');
-    const linkTexts = Array.from(navLinks).map((el: Element) => (el as HTMLElement).textContent?.trim());
+    const linkTexts = Array.from(navLinks as NodeListOf<HTMLAnchorElement>).map((el) => el.textContent?.trim());
     expect(linkTexts).toContain('Menu');
     expect(linkTexts).not.toContain('Main page');
   });
