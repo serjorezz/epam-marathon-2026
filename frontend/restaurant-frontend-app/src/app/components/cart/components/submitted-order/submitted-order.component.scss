@@ -1,6 +1,8 @@
 @use 'app/shared/styles/abstracts/colors' as color;
 
 .submitted-order-item {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
   padding-top: 16px;
   padding-bottom: 16px;
@@ -14,9 +16,19 @@
 
 .actions {
   display: flex;
-  justify-content: end;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  width: 100%;
+
+  button {
+    flex: 1 1 200px;
+    white-space: normal;
+    text-align: center;
+    min-height: 40px;
+    padding: 8px 16px;
+  }
 }
 
 .text {

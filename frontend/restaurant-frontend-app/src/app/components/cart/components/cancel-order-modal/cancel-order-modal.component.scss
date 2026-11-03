@@ -51,10 +51,24 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
   gap: 12px;
   margin-top: 8px;
+
+  button {
+    white-space: normal;
+    text-align: center;
+  }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
 }
 
 .body {
