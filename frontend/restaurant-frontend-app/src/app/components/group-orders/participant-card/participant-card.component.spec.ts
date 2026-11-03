@@ -63,5 +63,13 @@ describe('Практичне · картка учасника', () => {
     it('«Submitted», якщо підтверджений', () => {
       expect(render({ ...OLENA, isSubmitted: true }).textContent).toContain('Submitted');
     });
+
+    it('«Locked», якщо кошик не підтверджений і минув дедлайн (isLocked = true)', () => {
+      const fixture = TestBed.createComponent(ParticipantCardComponent);
+      fixture.componentRef.setInput('participant', OLENA);
+      fixture.componentRef.setInput('isLocked', true);
+      fixture.detectChanges();
+      expect((fixture.nativeElement as HTMLElement).textContent).toContain('Locked');
+    });
   });
 });

@@ -30,6 +30,9 @@ export const SUPPORTED_LANGUAGES: LanguageOption[] = [
 
 export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   en: {
+    "Locked": "Locked",
+    "Cart Locked": "Cart Locked",
+    "The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.": "The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.",
     "Add to favorite": "Add to favorite",
     "In favorite": "In favorite",
     "Favorites": "Favorites",
@@ -441,6 +444,9 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   uk: {
+    "Locked": "Заблоковано",
+    "Cart Locked": "Кошик заблоковано",
+    "The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.": "2-годинний дедлайн попереднього замовлення минув. Непідтверджені кошики заблоковано.",
     "Add to favorite": "Додати до улюблених",
     "In favorite": "В улюблених",
     "Favorites": "Улюблені",
@@ -890,6 +896,9 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
   },
 
   ka: {
+    "Locked": "დაბლოკილია",
+    "Cart Locked": "კალათა დაბლოკილია",
+    "The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.": "წინასწარი შეკვეთის 2-საათიანი ვადა ამოიწურა. დაუდასტურებელი კალათები დაბლოკილია.",
     "Add to favorite": "ფავორიტებში დამატება",
     "In favorite": "ფავორიტებშია",
     "Favorites": "რჩეულები",

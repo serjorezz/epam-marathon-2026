@@ -67,6 +67,7 @@
               <app-participant-card
                 [participant]="person"
                 [isMe]="person.id === ownerSessionId()"
+                [isLocked]="isDeadlinePassed()"
                 [canRemove]="person.type === 'Guest' && groupStatus() !== 'Submitted'"
                 (removeClick)="onRemoveGuest($event)"
               />

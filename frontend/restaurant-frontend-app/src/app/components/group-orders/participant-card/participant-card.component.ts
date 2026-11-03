@@ -14,6 +14,7 @@ export class ParticipantCardComponent {
   readonly participant = input.required<Participant>();
   readonly isMe = input(false);
   readonly canRemove = input(false);
+  readonly isLocked = input(false);
 
   readonly removeClick = output<Participant>();
 

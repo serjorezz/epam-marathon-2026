@@ -166,5 +166,15 @@ describe('Рівень 2 · сторінка Owner Review', () => {
 
       expect(buttonByText(element, 'Submit Pre-Order')?.disabled).toBeFalse();
     });
+
+    it('показує Locked для непідтверджених кошиків, якщо дедлайн 2 години минув', () => {
+      const pastInvite = {
+        ...INVITE,
+        StartTime: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
+      };
+      service.getGroupInvite$.and.returnValue(of(pastInvite));
+      const { element } = create();
+      expect(element.textContent).toContain('Locked');
+    });
   });
 });

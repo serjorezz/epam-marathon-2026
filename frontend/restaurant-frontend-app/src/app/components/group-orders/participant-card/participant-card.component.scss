@@ -52,6 +52,11 @@
     background-color: color.$orange-100;
     color: color.$orange-600;
   }
+
+  &.locked {
+    background-color: color.$neutral-200;
+    color: color.$neutral-700;
+  }
 }
 
 .btn-remove {

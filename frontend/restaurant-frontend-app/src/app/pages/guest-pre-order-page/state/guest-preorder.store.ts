@@ -57,6 +57,19 @@ export class GuestPreorderStore {
         Object.values(this.menuByCategory()).some(dishes => dishes.length > 0)
     );
 
+    readonly isDeadlinePassed = computed(() => {
+        const inv = this.invite();
+        if (!inv?.StartTime) return false;
+        if (inv.GroupReservationId === "demo-group") return false;
+        const startMs = new Date(inv.StartTime).getTime();
+        if (isNaN(startMs)) return false;
+        return Date.now() > startMs - 2 * 60 * 60 * 1000;
+    });
+
+    readonly isLocked = computed(() => {
+        return this.isDeadlinePassed() && this.status() !== "submitted";
+    });
+
     readonly total = computed(() =>
         this.cartItems().reduce((sum, i) => sum + i.price * i.qty, 0)
     );
@@ -228,6 +241,10 @@ export class GuestPreorderStore {
     }
 
     async addDish(item: Omit<GuestCartItem, 'qty'>): Promise<boolean> {
+        if (this.isLocked()) {
+            this.cartError.set("The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.");
+            return false;
+        }
         return this.changeRemoteQuantity(item.dishId, 1, 'add', () => {
             const items = this.cartItems();
             const existing = items.find(cartItem => cartItem.dishId === item.dishId);
@@ -240,6 +257,10 @@ export class GuestPreorderStore {
     }
 
     async inc(dishId: string): Promise<boolean> {
+        if (this.isLocked()) {
+            this.cartError.set("The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.");
+            return false;
+        }
         return this.changeRemoteQuantity(dishId, 1, 'add', () => {
             this.cartItems.set(this.cartItems().map(item =>
                 item.dishId === dishId ? { ...item, qty: item.qty + 1 } : item
@@ -248,6 +269,10 @@ export class GuestPreorderStore {
     }
 
     async dec(dishId: string): Promise<boolean> {
+        if (this.isLocked()) {
+            this.cartError.set("The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.");
+            return false;
+        }
         return this.changeRemoteQuantity(dishId, 1, 'remove', () => {
             this.cartItems.set(this.cartItems()
                 .map(item => item.dishId === dishId ? { ...item, qty: item.qty - 1 } : item)
@@ -256,6 +281,10 @@ export class GuestPreorderStore {
     }
 
     async remove(dishId: string): Promise<boolean> {
+        if (this.isLocked()) {
+            this.cartError.set("The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.");
+            return false;
+        }
         const item = this.cartItems().find(cartItem => cartItem.dishId === dishId);
         if (!item) return false;
 
@@ -265,6 +294,10 @@ export class GuestPreorderStore {
     }
 
     async submitPreorder() {
+        if (this.isLocked()) {
+            this.cartError.set("The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.");
+            return;
+        }
         const sessionId = this.guestSessionId();
         const token = this.guestSessionToken();
         if (!sessionId || !token) {

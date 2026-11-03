@@ -77,6 +77,17 @@ export class GroupOrderPageComponent implements OnInit {
     return `${count} ${word} ${verb} submitted their cart yet — their dishes won't be included in the order`;
   });
 
+  readonly isDeadlinePassed = computed(() => {
+    if (this.reservationId === 'demo-reservation') {
+      return false;
+    }
+    const invite = this.invite();
+    if (!invite?.StartTime) return false;
+    const startMs = new Date(invite.StartTime).getTime();
+    if (isNaN(startMs)) return false;
+    return Date.now() > startMs - 2 * 60 * 60 * 1000;
+  });
+
   readonly statusBadge = computed(() => {
     if (this.groupStatus() === 'Submitted') {
       return 'Sent to Restaurant';

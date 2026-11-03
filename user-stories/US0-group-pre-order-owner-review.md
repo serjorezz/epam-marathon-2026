@@ -70,6 +70,14 @@
    - All interactive controls (buttons, links, dialog triggers) are keyboard accessible with visible focus states and descriptive accessible labels.
    - The layout adapts responsively to mobile viewports (375px+) ensuring cards, summary details, and action buttons remain clear and readable.
 
+10. **Pre-Order Cutoff Deadline & Cart Locking (2 Hours Prior to Reservation)**:
+    - Group pre-ordering has an automatic deadline 2 hours prior to the reservation start time (`reservation.StartTime - 2 hours`).
+    - If the reservation owner has not yet submitted the consolidated pre-order by this deadline:
+      - All unsubmitted guest carts are automatically locked to prevent further additions, modifications, or submissions.
+      - Guests attempting to access or edit an unsubmitted pre-order after the deadline see a clear notice that the 2-hour deadline has passed and their cart is locked.
+      - In the owner review screen, unsubmitted participant cards display a "Locked" status chip once the deadline is reached.
+      - The reservation owner retains the ability to review all submitted guest dishes and submit the final consolidated pre-order to the restaurant.
+
 ---
 
 ### Assumptions & Open Questions:
@@ -78,5 +86,5 @@
   - The booking owner is responsible for confirming the collective pre-order for the entire party; individual guests cannot independently submit the table's final order.
   - The restaurant kitchen prepares only the dishes included in the final consolidated pre-order; unsubmitted carts are treated as guests ordering directly at the restaurant upon arrival.
 - **Open Questions**:
-  - *Product / Business*: Should an automatic deadline (e.g. 2 hours before reservation start time) auto-submit or lock unsubmitted group carts if the owner hasn't submitted yet?
-  - *UX / Notification*: Should invited guests receive an in-app or SMS notification when the owner removes them or when the final pre-order is confirmed?
+  - *Product / Business*: Should an automatic deadline (e.g. 2 hours before reservation start time) auto-submit or lock unsubmitted group carts if the owner hasn't submitted yet? -> **Resolved**: Yes, lock unsubmitted group carts 2 hours before reservation start time if the owner hasn't submitted yet.
+  - *UX / Notification*: Should invited guests receive an in-app or SMS notification when the owner removes them or when the final pre-order is confirmed? -> **Resolved**: No, confirmed as out of scope.

@@ -17,6 +17,7 @@ export class GuestCartDrawerComponent {
     readonly total = input(0);
     readonly busy = input(false);
     readonly error = input<string | null>(null);
+    readonly isLocked = input(false);
 
     readonly closed = output<void>();
     readonly goToMenu = output<void>();

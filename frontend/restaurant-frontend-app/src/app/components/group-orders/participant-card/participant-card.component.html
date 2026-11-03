@@ -6,6 +6,9 @@
         <span class="chip submitted">{{ 'Submitted' | translate }}</span>
       } @else {
         <span class="chip pending">{{ 'Still choosing' | translate }}</span>
+        @if (isLocked()) {
+          <span class="chip locked">{{ 'Locked' | translate }}</span>
+        }
       }
     </div>
     @if (canRemove()) {

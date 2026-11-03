@@ -29,6 +29,13 @@
     </button>
 </div>
 
+@if (store.isLocked()) {
+<div class="warning-banner" role="alert" style="background-color: #fffdec; border: 1px solid #ffae00; border-radius: 1rem; padding: 0.875rem 1.25rem; margin: 1rem auto; max-width: 75rem; color: #cc8b00; display: flex; align-items: center; gap: 0.75rem;">
+    <span aria-hidden="true">⚠️</span>
+    <span>{{ 'The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.' | translate }}</span>
+</div>
+}
+
 <div class="menu-container">
     <div class="page-navigation">
         <a routerLink="/">{{ 'Main page' | translate }}</a>
@@ -79,7 +86,7 @@
                     @for (dish of visibleDishes(); track dish.id) {
                         <app-dish-card
                             [dish]="dish"
-                            [preOrderEnabled]="true"
+                            [preOrderEnabled]="!store.isLocked()"
                             (dishClicked)="openDishModal(dish)"
                             (preOrderClicked)="addDishToCart(dish)"
                         />
@@ -93,7 +100,7 @@
 @if (selectedDish(); as dish) {
 <app-dish-modal
     [dish]="dish"
-    [preOrderEnabled]="true"
+    [preOrderEnabled]="!store.isLocked()"
     (preOrderClicked)="addDishToCart(dish); closeDishModal()"
     (closed)="closeDishModal()"
 />
@@ -106,7 +113,7 @@
 
 <!-- cart drawer -->
 <app-guest-cart-drawer [open]="isCartOpen()" [items]="store.cartItems()" [total]="store.total()"
-    [busy]="store.cartBusy()" [error]="store.cartError()" (closed)="closeCart()"
+    [busy]="store.cartBusy()" [error]="store.cartError()" [isLocked]="store.isLocked()" (closed)="closeCart()"
     (goToMenu)="closeCart()" (inc)="store.inc($event)" (dec)="store.dec($event)" (remove)="store.remove($event)"
     (submitted)="store.submitPreorder()" />
 }

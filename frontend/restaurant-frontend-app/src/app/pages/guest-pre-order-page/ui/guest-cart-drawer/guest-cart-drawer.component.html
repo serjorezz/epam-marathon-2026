@@ -27,11 +27,11 @@
                                 <div class="sub">{{ 'Expected ready time - 10 minutes' | translate }}</div>
 
                                 <div class="qty">
-                                    <button type="button" class="qty-btn" [disabled]="busy()" (click)="dec.emit(it.dishId)" aria-label="Decrease quantity">
+                                    <button type="button" class="qty-btn" [disabled]="busy() || isLocked()" (click)="dec.emit(it.dishId)" aria-label="Decrease quantity">
                                         -
                                     </button>
                                     <span class="qty-value">{{ it.qty }}</span>
-                                    <button type="button" class="qty-btn" [disabled]="busy()" (click)="inc.emit(it.dishId)" aria-label="Increase quantity">
+                                    <button type="button" class="qty-btn" [disabled]="busy() || isLocked()" (click)="inc.emit(it.dishId)" aria-label="Increase quantity">
                                         +
                                     </button>
                                 </div>
@@ -41,7 +41,7 @@
                                 <button 
                                     type="button"
                                     class="trash"
-                                    [disabled]="busy()"
+                                    [disabled]="busy() || isLocked()"
                                     (click)="remove.emit(it.dishId)"
                                     aria-label="Remove item"
                                 >
@@ -55,8 +55,10 @@
                 </div>
 
                 <div class="footer">
-                    @if (error()) {
-                        <p class="cart-error" role="alert">{{ error() }}</p>
+                    @if (isLocked()) {
+                        <p class="cart-error" role="alert">{{ 'The 2-hour pre-order deadline has passed. Unsubmitted carts are locked.' | translate }}</p>
+                    } @else if (error()) {
+                        <p class="cart-error" role="alert">{{ error() | translate }}</p>
                     }
                     <div class="total">
                         <span class="total-label">{{ 'Grand Total' | translate }}</span>
@@ -66,10 +68,10 @@
                     <button
                         type="button"
                         class="submit"
-                        [disabled]="items().length === 0 || busy()"
+                        [disabled]="items().length === 0 || busy() || isLocked()"
                         (click)="submitted.emit()"
                     >
-                    {{ (busy() ? 'Please wait...' : 'Submit Pre-Order') | translate }}
+                    {{ (isLocked() ? 'Cart Locked' : (busy() ? 'Please wait...' : 'Submit Pre-Order')) | translate }}
                     </button>
                 </div>
             }
