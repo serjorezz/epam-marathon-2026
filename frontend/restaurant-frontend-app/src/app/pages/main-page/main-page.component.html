@@ -37,12 +37,12 @@
             (keydown.enter)="openDishModal(dish)"
             (keydown.space)="openDishModal(dish); $event.preventDefault()"
           >
-            <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="dish-image" />
+            <img [src]="dish.imageUrl" alt="{{ dish.name | translate }}" class="dish-image" />
             <div class="dish-info">
               <div class="dish-name">{{ dish.name | translate }}</div>
               <div class="dish-meta">
                 <span class="dish-price">{{ dish.price | currency: '$' }}</span>
-                <span class="dish-weight">{{ dish.weight }}</span>
+                <span class="dish-weight">{{ dish.weight | translate }}</span>
               </div>
             </div>
           </div>

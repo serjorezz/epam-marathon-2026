@@ -101,10 +101,12 @@ describe("TranslationService", () => {
   it("should translate weights dynamically", () => {
     service.setLanguage("uk");
     expect(service.translate("380g")).toBe("380г");
+    expect(service.translate("360g")).toBe("360г");
     expect(service.translate("/380g")).toBe("/380г");
 
     service.setLanguage("ka");
     expect(service.translate("380g")).toBe("380გ");
+    expect(service.translate("360g")).toBe("360გ");
     expect(service.translate("/380g")).toBe("/380გ");
   });
 
