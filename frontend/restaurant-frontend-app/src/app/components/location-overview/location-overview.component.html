@@ -22,15 +22,19 @@
         </div>
       </div>
 
-      <b>{{ 'Atmosphere' | translate }}</b>
-      <p class="location-description">
-        {{ location?.description | translate }}
-      </p>
+      <div class="atmosphere-section">
+        <b>{{ 'Atmosphere' | translate }}</b>
+        <p class="location-description">
+          {{ location?.description | translate }}
+        </p>
+      </div>
 
-      <b>{{ 'Happy Hours' | translate }}</b>
-      <p class="location-description">
-        {{ getHappyHoursDescription(location) | translate }}
-      </p>
+      <div class="happy-hours-section">
+        <b>{{ 'Happy Hours' | translate }}</b>
+        <p class="location-description">
+          {{ getHappyHoursDescription(location) | translate }}
+        </p>
+      </div>
 
       <div class="restaurant-info__actions">
         <a

@@ -17,118 +17,105 @@
       (click)="$event.stopPropagation()"
       (keydown)="$event.stopPropagation()"
     >
-      <div class="modal-header">
-        <h2 id="dish-modal-title" class="dish-title">{{ dish.name | translate }}</h2>
-        <button
-          type="button"
-          class="icon-button icon-button--small close-button"
-          aria-label="Close modal"
-          (click)="onClose()"
-        >
-          <img src="assets/svg/close.svg" alt="" aria-hidden="true" width="24" height="24" />
-        </button>
+      <button
+        type="button"
+        class="icon-button icon-button--small close-button"
+        aria-label="Close modal"
+        (click)="onClose()"
+      >
+        <img src="assets/svg/close.svg" alt="" aria-hidden="true" width="24" height="24" />
+      </button>
+
+      <div class="dish-image-wrap">
+        <img [src]="dish.imageUrl" alt="{{ dish.name | translate }}" class="dish-image" />
       </div>
 
-      <div class="modal-body">
-        <div class="dish-image-wrap">
-          <img [src]="dish.imageUrl" alt="{{ dish.name | translate }}" class="dish-image" />
-        </div>
+      <div class="dish-details">
+        <h2 id="dish-modal-title" class="dish-title">{{ dish.name | translate }}</h2>
 
-        <div class="dish-details">
-          <div class="dish-description">
-            <h3 class="section-title">{{ 'Description' | translate }}</h3>
-            <p>{{ dish.description | translate }}</p>
-          </div>
+        <p class="dish-description">{{ dish.description | translate }}</p>
 
-          @if (hasAllergens || isSpicy) {
-            <div class="dish-dietary-info">
-              <h3 class="section-title">{{ 'Dietary Information' | translate }}</h3>
-              <div class="dietary-tags">
-                @if (hasAllergens) {
-                  <div class="dietary-tag allergen-tag">
-                    <span class="dietary-icon">🥜</span>
-                    <span class="dietary-label">
-                      <strong>{{ 'Allergens:' | translate }}</strong>
-                      @for (allergen of enrichedDish?.allergens; track allergen; let last = $last) {
-                        {{ getAllergenLabel(allergen) | translate }}{{ last ? '' : ', ' }}
-                      }
-                    </span>
-                  </div>
-                }
-                @if (isSpicy) {
-                  <div class="dietary-tag spicy-tag">
-                    <span class="dietary-icon">🔥</span>
-                    <span class="dietary-label">
-                      {{ 'Spicy food' | translate }}
-                      @if (canBeNonSpicy) {
-                        <span class="mild-option">({{ 'Can be prepared non-spicy' | translate }})</span>
-                      }
-                    </span>
-                  </div>
-                }
-              </div>
-            </div>
-          }
-
-          <div class="nutritional-value">
-            <h3 class="section-title">{{ 'Nutritional value' | translate }}</h3>
-            <div class="nutrition-grid">
-              <div class="nutrition-item">
-                <span class="label">{{ 'Calories' | translate }}</span>
-                <span class="value">{{ formatCalories(dish.calories) | translate }}</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="label">{{ 'Proteins' | translate }}</span>
-                <span class="value">{{ formatGrams(dish.proteins) | translate }}</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="label">{{ 'Fats' | translate }}</span>
-                <span class="value">{{ formatGrams(dish.fats) | translate }}</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="label">{{ 'Carbohydrates' | translate }}</span>
-                <span class="value">{{ formatGrams(dish.carbohydrates) | translate }}</span>
-              </div>
-              @if (dish.vitamins) {
-                <div class="nutrition-item full-width">
-                  <span class="label">{{ 'Vitamins' | translate }}</span>
-                  <span class="value">{{ dish.vitamins | translate }}</span>
+        @if (hasAllergens || isSpicy) {
+          <div class="dish-dietary-info">
+            <div class="dietary-tags">
+              @if (hasAllergens) {
+                <div class="dietary-tag allergen-tag">
+                  <span class="dietary-icon">🥜</span>
+                  <span class="dietary-label">
+                    <strong>{{ 'Allergens:' | translate }}</strong>
+                    @for (allergen of enrichedDish?.allergens; track allergen; let last = $last) {
+                      {{ getAllergenLabel(allergen) | translate }}{{ last ? '' : ', ' }}
+                    }
+                  </span>
+                </div>
+              }
+              @if (isSpicy) {
+                <div class="dietary-tag spicy-tag">
+                  <span class="dietary-icon">🔥</span>
+                  <span class="dietary-label">
+                    <strong>{{ 'Spicy food' | translate }}</strong>
+                    @if (canBeNonSpicy) {
+                      <span class="mild-option"> ({{ 'Can be prepared non-spicy' | translate }})</span>
+                    }
+                  </span>
                 </div>
               }
             </div>
           </div>
-        </div>
-      </div>
+        }
 
-      <div class="modal-footer">
-        <div class="price-weight">
-          @if (happyHourDiscount) {
-            <div class="modal-pricing-happy-hour">
-              <div class="old-price-row">
-                <span class="old-price">${{ dish.price }}</span>
-                <span class="discount-badge">-{{ happyHourDiscount }}%</span>
-              </div>
-              <div class="discounted-price-row">
-                <span class="dish-price">${{ getDiscountedPrice(dish.price, happyHourDiscount) }}</span>
-                <span class="dish-weight">/{{ dish.weight | translate }}</span>
-              </div>
+        <div class="nutritional-value">
+          <div class="nutrition-calories">
+            <strong>{{ 'Calories:' | translate }}</strong> {{ formatCalories(dish.calories) | translate }}
+          </div>
+          <div class="nutrition-pfc">
+            <span class="macro-item">
+              <strong>{{ 'Protein:' | translate }}</strong> {{ formatGrams(dish.proteins) | translate }}
+            </span>
+            <span class="macro-item">
+              <strong>{{ 'Fats:' | translate }}</strong> {{ formatGrams(dish.fats) | translate }}
+            </span>
+            <span class="macro-item">
+              <strong>{{ 'Carbs:' | translate }}</strong> {{ formatGrams(dish.carbohydrates) | translate }}
+            </span>
+          </div>
+          @if (dish.vitamins) {
+            <div class="nutrition-vitamins">
+              <strong>{{ 'Vitamins & minerals:' | translate }}</strong> {{ dish.vitamins | translate }}
             </div>
-          } @else {
-            <span class="dish-price">${{ dish.price }}</span>
-            <span class="dish-weight">/{{ dish.weight | translate }}</span>
           }
         </div>
 
-        @if (preOrderEnabled) {
-          <button
-            type="button"
-            class="button button--primary button--large pre-order-btn"
-            [disabled]="isUnavailable()"
-            (click)="onPreOrder()"
-          >
-            {{ 'Pre-Order' | translate }}
-          </button>
-        }
+        <div class="modal-footer">
+          <div class="price-weight">
+            @if (happyHourDiscount) {
+              <div class="modal-pricing-happy-hour">
+                <div class="old-price-row">
+                  <span class="old-price">${{ dish.price }}</span>
+                  <span class="discount-badge">-{{ happyHourDiscount }}%</span>
+                </div>
+                <div class="discounted-price-row">
+                  <span class="dish-price">${{ getDiscountedPrice(dish.price, happyHourDiscount) }}</span>
+                  <span class="dish-weight">/{{ dish.weight | translate }}</span>
+                </div>
+              </div>
+            } @else {
+              <span class="dish-price">${{ dish.price }}</span>
+              <span class="dish-weight">/{{ dish.weight | translate }}</span>
+            }
+          </div>
+
+          @if (preOrderEnabled) {
+            <button
+              type="button"
+              class="button button--primary button--large pre-order-btn"
+              [disabled]="isUnavailable()"
+              (click)="onPreOrder()"
+            >
+              {{ 'Pre-Order' | translate }}
+            </button>
+          }
+        </div>
       </div>
     </div>
   </div>

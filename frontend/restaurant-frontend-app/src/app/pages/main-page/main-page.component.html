@@ -24,7 +24,7 @@
 
     <div class="dish-cards">
       @if (dishesLoading) {
-        @for (_ of [1, 2, 3, 4, 5]; track $index) {
+        @for (_ of [1, 2, 3, 4]; track $index) {
           <app-skeleton-dish-card [compact]="true" />
         }
       } @else {
@@ -57,7 +57,7 @@
 
     <div class="location-cards">
       @if (locationsLoading) {
-        @for (_ of [1, 2, 3, 4]; track $index) {
+        @for (_ of [1, 2, 3]; track $index) {
           <app-skeleton-location-card />
         }
       } @else {

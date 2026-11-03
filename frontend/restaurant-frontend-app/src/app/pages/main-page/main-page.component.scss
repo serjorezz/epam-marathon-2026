@@ -1,6 +1,5 @@
 @use 'app/shared/styles/abstracts/colors' as color;
 @use '../../shared/styles/card' as card;
-@use 'sass:color' as col;
 
 :host {
   display: block;
@@ -69,55 +68,6 @@
     display: flex;
     gap: 1rem;
   }
-
-}
-
-@media screen and (max-width: 768px) {
-  .hero-section .hero-heading-texts .hero-heading {
-    font-size: 2.25rem;
-    line-height: 2.75rem;
-  }
-  .hero-section {
-    max-height: none;
-    flex-direction: column;
-
-    app-main-cover-image {
-      order: 1;
-    }
-
-    .hero-text-block {
-      flex: none;
-      max-width: 100%;
-      order: 0;
-      z-index: 1;
-      background-color: color.$sage-100;
-      padding: 2rem 1.5rem 0.5rem 1.5rem;
-    }
-
-    .hero-image {
-      position: relative;
-      width: 100%;
-      height: 200px;
-      overflow: hidden;
-      order: 1;
-
-      img {
-        object-position: left 20%;
-
-        @media (max-width: 390px) {
-          height: 8rem;
-          object-position: 0% 10%;
-          transform: scale(1.5) translateX(-5%);
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .hero-cta-group {
-    flex-direction: column;
-  }
 }
 
 // CONTENT SECTIONS
@@ -138,20 +88,6 @@
   height: 2.5rem;
 }
 
-@media screen and (max-width: 768px) {
-  .section-heading {
-    display: flex;
-    justify-content: center;
-  }
-}
-
-@media screen and (max-width: 425px) {
-  .section-heading {
-    justify-content: left;
-    font-size: 1.5rem;
-  }
-}
-
 // POPULAR DISHES
 .popular-dishes-section {
   display: flex;
@@ -161,8 +97,8 @@
   .dish-cards {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1.75rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
     margin: 0;
   }
 
@@ -181,12 +117,13 @@
 
     .dish-image {
       width: 100%;
-      max-width: 12.25rem;
+      max-width: 16.75rem;
       height: auto;
       aspect-ratio: 1 / 1;
       border-radius: 50%;
       object-fit: cover;
     }
+
     .dish-info {
       display: flex;
       flex-direction: row;
@@ -226,31 +163,6 @@
   }
 }
 
-@media screen and (max-width: 1280px) {
-  .popular-dishes-section .dish-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .content-sections {
-    margin: 0.5rem;
-    gap: 2rem;
-  }
-
-  .popular-dishes-section .dish-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin: 0;
-
-    .dish-card {
-      width: 100%;
-      padding: 0.75rem;
-    }
-  }
-}
-
 // LOCATIONS SECTION
 .locations-section {
   display: flex;
@@ -260,26 +172,103 @@
   .location-cards {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.75rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
     margin: 0;
   }
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1024px) {
+  .popular-dishes-section .dish-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .locations-section .location-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media screen and (max-width: 768px) {
+  .hero-section {
+    max-height: none;
+    flex-direction: column;
+
+    .hero-heading-texts .hero-heading {
+      font-size: 2.25rem;
+      line-height: 2.75rem;
+    }
+
+    .hero-text-block {
+      flex: none;
+      max-width: 100%;
+      order: 0;
+      z-index: 1;
+      background-color: color.$sage-100;
+      padding: 2rem 1.5rem 0.5rem 1.5rem;
+    }
+
+    .hero-image {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      order: 1;
+
+      img {
+        object-position: left 20%;
+
+        @media (max-width: 390px) {
+          height: 8rem;
+          object-position: 0% 10%;
+          transform: scale(1.5) translateX(-5%);
+        }
+      }
+    }
+  }
+
+  .content-sections {
+    margin: 0.5rem;
+    gap: 2rem;
+  }
+
+  .section-heading {
+    display: flex;
+    justify-content: center;
+  }
+
   .popular-dishes-section,
   .locations-section {
     gap: 1rem;
   }
 
+  .popular-dishes-section .dish-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+    .dish-card {
+      padding: 0.75rem;
+    }
+  }
+
   .locations-section .location-cards {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .popular-dishes-section .dish-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .hero-cta-group {
+    flex-direction: column;
+  }
+
+  .section-heading {
+    justify-content: left;
+    font-size: 1.5rem;
   }
 }
