@@ -5,7 +5,7 @@
 | **Epic** | Localization & Internationalization |
 | **US name** | Website Internationalization (Language Select) |
 | **Role** | Guest / Customer / Staff |
-| **Description** | As a visitor or user of Green & Tasty, I want to switch the website language between English, Ukrainian, and Georgian, so that I can comfortably browse dishes, explore restaurant locations, and place bookings in my preferred language. |
+| **Description** | As a visitor or user of Green & Tasty, I want to switch the website language between English, Ukrainian, and Georgian, and have my preferred language automatically detected on first visit, so that I can comfortably browse dishes, explore restaurant locations, and place bookings in my preferred language. |
 
 ### Pre-conditions:
 - The user is visiting any page of the Green & Tasty web platform on a desktop or mobile device.
@@ -26,9 +26,10 @@
      3. Georgian / ქართული (with Georgian flag icon)
    - The active selected language is clearly highlighted or indicated on the trigger button with its flag and language code or label.
 
-3. **Default Language & Persistence**:
-   - The default initial language for first-time visitors is English.
-   - When a user selects a language, the choice is saved and persists across subsequent page visits, browser reloads, and navigation sessions.
+3. **Default Language, Browser Locale Detection & Persistence**:
+   - On the very first visit (when no prior language preference has been saved in local storage), the application automatically detects the user's preferred language based on browser locale (`navigator.language` / `navigator.languages`).
+   - If the browser locale corresponds to a supported language (Ukrainian -> `uk`, Georgian -> `ka`, English -> `en`), the website initializes in that language; otherwise, it defaults to English.
+   - When a user explicitly selects a language from the dropdown, their choice is saved and persists across subsequent page visits, browser reloads, and navigation sessions, superseding automatic detection.
 
 4. **Instant UI Re-rendering (No Page Refresh)**:
    - Selecting a new language immediately updates all user interface text throughout the current view and application without triggering a full page reload.
@@ -57,4 +58,4 @@
   - Currency amounts ($ / USD) and numeric values (prices, table numbers, weights in grams) remain numeric while currency prefixes or labels adapt where relevant.
   - User reviews and guest-generated text comments submitted in a specific language remain in their original submitted language.
 - **Open Questions**:
-  - *UX / Product*: Should the application detect and suggest the user's preferred language based on browser locale (`navigator.language`) on the very first visit?
+  - *UX / Product*: Should the application detect and suggest the user's preferred language based on browser locale (`navigator.language`) on the very first visit? -> **Resolved**: Implemented automatic browser locale detection for supported languages (UK, KA, EN) on first visit with fallback to English.

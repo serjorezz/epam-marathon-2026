@@ -41,7 +41,7 @@
 |:---|:---|:---|:---:|
 | [**`US0-group-pre-order-owner-review.md`**](user-stories/US0-group-pre-order-owner-review.md) | **Group Pre-Order Owner Review**: Консолідація та підтвердження замовлень учасників для ресторану | Pre-Order & Group Booking Management | ✅ Готово |
 | [**`US1-sort-reservations.md`**](user-stories/US1-sort-reservations.md) | **Sort & Filter Reservations**: Сортування бронювань та чекбокс фільтрації активних бронювань | Reservation Management | ✅ Готово |
-| [**`US2-internationalization.md`**](user-stories/US2-internationalization.md) | **Website Internationalization**: Багатомовність (English, Ukrainian, Georgian) з перекладом страв і локацій | Localization & Internationalization | ✅ Готово |
+| [**`US2-internationalization.md`**](user-stories/US2-internationalization.md) | **Website Internationalization**: Багатомовність (English, Ukrainian, Georgian), автовизначення локалі браузера та переклад | Localization & Internationalization | ✅ Готово |
 | [**`US3-customer-favorite-dishes.md`**](user-stories/US3-customer-favorite-dishes.md) | **Customer Favorite Dishes**: Додавання страв в улюблені (золота зірочка, таб фільтрації, збереження в БД) | Menu & Dish Management | ✅ Готово |
 
 ---

@@ -157,4 +157,43 @@ describe("TranslationService", () => {
     service.setLanguage("uk");
     expect(service.translate("Unknown Custom Text")).toBe("Unknown Custom Text");
   });
+  describe("browser language detection", () => {
+    let originalLanguage: PropertyDescriptor | undefined;
+    let originalLanguages: PropertyDescriptor | undefined;
+
+    beforeEach(() => {
+      originalLanguage = Object.getOwnPropertyDescriptor(navigator, "language");
+      originalLanguages = Object.getOwnPropertyDescriptor(navigator, "languages");
+    });
+
+    afterEach(() => {
+      if (originalLanguage) {
+        Object.defineProperty(navigator, "language", originalLanguage);
+      }
+      if (originalLanguages) {
+        Object.defineProperty(navigator, "languages", originalLanguages);
+      }
+    });
+
+    it("should detect Ukrainian language from browser locale", () => {
+      Object.defineProperty(navigator, "language", { value: "uk-UA", configurable: true });
+      Object.defineProperty(navigator, "languages", { value: ["uk-UA", "en-US"], configurable: true });
+
+      expect(service.detectBrowserLanguage(false)).toBe("uk");
+    });
+
+    it("should detect Georgian language from browser locale", () => {
+      Object.defineProperty(navigator, "language", { value: "ka-GE", configurable: true });
+      Object.defineProperty(navigator, "languages", { value: ["ka-GE", "en"], configurable: true });
+
+      expect(service.detectBrowserLanguage(false)).toBe("ka");
+    });
+
+    it("should fallback to English for unsupported or English locales", () => {
+      Object.defineProperty(navigator, "language", { value: "fr-FR", configurable: true });
+      Object.defineProperty(navigator, "languages", { value: ["fr-FR", "es"], configurable: true });
+
+      expect(service.detectBrowserLanguage(false)).toBe("en");
+    });
+  });
 });
