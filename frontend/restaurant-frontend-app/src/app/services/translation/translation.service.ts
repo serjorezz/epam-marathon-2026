@@ -115,7 +115,48 @@ export class TranslationService {
       }
     }
 
-    // 6. Dates and date ranges (e.g. "Nov 5, 2026", "Oct 4, 2026 – Nov 3, 2026", "Oct 17, 2026")
+    // 6. Dynamic unsubmitted cart warning:
+    // e.g. "2 participants haven't submitted their cart yet — their dishes won't be included in the order"
+    const unsubmittedMatch = trimmed.match(
+      /^(\d+)\s+participant(?:s?)\s+(?:hasn't|haven't)\s+submitted their cart yet\s*([—–-])\s*their dishes won't be included in the order$/i
+    );
+    if (unsubmittedMatch) {
+      const count = Number(unsubmittedMatch[1]);
+      if (lang === "uk") {
+        const mod10 = count % 10;
+        const mod100 = count % 100;
+        if (count === 1) {
+          return "1 учасник ще не підтвердив свій кошик — його страви не будуть включені до замовлення";
+        }
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
+          return `${count} учасники ще не підтвердили свій кошик — їхні страви не будуть включені до замовлення`;
+        }
+        return `${count} учасників ще не підтвердили свій кошик — їхні страви не будуть включені до замовлення`;
+      }
+      if (lang === "ka") {
+        if (count === 1) {
+          return "1 მონაწილეს ჯერ არ დაუდასტურებია კალათა — მისი კერძები არ ჩაერთვება შეკვეთაში";
+        }
+        return `${count} მონაწილეს ჯერ არ დაუდასტურებია კალათა — მათი კერძები არ ჩაერთვება შეკვეთაში`;
+      }
+    }
+
+    // 7. Dynamic participant titles: "Guest: Olena", "Owner: Yevhenii"
+    const guestMatch = trimmed.match(/^Guest:\s*(.+)$/i);
+    if (guestMatch) {
+      const name = guestMatch[1];
+      if (lang === "uk") return `Гість: ${name}`;
+      if (lang === "ka") return `სტუმარი: ${name}`;
+    }
+
+    const ownerMatch = trimmed.match(/^Owner:\s*(.+)$/i);
+    if (ownerMatch) {
+      const name = ownerMatch[1];
+      if (lang === "uk") return `Організатор: ${name}`;
+      if (lang === "ka") return `ორგანიზატორი: ${name}`;
+    }
+
+    // 8. Dates and date ranges (e.g. "Nov 5, 2026", "Oct 4, 2026 – Nov 3, 2026", "Wed, Oct 21, 2026")
     const dateFormatted = this.translateDates(trimmed, lang);
     if (dateFormatted !== trimmed) {
       return dateFormatted;
@@ -173,31 +214,56 @@ export class TranslationService {
       dec: "დეკ", december: "დეკემბერი",
     };
 
-    const map = lang === "uk" ? monthMapUk : monthMapKa;
+    const weekdayMapUk: Record<string, string> = {
+      mon: "Пн", monday: "Понеділок",
+      tue: "Вт", tuesday: "Вівторок",
+      wed: "Ср", wednesday: "Середа",
+      thu: "Чт", thursday: "Четвер",
+      fri: "П'ятниця", friday: "П'ятниця",
+      sat: "Сб", saturday: "Субота",
+      sun: "Нд", sunday: "Неділя",
+    };
 
-    // Pattern: "Nov 5, 2026" or "Oct 4, 2026" -> in UK: "5 лист. 2026", in KA: "5 ნოე, 2026"
+    const weekdayMapKa: Record<string, string> = {
+      mon: "ორშ", monday: "ორშაბათი",
+      tue: "სამ", tuesday: "სამშაბათი",
+      wed: "ოთხ", wednesday: "ოთხშაბათი",
+      thu: "ხუთ", thursday: "ხუთშაბათი",
+      fri: "პარ", friday: "პარასკევი",
+      sat: "შაბ", saturday: "შაბათი",
+      sun: "კვ", sunday: "კვირა",
+    };
+
+    const monthMap = lang === "uk" ? monthMapUk : monthMapKa;
+    const weekdayMap = lang === "uk" ? weekdayMapUk : weekdayMapKa;
+
+    // Pattern with optional weekday: e.g. "Wed, Oct 21, 2026" or "Oct 4, 2026"
     let result = text.replace(
-      /\b(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2}),\s+(\d{4})\b/gi,
-      (match, m, d, y) => {
-        const trans = map[m.toLowerCase()];
-        if (!trans) return match;
+      /\b(?:(Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?),?\s+)?(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2}),\s+(\d{4})\b/gi,
+      (match, weekday, m, d, y) => {
+        const transMonth = monthMap[m.toLowerCase()];
+        if (!transMonth) return match;
+        const transDay = weekday ? (weekdayMap[weekday.toLowerCase()] || weekday) : '';
+        const prefix = transDay ? `${transDay}, ` : '';
         if (lang === "uk") {
-          return `${d} ${trans}. ${y}`;
+          return `${prefix}${d} ${transMonth}. ${y}`;
         }
-        return `${d} ${trans}, ${y}`;
+        return `${prefix}${d} ${transMonth}, ${y}`;
       }
     );
 
     // If single month + day without year (e.g. "Nov 5")
     result = result.replace(
-      /\b(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2})\b/gi,
-      (match, m, d) => {
-        const trans = map[m.toLowerCase()];
-        if (!trans) return match;
+      /\b(?:(Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?),?\s+)?(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{1,2})\b/gi,
+      (match, weekday, m, d) => {
+        const transMonth = monthMap[m.toLowerCase()];
+        if (!transMonth) return match;
+        const transDay = weekday ? (weekdayMap[weekday.toLowerCase()] || weekday) : '';
+        const prefix = transDay ? `${transDay}, ` : '';
         if (lang === "uk") {
-          return `${d} ${trans}.`;
+          return `${prefix}${d} ${transMonth}.`;
         }
-        return `${d} ${trans}`;
+        return `${prefix}${d} ${transMonth}`;
       }
     );
 
@@ -217,7 +283,8 @@ export class TranslationService {
   }
 
   detectBrowserLanguage(isTestEnvCheck = true): AppLanguage {
-    if (isTestEnvCheck && typeof window !== "undefined" && ((window as any).__karma__ || (window as any).jasmine)) {
+    const win = typeof window !== "undefined" ? (window as unknown as Record<string, unknown>) : null;
+    if (isTestEnvCheck && win && (Boolean(win['__karma__']) || Boolean(win['jasmine']))) {
       return "en";
     }
 

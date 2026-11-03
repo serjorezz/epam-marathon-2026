@@ -153,6 +153,47 @@ describe("TranslationService", () => {
     expect(service.translate(desc)).toContain("ძველი თბილისის ისტორიულ გულში მდებარე");
   });
 
+  it("should translate group order demo page phrases into Ukrainian and Georgian", () => {
+    service.setLanguage("uk");
+    expect(service.translate("Collecting pre-orders")).toBe("Збір передзамовлень");
+    expect(service.translate("Sent to Restaurant")).toBe("Надіслано до ресторану");
+    expect(service.translate("Rustaveli Avenue 48")).toBe("проспект Руставелі, 48");
+    expect(service.translate("Wed, Oct 21, 2026")).toBe("Ср, 21 жовт. 2026");
+    expect(
+      service.translate("2 participants haven't submitted their cart yet — their dishes won't be included in the order")
+    ).toBe("2 учасники ще не підтвердили свій кошик — їхні страви не будуть включені до замовлення");
+    expect(
+      service.translate("1 participant hasn't submitted their cart yet — their dishes won't be included in the order")
+    ).toBe("1 учасник ще не підтвердив свій кошик — його страви не будуть включені до замовлення");
+    expect(
+      service.translate("5 participants haven't submitted their cart yet — their dishes won't be included in the order")
+    ).toBe("5 учасників ще не підтвердили свій кошик — їхні страви не будуть включені до замовлення");
+    expect(service.translate("Submitted")).toBe("Підтверджено");
+    expect(service.translate("Avocado Pine Nut Bowl")).toBe("Боул з авокадо та кедровими горіхами");
+    expect(service.translate("Guest")).toBe("Гість");
+    expect(service.translate("Owner")).toBe("Організатор");
+    expect(service.translate("Guest: Olena")).toBe("Гість: Olena");
+    expect(service.translate("Owner: Yevhenii")).toBe("Організатор: Yevhenii");
+
+    service.setLanguage("ka");
+    expect(service.translate("Collecting pre-orders")).toBe("წინასწარი შეკვეთების შეგროვება");
+    expect(service.translate("Sent to Restaurant")).toBe("გაგზავნილია რესტორანში");
+    expect(service.translate("Rustaveli Avenue 48")).toBe("რუსთაველის გამზირი 48");
+    expect(service.translate("Wed, Oct 21, 2026")).toBe("ოთხ, 21 ოქტ, 2026");
+    expect(
+      service.translate("2 participants haven't submitted their cart yet — their dishes won't be included in the order")
+    ).toBe("2 მონაწილეს ჯერ არ დაუდასტურებია კალათა — მათი კერძები არ ჩაერთვება შეკვეთაში");
+    expect(
+      service.translate("1 participant hasn't submitted their cart yet — their dishes won't be included in the order")
+    ).toBe("1 მონაწილეს ჯერ არ დაუდასტურებია კალათა — მისი კერძები არ ჩაერთვება შეკვეთაში");
+    expect(service.translate("Submitted")).toBe("დადასტურებულია");
+    expect(service.translate("Avocado Pine Nut Bowl")).toBe("ავოკადოსა და ფიჭვის კაკლის ბოული");
+    expect(service.translate("Guest")).toBe("სტუმარი");
+    expect(service.translate("Owner")).toBe("ორგანიზატორი");
+    expect(service.translate("Guest: Olena")).toBe("სტუმარი: Olena");
+    expect(service.translate("Owner: Yevhenii")).toBe("ორგანიზატორი: Yevhenii");
+  });
+
   it("should return original text if translation key is not found", () => {
     service.setLanguage("uk");
     expect(service.translate("Unknown Custom Text")).toBe("Unknown Custom Text");

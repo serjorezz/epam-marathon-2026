@@ -17,7 +17,7 @@
       <div class="title-row">
         <h1 class="page-title">{{ 'Group Pre-Order' | translate }}</h1>
         <span class="status-badge" [class.submitted]="groupStatus() === 'Submitted'">
-          {{ statusBadge() }}
+          {{ statusBadge() | translate }}
         </span>
       </div>
 
@@ -29,7 +29,7 @@
           </div>
           <div class="meta-item">
             <span class="meta-icon" aria-hidden="true">📅</span>
-            <span>{{ inv.StartTime | date:'EEE, MMM d, y' }}</span>
+            <span>{{ (inv.StartTime | date:'EEE, MMM d, y') | translate }}</span>
           </div>
           <div class="meta-item">
             <span class="meta-icon" aria-hidden="true">⏰</span>
@@ -55,7 +55,7 @@
     @if (unsubmittedWarning()) {
       <div class="warning-banner" role="alert">
         <span class="warning-icon" aria-hidden="true">⚠️</span>
-        <span>{{ unsubmittedWarning() }}</span>
+        <span>{{ unsubmittedWarning() | translate }}</span>
       </div>
     }
 
