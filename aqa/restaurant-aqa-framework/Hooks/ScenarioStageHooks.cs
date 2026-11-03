@@ -29,6 +29,10 @@ public class ScenarioStageHooks(IObjectContainer container, ScenarioContext scen
         });
         browserContext.SetDefaultTimeout(settings.DefaultTimeoutMs);
         browserContext.SetDefaultNavigationTimeout(settings.NavigationTimeoutMs);
+        // The app picks its locale from the browser language and remembers it in localStorage;
+        // pin English so text-based locators stay stable regardless of the runner's locale.
+        await browserContext.AddInitScriptAsync(
+            """try { localStorage.setItem('app_language', 'en'); } catch { }""");
         await browserContext.Tracing.StartAsync(new TracingStartOptions { Screenshots = true, Snapshots = true, Sources = true });
         var page = await browserContext.NewPageAsync();
 

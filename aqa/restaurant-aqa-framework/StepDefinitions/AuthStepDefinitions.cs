@@ -95,10 +95,13 @@ public sealed class AuthStepDefinitions(Actor actor) : StepDefinitionBase(actor)
         await Assert.That(await Actor.AsksForAsync(new TheIdToken())).IsNotNullOrEmpty();
     }
 
-    // A waiter lands on the waiter dashboard, whose greeting names the role ("Hello, <name> (Waiter)") —
-    // unlike a customer's header it has no user dropdown to open, so the greeting is the sign-in proof.
+    // A waiter lands on the waiter dashboard ("Hello, <name>") — unlike a customer's header it has no
+    // user dropdown to open, so the dashboard greeting together with the landing page is the sign-in proof.
     [Then("the waiter is signed in")]
     [Scope(Tag = "ui")]
-    public async Task ThenWaiterIsSignedInOnTheStorefront() =>
-        await Assert.That(await Actor.AsksForAsync(new TheGreeting())).Contains("(Waiter)");
+    public async Task ThenWaiterIsSignedInOnTheStorefront()
+    {
+        await Assert.That(await Actor.AsksForAsync(new TheGreeting())).IsNotNullOrEmpty();
+        await Assert.That(Actor.LookingAtThePage().Url).Contains("/waiter-reservations");
+    }
 }
