@@ -98,6 +98,16 @@ jobs:
             else
               echo "gh-pages is already up to date, skipping push."
             fi
+            cd - > /dev/null
+            git worktree remove --force "$tmp_dir"
+          else
+            cd "$tmp_dir"
+            git init -b gh-pages
+            cp -r "$build_dir"/. .
+            git add -A
+            git commit -m "chore(gh-pages): deploy ${GITHUB_SHA::7}"
+            git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+          fi
 
       - name: Upload GitHub Pages artifact
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
@@ -112,13 +122,3 @@ jobs:
         continue-on-error: true
         with:
           timeout: 1800000
-            cd - > /dev/null
-            git worktree remove --force "$tmp_dir"
-          else
-            cd "$tmp_dir"
-            git init -b gh-pages
-            cp -r "$build_dir"/. .
-            git add -A
-            git commit -m "chore(gh-pages): deploy ${GITHUB_SHA::7}"
-            git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
-          fi
