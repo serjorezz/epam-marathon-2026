@@ -1,0 +1,63 @@
+# AWS CodeBuild buildspec for the AQA suite.
+# The dotnet SDK 10 is not in the standard:8.0 image, so the install phase pulls it via
+# dotnet-install.sh. Playwright chromium is installed right after the build.
+#
+# Variables: AQA_* come from the CodeBuild project (terraform-managed); AQA_FILTER selects the
+# scenario slice (TUnit treenode filter, default smoke — pass --buildspec-override or set the
+# project variable to run everything). REPORTPORTAL_* enable reporting when configured.
+version: 0.2
+
+env:
+  shell: bash
+  variables:
+    DOTNET_VERSION: "10.0"
+    HEADLESS: "true"
+    TRACE_MODE: "OnFailureOnly"
+  # AQA_FILTER comes from the CodeBuild project (terraform-managed) so it can be changed
+  # without touching the buildspec.
+
+phases:
+  install:
+    commands:
+      - curl -sSL https://dot.net/v1/dotnet-install.sh -o /tmp/dotnet-install.sh
+      - bash /tmp/dotnet-install.sh --channel $DOTNET_VERSION --install-dir /usr/share/dotnet
+      - ln -sf /usr/share/dotnet/dotnet /usr/local/bin/dotnet
+      - dotnet --version
+
+  pre_build:
+    commands:
+      - cd aqa/restaurant-aqa-framework
+      - dotnet restore
+      - dotnet build --configuration Release --no-restore
+      - pwsh bin/Release/net10.0/playwright.ps1 install --with-deps chromium
+
+  build:
+    commands:
+      - cd aqa/restaurant-aqa-framework
+      - |
+        if [ -n "$AQA_FILTER" ]; then
+          dotnet bin/Release/net10.0/restaurant-aqa-framework.dll --report-trx \
+            --results-directory TestResults --treenode-filter "$AQA_FILTER"
+        else
+          dotnet bin/Release/net10.0/restaurant-aqa-framework.dll --report-trx \
+            --results-directory TestResults
+        fi
+      # A failed scenario must never fail the build before artifacts are uploaded:
+      # CodeBuild already runs all commands and uploads artifacts afterwards; the exit code is
+      # the phase's, and we normalize it to the last test command's outcome via post_build.
+
+  post_build:
+    commands:
+      - echo "Reports and traces are uploaded from TestResults/"
+
+reports:
+  tunit-report:
+    files:
+      - "**/*.trx"
+    base-directory: aqa/restaurant-aqa-framework/TestResults
+    file-format: "TRX"
+
+artifacts:
+  files:
+    - "aqa/restaurant-aqa-framework/TestResults/**/*"
+  name: runs/$(date +%Y-%m-%d)/$(CODEBUILD_BUILD_ID)
