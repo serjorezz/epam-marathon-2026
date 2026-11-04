@@ -85,3 +85,31 @@ To start the Playwright code generator open Powershell in the framework director
 bin/Debug/net10.0/playwright.ps1 codegen "<your UI_URL or the public site you test>"
 ```
 Build first so `playwright.ps1` exists. The URL is optional.
+
+## Homework (EPAM IT Marathon): direction, approach, choices
+
+**Direction 1 — group pre-order (own integrated Backend+Frontend deployment), levels 1–3**, plus the
+Direction 2 coverage of the existing suite (registration/sign-in/menu, reservations). Approach:
+Reqnroll BDD + Screenplay (as prescribed), Playwright for UI, per-scenario private venues for data.
+
+- New features: `Features/GroupParticipants.feature` (L1), `Features/GroupPreOrderSubmission.feature` (L2),
+  `Features/GroupParticipantRemoval.feature` (L3) — tag filters: `[Category=direction1]`,
+  `[Category=direction2]`, `[Category=level1..3]`, e.g.
+  `dotnet run -- --treenode-filter "/*/*/*/*[Category=direction1]"`.
+- Behaviors the homework left open, fixed by the deployed backend's actual answers (and tested as such):
+  - Repeat submit of an already-submitted group **re-succeeds** with the same consolidation (idempotent).
+  - A reservation of N guests accepts at most **N−2** guest sessions (backend off-by-one; L1/L2 arrange with GuestCount 5).
+  - "Submitted carts without dishes" is **unreachable** via the API: empty carts cannot be submitted
+    (400 "The cart is empty") and confirmed carts are locked.
+  - Non-owner/anon/waiter access to the owner-only participant list: 403 / 401 / 403; nonexistent group 404;
+    cross-group removal 400 "does not belong to this group reservation."; nonexistent participant 404.
+- Known application defects covered by `@known-defect` scenarios (skipped in CI unless
+  `RUN_KNOWN_DEFECTS=true`): the deployed frontend's token interceptor omits the owner token on
+  `/guest/*` calls, so the owner's group pre-order page cannot load its data (fixed in
+  `token.interceptor.ts`; the three owner-page UI scenarios pass against a build with the fix).
+  The backend's booking overlap check also counts **cancelled** reservations, so the suite books
+  private per-scenario venues instead of sharing seeded tables (zero leftover data).
+- Star task: Report Portal reporting (agent opt-in via `REPORTPORTAL_*`, see
+  `../report-portal/README.md`) and an AWS CodeBuild pipeline
+  (`infra/terraform/codebuild`, `../buildspec.yml`); builds start on demand and publish TRX,
+  HTML reports and Playwright traces as artifacts.
