@@ -20,7 +20,10 @@ export const tokenInterceptor: HttpInterceptorFn = (
   // IMPORTANT: do not modify Guest endpoints at all.
   // Guest flow uses a different token (guest session token) and we must not touch the body.
   // Otherwise we break POST /guest/sessions payload.
-  if (req.url.includes('/guest/')) {
+  // Exception: /guest/groups/* are OWNER routes (participant list, status, submit, removal)
+  // and need the signed-in user's token — without it the owner's group pre-order page gets
+  // 401 from its own participant-list call.
+  if (req.url.includes('/guest/') && !req.url.includes('/guest/groups/')) {
     return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (req.context.get(SKIP_ERROR_TOAST) || req.url.includes('/chat')) {
