@@ -6,33 +6,34 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
-
-  @media (max-width: 500px) {
-    width: calc(100% - 2rem);
-  }
+  box-sizing: border-box;
 }
 
 .modal-container {
   background: color.$neutral-0;
-  padding: 24px;
+  padding: 32px;
   border-radius: 24px;
-  max-width: 448px;
-  box-shadow: 0 10px 20px color.$shadow;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.16);
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  width: 100%;
+  gap: 24px;
+  font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
+
   @media (max-width: 500px) {
-    padding: 0.875rem;
-    width: 90%;
-    border-radius: 0;
+    padding: 20px;
+    border-radius: 20px;
+    gap: 20px;
   }
 }
 
@@ -41,41 +42,65 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .close-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
   border: none;
+  border-radius: 50%;
   cursor: pointer;
   background: none;
+  padding: 6px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: color.$neutral-100;
+  }
 }
 
 .reservation-details {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-}
-
-.reservation-guests {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.reservation-time {
-  display: flex;
-  flex-direction: column;
   gap: 16px;
+}
+
+.detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px 20px;
+  background-color: color.$neutral-100;
+  border-radius: 16px;
+
+  h3 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0;
+  }
+
+  .subtitle {
+    margin: 0;
+  }
+
+  .guests-filter {
+    margin-top: 4px;
+  }
 }
 
 .time-selectors {
   display: flex;
   flex-direction: row;
   gap: 16px;
+  margin-top: 4px;
+
   @media (max-width: 460px) {
     flex-direction: column;
   }
@@ -85,16 +110,28 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 50%;
+  flex: 1;
+  min-width: 0;
+
+  p {
+    margin: 0;
+  }
+
   @media (max-width: 460px) {
     width: 100%;
   }
 }
 
+.submit-btn {
+  margin-top: 4px;
+}
+
 .title {
   margin: 0;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 32px;
+
   @media (max-width: 500px) {
     font-size: 20px;
     line-height: 28px;
@@ -102,11 +139,12 @@
 }
 
 .subtitle {
-  color: color.$neutral-900;
+  color: color.$neutral-600;
   font-size: 14px;
   letter-spacing: 0;
   font-weight: 300;
   line-height: 24px;
+  margin: 0;
 }
 
 .body-bold {
@@ -114,12 +152,5 @@
   letter-spacing: 0;
   font-weight: 500;
   line-height: 24px;
-}
-
-h3 {
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 32px;
-  letter-spacing: 0;
-  vertical-align: middle;
+  color: color.$neutral-900;
 }

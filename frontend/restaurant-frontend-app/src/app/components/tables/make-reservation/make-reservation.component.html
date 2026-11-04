@@ -1,29 +1,26 @@
 <div class="modal-backdrop" role="presentation" (click)="onClose()">
   <div class="modal-container" role="presentation" (click)="$event.stopPropagation()">
-    <div>
-      <div class="modal-header">
-        <h2 class="title">{{ title | translate }}</h2>
-        <button class="close-btn" (click)="onClose()">
-          <img src="assets/svg/close.svg" alt="close button" />
-        </button>
-      </div>
-
-      <p class="subtitle">
-        {{ 'You are making a reservation at' | translate }}
-        <span class="body-bold">{{ locationName | translate }}, {{ 'Table' | translate }} {{ table.tableNumber }}</span>
-        {{ 'for' | translate }} <span class="body-bold">{{ selectedTimeRange.start | date: 'MMM d, y' }}</span
-        >.
-      </p>
+    <div class="modal-header">
+      <h2 class="title">{{ title | translate }}</h2>
+      <button class="close-btn" aria-label="Close dialog" (click)="onClose()">
+        <img src="assets/svg/close.svg" alt="" aria-hidden="true" width="20" height="20" />
+      </button>
     </div>
 
-    <div class="reservation-details">
-      <div class="reservation-guests">
-        <div>
-          <h3>{{ 'Guests' | translate }}</h3>
-          <p class="subtitle">{{ 'Please specify the number of guests.' | translate }}</p>
-          <p class="subtitle">{{ 'Table seating capacity: ' | translate }}{{ table.capacity }} {{ (table.capacity === 1 ? 'person' : 'people') | translate }}</p>
-        </div>
+    <p class="subtitle">
+      {{ 'You are making a reservation at' | translate }}
+      <span class="body-bold">{{ locationName | translate }}, {{ 'Table' | translate }} {{ table.tableNumber }}</span>
+      {{ 'for' | translate }} <span class="body-bold">{{ selectedTimeRange.start | date: 'MMM d, y' }}</span>.
+    </p>
 
+    <div class="reservation-details">
+      <section class="detail-section">
+        <h3>{{ 'Guests' | translate }}</h3>
+        <p class="subtitle">
+          {{ 'Please specify the number of guests.' | translate }}
+          {{ 'Table seating capacity: ' | translate }}{{ table.capacity }}
+          {{ (table.capacity === 1 ? 'person' : 'people') | translate }}
+        </p>
         <app-custom-number
           class="guests-filter"
           [currentValue]="guests"
@@ -33,13 +30,11 @@
           [maxValue]="table.capacity"
           (currentValueChange)="onGuestsChange($event)"
         />
-      </div>
+      </section>
 
-      <div class="reservation-time">
-        <div>
-          <h3>{{ 'Time' | translate }}</h3>
-          <p class="subtitle">{{ 'Please choose your preferred time from the dropdowns below' | translate }}</p>
-        </div>
+      <section class="detail-section">
+        <h3>{{ 'Time' | translate }}</h3>
+        <p class="subtitle">{{ 'Please choose your preferred time from the dropdowns below' | translate }}</p>
 
         <div class="time-selectors">
           <div class="time-selector">
@@ -64,9 +59,11 @@
             />
           </div>
         </div>
-      </div>
+      </section>
     </div>
 
-    <app-custom-button (click)="onMakeReservation()">{{ title | translate }}</app-custom-button>
+    <app-custom-button class="submit-btn" fullWidth (click)="onMakeReservation()">
+      {{ title | translate }}
+    </app-custom-button>
   </div>
 </div>

@@ -33,6 +33,21 @@
 
 ---
 
+## 🔑 Тестовий обліковий запис клієнта (Demo Testing)
+
+Для демонстраційного тестування та ручної перевірки функціоналу (вхід у систему, бронювання столиків, пре-ордери, відгуки) використовуйте тестового клієнта:
+
+| Поле | Значення |
+| :--- | :--- |
+| **Email** | `customer@green-tasty.com` |
+| **Password** | `Customer12345!` |
+| **Role** | `Customer` |
+
+> [!NOTE]
+> Ці облікові дані також зберігаються у локальному файлі `credentials.env` (секція *Test Customer Account*) та використовуються AQA-фреймворком для автоматизованих тестів.
+
+---
+
 ## 📋 Користувацькі історії (Scrum User Stories)
 
 Всі користувацькі історії створюються відповідно до методології Scrum та вимог EPAM Business Analysis (*"Software requirements in Scrum: How to turn 'I want' into clear teamwork"*) із застосуванням INVEST-критеріїв, структурованих Pre-conditions та верифікованих Acceptance Criteria (AC).

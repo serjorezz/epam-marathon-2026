@@ -3,8 +3,8 @@
     <div class="header-feedback-wrapper">
       <div class="header-feedback">
         <h3 class="feedback-title">{{ 'Give Feedback' | translate }}</h3>
-        <button class="close-btn" (click)="onClose()">
-          <img src="assets/svg/close.svg" alt="close button" />
+        <button class="close-btn" aria-label="Close dialog" (click)="onClose()">
+          <img src="assets/svg/close.svg" alt="" aria-hidden="true" width="20" height="20" />
         </button>
       </div>
       <span class="subtitle">{{ 'Please rate your experience below' | translate }}</span>
@@ -46,14 +46,10 @@
             <li class="role">{{ 'Waiter' | translate }}</li>
             <li class="waiter-rating">
               4.9
-              <img src="assets/svg/star-mini.svg" alt="mini star" class="mini-star" />
+              <img src="assets/svg/star-mini.svg" alt="" aria-hidden="true" class="mini-star" />
             </li>
           </ul>
         </div>
-      }
-
-      @if (selectedTab === 'cuisine') {
-        <div class="content"></div>
       }
 
       <div class="raiting-wrapper">
@@ -82,12 +78,12 @@
     </main>
 
     @if (!feedbackForUpdate?.service || !feedbackForUpdate?.cuisineExperience) {
-      <app-custom-button (click)="onSubmitFeedback()" class="edit-confirmed-btn">
+      <app-custom-button (click)="onSubmitFeedback()" class="edit-confirmed-btn" fullWidth>
         {{ 'Submit Feedback' | translate }}
       </app-custom-button>
     }
     @if (feedbackForUpdate?.service && feedbackForUpdate?.cuisineExperience) {
-      <app-custom-button (click)="onUpdateFeedback()" class="edit-confirmed-btn">
+      <app-custom-button (click)="onUpdateFeedback()" class="edit-confirmed-btn" fullWidth>
         {{ 'Update Feedback' | translate }}
       </app-custom-button>
     }
