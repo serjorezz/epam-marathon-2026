@@ -110,6 +110,8 @@ jobs:
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
         uses: actions/deploy-pages@v4
         continue-on-error: true
+        with:
+          timeout: 1800000
             cd - > /dev/null
             git worktree remove --force "$tmp_dir"
           else
