@@ -26,6 +26,12 @@ env:
   TF_VERSION: '1.10.5'
   TF_VAR_account_id: '060913167510'
   TF_VAR_alert_emails: ${{ vars.ALERT_EMAILS || '["serjorez@proton.me"]' }}
+  # AQA CodeBuild pipeline credentials (star task). Fallbacks match the deployed environment,
+  # secrets override — same pattern as aqa-tests.yml.
+  TF_VAR_codebuild_github_token: ${{ secrets.CODEBUILD_GITHUB_TOKEN }}
+  TF_VAR_codebuild_waiter_password: ${{ secrets.AQA_WAITER_PASSWORD || 'Waiter12345!' }}
+  TF_VAR_codebuild_admin_password: ${{ secrets.AQA_ADMIN_PASSWORD || 'Admin12345!' }}
+  TF_VAR_codebuild_testtable_waiter_password: ${{ secrets.AQA_TESTTABLE_WAITER_PASSWORD || 'Waiter12345!' }}
 
 jobs:
   plan:
