@@ -17,6 +17,7 @@ import {
   ReservationStatusCustomer,
 } from '@app/models/reservations/reservation.model';
 import { PlaceOrderWaiterComponent } from '@app/components/place-order-waiter/place-order-waiter.component';
+import { ViewPreOrderModalComponent } from '@app/components/reservations/view-pre-order-modal/view-pre-order-modal.component';
 import { Roles } from '@app/shared/constants/roles';
 import { formatTime } from '@app/shared/helpers/date-helpers';
 import { evaluateHappyHours } from '@app/shared/helpers/happy-hours.helper';
@@ -41,6 +42,7 @@ interface WaiterPreOrderNavigationData {
     DatePipe,
     CustomSelectComponent,
     PlaceOrderWaiterComponent,
+    ViewPreOrderModalComponent,
     TranslatePipe,
   ],
   templateUrl: './card-reservation.component.html',
@@ -97,6 +99,7 @@ export class CardReservationComponent {
 
   readonly preOrder = output<CreateOrderRequest>();
   readonly showWaiterOrderModal = signal(false);
+  readonly showPreOrderModal = signal(false);
 
   readonly statusView = computed<ReservationStatusView>(() => {
     const reservation = this.r();
@@ -210,6 +213,16 @@ export class CardReservationComponent {
       return 'Pre-orders can only be modified up to 30 minutes before the reservation start time.';
     }
   });
+
+  onViewPreOrder(): void {
+    if (this.preOrderItemCount() > 0) {
+      this.showPreOrderModal.set(true);
+    }
+  }
+
+  closePreOrderModal(): void {
+    this.showPreOrderModal.set(false);
+  }
 
   onPreOrder(): void {
     if (this.isPreOrderCutoffReached()) {

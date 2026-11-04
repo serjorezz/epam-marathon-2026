@@ -141,7 +141,7 @@
       </div>
     }
 
-    @if (hasActions() || r().status === ReservationStatusCustomer.Cancelled) {
+    @if (hasActions()) {
       <hr class="card-divider" />
     }
 
@@ -166,7 +166,7 @@
                   type="button"
                   class="button button--primary button--large card-action-btn"
                   [disabled]="isPreOrderCutoffReached()"
-                  (click)="onPreOrder()"
+                  (click)="preOrderItemCount() > 0 ? onViewPreOrder() : onPreOrder()"
                 >
                   {{ (preOrderItemCount() > 0 ? 'View Pre-Order' : 'Add Pre-Order') | translate }}
                 </button>
@@ -331,5 +331,12 @@
     [customerId]="r().customerId"
     (closeModal)="closeWaiterOrderModal()"
     (placeOrder)="onWaiterOrderCreated($event)"
+  />
+}
+
+@if (showPreOrderModal() && r().preOrder) {
+  <app-view-pre-order-modal
+    [order]="r().preOrder!"
+    (closeModal)="closePreOrderModal()"
   />
 }

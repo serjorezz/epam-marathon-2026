@@ -8,7 +8,6 @@
 .dish-card {
   @include card.common-card;
   width: 100%;
-  aspect-ratio: 316 / 304;
   border-radius: 1.5rem;
   padding: 1.25rem;
   align-items: center;

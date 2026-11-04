@@ -1,14 +1,15 @@
 @use 'app/shared/styles/abstracts/colors' as color;
 
 :host {
-  display: block;
-  width: 86.25rem;
-  margin: 0 auto;
-  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: color.$bg-yellow;
 
   @media (max-width: 540px) {
-    width: 100%;
-    padding: 0;
+    padding: 1rem 0;
   }
 }
 
@@ -16,7 +17,9 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 100%;
+  align-items: center;
+  width: 100%;
+  max-width: 86.25rem;
 
   @media (max-width: 540px) {
     flex-direction: column;

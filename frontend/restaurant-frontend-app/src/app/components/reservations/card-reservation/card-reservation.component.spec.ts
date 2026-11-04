@@ -116,7 +116,7 @@ describe('CardReservationComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/menu'], jasmine.any(Object));
   });
 
-  it('should render second card divider for cancelled reservations', () => {
+  it('should not render a dangling second card divider for cancelled reservations', () => {
     const cancelledRes: ReservationCustomer = {
       ...PAST_RESERVATION,
       status: ReservationStatusCustomer.Cancelled,
@@ -125,7 +125,7 @@ describe('CardReservationComponent', () => {
     fixture.detectChanges();
 
     const dividers = fixture.nativeElement.querySelectorAll('.card-divider');
-    expect(dividers.length).toBe(2);
+    expect(dividers.length).toBe(1);
   });
 
   it('should disable delete button and render explanation tooltip for past / <30 min reservations', () => {

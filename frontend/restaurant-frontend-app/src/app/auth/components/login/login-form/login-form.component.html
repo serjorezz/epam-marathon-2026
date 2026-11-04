@@ -61,7 +61,7 @@
             </div>
         }
 
-        <a class="forgot-link" href="#" (click)="$event.preventDefault()">{{ 'Forgot password?' | translate }}</a>
+        <a class="forgot-link" routerLink="/forgot-password">{{ 'Forgot password?' | translate }}</a>
     </label>
 
     <app-custom-button class="submit" type="submit" fullWidth [disabled]="loginForm.invalid || isLoading()">

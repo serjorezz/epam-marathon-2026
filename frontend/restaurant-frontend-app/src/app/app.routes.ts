@@ -22,6 +22,16 @@ export const routes: Routes = [
   },
 
   {
+    canActivate: [AuthGuard],
+    data: { authorized: false },
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./auth/components/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
+  },
+
+  {
     path: 'locations/:id',
     component: LocationOverviewComponent,
   },
