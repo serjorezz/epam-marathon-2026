@@ -96,6 +96,9 @@ src/environments/environment.production.ts
 [Ll]og/
 [Ll]ogs/
 
+# AQA run output (TUnit/Reqnroll reports, TRX, Playwright traces)
+aqa/restaurant-aqa-framework/TestResults/
+
 # User-specific & local files
 *.user
 *.suo
