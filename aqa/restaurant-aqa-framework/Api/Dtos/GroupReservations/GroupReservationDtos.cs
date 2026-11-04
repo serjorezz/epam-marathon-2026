@@ -1,7 +1,7 @@
 namespace Restaurant_Aqa_Framework.Api.Dtos.GroupReservations;
 
 /// <summary>Response shapes of the group pre-order routes, verified live against the deployment
-/// (see scratch/aqa-context.md §3). The invite-by-token response uses PascalCase keys while the
+/// (the README's homework section documents the chosen behaviors). The invite-by-token response uses PascalCase keys while the
 /// sessions response is camelCase; <see cref="JsonDefaults"/> reads case-insensitively so plain
 /// records cover both.</summary>
 public sealed record InviteTokenResponse(string Token);

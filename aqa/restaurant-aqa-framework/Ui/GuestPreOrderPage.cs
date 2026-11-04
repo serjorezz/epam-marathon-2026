@@ -4,7 +4,7 @@ namespace Restaurant_Aqa_Framework.Ui;
 
 /// <summary>The guest pre-order flow at /join/{token}: guest-name modal, menu with dish cards,
 /// cart drawer with quantity controls and the submit-cart button. Selectors verified against the
-/// deployed DOM — see scratch/aqa-context.md §3.</summary>
+/// deployed DOM.</summary>
 public sealed class GuestPreOrderPage(IPage page) : BasePage(page)
 {
     public ILocator GuestNameInput => Page.Locator("input#guestName");

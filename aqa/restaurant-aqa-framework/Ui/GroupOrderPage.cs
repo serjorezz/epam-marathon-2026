@@ -3,7 +3,7 @@ using Microsoft.Playwright;
 namespace Restaurant_Aqa_Framework.Ui;
 
 /// <summary>The owner's consolidated group pre-order page (/reservations/{id}/group-order).
-/// Selectors verified against the deployed DOM — see scratch/aqa-context.md §3.</summary>
+/// Selectors verified against the deployed DOM.</summary>
 public sealed class GroupOrderPage(IPage page) : BasePage(page)
 {
     public ILocator StatusBadge => Page.Locator("main.group-order-page span.status-badge");
