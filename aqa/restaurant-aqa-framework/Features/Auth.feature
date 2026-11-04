@@ -1,3 +1,4 @@
+@direction2 @level1
 Feature: Signing in
 
   Staff sign in with the credentials they were given. A waiter account cannot be

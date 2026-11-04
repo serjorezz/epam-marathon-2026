@@ -1,3 +1,4 @@
+@direction2 @level1
 Feature: Registration
 
   A visitor becomes a customer by signing up. Everyone who signs up is a customer;
@@ -29,6 +30,16 @@ Feature: Registration
         | last name  | too short          | Last name must be between 2 and 50 characters long.                  |
         | last name  | with an underscore | Last name can only contain Latin letters, hyphens, and apostrophes.  |
 
+      @boundaries
+      Examples: Boundary invalid name and password lengths
+        | field      | problem       | message                                              |
+        | first name | 1 character   | First name must be between 2 and 50 characters long. |
+        | first name | 51 characters | First name must be between 2 and 50 characters long. |
+        | last name  | 1 character   | Last name must be between 2 and 50 characters long.  |
+        | last name  | 51 characters | Last name must be between 2 and 50 characters long.  |
+        | password   | 7 characters  | Password must be between 8 and 16 characters long.   |
+        | password   | 17 characters | Password must be between 8 and 16 characters long.   |
+
       @email
       Examples: Email address rules
         | field         | problem           | message                                                                         |
@@ -41,6 +52,29 @@ Feature: Registration
         | password              | too short                   | Password must be between 8 and 16 characters long. |
         | password              | too long                    | Password must be between 8 and 16 characters long. |
         | password confirmation | different from the password | Passwords do not match.                            |
+
+  Rule: Boundary values for valid details allow registration
+
+    @api
+    Scenario Outline: A visitor can register with boundary length values
+      When a visitor registers with a <field> of <length> characters
+      Then the visitor is registered
+      And the visitor can sign in with those details
+      And the visitor is signed in as a customer
+
+      Examples: Valid boundary lengths
+        | field      | length |
+        | first name | 2      |
+        | first name | 50     |
+        | last name  | 2      |
+        | last name  | 50     |
+        | password   | 8      |
+        | password   | 16     |
+
+    @api @negative
+    Scenario: An email address longer than the account store supports cannot be registered
+      When a visitor tries to register with an email address of 254 characters
+      Then the visitor is not registered
 
   Rule: The sign-up form guides a visitor to a working account
 
@@ -67,6 +101,14 @@ Feature: Registration
         | last name  | empty              |
         | last name  | with an underscore |
 
+      @boundaries
+      Examples: Boundary invalid lengths
+        | field      | problem       |
+        | first name | 51 characters |
+        | last name  | 51 characters |
+        | password   | 7 characters  |
+        | password   | 17 characters |
+
       @email
       Examples: Email address field
         | field         | problem           |
@@ -80,6 +122,18 @@ Feature: Registration
         | password              | too long                    |
         | password confirmation | different from the password |
 
+    # Known defect: frontend form lacks minLength(2) validator for names, so 1 character is accepted on UI
+    @ui @negative @validation @known-defect
+    Scenario Outline: A visitor cannot submit the form with a 1-character name
+      When the visitor fills in the sign-up form with valid details
+      And the visitor enters an invalid <field> (<problem>)
+      Then the visitor cannot submit the form
+
+      Examples:
+        | field      | problem     |
+        | first name | 1 character |
+        | last name  | 1 character |
+
     @ui @negative @validation
     Scenario Outline: The form explains what is wrong with a detail
       When the visitor fills in the sign-up form with valid details
@@ -88,9 +142,9 @@ Feature: Registration
 
       @names
       Examples: First name messages
-        | field      | problem     | message                                                 |
-        | first name | empty       | First name is required.                                 |
-        | first name | too long    | First name must be up to 50 characters.                 |
+        | field      | problem     | message                                                   |
+        | first name | empty       | First name is required.                                   |
+        | first name | too long    | First name must be up to 50 characters.                   |
         | first name | with digits | Only Latin letters, hyphens, and apostrophes are allowed. |
 
       # Known defect (expected to fail until fixed): the last name field shows the first name's

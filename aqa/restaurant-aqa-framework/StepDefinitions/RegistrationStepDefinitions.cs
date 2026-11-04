@@ -46,6 +46,52 @@ public sealed class RegistrationStepDefinitions(Actor actor) : StepDefinitionBas
         await Assert.That(await Actor.AsksForAsync(new TheIdToken())).IsNotNullOrEmpty();
     }
 
+    /// <summary>Registers a visitor whose named detail is a valid value of exactly the given length — the
+    /// boundary counterpart of "tries to register with an invalid ...". Lengths live in <see cref="BoundaryInputs"/>.</summary>
+    [When("a visitor registers with a {field} of {int} characters")]
+    public Task WhenVisitorRegistersWithBoundaryValue(InputField field, int length)
+    {
+        var visitor = SampleDataFactory.RegisterRequest();
+        var boundary = field switch
+        {
+            InputField.FirstName or InputField.LastName => BoundaryInputs.NameOfLength(length),
+            InputField.EmailAddress => BoundaryInputs.EmailOfLength(length),
+            InputField.Password or InputField.PasswordConfirmation => BoundaryInputs.PasswordOfLength(length),
+            _ => throw new ArgumentOutOfRangeException(nameof(field), field, null),
+        };
+        var request = field switch
+        {
+            InputField.FirstName => visitor with { FirstName = boundary },
+            InputField.LastName => visitor with { LastName = boundary },
+            InputField.EmailAddress => visitor with { Email = boundary },
+            InputField.Password => visitor with { Password = boundary, ConfirmPassword = boundary },
+            _ => visitor with { ConfirmPassword = boundary },
+        };
+
+        return Actor.AttemptsToAsync(new RegisterThroughTheService(request));
+    }
+
+    /// <summary>The backend's own validation allows this length, so the failure (if any) comes from the account
+    /// store downstream — scenarios assert the business outcome (no account) rather than a message.</summary>
+    [When("a visitor tries to register with an email address of {int} characters")]
+    public Task WhenVisitorTriesBoundaryEmail(int length) =>
+        Actor.AttemptsToAsync(new RegisterThroughTheService(
+            SampleDataFactory.RegisterRequest() with { Email = BoundaryInputs.EmailOfLength(length) }));
+
+    [Then("the visitor is not registered")]
+    public async Task ThenVisitorIsNotRegistered()
+    {
+        var outcome = await Actor.AsksForAsync(new TheOutcome());
+        await Assert.That(outcome.Succeeded).IsFalse().Because($"the visitor was unexpectedly registered: {outcome.Body}");
+    }
+
+    [Then("the visitor is signed in as a customer")]
+    public async Task ThenVisitorIsSignedInAsCustomer()
+    {
+        var roles = await Actor.AsksForAsync(new TheRoleClaims());
+        await Assert.That(roles).Contains("Customer");
+    }
+
     // ---- through the storefront ----
 
     [Given("a visitor is on the sign-up page")]
@@ -58,6 +104,11 @@ public sealed class RegistrationStepDefinitions(Actor actor) : StepDefinitionBas
     [When("the visitor enters an invalid {field} \\({problem}\\)")]
     public Task WhenVisitorEntersInvalid(InputField field, InputProblem problem) =>
         Actor.AttemptsToAsync(new EnterIntoTheSignUpForm(field, InvalidInputs.Value(field, problem)));
+
+    /// <summary>Replaces the email with a syntactically valid address of exactly the given length.</summary>
+    [When("the visitor enters an email address that is {int} characters long")]
+    public Task WhenVisitorEntersBoundaryEmail(int length) =>
+        Actor.AttemptsToAsync(new EnterIntoTheSignUpForm(InputField.EmailAddress, BoundaryInputs.EmailOfLength(length)));
 
     /// <summary>On the sign-up form the explanation appears right under the field that is wrong.</summary>
     [Then("the visitor is told {string}")]

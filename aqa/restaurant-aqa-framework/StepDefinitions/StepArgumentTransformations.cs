@@ -47,7 +47,7 @@ public static class StepArgumentTransformations
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
-    [StepArgumentTransformation(Name = "problem", Regex = "(too short|too long|empty|with digits|with an underscore|without an @ sign|without a domain|different from the password)")]
+    [StepArgumentTransformation(Name = "problem", Regex = "(too short|too long|empty|with digits|with an underscore|without an @ sign|without a domain|different from the password|1 character|51 characters|7 characters|17 characters)")]
     public static InputProblem ToProblem(string value) => value switch
     {
         "too short" => InputProblem.TooShort,
@@ -58,6 +58,10 @@ public static class StepArgumentTransformations
         "without an @ sign" => InputProblem.WithoutAtSign,
         "without a domain" => InputProblem.WithoutDomain,
         "different from the password" => InputProblem.DifferentFromPassword,
+        "1 character" => InputProblem.OneCharacter,
+        "51 characters" => InputProblem.FiftyOneCharacters,
+        "7 characters" => InputProblem.SevenCharacters,
+        "17 characters" => InputProblem.SeventeenCharacters,
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 

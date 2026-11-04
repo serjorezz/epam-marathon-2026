@@ -21,6 +21,10 @@ public enum InputProblem
     WithoutAtSign,
     WithoutDomain,
     DifferentFromPassword,
+    OneCharacter,
+    FiftyOneCharacters,
+    SevenCharacters,
+    SeventeenCharacters,
 }
 
 /// <summary>What is wrong with a location a manager tries to set up.</summary>
@@ -50,8 +54,12 @@ public static class InvalidInputs
         (InputField.EmailAddress, InputProblem.WithoutAtSign) => "not-an-email",
         (InputField.EmailAddress, InputProblem.WithoutDomain) => "someone@nodot",
         (InputField.EmailAddress, InputProblem.TooLong) => new string('a', MaxEmailLength + 1),
+        (InputField.FirstName or InputField.LastName, InputProblem.OneCharacter) => "A",
+        (InputField.FirstName or InputField.LastName, InputProblem.FiftyOneCharacters) => new string('a', MaxNameLength + 1),
         (InputField.Password, InputProblem.TooShort) => "short",
         (InputField.Password, InputProblem.TooLong) => new string('a', MaxPasswordLength + 1),
+        (InputField.Password, InputProblem.SevenCharacters) => "Ab1!xyz",
+        (InputField.Password, InputProblem.SeventeenCharacters) => new string('a', MaxPasswordLength + 1),
         (InputField.PasswordConfirmation, InputProblem.DifferentFromPassword) => "Different1!",
         (_, InputProblem.Empty) => "",
         _ => throw new NotSupportedException($"No invalid value is defined for '{field}' that is '{problem}'."),

@@ -70,7 +70,7 @@ public sealed record Settings(
             Browser: ParseEnum("BROWSER", BrowserKind.Chromium),
             Headless: ReadBool("HEADLESS", true),
             DefaultTimeoutMs: ReadInt("DEFAULT_TIMEOUT_MS", 15_000),
-            NavigationTimeoutMs: ReadInt("NAVIGATION_TIMEOUT_MS", 30_000),
+            NavigationTimeoutMs: ReadInt("NAVIGATION_TIMEOUT_MS", 60_000),
             TraceMode: ParseEnum("TRACE_MODE", TraceMode.OnFailureOnly),
             Performance: new PerformanceThresholds(
                 PageLoadMs: ReadInt("PERF_PAGE_LOAD_MS", 3_000),

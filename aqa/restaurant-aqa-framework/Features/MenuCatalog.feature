@@ -1,3 +1,4 @@
+@direction2 @level1
 Feature: Menu
 
   What a guest can do with the restaurant's menu: browse by category, sort, search,
@@ -37,7 +38,7 @@ Feature: Menu
       And the dishes are listed <order>
 
       Examples: Both directions
-        | sorting              | order                          |
+        | sorting              | order                           |
         | price, lowest first  | from cheapest to most expensive |
         | price, highest first | from most expensive to cheapest |
 
@@ -50,6 +51,11 @@ Feature: Menu
         | sorting                         |
         | popularity, least popular first |
         | popularity, most popular first  |
+
+    @api
+    Scenario: Sorting the menu by popularity in both directions
+      When a guest sorts the menu by popularity in both directions
+      Then both directions show the same dishes
 
     @api @data-dependent
     Scenario: A category and a sort order can be combined
@@ -83,6 +89,16 @@ Feature: Menu
     Scenario: A guest can find a new dish by its name
       When a guest searches the menu for that dish by name
       Then that dish appears in the results
+
+    @api
+    Scenario: A guest can search the menu for part of that dish's name
+      When a guest searches the menu for part of that dish's name
+      Then all the dishes shown match the search
+
+    @api
+    Scenario: Searching for a non-existent dish returns no results
+      When a guest searches the menu for a dish that nobody serves
+      Then no dishes are shown
 
     @api
     Scenario: A guest can open a new dish
