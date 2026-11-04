@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/reportportal/agent-net-reqnroll/master/ReportPortal.schema",
+  "enabled": false,
+  "server": {
+    "url": "",
+    "project": "",
+    "apiKey": ""
+  },
+  "launch": {
+    "name": "Green & Tasty AQA"
+  },
+  "rootNamespaces": [ "Restaurant_Aqa_Framework" ]
+}

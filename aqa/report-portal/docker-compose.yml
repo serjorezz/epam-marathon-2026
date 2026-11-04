@@ -1,0 +1,160 @@
+# Report Portal OSS — local reporting for the AQA suite (star task).
+# Start:  docker compose -f aqa/report-portal/docker-compose.yml up -d
+# UI:     http://localhost:8080  (default admin: superadmin / erebus)
+# The test framework reports here only when REPORTPORTAL_ENABLED=true and the
+# server variables are exported (see aqa/report-portal/README.md).
+name: report-portal
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: rpuser
+      POSTGRES_PASSWORD: rppass
+      POSTGRES_DB: reportportal
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rpuser -d reportportal"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  opensearch:
+    image: opensearchproject/opensearch:2.12.0
+    environment:
+      discovery.type: single-node
+      plugins.security.disabled: "true"
+      bootstrap.memory_lock: "false"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+      DISABLE_INSTALL_DEMO_CONFIG: "true"
+    volumes:
+      - osdata:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  minio:
+    image: bitnamilegacy/minio:2024
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+      MINIO_BROWSER: "off"
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  # ReportPortal does not create its datastore buckets; make them idempotently before the api starts.
+  minio-init:
+    image: bitnamilegacy/minio:2024
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        /opt/bitnami/minio-client/bin/mc alias set local http://minio:9000 minio minio123 &&
+        /opt/bitnami/minio-client/bin/mc mb --ignore-existing local/rp-bucket local/reportportal
+    restart: "no"
+
+  analyzer:
+    image: reportportal/service-auto-analyzer:5.12.0
+    environment:
+      LOGGING_LEVEL: info
+      AMQP_URL: amqp://rabbitmq:rabbitmq@rabbitmq:5672
+      ES_HOSTS: http://opensearch:9200
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
+    restart: unless-stopped
+
+  migrations:
+    image: reportportal/migrations:5.12.0
+    environment:
+      POSTGRES_SERVER: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: reportportal
+      POSTGRES_USER: rpuser
+      POSTGRES_PASSWORD: rppass
+    command: up
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+
+  api:
+    image: reportportal/service-api:5.12.0
+    environment:
+      RP_DB_HOST: postgres
+      RP_DB_PORT: "5432"
+      RP_DB_USER: rpuser
+      RP_DB_PASS: rppass
+      RP_DB_NAME: reportportal
+      RP_AMQP_HOST: rabbitmq
+      RP_AMQP_PORT: "5672"
+      RP_AMQP_USER: rabbitmq
+      RP_AMQP_PASS: rabbitmq
+      RP_AMQP_APIUSER: rabbitmq
+      RP_AMQP_APIPASS: rabbitmq
+      RP_BINARYSTORE_TYPE: minio
+      RP_BINARYSTORE_MINIO_ENDPOINT: minio:9000
+      RP_BINARYSTORE_MINIO_ACCESSKEY: minio
+      RP_BINARYSTORE_MINIO_SECRETKEY: minio123
+      RP_ENCRYPTOR_PASSWORD: aqaLocalReportingKey0123456789abcdef
+      LOGGING_LEVEL: info
+    user: root
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+      minio:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  ui:
+    image: reportportal/service-ui:5.12.0
+    ports:
+      - "8080:8080"
+    environment:
+      RP_SERVER_PORT: "8080"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  osdata:
+  storage:
+  miniodata:
