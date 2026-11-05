@@ -39,7 +39,7 @@
 
 | Поле | Client | Adnin | Waiter |
 | :--- | :--- | :--- | :--- |
-| **Email** | `customer@green-tasty.com` | `admin@green-tasty.com | `waiter@green-tasty.com` |
+| **Email** | `customer@green-tasty.com` | `admin@green-tasty.com` | `waiter@green-tasty.com` |
 | **Password** | `Customer12345!` | `Admin12345!` | `Waiter12345!` |
 
 > [!NOTE]
