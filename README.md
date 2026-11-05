@@ -37,7 +37,7 @@
 
 Для демонстраційного тестування та ручної перевірки функціоналу (вхід у систему, бронювання столиків, пре-ордери, відгуки) використовуйте тестові аккаунти:
 
-| Поле | Client | Adnin | Waiter |
+| Поле | Client | Admin | Waiter |
 | :--- | :--- | :--- | :--- |
 | **Email** | `customer@green-tasty.com` | `admin@green-tasty.com` | `waiter@green-tasty.com` |
 | **Password** | `Customer12345!` | `Admin12345!` | `Waiter12345!` |
