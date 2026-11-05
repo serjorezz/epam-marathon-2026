@@ -25,6 +25,7 @@
 | **Backend API Gateway** | [pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop](https://pin0yvpmgk.execute-api.us-east-1.amazonaws.com/develop) | Базовий REST API Gateway ендпоінт (`develop`) |
 | **Swagger UI** | [restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com](http://restaurant-backend-dev-swagger-ui-060913167510.s3-website.us-east-1.amazonaws.com) | Інтерактивна документація API |
 | **MCP Server & Gemini Bridge** | [mcp-server/](mcp-server/) | Model Context Protocol сервер та OpenAPI 3.0 шар для Gemini App і AI-агентів |
+| **Security Policy** | [SECURITY.md](SECURITY.md) | Політика безпеки: звітність про вразливості, заходи захисту, відомі обмеження demo-середовища |
 
 > [!TIP]
 > **🚀 Live Demo посилання для перевірки виконання завдання Frontend:**  
@@ -242,7 +243,7 @@ Install the tools below on your machine:
 - Python 3.10-3.11 (https://www.python.org/downloads/release/python-3110/)
 - .NET 10 SDK (https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 - AWS Syndicate (`pip install aws-syndicate`) (https://github.com/epam/aws-syndicate)
-- Node.js 22.x with npm (https://nodejs.org/en/download/archive/v22.0.0)
+- Node.js 24.x with npm (matches `frontend/restaurant-frontend-app/.nvmrc`) (https://nodejs.org/en/download)
 
 ## Deployment order
 
@@ -482,7 +483,7 @@ python3 scripts/seed-dynamodb.py --region us-east-1
 The script populates:
 - **Locations (`Locations`)**: 8 restaurant locations in Tbilisi with descriptions and photo assets.
 - **Tables (`Tables`)**: 44 bookable tables of various capacities (2, 4, 6, 8 guests) with GSI indexes.
-- **Dishes (`Dishes`)**: 9 menu items (Appetizers, Main courses, Desserts) in `Available` state with assets.
+- **Dishes (`Dishes`)**: 14 menu items across 4 categories (Appetizers, Main Courses, Desserts, Wine) in `Available` state with assets.
 - **Cognito Groups & Accounts**:
   - `Admin`: Administrator account for restaurant management.
   - `Waiters`: Active waiters assigned to restaurant locations registered in Cognito and DynamoDB `Waiters` table (enabling reservations, table service, and waiter dashboards).
