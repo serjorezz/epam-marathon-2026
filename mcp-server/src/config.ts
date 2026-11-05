@@ -1,6 +1,4 @@
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 // Load .env if present
 dotenv.config();
@@ -28,3 +26,6 @@ export const config: AppConfig = {
   customerPassword: process.env.CUSTOMER_PASSWORD || 'Customer12345!',
   mockFallback: process.env.MOCK_FALLBACK !== 'false',
 };
+
+/** Timeout for outbound backend HTTP requests (ms). */
+export const BACKEND_REQUEST_TIMEOUT_MS = 15_000;

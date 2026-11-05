@@ -1,4 +1,4 @@
-import { config } from '../config.js';
+import { config, BACKEND_REQUEST_TIMEOUT_MS } from '../config.js';
 
 export interface BackendTable {
   id: string;
@@ -51,6 +51,7 @@ export class BackendClient {
       headers: {
         Accept: 'application/json',
       },
+      signal: AbortSignal.timeout(BACKEND_REQUEST_TIMEOUT_MS),
     });
 
     if (!res.ok) {
@@ -74,6 +75,7 @@ export class BackendClient {
       headers: {
         Accept: 'application/json',
       },
+      signal: AbortSignal.timeout(BACKEND_REQUEST_TIMEOUT_MS),
     });
 
     if (!res.ok) {
@@ -105,6 +107,7 @@ export class BackendClient {
           email: config.customerEmail,
           password: config.customerPassword,
         }),
+        signal: AbortSignal.timeout(BACKEND_REQUEST_TIMEOUT_MS),
       });
 
       if (!res.ok) {
@@ -145,6 +148,7 @@ export class BackendClient {
       method: 'POST',
       headers,
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(BACKEND_REQUEST_TIMEOUT_MS),
     });
 
     if (!res.ok) {

@@ -33,15 +33,14 @@
 
 ---
 
-## 🔑 Тестовий обліковий запис клієнта (Demo Testing)
+## 🔑 Тестові обліковий записи (Demo Testing)
 
-Для демонстраційного тестування та ручної перевірки функціоналу (вхід у систему, бронювання столиків, пре-ордери, відгуки) використовуйте тестового клієнта:
+Для демонстраційного тестування та ручної перевірки функціоналу (вхід у систему, бронювання столиків, пре-ордери, відгуки) використовуйте тестові аккаунти:
 
-| Поле | Значення |
-| :--- | :--- |
-| **Email** | `customer@green-tasty.com` |
-| **Password** | `Customer12345!` |
-| **Role** | `Customer` |
+| Поле | Client | Adnin | Waiter |
+| :--- | :--- | :--- | :--- |
+| **Email** | `customer@green-tasty.com` | `admin@green-tasty.com | `waiter@green-tasty.com` |
+| **Password** | `Customer12345!` | `Admin12345!` | `Waiter12345!` |
 
 > [!NOTE]
 > Ці облікові дані також зберігаються у локальному файлі `credentials.env` (секція *Test Customer Account*) та використовуються AQA-фреймворком для автоматизованих тестів.
@@ -159,6 +158,14 @@ npm run start:stdio
 
 # Запуск автоматизованих тестів:
 npm test
+```
+
+Або через Docker (без локального Node.js):
+
+```bash
+docker build -t green-tasty-mcp mcp-server
+docker run -p 3000:3000 green-tasty-mcp          # HTTP / OpenAPI / SSE bridge
+docker run -i --rm green-tasty-mcp node dist/index.js --stdio   # MCP stdio режим
 ```
 
 ### 4. Тестування через cURL

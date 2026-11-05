@@ -33,44 +33,59 @@ export class ReservationBridge {
    */
   async checkAvailability(input: CheckAvailabilityInput): Promise<CheckAvailabilityResult> {
     const candidateHours = [12, 13, 15, 17, 18, 19, 20, 21];
-    const availableSlots: string[] = [];
     let totalMatchingTables = 0;
 
     const [year, month, day] = input.date.split('-').map(Number);
     const now = new Date();
 
-    try {
-      // Test the candidate hours against the live backend
-      for (const hour of candidateHours) {
-        const slotDate = new Date(Date.UTC(year, month - 1, day, hour, 0, 0));
-        // Skip past slots
-        if (slotDate.getTime() < now.getTime() + 15 * 60 * 1000) {
-          continue;
+    // Future slots worth probing against the live backend
+    const futureSlots = candidateHours
+      .map((hour) => ({ hour, date: new Date(Date.UTC(year, month - 1, day, hour, 0, 0)) }))
+      .filter((slot) => slot.date.getTime() >= now.getTime() + 15 * 60 * 1000);
+
+    let availableSlots: string[] = [];
+
+    if (futureSlots.length > 0) {
+      // Probe all candidate slots concurrently — each backend call is independent.
+      const probes = await Promise.all(
+        futureSlots.map(async (slot) => {
+          try {
+            const tables = await this.client.getAvailableTables(
+              input.guests_count,
+              slot.date.toISOString()
+            );
+            return { slot, tables, failed: false as const };
+          } catch (err) {
+            return { slot, tables: [] as BackendTable[], failed: true as const, err };
+          }
+        })
+      );
+
+      const failures = probes.filter((p) => p.failed);
+      if (failures.length === probes.length) {
+        // Total backend outage: every single probe failed.
+        const firstErr = failures[0].err;
+        console.warn(`[ReservationBridge] Live backend check failed:`, firstErr);
+
+        if (config.mockFallback) {
+          availableSlots = futureSlots.map((s) => `${s.hour.toString().padStart(2, '0')}:00`);
+          totalMatchingTables = 4;
+        } else {
+          throw firstErr;
         }
-
-        const slotIso = slotDate.toISOString();
-        const tables = await this.client.getAvailableTables(input.guests_count, slotIso);
-
-        if (tables.length > 0) {
-          const timeStr = `${hour.toString().padStart(2, '0')}:00`;
-          availableSlots.push(timeStr);
-          totalMatchingTables = Math.max(totalMatchingTables, tables.length);
+      } else {
+        if (failures.length > 0) {
+          console.warn(
+            `[ReservationBridge] ${failures.length}/${probes.length} availability probes failed; ` +
+              'returning partial results.'
+          );
         }
-      }
-    } catch (err) {
-      console.warn(`[ReservationBridge] Live backend check failed:`, err);
-
-      if (config.mockFallback) {
-        // Resilient fallback for testing and offline environments
-        for (const hour of candidateHours) {
-          const slotDate = new Date(Date.UTC(year, month - 1, day, hour, 0, 0));
-          if (slotDate.getTime() >= now.getTime() + 15 * 60 * 1000) {
-            availableSlots.push(`${hour.toString().padStart(2, '0')}:00`);
+        for (const probe of probes) {
+          if (!probe.failed && probe.tables.length > 0) {
+            availableSlots.push(`${probe.slot.hour.toString().padStart(2, '0')}:00`);
+            totalMatchingTables = Math.max(totalMatchingTables, probe.tables.length);
           }
         }
-        totalMatchingTables = 4;
-      } else {
-        throw err;
       }
     }
 

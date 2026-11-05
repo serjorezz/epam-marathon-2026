@@ -1,0 +1,15 @@
+services:
+  mcp-server:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # Defaults matching .env.example; override in .env or here
+      PORT: 3000
+      HOST: 0.0.0.0
+      SERVER_BASE_URL: http://localhost:3000
+      MOCK_FALLBACK: "true"
+    restart: unless-stopped

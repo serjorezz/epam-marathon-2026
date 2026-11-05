@@ -25,6 +25,9 @@
   ],
   "author": "Green & Tasty Team",
   "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
     "dotenv": "^18.0.9",

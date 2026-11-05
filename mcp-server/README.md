@@ -25,6 +25,7 @@ The bridge defines two core reservation actions wrapping the restaurant's backen
 - **Input Sanitization & Validation**:
   - HTML, script tags, null bytes, and SQL injection patterns are stripped automatically.
   - Strict **Zod** schemas enforce date constraints (no past bookings), valid international phone formatting, sensible guest limits (1–20), and ISO 8601 timestamps.
+- **Resilient Backend Calls**: availability probes run concurrently with a 15-second timeout per request; a full backend outage triggers the configurable mock fallback, partial outages degrade gracefully.
 
 ---
 
@@ -60,7 +61,23 @@ CUSTOMER_PASSWORD=Customer12345!
 MOCK_FALLBACK=true
 ```
 
-### 3. Run the Server
+### 3. Run with Docker (no local Node.js required)
+
+```bash
+# Build and run the HTTP / OpenAPI / SSE bridge on http://localhost:3000
+docker build -t green-tasty-mcp .
+docker run -p 3000:3000 green-tasty-mcp
+
+# Or via Docker Compose (reads .env if present)
+docker compose up --build
+
+# Stdio MCP mode (for piping into an MCP client)
+docker run -i --rm green-tasty-mcp node dist/index.js --stdio
+```
+
+The image is multi-stage (compiled TypeScript, production dependencies only, non-root user, built-in `/health` healthcheck). Manifest and Gemini extension files are baked in and served at runtime.
+
+### 4. Run the Server Locally
 
 - **Start HTTP / OpenAPI / SSE server (default on port 3000):**
   ```bash
@@ -113,11 +130,13 @@ curl -X POST http://localhost:3000/api/check-availability \
   "date": "2026-11-10",
   "guests_count": 2,
   "available": true,
-  "available_time_slots": ["12:00", "13:30", "15:00", "17:00", "18:00", "19:30", "20:00", "21:00"],
+  "available_time_slots": ["12:00", "13:00", "15:00", "17:00", "18:00", "19:00", "20:00", "21:00"],
   "available_tables_count": 5,
-  "message": "Tables are available for 2 guest(s) on 2026-11-10 at: 12:00, 13:30, 15:00, 17:00, 18:00, 19:30, 20:00, 21:00."
+  "message": "Tables are available for 2 guest(s) on 2026-11-10 at: 12:00, 13:00, 15:00, 17:00, 18:00, 19:00, 20:00, 21:00."
 }
 ```
+
+*Slots are probed concurrently against the live backend (whole-hour starts); past slots are excluded automatically.*
 
 ### Test `create_reservation`
 
