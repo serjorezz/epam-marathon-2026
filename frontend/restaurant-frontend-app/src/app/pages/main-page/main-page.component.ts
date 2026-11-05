@@ -134,7 +134,7 @@ export class MainPageComponent implements OnInit {
     this.locationsLoading = true;
     this.locationsService.getLocations().subscribe({
       next: (data) => {
-        this.locations = data.slice(0, 3).map((location) => ({
+        this.locations = data.map((location) => ({
           ...location,
           imageUrl: location.imageUrl || 'assets/img/locations/baratashvili-street-14.jpg',
           address: location.address || 'Unknown Address',
