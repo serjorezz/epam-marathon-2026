@@ -1,15 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" fill="none">
-  <g stroke="#D6E5D5" stroke-linecap="round">
-    <!-- small leaf -->
-    <path d="M228 226 Q244 208 266 216 Q258 236 238 238 Q229 236 228 226 Z" fill="#D6E5D5" stroke="none"/>
-    <!-- vine curve with tendril -->
-    <path d="M210 260 Q236 252 244 232 Q250 216 238 210 Q228 206 226 216 Q225 224 233 224" stroke-width="3" fill="none"/>
-    <path d="M244 232 Q258 238 268 232" stroke-width="2.5" fill="none"/>
-    <!-- three tiny grapes -->
-    <g fill="#D6E5D5" stroke="none">
-      <circle cx="216" cy="272" r="6"/>
-      <circle cx="230" cy="276" r="6"/>
-      <circle cx="223" cy="286" r="6"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="380" viewBox="0 0 380 380" fill="none">
+  <g stroke="#D6E5D5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- leaf -->
+    <g transform="translate(268,238) rotate(-16) scale(0.8)">
+      <path d="M0 -30 C11 -28 15 -18 13 -9 C24 -13 32 -6 30 5 C28 14 18 16 11 13 C13 24 5 30 -5 28 C-14 26 -16 17 -13 10 C-24 13 -32 5 -28 -6 C-25 -14 -15 -15 -10 -12 C-13 -23 -9 -30 0 -30 Z"/>
+      <path d="M0 -22 L0 20 M0 -6 L-15 -13 M0 -6 L15 -11 M0 5 L-13 10 M0 5 L12 9" stroke-width="3"/>
     </g>
+    <!-- small grape bunch (outline) -->
+    <g transform="translate(232,286)">
+      <circle cx="-10" cy="0" r="7.5"/>
+      <circle cx="6" cy="-1" r="7.5"/>
+      <circle cx="-2" cy="12" r="7.5"/>
+      <circle cx="12" cy="12" r="7"/>
+      <circle cx="5" cy="24" r="7"/>
+      <path d="M-1 -9 L-1 -7" stroke-width="4"/>
+    </g>
+    <!-- vine curl -->
+    <path d="M212 316 Q250 310 262 284 Q271 264 255 257 Q242 252 240 264 Q239 274 249 272" stroke-width="3.6"/>
+    <path d="M262 284 Q280 290 292 282" stroke-width="3.2"/>
+    <path d="M300 250 Q310 242 318 248 Q324 253 318 258 Q312 261 310 255" stroke-width="3"/>
   </g>
 </svg>
