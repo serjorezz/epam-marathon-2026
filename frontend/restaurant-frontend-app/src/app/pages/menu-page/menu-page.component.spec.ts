@@ -256,6 +256,19 @@ describe('MenuPageComponent', () => {
     expect(component.filteredDishes.length).toBe(2);
   });
 
+  it('should match category filter regardless of API spacing/casing (e.g. Main course vs MainCourse)', () => {
+    // API returns 'Main course' with a space; enum value is 'MainCourse'
+    component.dishes = component.dishes.map((dish) =>
+      dish.dishType === 'MainCourse' ? { ...dish, dishType: 'Main course' } : dish,
+    );
+
+    component.selectedCategory = 'MainCourse' as never;
+    component.applyFilters();
+
+    expect(component.filteredDishes.length).toBe(2);
+    expect(dishesServiceSpy.getDishes).toHaveBeenCalledTimes(1);
+  });
+
   it('should sort preloaded dishes by price ascending client-side', () => {
     component.selectedCategory = null;
     component.selectedSort = 'PriceAscending' as never;

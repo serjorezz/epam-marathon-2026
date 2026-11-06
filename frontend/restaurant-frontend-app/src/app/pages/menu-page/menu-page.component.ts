@@ -207,7 +207,12 @@ export class MenuPageComponent implements OnInit, OnDestroy {
     let result = this.dishes;
 
     if (this.selectedCategory) {
-      result = result.filter((dish) => dish.dishType === this.selectedCategory);
+      // Normalize both sides — the API may return e.g. 'Main course'
+      // while the enum value is 'MainCourse'.
+      const wanted = this.normalizeDishType(this.selectedCategory);
+      result = result.filter(
+        (dish) => this.normalizeDishType(dish.dishType) === wanted,
+      );
     }
 
     if (this.onlyFavorites && this.isCustomerLoggedIn) {
@@ -215,6 +220,10 @@ export class MenuPageComponent implements OnInit, OnDestroy {
     }
 
     this.filteredDishes = this.sortDishes(result);
+  }
+
+  private normalizeDishType(value: string | null | undefined): string {
+    return (value ?? '').replace(/\s+/g, '').toLowerCase();
   }
 
   private sortDishes(dishes: DishListResponse[]): DishListResponse[] {
