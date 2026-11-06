@@ -1,85 +1,128 @@
 <div class="not-found">
   <div class="codec-frame">
-    <div class="code">CODEC · FREQUENCY 141.12 · GREEN &amp; TASTY</div>
+    <div class="code">CODEC · FREQUENCY 140.85 · GREEN &amp; TASTY</div>
 
-    <div class="scene" aria-hidden="true">
-      <!-- Red alert exclamation -->
-      <div class="alert">!</div>
+    <!-- Codec row: portrait — center readout — portrait -->
+    <div class="codec-row">
+      <!-- OTACON -->
+      <div class="portrait">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <pattern id="dith" width="3" height="3" patternUnits="userSpaceOnUse">
+              <rect width="3" height="3" fill="#0b1f13" />
+              <rect width="1" height="1" fill="#4fae6d" />
+            </pattern>
+            <pattern id="dith-dense" width="2" height="2" patternUnits="userSpaceOnUse">
+              <rect width="2" height="2" fill="#0b1f13" />
+              <rect width="1" height="1" fill="#7deda4" />
+            </pattern>
+          </defs>
+          <rect x="1" y="1" width="118" height="118" fill="#07130c" />
+          <!-- face -->
+          <ellipse cx="60" cy="64" rx="30" ry="34" fill="url(#dith)" />
+          <ellipse cx="60" cy="64" rx="30" ry="34" fill="none" stroke="#2c6b41" stroke-width="1.5" />
+          <!-- bald forehead shine -->
+          <path d="M44 42 Q60 34 76 42" stroke="#7deda4" stroke-width="2.5" fill="none" stroke-linecap="round" />
+          <!-- side hair strands -->
+          <path d="M32 56 Q28 66 32 76 M88 56 Q92 66 88 76" stroke="#4fae6d" stroke-width="2" fill="none" />
+          <!-- round glasses -->
+          <circle cx="48" cy="60" r="10" fill="none" stroke="#8df0a8" stroke-width="2.5" />
+          <circle cx="72" cy="60" r="10" fill="none" stroke="#8df0a8" stroke-width="2.5" />
+          <path d="M58 60 L62 60" stroke="#8df0a8" stroke-width="2.5" />
+          <!-- worried eyes -->
+          <circle cx="48" cy="61" r="2.4" fill="#0b1f13" />
+          <circle cx="72" cy="61" r="2.4" fill="#0b1f13" />
+          <!-- raised worried brows -->
+          <path d="M42 48 Q48 44 54 47 M66 47 Q72 44 78 48" stroke="#7deda4" stroke-width="2" fill="none" stroke-linecap="round" />
+          <!-- nose -->
+          <path d="M60 64 L58 72 L63 72" stroke="#4fae6d" stroke-width="2" fill="none" stroke-linecap="round" />
+          <!-- worried open mouth -->
+          <ellipse cx="60" cy="84" rx="6" ry="4.5" fill="#0b1f13" stroke="#7deda4" stroke-width="1.6" />
+          <!-- collar -->
+          <path d="M36 112 L48 98 L60 108 L72 98 L84 112 Z" fill="url(#dith)" />
+        </svg>
+        <span class="portrait-label">OTACON</span>
+      </div>
 
-      <!-- Sneaking soldier enjoying a khinkali (original SVG art) -->
-      <svg class="snake" viewBox="0 0 340 210" role="img">
-        <!-- floor shadow -->
-        <ellipse cx="170" cy="192" rx="125" ry="10" fill="rgba(0,0,0,0.45)" />
+      <!-- Center readout -->
+      <div class="codec-center">
+        <div class="ptt">PTT</div>
+        <div class="freq-box">
+          <div class="freq-bars" aria-hidden="true">
+            <span style="--h: 30%"></span>
+            <span style="--h: 45%"></span>
+            <span style="--h: 60%"></span>
+            <span style="--h: 75%"></span>
+            <span style="--h: 90%"></span>
+          </div>
+          <div class="freq-readout">140.85</div>
+        </div>
+        <div class="arrows" aria-hidden="true">
+          <span class="arrow">◀</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="memory">MEMORY</div>
+      </div>
 
-        <g class="sneak-body">
-          <!-- back leg (kneeling) -->
-          <path d="M196 148 L244 178 L206 184 L176 158 Z" fill="#2f3a31" />
-          <!-- front leg (bent, foot flat) -->
-          <path d="M150 152 L108 172 L150 180 L176 158 Z" fill="#39463b" />
-          <!-- boot -->
-          <path d="M100 168 L146 168 L150 180 L96 180 Z" fill="#232b25" />
-
-          <!-- torso: crouched lean-forward -->
+      <!-- SNAKE -->
+      <div class="portrait">
+        <div class="alert" aria-hidden="true">!</div>
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <pattern id="dith2" width="3" height="3" patternUnits="userSpaceOnUse">
+              <rect width="3" height="3" fill="#0b1f13" />
+              <rect width="1" height="1" fill="#4fae6d" />
+            </pattern>
+          </defs>
+          <rect x="1" y="1" width="118" height="118" fill="#07130c" />
+          <!-- face -->
+          <ellipse cx="60" cy="64" rx="29" ry="33" fill="url(#dith2)" />
+          <ellipse cx="60" cy="64" rx="29" ry="33" fill="none" stroke="#2c6b41" stroke-width="1.5" />
+          <!-- bandana -->
+          <path d="M33 52 Q60 34 87 52 L85 62 Q60 46 35 62 Z" fill="#127a38" />
+          <g class="tails">
+            <path d="M85 48 L104 40 L98 58 Z" fill="#127a38" />
+            <path d="M86 56 L106 56 L94 68 Z" fill="#0d5c2a" />
+          </g>
+          <!-- codec headset -->
+          <circle cx="33" cy="66" r="7" fill="#0d1f14" stroke="#7deda4" stroke-width="2" />
+          <path d="M33 72 Q36 86 48 90" stroke="#7deda4" stroke-width="2" fill="none" stroke-linecap="round" />
+          <!-- sharp military eyes -->
+          <path d="M42 62 L54 60 M66 60 L78 62" stroke="#8df0a8" stroke-width="2.6" stroke-linecap="round" />
+          <circle cx="49" cy="62" r="2.2" fill="#0b1f13" />
+          <circle cx="71" cy="62" r="2.2" fill="#0b1f13" />
+          <!-- stubble along the jaw -->
           <path
-            d="M120 148 Q112 108 152 96 L196 92 Q222 94 226 122 L228 150 Q190 164 150 160 Z"
-            fill="#3d4a3f"
+            d="M40 78 h3 M48 84 h3 M58 87 h3 M68 85 h3 M76 79 h3 M44 82 h3 M64 88 h3 M73 83 h3"
+            stroke="#4fae6d"
+            stroke-width="1.6"
           />
-          <!-- shoulder patch -->
-          <path d="M150 96 Q168 90 186 92 L184 104 Q166 102 152 108 Z" fill="#46543f" />
-
-          <!-- arm group: brings the khinkali to the mouth -->
-          <g class="arm-group">
-            <!-- upper arm -->
-            <path d="M156 106 Q178 100 190 92" stroke="#3d4a3f" stroke-width="15" fill="none" stroke-linecap="round" />
-            <!-- forearm -->
-            <path d="M190 92 Q184 76 174 66" stroke="#46543f" stroke-width="12" fill="none" stroke-linecap="round" />
-            <!-- hand gripping the topknot -->
-            <circle cx="171" cy="64" r="7.5" fill="#e8c39e" />
-            <!-- khinkali: pleated pouch hanging from the grip -->
+          <!-- chewing mouth -->
+          <path class="mouth" d="M52 76 Q60 80 68 75" stroke="#8df0a8" stroke-width="2.2" fill="none" stroke-linecap="round" />
+          <!-- khinkali held up to the mouth -->
+          <g class="khinkali-hand">
+            <path d="M84 88 Q92 82 92 74" stroke="#2c6b41" stroke-width="6" fill="none" stroke-linecap="round" />
             <g class="khinkali">
-              <!-- topknot stem -->
-              <path d="M167 68 Q169 58 174 54 L180 60 Q174 64 173 72 Z" fill="#d9b98a" />
-              <!-- pouch -->
-              <path d="M155 92 Q153 68 172 66 Q191 68 189 92 Q184 106 172 106 Q160 104 155 92 Z" fill="#e8cf9f" />
-              <!-- pleats -->
-              <path d="M161 70 L162 100 M169 68 L169 103 M177 68 L176 103 M185 70 L183 100" stroke="#c8a870" stroke-width="1.6" fill="none" />
-              <!-- happy shine -->
-              <ellipse cx="163" cy="80" rx="3.5" ry="6" fill="rgba(255,255,255,0.35)" transform="rotate(-12 163 80)" />
+              <path d="M88 70 Q90 60 95 56 L100 61 Q94 65 93 72 Z" fill="#8df0a8" opacity="0.85" />
+              <path d="M82 92 Q80 72 94 70 Q108 72 106 92 Q101 103 93 103 Q85 101 82 92 Z" fill="url(#dith2)" stroke="#7deda4" stroke-width="1.6" />
+              <path d="M87 74 L88 98 M93 72 L93 100 M99 74 L98 98" stroke="#7deda4" stroke-width="1.2" />
             </g>
-            <!-- steam -->
-            <g class="steam" stroke="#cfe8d4" stroke-width="2.4" fill="none" stroke-linecap="round">
-              <path d="M188 56 q5 -8 0 -15" />
-              <path d="M197 60 q5 -8 0 -15" />
-              <path d="M180 50 q4 -7 0 -13" />
+            <g class="steam" stroke="#8df0a8" stroke-width="1.8" fill="none" stroke-linecap="round">
+              <path d="M104 62 q4 -7 0 -13" />
+              <path d="M111 66 q4 -7 0 -13" />
             </g>
           </g>
-
-          <!-- head group -->
-          <g class="head-group">
-            <!-- head -->
-            <circle cx="126" cy="76" r="24" fill="#e8c39e" />
-            <!-- ear -->
-            <circle cx="112" cy="80" r="5" fill="#dcb890" />
-            <!-- bandana -->
-            <path d="M102 68 Q126 54 150 68 L148 78 Q126 66 104 78 Z" fill="#15A84C" />
-            <!-- bandana knot tails -->
-            <path class="tails" d="M148 64 L172 54 L164 72 Z" fill="#15A84C" />
-            <path class="tails tails-2" d="M150 70 L174 70 L160 82 Z" fill="#0F7A37" />
-            <!-- brow + eye looking up at the khinkali -->
-            <path d="M128 70 Q134 67 140 69" stroke="#8a6a4a" stroke-width="2" fill="none" stroke-linecap="round" />
-            <circle cx="136" cy="76" r="3.2" fill="#232323" />
-            <!-- satisfied chewing mouth -->
-            <path class="mouth" d="M139 88 Q145 91 151 87" stroke="#8a6a4a" stroke-width="2.2" fill="none" stroke-linecap="round" />
-            <!-- blush of culinary bliss -->
-            <ellipse cx="120" cy="88" rx="5" ry="3" fill="rgba(255,120,120,0.25)" />
-          </g>
-        </g>
-      </svg>
+          <!-- collar -->
+          <path d="M38 112 L50 100 L60 110 L70 100 L82 112 Z" fill="url(#dith2)" />
+        </svg>
+        <span class="portrait-label">SNAKE</span>
+      </div>
     </div>
 
     <h1 class="code-404">404</h1>
     <p class="subtitle">{{ 'PAGE NOT FOUND IN THE SHADOW MOSES FACILITY' | translate }}</p>
 
+    <!-- Codec dialogue -->
     <div class="dialog">
       <p class="line"><span class="speaker">OTACON:</span> {{ 'Snake, the page you requested is not in this base. It may have been moved... or captured by the enemy.' | translate }}</p>
       <p class="line"><span class="speaker">SNAKE:</span> {{ 'Kept you starving, huh? No worries. I found khinkali in the vents. Five stars.' | translate }}</p>
@@ -95,6 +138,7 @@
       </a>
     </div>
 
+    <div class="scream">SNAAAKE?! SNAAAKEEE!!</div>
     <div class="hint">
       {{ 'Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.' | translate }}
     </div>
