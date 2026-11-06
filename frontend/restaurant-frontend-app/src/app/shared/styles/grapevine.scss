@@ -30,3 +30,34 @@
       -300px 460px;
   }
 }
+
+// Inverted variant for green (#D9E5D9) sections: cream vines.
+%grapevine-bg-light {
+  background-image:
+    url('/assets/svg/grapevine-tile-light.svg'),
+    url('/assets/svg/grapevine-tile-2-light.svg');
+  background-repeat: repeat, repeat;
+  background-size: 280px 280px, 460px 460px;
+  background-position:
+    0 0,
+    140px 90px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  %grapevine-bg-light {
+    animation: grapevine-drift-light 90s linear infinite;
+  }
+}
+
+@keyframes grapevine-drift-light {
+  from {
+    background-position:
+      0 0,
+      140px 90px;
+  }
+  to {
+    background-position:
+      -280px 160px,
+      420px -320px;
+  }
+}

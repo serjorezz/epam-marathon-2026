@@ -6,6 +6,7 @@
   flex-direction: column;
   min-height: max(832px, calc(100dvh - 68px));
   background: color.$bg-green;
+  @extend %grapevine-bg-light;
 
   @media (min-width: 1024px) {
     flex-direction: row;
