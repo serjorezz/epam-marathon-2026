@@ -62,6 +62,8 @@
     <button
       type="button"
       class="button button--secondary button--large"
+      [disabled]="readOnly()"
+      [attr.title]="readOnly() ? ('You can modify or cancel your pre-orders up to 30 minutes before your reserved table time.' | translate) : null"
       (click)="cancelOrder()"
     >
       {{ 'Cancel Pre-order' | translate }}
@@ -70,6 +72,8 @@
     <button
       type="button"
       class="button button--primary button--large"
+      [disabled]="readOnly()"
+      [attr.title]="readOnly() ? ('You can modify or cancel your pre-orders up to 30 minutes before your reserved table time.' | translate) : null"
       (click)="editOrder()"
     >
       {{ 'Edit Pre-order' | translate }}

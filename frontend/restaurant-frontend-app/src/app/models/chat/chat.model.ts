@@ -14,6 +14,8 @@ export interface ChatMessage {
   text: string;
   timestamp: Date;
   reservation?: ReservationCardData;
+  /** True when `text` is a translation dictionary key rendered via the translate pipe. */
+  localized?: boolean;
 }
 
 export interface ChatApiRequest {

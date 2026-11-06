@@ -4,7 +4,7 @@
   class="chat-floating-btn"
   [class.active]="isOpen()"
   (click)="toggleChat()"
-  aria-label="Toggle Reservation Chat Assistant"
+  aria-label="{{ 'Toggle Reservation Chat Assistant' | translate }}"
 >
   @if (!isOpen()) {
     <div class="chat-btn-content">
@@ -32,15 +32,15 @@
           <span class="online-indicator" title="Online"></span>
         </div>
         <div class="title-wrap">
-          <h3 class="host-title">Green &amp; Tasty Host</h3>
-          <span class="host-subtitle">AI Reservation Assistant</span>
+          <h3 class="host-title">{{ 'Green & Tasty Host' | translate }}</h3>
+          <span class="host-subtitle">{{ 'AI Reservation Assistant' | translate }}</span>
         </div>
       </div>
       <button
         type="button"
         class="header-close-btn"
         (click)="closeChat()"
-        aria-label="Close Chat"
+        aria-label="{{ 'Close Chat' | translate }}"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5">
           <line x1="18" y1="6" x2="6" y2="18" stroke="#ffffff"></line>
@@ -59,7 +59,7 @@
 
           <div class="message-content">
             <div class="bubble">
-              <p class="bubble-text">{{ msg.text }}</p>
+              <p class="bubble-text">{{ msg.localized ? (msg.text | translate) : msg.text }}</p>
 
               <!-- Reservation Confirmation Card -->
               @if (msg.reservation) {
@@ -69,30 +69,30 @@
                       <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Confirmed Reservation
+                      {{ 'Confirmed Reservation' | translate }}
                     </span>
                   </div>
 
                   <div class="card-details">
                     <div class="detail-row">
-                      <span class="detail-label">📍 Location:</span>
+                      <span class="detail-label">📍 {{ 'Location:' | translate }}</span>
                       <span class="detail-val">{{ msg.reservation.address }}</span>
                     </div>
                     <div class="detail-row">
-                      <span class="detail-label">📅 Date:</span>
+                      <span class="detail-label">📅 {{ 'Date:' | translate }}</span>
                       <span class="detail-val">{{ formatDate(msg.reservation.startTime) }}</span>
                     </div>
                     <div class="detail-row">
-                      <span class="detail-label">⏰ Time:</span>
+                      <span class="detail-label">⏰ {{ 'Time:' | translate }}</span>
                       <span class="detail-val">{{ formatTime(msg.reservation.startTime) }} – {{ formatTime(msg.reservation.endTime) }}</span>
                     </div>
                     <div class="detail-row">
-                      <span class="detail-label">👥 Party Size:</span>
-                      <span class="detail-val">{{ msg.reservation.guestCount }} guests</span>
+                      <span class="detail-label">👥 {{ 'Party Size:' | translate }}</span>
+                      <span class="detail-val">{{ msg.reservation.guestCount }} {{ 'guests' | translate }}</span>
                     </div>
                     @if (msg.reservation.customerName) {
                       <div class="detail-row">
-                        <span class="detail-label">👤 Reserved for:</span>
+                        <span class="detail-label">👤 {{ 'Reserved for:' | translate }}</span>
                         <span class="detail-val">{{ msg.reservation.customerName }}</span>
                       </div>
                     }
@@ -103,7 +103,7 @@
                     class="view-res-btn"
                     (click)="navigateToReservations()"
                   >
-                    View in Reservations →
+                    {{ 'View in Reservations' | translate }} →
                   </button>
                 </div>
               }
@@ -137,19 +137,19 @@
         <textarea
           rows="1"
           class="chat-input"
-          placeholder="Ask for availability or book a table..."
+          placeholder="{{ 'Ask for availability or book a table...' | translate }}"
           [ngModel]="inputMessage()"
           (ngModelChange)="inputMessage.set($event)"
           (keydown)="onKeyDown($event)"
           [disabled]="isLoading()"
-          aria-label="Message Input"
+          aria-label="{{ 'Message Input' | translate }}"
         ></textarea>
         <button
           type="button"
           class="send-btn"
           (click)="sendMessage()"
           [disabled]="!inputMessage().trim() || isLoading()"
-          aria-label="Send Message"
+          aria-label="{{ 'Send Message' | translate }}"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -158,7 +158,7 @@
         </button>
       </div>
       <div class="powered-by">
-        <span>Powered by <strong>Gemini</strong></span>
+        <span>{{ 'Powered by' | translate }} <strong>Gemini</strong></span>
       </div>
     </div>
   </div>

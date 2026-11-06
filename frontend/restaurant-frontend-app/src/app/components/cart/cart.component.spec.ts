@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
 import { Order } from '@app/models/orders/order.model';
+import {
+  Reservation,
+  ReservationStatus,
+} from '@app/models/reservations/reservation.model';
 import { PreOrdersService } from '@app/services/pre-orders/pre-orders.service';
 import { ReservationService } from '@app/services/reservation/reservation.service';
 
@@ -88,45 +92,67 @@ describe('CartComponent', () => {
     expect(component.closeCartEvent.emit).toHaveBeenCalled();
   });
 
-  it('should return submitted orders with statuses 1 and 3', () => {
+  it('should return submitted orders with statuses 1 and 3 and a Reserved reservation', () => {
+    component.reservations.set([
+      { id: 'res-1', status: ReservationStatus.Reserved },
+      { id: 'res-3', status: ReservationStatus.Reserved },
+      { id: 'res-cancelled', status: ReservationStatus.Cancelled },
+    ] as Reservation[]);
+
     component.orders.set([
       {
         orderId: 'order-1',
+        reservationId: 'res-1',
         status: 1,
       },
       {
         orderId: 'order-2',
+        reservationId: 'res-1',
         status: 2,
       },
       {
         orderId: 'order-3',
+        reservationId: 'res-3',
         status: 3,
       },
       {
         orderId: 'order-4',
+        reservationId: 'res-1',
         status: 0,
+      },
+      {
+        orderId: 'order-cancelled',
+        reservationId: 'res-cancelled',
+        status: 1,
       },
     ] as Order[]);
 
     expect(
       component
         .submittedOrders()
-        .map((order) => order.status),
-    ).toEqual([1, 3]);
+        .map((order) => order.orderId),
+    ).toEqual(['order-1', 'order-3']);
   });
 
-  it('should return unsubmitted orders with status 0', () => {
+  it('should return unsubmitted orders with status 0 and a Reserved reservation', () => {
+    component.reservations.set([
+      { id: 'res-1', status: ReservationStatus.Reserved },
+    ] as Reservation[]);
+
     component.orders.set([
       {
         orderId: 'order-1',
+        reservationId: 'res-1',
         status: 0,
       },
       {
         orderId: 'order-2',
+        reservationId: 'res-1',
         status: 1,
       },
       {
         orderId: 'order-3',
+        reservationId: 'res-1',
         status: 3,
       },
     ] as Order[]);
@@ -134,8 +160,8 @@ describe('CartComponent', () => {
     expect(
       component
         .unsubmittedOrders()
-        .map((order) => order.status),
-    ).toEqual([0]);
+        .map((order) => order.orderId),
+    ).toEqual(['order-1']);
   });
 
   it('should navigate to reservations when goToReservations is called', () => {

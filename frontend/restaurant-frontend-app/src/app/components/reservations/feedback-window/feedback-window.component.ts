@@ -9,6 +9,7 @@ import {
   OnInit,
   Output,
   ChangeDetectionStrategy,
+  signal,
 } from '@angular/core';
 import { CustomButtonComponent } from '@app/shared/custom-components/custom-button/custom-button.component';
 import { RatingComponent } from '@app/shared/custom-components/rating/rating.component';
@@ -60,8 +61,11 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
   showServiceForm = true;
   isAnonymous = false;
 
-  waiterName = 'Mario Jast';
-  waiterProfileImage = '/assets/img/avatar-mario.jpg';
+  waiterName = signal('Mario Jast');
+  waiterProfileImage = signal('/assets/img/avatar-mario.jpg');
+
+  /** Guards against applying late responses for a different waiter/reservation. */
+  private loadedWaiterId: string | null = null;
 
   /** Local waiter photos used when the backend has no uploaded profile image. */
   private readonly fallbackAvatars = Array.from(
@@ -128,11 +132,14 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
 
     if (this.selectedReservation && this.selectedReservation.waiterId) {
       const waiterId = this.selectedReservation.waiterId;
+      this.loadedWaiterId = waiterId;
       const fallback = this.fallbackAvatarFor(waiterId);
 
       this.authService.getUserNameById$(waiterId).subscribe({
         next: (name) => {
-          this.waiterName = name;
+          if (this.loadedWaiterId === waiterId) {
+            this.waiterName.set(name);
+          }
         },
         error: (err) => {
           console.error('Error fetching waiter name:', err);
@@ -141,11 +148,15 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
       });
       this.userService.getUserProfileImage(waiterId).subscribe({
         next: (response) => {
-          this.waiterProfileImage = response.presignedUrl ?? fallback;
+          if (this.loadedWaiterId === waiterId) {
+            this.waiterProfileImage.set(response.presignedUrl ?? fallback);
+          }
         },
         error: (err) => {
           console.error('Error fetching waiter profile image:', err);
-          this.waiterProfileImage = fallback;
+          if (this.loadedWaiterId === waiterId) {
+            this.waiterProfileImage.set(fallback);
+          }
         },
       });
     }
@@ -167,8 +178,8 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
     const fallback = waiterId
       ? this.fallbackAvatarFor(waiterId)
       : '/assets/img/avatar-mario.jpg';
-    if (this.waiterProfileImage !== fallback) {
-      this.waiterProfileImage = fallback;
+    if (this.waiterProfileImage() !== fallback) {
+      this.waiterProfileImage.set(fallback);
     }
   }
 

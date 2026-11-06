@@ -15,7 +15,10 @@ import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Order } from '@app/models/orders/order.model';
-import { Reservation } from '@app/models/reservations/reservation.model';
+import {
+  Reservation,
+  ReservationStatus,
+} from '@app/models/reservations/reservation.model';
 import { PreOrdersService } from '@app/services/pre-orders/pre-orders.service';
 import { ReservationService } from '@app/services/reservation/reservation.service';
 
@@ -69,12 +72,16 @@ export class CartComponent implements OnInit {
 
   readonly submittedOrders = computed(() =>
     this.orders().filter(
-      (order) => order.status === 1 || order.status === 3,
+      (order) =>
+        (order.status === 1 || order.status === 3) &&
+        this.hasReservedReservation(order),
     ),
   );
 
   readonly unsubmittedOrders = computed(() =>
-    this.orders().filter((order) => order.status === 0),
+    this.orders().filter(
+      (order) => order.status === 0 && this.hasReservedReservation(order),
+    ),
   );
 
   readonly submittedOrder = computed(() => {
@@ -91,6 +98,29 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadOrders();
+  }
+
+  /** Backend rule: pre-orders can only be modified up to 30 minutes before the reservation start. */
+  private static readonly EDIT_CUTOFF_MS = 30 * 60 * 1000;
+
+  private hasReservedReservation(order: Order): boolean {
+    const reservation = this.reservationsMap().get(order.reservationId);
+    return !!reservation && reservation.status === ReservationStatus.Reserved;
+  }
+
+  isOrderModifiable(orderId: string): boolean {
+    const reservation = this.reservationsMap().get(orderId);
+
+    if (!reservation || reservation.status !== ReservationStatus.Reserved) {
+      return false;
+    }
+
+    const startTimeMs = new Date(reservation.startTime).getTime();
+    if (isNaN(startTimeMs)) {
+      return false;
+    }
+
+    return startTimeMs > Date.now() + CartComponent.EDIT_CUTOFF_MS;
   }
 
   closeCart(immediate = false): void {

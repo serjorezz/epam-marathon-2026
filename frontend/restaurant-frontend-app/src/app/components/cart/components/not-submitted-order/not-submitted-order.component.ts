@@ -43,6 +43,8 @@ export interface DishCustomization {
 export class NotSubmittedOrderComponent {
   readonly order = input.required<Order>();
   readonly reservation = input<Reservation | null | undefined>(null);
+  /** Past the 30-minute edit cutoff (or reservation no longer 'Reserved') — lock modifications. */
+  readonly readOnly = input<boolean>(false);
 
   readonly submitted = output<string>();
   readonly addDish = output<void>();

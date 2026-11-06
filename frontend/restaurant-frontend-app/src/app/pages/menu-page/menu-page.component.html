@@ -85,7 +85,7 @@
 
       <div class="dish-cards">
         @if (isLoading) {
-          @for (_ of [1, 2, 3, 4, 5, 6, 7]; track $index) {
+          @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
             <app-skeleton-dish-card
               [preOrderEnabled]="isPreOrderEnabled"
               maxWidth="288px"

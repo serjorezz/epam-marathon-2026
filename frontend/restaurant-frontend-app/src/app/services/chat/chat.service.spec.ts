@@ -26,25 +26,26 @@ describe('ChatService', () => {
 
     expect(result).toBeDefined();
     expect(typeof result).toBe('string');
-    expect(result).toContain('Beep boop!');
+    expect(result!.length).toBeGreaterThan(0);
   }));
 
-  it('should cycle through predefined humoristic responses on subsequent messages', fakeAsync(() => {
-    let reply1 = '';
-    let reply2 = '';
+  it('should pick responses randomly and never repeat the previous one immediately', fakeAsync(() => {
+    const replies: string[] = [];
 
-    service.sendMessage$({ message: 'First' }).subscribe((res) => {
-      reply1 = res.reply;
-    });
-    tick(600);
+    for (let i = 0; i < 15; i++) {
+      service.sendMessage$({ message: `Message ${i}` }).subscribe((res) => {
+        replies.push(res.reply);
+      });
+      tick(600);
+    }
 
-    service.sendMessage$({ message: 'Second' }).subscribe((res) => {
-      reply2 = res.reply;
-    });
-    tick(600);
+    expect(replies).toHaveSize(15);
 
-    expect(reply1).toBeTruthy();
-    expect(reply2).toBeTruthy();
-    expect(reply1).not.toBe(reply2);
+    for (let i = 1; i < replies.length; i++) {
+      expect(replies[i]).not.toBe(replies[i - 1]);
+    }
+
+    // Random picking should produce more than one distinct phrase over 15 draws
+    expect(new Set(replies).size).toBeGreaterThan(1);
   }));
 });

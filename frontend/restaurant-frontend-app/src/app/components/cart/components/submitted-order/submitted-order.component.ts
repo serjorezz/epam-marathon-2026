@@ -26,6 +26,8 @@ import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 export class SubmittedOrderComponent {
   readonly order = input.required<Order>();
   readonly reservation = input<Reservation | null | undefined>(null);
+  /** Past the 30-minute edit cutoff (or reservation no longer 'Reserved') — lock edit/cancel. */
+  readonly readOnly = input<boolean>(false);
 
   readonly canceled = output<void>();
   readonly edited = output<void>();

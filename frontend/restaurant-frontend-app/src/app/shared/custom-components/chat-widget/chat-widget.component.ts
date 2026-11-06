@@ -12,11 +12,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ChatService } from '@app/services/chat/chat.service';
 import { ChatMessage } from '@app/models/chat/chat.model';
+import { TranslatePipe } from '@app/shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-chat-widget',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './chat-widget.component.html',
   styleUrl: './chat-widget.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +38,7 @@ export class ChatWidgetComponent implements AfterViewChecked {
       sender: 'assistant',
       text: 'Hello! 👋 Welcome to Green & Tasty. I am your AI dining host powered by Gemini. I can check table availability and reserve a table for you through this chat. How may I help you today?',
       timestamp: new Date(),
+      localized: true,
     },
   ]);
 
@@ -108,6 +110,7 @@ export class ChatWidgetComponent implements AfterViewChecked {
           sender: 'assistant',
           text: 'I apologize, but something went wrong while processing your request. Please try again.',
           timestamp: new Date(),
+          localized: true,
         };
 
         this.messages.update((list) => [...list, errorMessage]);

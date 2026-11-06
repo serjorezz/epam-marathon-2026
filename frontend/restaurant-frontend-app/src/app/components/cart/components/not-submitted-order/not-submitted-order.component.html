@@ -94,6 +94,8 @@
                 type="button"
                 class="icon-button icon-button--small"
                 [attr.aria-label]="'Remove ' + item.dish.name"
+                [disabled]="readOnly()"
+                [attr.title]="readOnly() ? ('You can modify or cancel your pre-orders up to 30 minutes before your reserved table time.' | translate) : null"
                 (click)="removeDishFromOrder(item.dish.id)"
               >
                 <img
@@ -112,7 +114,7 @@
                   type="button"
                   class="icon-button icon-button--small"
                   aria-label="Decrease quantity"
-                  [disabled]="item.quantity <= 1"
+                  [disabled]="item.quantity <= 1 || readOnly()"
                   (click)="decrementItemQuantity(item.dish.id)"
                 >
                   <img
@@ -130,6 +132,7 @@
                   type="button"
                   class="icon-button icon-button--small"
                   aria-label="Increase quantity"
+                  [disabled]="readOnly()"
                   (click)="incrementItemQuantity(item.dish.id)"
                 >
                   <img

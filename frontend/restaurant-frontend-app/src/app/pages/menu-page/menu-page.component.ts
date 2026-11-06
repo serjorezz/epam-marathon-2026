@@ -46,6 +46,10 @@ export class MenuPageComponent implements OnInit, OnDestroy {
   dishes: DishListResponse[] = [];
   filteredDishes: DishListResponse[] = [];
 
+  /** Popularity rank of each dish (backend returns dishes sorted by popularity desc by default). */
+  private popularityRank = new Map<string, number>();
+  private dishesLoaded = false;
+
   isPreOrderEnabled = false;
   preOrderReservationId?: string;
   preOrderReservationLabel?: string;
@@ -89,6 +93,12 @@ export class MenuPageComponent implements OnInit, OnDestroy {
           dish.isFavorite = false;
         }
         this.applyFilters();
+      }
+
+      // Favorites are auth-dependent — refetch when login state changes
+      if (this.dishesLoaded) {
+        this.dishesLoaded = false;
+        this.loadDishes();
       }
     });
 
@@ -136,7 +146,9 @@ export class MenuPageComponent implements OnInit, OnDestroy {
         sort && Object.values(DishSort).includes(sort) ? sort : DishSort.PopularityDescending;
       this.onlyFavorites = this.isCustomerLoggedIn && favorites;
 
+      // Fetch the full catalog once — category/sort/favorites are applied client-side.
       this.loadDishes();
+      this.applyFilters();
     });
   }
 
