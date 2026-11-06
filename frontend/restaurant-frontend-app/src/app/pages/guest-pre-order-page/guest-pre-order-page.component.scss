@@ -4,7 +4,7 @@
 :host {
     display: block;
     min-height: 100vh;
-    background: color.$bg-yellow;
+    background-color: color.$bg-yellow;
     @extend %grapevine-bg;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .menu-container {
-    background: color.$bg-yellow;
+    background-color: color.$bg-yellow;
     @extend %grapevine-bg;
 }
 

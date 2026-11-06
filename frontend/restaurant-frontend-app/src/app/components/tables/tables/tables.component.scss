@@ -24,7 +24,7 @@
   box-sizing: border-box;
   width: 100%;
   padding: 48px 40px;
-  background: color.$bg-green;
+  background-color: color.$bg-green;
   @extend %grapevine-bg-light;
 
   @media (min-width: 1024px) {
@@ -160,7 +160,7 @@
   box-sizing: border-box;
   min-width: 0;
   padding: 32px;
-  background: color.$bg-yellow;
+  background-color: color.$bg-yellow;
   @extend %grapevine-bg;
 
   @media (max-width: 460px) {
