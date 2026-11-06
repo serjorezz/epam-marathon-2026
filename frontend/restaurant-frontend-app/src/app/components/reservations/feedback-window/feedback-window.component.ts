@@ -61,7 +61,13 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
   isAnonymous = false;
 
   waiterName = 'Mario Jast';
-  waiterProfileImage = '/assets/img/avatar.png';
+  waiterProfileImage = '/assets/img/avatar-mario.jpg';
+
+  /** Local waiter photos used when the backend has no uploaded profile image. */
+  private readonly fallbackAvatars = Array.from(
+    { length: 10 },
+    (_, i) => `/assets/img/avatars/avatar-${i + 1}.jpg`,
+  );
 
   feedbacksService = inject(FeedbacksService);
   toastr = inject(ToastService);
@@ -121,7 +127,10 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
     }
 
     if (this.selectedReservation && this.selectedReservation.waiterId) {
-      this.authService.getUserNameById$(this.selectedReservation.waiterId).subscribe({
+      const waiterId = this.selectedReservation.waiterId;
+      const fallback = this.fallbackAvatarFor(waiterId);
+
+      this.authService.getUserNameById$(waiterId).subscribe({
         next: (name) => {
           this.waiterName = name;
         },
@@ -130,15 +139,36 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
           this.toastr.error('Failed to load waiter information.');
         },
       });
-      this.userService.getUserProfileImage(this.selectedReservation.waiterId).subscribe({
+      this.userService.getUserProfileImage(waiterId).subscribe({
         next: (response) => {
-          this.waiterProfileImage = response.presignedUrl ?? '/assets/img/avatar.png'; // Fallback to default image if not available
+          this.waiterProfileImage = response.presignedUrl ?? fallback;
         },
         error: (err) => {
           console.error('Error fetching waiter profile image:', err);
-          this.toastr.error('Failed to load waiter profile image.');
+          this.waiterProfileImage = fallback;
         },
       });
+    }
+  }
+
+  /** Stable per-waiter fallback photo so every waiter shows a real avatar. */
+  private fallbackAvatarFor(waiterId: string): string {
+    let hash = 0;
+    for (let i = 0; i < waiterId.length; i++) {
+      hash = (hash * 31 + waiterId.charCodeAt(i)) | 0;
+    }
+    const index = Math.abs(hash) % this.fallbackAvatars.length;
+    return this.fallbackAvatars[index];
+  }
+
+  /** Swap to a local fallback photo if the loaded image cannot be displayed. */
+  onAvatarError(): void {
+    const waiterId = this.selectedReservation?.waiterId;
+    const fallback = waiterId
+      ? this.fallbackAvatarFor(waiterId)
+      : '/assets/img/avatar-mario.jpg';
+    if (this.waiterProfileImage !== fallback) {
+      this.waiterProfileImage = fallback;
     }
   }
 

@@ -16,6 +16,18 @@
   position: relative;
   box-sizing: border-box;
   cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  &:hover,
+  &:focus-within {
+    transform: scale(1.04);
+    box-shadow:
+      0 0 0 2px color.$green-300,
+      0 12px 32px rgba(15, 122, 55, 0.35);
+    z-index: 2;
+  }
 
   &:focus-visible {
     outline: 2px solid color.$orange-600;

@@ -10,6 +10,18 @@
   width: 100%;
   overflow: hidden;
   text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.03);
+    box-shadow:
+      0 0 0 2px color.$green-300,
+      0 12px 32px rgba(15, 122, 55, 0.35);
+    z-index: 2;
+  }
 
   .location-image {
     width: 100%;

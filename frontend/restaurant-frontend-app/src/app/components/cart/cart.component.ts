@@ -235,6 +235,23 @@ export class CartComponent implements OnInit {
       return;
     }
 
+    const originalOrders = this.orders();
+
+    // Optimistic local update — update only the affected item instead of
+    // reloading the whole cart (which flashes the loading state).
+    this.orders.set(
+      originalOrders.map((order) =>
+        order.orderId === orderId
+          ? {
+              ...order,
+              orderItems: order.orderItems.map((item) =>
+                item.dish.id === itemId ? { ...item, quantity } : item,
+              ),
+            }
+          : order,
+      ),
+    );
+
     const updatedOrder: Order = {
       ...originalOrder,
       orderItems: originalOrder.orderItems.map((item) =>
@@ -254,10 +271,9 @@ export class CartComponent implements OnInit {
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
-          this.loadOrders();
-        },
         error: (error) => {
+          // Revert the optimistic update on failure
+          this.orders.set(originalOrders);
           console.error(
             `Error updating item ${itemId}:`,
             error,
@@ -276,6 +292,25 @@ export class CartComponent implements OnInit {
       return;
     }
 
+    const originalOrders = this.orders();
+
+    // Optimistic removal — no full cart reload.
+    // Orders left with zero items disappear (the backend DELETEs them).
+    this.orders.set(
+      originalOrders
+        .map((order) =>
+          order.orderId === orderId
+            ? {
+                ...order,
+                orderItems: order.orderItems.filter(
+                  (item) => item.dish.id !== itemId,
+                ),
+              }
+            : order,
+        )
+        .filter((order) => order.orderItems.length > 0),
+    );
+
     const updatedOrder: Order = {
       ...originalOrder,
       orderItems: originalOrder.orderItems.filter(
@@ -290,10 +325,9 @@ export class CartComponent implements OnInit {
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
-          this.loadOrders();
-        },
         error: (error) => {
+          // Revert the optimistic removal on failure
+          this.orders.set(originalOrders);
           console.error(
             `Error removing item ${itemId}:`,
             error,

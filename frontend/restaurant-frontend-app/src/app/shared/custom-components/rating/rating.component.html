@@ -3,14 +3,24 @@
     <button
       type="button"
       class="star"
+      [class.active]="i < displayedRating()"
       (click)="setRating(i + 1)"
+      (mouseenter)="hovered.set(i + 1)"
+      (mouseleave)="hovered.set(0)"
       [attr.aria-label]="'Rate ' + (i + 1) + ' stars'"
     >
-      <img
-        [src]="i < rating() ? filledIcon : emptyIcon"
-        [alt]="'Star ' + (i + 1)"
+      <svg
         class="star-icon"
-      />
+        viewBox="0 0 24 24"
+        width="28"
+        height="28"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+        />
+      </svg>
     </button>
   }
 </div>
