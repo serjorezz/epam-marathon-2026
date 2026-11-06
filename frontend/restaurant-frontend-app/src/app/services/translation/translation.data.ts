@@ -395,10 +395,10 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.",
 
     // Locations (incl. AQA probe locations)
-    "Hdr Probe St hst437": "Hdr Probe St hst437",
-    "Hdr Probe St vieipz": "Hdr Probe St vieipz",
-    "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
-    "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
+    "12 Betlemi Street": "12 Betlemi Street",
+    "27 Atoneli Street": "27 Atoneli Street",
+    "6 Sioni Street": "6 Sioni Street",
+    "33 Kostava Street": "33 Kostava Street",
     "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.",
 
     // Group pre-order (US0)
@@ -1025,10 +1025,10 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "Порада: хінкалі їдять руками — тримайте за «хвостик» і спочатку відпивайте бульйон. Цілком таємно, Грузинський кулінарний департамент.",
 
     // Locations (incl. AQA probe locations)
-    "Hdr Probe St hst437": "Hdr Probe St hst437",
-    "Hdr Probe St vieipz": "Hdr Probe St vieipz",
-    "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
-    "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
+    "12 Betlemi Street": "вул. Бетлемі, 12",
+    "27 Atoneli Street": "вул. Атонелі, 27",
+    "6 Sioni Street": "вул. Сіоні, 6",
+    "33 Kostava Street": "вул. Костава, 33",
     "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "Затишний куточок Green & Tasty у Тбілісі з сезонною вегетаріанською грузинською кухнею та теплою атмосферою.",
 
     // Group pre-order (US0)
@@ -1655,10 +1655,10 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "რჩევა: ხინკალი ხელით იჭმევა — უნდა ჩაეჭიდოთ თხელს და ჯერ ბულიონი მოისვით. სრულიად საიდუმლოა, საქართველოს კულინარიული დეპარტამენტი.",
 
     // Locations (incl. AQA probe locations)
-    "Hdr Probe St hst437": "Hdr Probe St hst437",
-    "Hdr Probe St vieipz": "Hdr Probe St vieipz",
-    "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
-    "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
+    "12 Betlemi Street": "ბეთლემის ქუჩა 12",
+    "27 Atoneli Street": "ატონელის ქუჩა 27",
+    "6 Sioni Street": "სიონის ქუჩა 6",
+    "33 Kostava Street": "კოსტავას ქუჩა 33",
     "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "კოხტად Green & Tasty-ის კუთხე თბილისში, სეზონური ვეგეტარიანული ქართული კუხნით და თბილი მასპინძლობით.",
 
     // Group pre-order (US0)
