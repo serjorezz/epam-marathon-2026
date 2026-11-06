@@ -393,6 +393,13 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Return to Base (Homepage)": "Return to Base (Homepage)",
     "Book a Table Instead": "Book a Table Instead",
     "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.",
+
+    // Locations (incl. AQA probe locations)
+    "Hdr Probe St hst437": "Hdr Probe St hst437",
+    "Hdr Probe St vieipz": "Hdr Probe St vieipz",
+    "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
+    "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
+    "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.",
     "Review & Confirm Reservation": "Review & Confirm Reservation",
     "You can cancel up to 30 min before your reservation.": "You can cancel up to 30 min before your reservation.",
     "Edit": "Edit",
@@ -1011,6 +1018,13 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Return to Base (Homepage)": "Повернутися на базу (головна сторінка)",
     "Book a Table Instead": "Краще забронювати столик",
     "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "Порада: хінкалі їдять руками — тримайте за «хвостик» і спочатку відпивайте бульйон. Цілком таємно, Грузинський кулінарний департамент.",
+
+    // Locations (incl. AQA probe locations)
+    "Hdr Probe St hst437": "Hdr Probe St hst437",
+    "Hdr Probe St vieipz": "Hdr Probe St vieipz",
+    "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
+    "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
+    "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "Затишний куточок Green & Tasty у Тбілісі з сезонною вегетаріанською грузинською кухнею та теплою атмосферою.",
     "Review & Confirm Reservation": "Перевірка та підтвердження бронювання",
     "You can cancel up to 30 min before your reservation.": "Ви можете скасувати бронювання не пізніше ніж за 30 хв до початку.",
     "Edit": "Редагувати",
@@ -1629,6 +1643,13 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Return to Base (Homepage)": "ბაზაზე დაბრუნება (მთავარი გვერდი)",
     "Book a Table Instead": "უმჯობესია მაგიდის დაჯავშნა",
     "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "რჩევა: ხინკალი ხელით იჭმევა — უნდა ჩაეჭიდოთ თხელს და ჯერ ბულიონი მოისვით. სრულიად საიდუმლოა, საქართველოს კულინარიული დეპარტამენტი.",
+
+    // Locations (incl. AQA probe locations)
+    "Hdr Probe St hst437": "Hdr Probe St hst437",
+    "Hdr Probe St vieipz": "Hdr Probe St vieipz",
+    "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
+    "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
+    "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "კოხტად Green & Tasty-ის კუთხე თბილისში, სეზონური ვეგეტარიანული ქართული კუხნით და თბილი მასპინძლობით.",
     "Review & Confirm Reservation": "ჯავშნის გადამოწმება და დადასტურება",
     "You can cancel up to 30 min before your reservation.": "შეგიძლიათ გააუქმოთ ჯავშნამდე 30 წუთით ადრე.",
     "Edit": "რედაქტირება",
