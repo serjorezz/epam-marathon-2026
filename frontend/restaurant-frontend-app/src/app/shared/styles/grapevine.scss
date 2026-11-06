@@ -26,8 +26,8 @@
   }
   to {
     background-position:
-      280px 140px,
-      -300px 460px;
+      280px 280px,
+      -460px 600px;
   }
 }
 
@@ -37,7 +37,7 @@
     url('/assets/svg/grapevine-tile-light.svg'),
     url('/assets/svg/grapevine-tile-2-light.svg');
   background-repeat: repeat, repeat;
-  background-size: 280px 280px, 460px 460px;
+  background-size: 340px 340px, 560px 560px;
   background-position:
     0 0,
     140px 90px;
@@ -57,7 +57,7 @@
   }
   to {
     background-position:
-      -280px 160px,
-      420px -320px;
+      340px 340px,
+      -560px 560px;
   }
 }

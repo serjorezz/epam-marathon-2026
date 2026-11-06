@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" fill="none">
-  <g stroke="#D6E5D5" stroke-linecap="round">
+  <g stroke="#A9CBA9" stroke-linecap="round">
     <!-- small leaf -->
-    <path fill="#D6E5D5" stroke="none" d="M228 226 Q244 208 266 216 Q258 236 238 238 Q229 236 228 226 Z"/>
+    <path fill="#D6E5D5" d="M228 226 Q244 208 266 216 Q258 236 238 238 Q229 236 228 226 Z"/>
     <!-- vine curve with tendril -->
-    <path d="M210 260 Q236 252 244 232 Q250 216 238 210 Q228 206 226 216 Q225 224 233 224" stroke-width="3" fill="none"/>
-    <path d="M244 232 Q258 238 268 232" stroke-width="2.5" fill="none"/>
+    <path d="M210 260 Q236 252 244 232 Q250 216 238 210 Q228 206 226 216 Q225 224 233 224" stroke="#D6E5D5" stroke-width="4" fill="none"/>
+    <path d="M244 232 Q258 238 268 232" stroke="#D6E5D5" stroke-width="3.5" fill="none"/>
     <!-- three tiny grapes -->
-    <g fill="#D6E5D5" stroke="none">
-      <circle cx="216" cy="272" r="6"/>
-      <circle cx="230" cy="276" r="6"/>
-      <circle cx="223" cy="286" r="6"/>
+    <g fill="#D6E5D5">
+      <circle cx="216" cy="272" r="7"/>
+      <circle cx="230" cy="276" r="7"/>
+      <circle cx="223" cy="286" r="7"/>
     </g>
   </g>
 </svg>

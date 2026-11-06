@@ -1,25 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
-  <g stroke="#F7F7EC" stroke-linecap="round">
+  <g stroke="#9FBE9F" stroke-linecap="round">
     <!-- main stem -->
-    <path d="M74 34 Q70 52 76 66" stroke-width="4" fill="none"/>
+    <path d="M74 34 Q70 52 76 66" stroke="#F7F7EC" stroke-width="6" fill="none"/>
     <!-- grape leaf -->
-    <path fill="#F7F7EC" stroke="none" d="M76 38 Q96 14 124 24 Q116 50 90 54 Q78 52 76 38 Z"/>
-    <path d="M82 40 Q100 32 116 28" stroke-width="2.5" fill="none"/>
+    <path fill="#F7F7EC" d="M76 38 Q96 14 124 24 Q116 50 90 54 Q78 52 76 38 Z"/>
+    <path d="M82 40 Q100 32 116 28" stroke-width="3" fill="none"/>
     <!-- grape bunch -->
-    <g fill="#F7F7EC" stroke="none">
-      <circle cx="66" cy="74" r="11"/>
-      <circle cx="86" cy="71" r="11"/>
-      <circle cx="76" cy="88" r="11"/>
-      <circle cx="57" cy="90" r="10"/>
-      <circle cx="95" cy="87" r="10"/>
-      <circle cx="76" cy="105" r="10"/>
-      <circle cx="63" cy="118" r="9"/>
-      <circle cx="89" cy="117" r="9"/>
-      <circle cx="76" cy="131" r="8"/>
-      <circle cx="67" cy="143" r="7"/>
-      <circle cx="85" cy="142" r="7"/>
+    <g fill="#F7F7EC">
+      <circle cx="66" cy="74" r="12"/>
+      <circle cx="86" cy="71" r="12"/>
+      <circle cx="76" cy="88" r="12"/>
+      <circle cx="57" cy="90" r="11"/>
+      <circle cx="95" cy="87" r="11"/>
+      <circle cx="76" cy="105" r="11"/>
+      <circle cx="63" cy="118" r="10"/>
+      <circle cx="89" cy="117" r="10"/>
+      <circle cx="76" cy="131" r="9"/>
+      <circle cx="67" cy="143" r="8"/>
+      <circle cx="85" cy="142" r="8"/>
     </g>
     <!-- curling tendril -->
-    <path d="M80 32 Q108 18 116 32 Q121 44 109 47 Q99 49 99 40 Q99 34 106 34" stroke-width="3" fill="none"/>
+    <path d="M80 32 Q108 18 116 32 Q121 44 109 47 Q99 49 99 40 Q99 34 106 34" stroke="#F7F7EC" stroke-width="4" fill="none"/>
   </g>
 </svg>
