@@ -37,27 +37,14 @@
     url('/assets/svg/grapevine-tile-light.svg'),
     url('/assets/svg/grapevine-tile-2-light.svg');
   background-repeat: repeat, repeat;
-  background-size: 340px 340px, 560px 560px;
+  background-size: 280px 280px, 460px 460px;
   background-position:
     0 0,
-    140px 90px;
+    120px 160px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   %grapevine-bg-light {
-    animation: grapevine-drift-light 90s linear infinite;
-  }
-}
-
-@keyframes grapevine-drift-light {
-  from {
-    background-position:
-      0 0,
-      140px 90px;
-  }
-  to {
-    background-position:
-      340px 340px,
-      -560px 560px;
+    animation: grapevine-drift 90s linear infinite;
   }
 }

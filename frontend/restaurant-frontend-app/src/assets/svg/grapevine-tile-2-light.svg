@@ -1,18 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360" fill="none">
-  <g stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" fill="none">
+  <g stroke="#F7F7EC" stroke-linecap="round">
     <!-- small leaf -->
-    <g transform="translate(268,240) rotate(-18) scale(0.75)">
-      <path fill="#4C7A3F" d="M0 -30 C11 -28 15 -18 13 -9 C24 -13 32 -6 30 5 C28 14 18 16 11 13 C13 24 5 30 -5 28 C-14 26 -16 17 -13 10 C-24 13 -32 5 -28 -6 C-25 -14 -15 -15 -10 -12 C-13 -23 -9 -30 0 -30 Z"/>
-      <path d="M0 -24 L0 22 M0 -8 L-16 -14 M0 -8 L16 -12 M0 4 L-14 10 M0 4 L13 9" stroke="#7FA96F" stroke-width="2.6" fill="none"/>
+    <path d="M228 226 Q244 208 266 216 Q258 236 238 238 Q229 236 228 226 Z" fill="#F7F7EC" stroke="none"/>
+    <!-- vine curve with tendril -->
+    <path d="M210 260 Q236 252 244 232 Q250 216 238 210 Q228 206 226 216 Q225 224 233 224" stroke-width="3" fill="none"/>
+    <path d="M244 232 Q258 238 268 232" stroke-width="2.5" fill="none"/>
+    <!-- three tiny grapes -->
+    <g fill="#F7F7EC" stroke="none">
+      <circle cx="216" cy="272" r="6"/>
+      <circle cx="230" cy="276" r="6"/>
+      <circle cx="223" cy="286" r="6"/>
     </g>
-    <!-- mini grape bunch -->
-    <g fill="#453C56">
-      <circle cx="238" cy="282" r="8"/><circle cx="252" cy="281" r="8"/><circle cx="266" cy="283" r="8"/>
-      <circle cx="245" cy="294" r="8"/><circle cx="259" cy="294" r="8"/>
-      <circle cx="252" cy="305" r="7.5"/>
-    </g>
-    <!-- vine curl -->
-    <path d="M226 316 Q258 310 268 288 Q276 270 262 264 Q250 260 248 271 Q247 280 256 279" stroke="#3E6B35" stroke-width="4" fill="none"/>
-    <path d="M268 240 Q290 232 300 240" stroke="#3E6B35" stroke-width="3.5" fill="none"/>
   </g>
 </svg>
