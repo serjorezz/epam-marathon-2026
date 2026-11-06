@@ -51,7 +51,82 @@ describe('GeneralInformationComponent', () => {
   let readerResults: WeakMap<FileReader, string>;
   let readerStates: WeakMap<FileReader, FileReader['readyState']>;
 
+  // Chrome made FileReader/Image prototype properties non-configurable, so the
+  // specs swap in lightweight mocks via the window globals instead of prototype spies.
+  class MockFileReader {
+    static readonly EMPTY = 0;
+    static readonly LOADING = 1;
+    static readonly DONE = 2;
+
+    onload: ((event: Event) => void) | null = null;
+    onerror: ((event: Event) => void) | null = null;
+
+    get result(): string | null {
+      return readerResults.get(this as unknown as FileReader) ?? null;
+    }
+
+    get readyState(): number {
+      return readerStates.get(this as unknown as FileReader) ?? FileReader.EMPTY;
+    }
+
+    readAsDataURL(): void {
+      readers.push(this as unknown as FileReader);
+      readerStates.set(this as unknown as FileReader, FileReader.LOADING);
+    }
+
+    abort(): void {
+      readerStates.set(this as unknown as FileReader, FileReader.DONE);
+    }
+  }
+
+  class MockImageElement {
+    onload: ((event: Event) => void) | null = null;
+    onerror: ((event: Event) => void) | null = null;
+
+    constructor() {
+      let naturalWidth = 0;
+      let naturalHeight = 0;
+
+      Object.defineProperty(this, 'naturalWidth', {
+        configurable: true,
+        get: () => naturalWidth,
+        set: (value: number) => {
+          naturalWidth = value;
+        },
+      });
+
+      Object.defineProperty(this, 'naturalHeight', {
+        configurable: true,
+        get: () => naturalHeight,
+        set: (value: number) => {
+          naturalHeight = value;
+        },
+      });
+    }
+
+    private _src = '';
+
+    get src(): string {
+      return this._src;
+    }
+
+    set src(value: string) {
+      this._src = value;
+      if (value) {
+        images.push(this as unknown as HTMLImageElement);
+      }
+    }
+  }
+
+  let OriginalFileReader: typeof FileReader;
+  let OriginalImage: typeof Image;
+
   beforeEach(async () => {
+    OriginalFileReader = window.FileReader;
+    OriginalImage = window.Image;
+    (window as unknown as { FileReader: unknown }).FileReader = MockFileReader;
+    (window as unknown as { Image: unknown }).Image = MockImageElement;
+
     auth = {
       user$: new BehaviorSubject<UserModel | null>(user),
 
@@ -81,43 +156,15 @@ describe('GeneralInformationComponent', () => {
     readerStates = new WeakMap();
 
     // Control callbacks without reading or decoding real files.
-    spyOnProperty(FileReader.prototype, 'result', 'get')
-      .and.callFake(function (this: FileReader) {
-      return readerResults.get(this) ?? null;
-    });
-
-    spyOnProperty(FileReader.prototype, 'readyState', 'get')
-      .and.callFake(function (this: FileReader) {
-      return readerStates.get(this) ?? FileReader.EMPTY;
-    });
-
     readSpy = spyOn(
-      FileReader.prototype,
+      MockFileReader.prototype,
       'readAsDataURL',
-    ).and.callFake(function (this: FileReader) {
-      readers.push(this);
-      readerStates.set(this, FileReader.LOADING);
-    });
+    ).and.callThrough();
 
     abortSpy = spyOn(
-      FileReader.prototype,
+      MockFileReader.prototype,
       'abort',
-    ).and.callFake(function (this: FileReader) {
-      readerStates.set(this, FileReader.DONE);
-    });
-
-    spyOnProperty(
-      HTMLImageElement.prototype,
-      'src',
-      'set',
-    ).and.callFake(function (
-      this: HTMLImageElement,
-      value: string,
-    ) {
-      if (value) {
-        images.push(this);
-      }
-    });
+    ).and.callThrough();
 
     spyOn(console, 'error');
 
@@ -143,6 +190,11 @@ describe('GeneralInformationComponent', () => {
       .compileComponents();
 
     createComponent();
+  });
+
+  afterEach(() => {
+    (window as unknown as { FileReader: unknown }).FileReader = OriginalFileReader;
+    (window as unknown as { Image: unknown }).Image = OriginalImage;
   });
 
   function createComponent(): void {

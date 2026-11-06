@@ -55,6 +55,12 @@ public class GuestSessionService(
             throw new GuestSessionExpiredException($"This pre-order session has expired or is no longer active. Current reservation status: '{reservation.Status}'.");
         }
 
+        // US0 AC10: the pre-order deadline is 2 hours before the reservation start.
+        if (Services.GroupReservations.GroupReservationService.IsPastPreOrderDeadline(reservation))
+        {
+            throw new GuestSessionExpiredException("The 2-hour pre-order deadline has passed. This pre-order session is locked.");
+        }
+
         int joinedGuestsCount = await countTask;
 
         if (joinedGuestsCount + 1 >= reservation.GuestCount)
@@ -100,6 +106,8 @@ public class GuestSessionService(
 
         GuestSession session = await GetGuestSessionAsync(guestSessionId);
 
+        await EnsurePreOrderDeadlineNotPassedAsync(session.GroupReservationId);
+
         string locationId = await GetLocationIdForGroupAsync(session.GroupReservationId);
         var locationDishes = await dishRepository.GetDishesByLocationIdAsync(locationId);
 
@@ -137,6 +145,8 @@ public class GuestSessionService(
 
         GuestSession session = await GetGuestSessionAsync(guestSessionId);
 
+        await EnsurePreOrderDeadlineNotPassedAsync(session.GroupReservationId);
+
         if (session.Dishes == null || session.Dishes.Count == 0)
             throw new DishNotFoundException($"Dish {dishId} not found in guest session.");
 
@@ -151,6 +161,23 @@ public class GuestSessionService(
         }
 
         await guestSessionRepository.SaveAsync(session);
+    }
+
+    /// <summary>
+    /// US0 AC10: unsubmitted guest carts lock automatically 2 hours before the reservation start.
+    /// </summary>
+    private async Task EnsurePreOrderDeadlineNotPassedAsync(string groupReservationId)
+    {
+        var group = await groupReservationRepository.GetGroupReservationByIdAsync(groupReservationId)
+            ?? throw new GroupReservationNotFoundException();
+
+        var reservation = await reservationRepository.GetReservationByIdAsync(group.ReservationId)
+            ?? throw new ReservationNotFoundException("Parent reservation not found.");
+
+        if (Services.GroupReservations.GroupReservationService.IsPastPreOrderDeadline(reservation))
+        {
+            throw new GuestSessionExpiredException("The 2-hour pre-order deadline has passed. Your cart is locked.");
+        }
     }
 
     public async Task<GroupReservationStatusResponse> GetGroupReservationStatusAsync(string groupReservationId)
@@ -180,6 +207,15 @@ public class GuestSessionService(
     public async Task<GetAllSessionsResponse> DeleteGuestSessionAsync(string userId, string groupReservationId, string guestSessionId)
     {
         await ValidateReservationOwnerAsync(groupReservationId, userId);
+
+        var group = await groupReservationRepository.GetGroupReservationByIdAsync(groupReservationId)
+            ?? throw new GroupReservationNotFoundException();
+
+        // US0 AC6: guest removal is permanently disabled once the order is submitted.
+        if (group.Status != GroupReservationStatus.Open)
+        {
+            throw new ValidationException("Cannot remove guests after the group pre-order has been submitted.");
+        }
 
         var session = await guestSessionRepository.GetByGuestSessionId(guestSessionId)
             ?? throw new GuestSessionNotFoundException($"Guest session with id {guestSessionId} not found.");
@@ -260,6 +296,8 @@ public class GuestSessionService(
     public async Task SubmitCartAsync(string guestSessionId)
     {
         GuestSession guestSession = await GetGuestSessionAsync(guestSessionId);
+
+        await EnsurePreOrderDeadlineNotPassedAsync(guestSession.GroupReservationId);
 
         if (!guestSession.Dishes.Any())
             throw new CartIsEmptyException();

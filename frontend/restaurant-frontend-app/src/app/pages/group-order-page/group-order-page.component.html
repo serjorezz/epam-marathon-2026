@@ -56,7 +56,7 @@
 
       <div class="sync-row">
         @if (refreshError()) {
-          <p class="sync-msg sync-error">Couldn't refresh. Showing data from {{ updatedAt() | date:'HH:mm:ss' }}</p>
+          <p class="sync-msg sync-error">{{ "Couldn't refresh. Showing data from" | translate }} {{ updatedAt() | date:'HH:mm:ss' }}</p>
         } @else {
           <p class="sync-msg sync-time">{{ 'Updated at' | translate }} {{ updatedAt() | date:'HH:mm:ss' }}</p>
         }
@@ -144,7 +144,7 @@
 
   @if (guestToRemove()) {
     <app-modal [title]="'Remove Guest' | translate" (closed)="cancelRemoveGuest()">
-      <p>Are you sure you want to remove <strong>{{ guestToRemove()?.name }}</strong> and their pre-order from this reservation? This action cannot be undone.</p>
+      <p>{{ 'Are you sure you want to remove' | translate }} <strong>{{ guestToRemove()?.name }}</strong> {{ 'and their pre-order from this reservation? This action cannot be undone.' | translate }}</p>
       <div modal-actions>
         <button type="button" class="btn-modal-cancel" (click)="cancelRemoveGuest()">{{ 'Cancel' | translate }}</button>
         <button

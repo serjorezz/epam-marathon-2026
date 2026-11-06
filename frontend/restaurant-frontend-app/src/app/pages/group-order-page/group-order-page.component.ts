@@ -230,8 +230,8 @@ export class GroupOrderPageComponent implements OnInit {
           this.toastService.success('Pre-order sent to the restaurant');
         },
         error: () => {
+          // Keep the dialog open so the owner can retry the submission.
           this.submitting.set(false);
-          this.showSubmitModal.set(false);
         },
       });
   }

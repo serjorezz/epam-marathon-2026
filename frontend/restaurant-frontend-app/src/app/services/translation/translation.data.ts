@@ -400,6 +400,11 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
     "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
     "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.",
+
+    // Group pre-order (US0)
+    "Couldn't refresh. Showing data from": "Couldn't refresh. Showing data from",
+    "Are you sure you want to remove": "Are you sure you want to remove",
+    "and their pre-order from this reservation? This action cannot be undone.": "and their pre-order from this reservation? This action cannot be undone.",
     "Review & Confirm Reservation": "Review & Confirm Reservation",
     "You can cancel up to 30 min before your reservation.": "You can cancel up to 30 min before your reservation.",
     "Edit": "Edit",
@@ -1025,6 +1030,11 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
     "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
     "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "Затишний куточок Green & Tasty у Тбілісі з сезонною вегетаріанською грузинською кухнею та теплою атмосферою.",
+
+    // Group pre-order (US0)
+    "Couldn't refresh. Showing data from": "Не вдалося оновити. Показано дані станом на",
+    "Are you sure you want to remove": "Ви впевнені, що хочете видалити",
+    "and their pre-order from this reservation? This action cannot be undone.": "його/її попереднє замовлення з цього бронювання? Цю дію неможливо скасувати.",
     "Review & Confirm Reservation": "Перевірка та підтвердження бронювання",
     "You can cancel up to 30 min before your reservation.": "Ви можете скасувати бронювання не пізніше ніж за 30 хв до початку.",
     "Edit": "Редагувати",
@@ -1650,6 +1660,11 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Aqa UI Probe St 57jtoa": "Aqa UI Probe St 57jtoa",
     "Aqa UI Probe St h4r4ok": "Aqa UI Probe St h4r4ok",
     "A welcoming Green & Tasty corner in Tbilisi, serving seasonal vegetarian-friendly Georgian cuisine with warm hospitality.": "კოხტად Green & Tasty-ის კუთხე თბილისში, სეზონური ვეგეტარიანული ქართული კუხნით და თბილი მასპინძლობით.",
+
+    // Group pre-order (US0)
+    "Couldn't refresh. Showing data from": "განახლება ვერ მოხერხდა. ნაჩვენებია მონაცემები",
+    "Are you sure you want to remove": "დარწმუნებული ხართ, რომ გინდათ წაშალოთ",
+    "and their pre-order from this reservation? This action cannot be undone.": "და მისი წინასწარი შეკვეთა ამ ჯავშნიდან? ეს ქმედება შეუქცევადია.",
     "Review & Confirm Reservation": "ჯავშნის გადამოწმება და დადასტურება",
     "You can cancel up to 30 min before your reservation.": "შეგიძლიათ გააუქმოთ ჯავშნამდე 30 წუთით ადრე.",
     "Edit": "რედაქტირება",

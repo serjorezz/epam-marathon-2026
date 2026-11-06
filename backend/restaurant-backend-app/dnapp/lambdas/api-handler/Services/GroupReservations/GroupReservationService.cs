@@ -29,22 +29,45 @@ public class GroupReservationService(
 {
     private const string DefaultRestaurantName = "Green & Tasty";
 
-    public async Task<GetGroupReservationResponse> GetGroupReservationByTokenAsync(string token)
+    /// <summary>
+    /// Guest-facing invite lookup. When the caller is the reservation owner
+    /// (JWT sub matches the reservation's customer), guest-only restrictions
+    /// (status, 2-hour deadline, guest limit) are skipped so the owner can
+    /// always open the review screen — even after submit (US0 AC5).
+    /// </summary>
+    public async Task<GetGroupReservationResponse> GetGroupReservationByTokenAsync(string token, string? userId = null)
     {
         GroupReservation groupReservation = await groupReservationRepository.GetGroupReservationByTokenAsync(token)
             ?? throw new GroupReservationNotFoundException();
 
-        if (groupReservation.Status != GroupReservationStatus.Open)
-            throw new GroupReservationExpiredException();
+        Reservation reservation = await reservationRepository.GetReservationByIdAsync(groupReservation.ReservationId)
+            ?? throw new ValidationException("Associated reservation not found.");
 
-        Task<Reservation?> reservationTask = reservationRepository.GetReservationByIdAsync(groupReservation.ReservationId);
+        bool isOwner = !string.IsNullOrEmpty(userId) && reservation.CustomerId == userId;
+
+        if (!isOwner)
+        {
+            if (groupReservation.Status != GroupReservationStatus.Open)
+                throw new GroupReservationExpiredException();
+
+            // US0 AC10: group pre-order locks automatically 2 hours before the reservation start.
+            if (IsPastPreOrderDeadline(reservation))
+                throw new GroupReservationExpiredException("The 2-hour pre-order deadline has passed. This pre-order session is locked.");
+
+            int joinedGuestsCount = await guestSessionRepository.CountByGroupReservationId(groupReservation.GroupReservationId);
+
+            if (joinedGuestsCount + 1 >= reservation.GuestCount)
+                throw new GuestLimitExceededException();
+        }
+
+        return await BuildGroupReservationResponseAsync(groupReservation, reservation);
+    }
+
+    private async Task<GetGroupReservationResponse> BuildGroupReservationResponseAsync(
+        GroupReservation groupReservation,
+        Reservation reservation)
+    {
         Task<int> countTask = guestSessionRepository.CountByGroupReservationId(groupReservation.GroupReservationId);
-
-        Reservation reservation = await reservationTask ?? throw new ValidationException("Associated reservation not found.");
-        int joinedGuestsCount = await countTask;
-
-        if (joinedGuestsCount + 1 >= reservation.GuestCount)
-            throw new GuestLimitExceededException();
 
         Table table = await tableRepository.GetTableAsync(reservation.TableId)
             ?? throw new InvalidOperationException("Associated table not found.");
@@ -58,6 +81,7 @@ public class GroupReservationService(
         {
             inviterName = await userService.GetUserName(reservation.CustomerId) ?? "Unknown";
         }
+
         return new GetGroupReservationResponse(
             groupReservation.GroupReservationId,
             table.LocationId,
@@ -69,6 +93,9 @@ public class GroupReservationService(
             table.TableNumber,
             inviterName);
     }
+
+    internal static bool IsPastPreOrderDeadline(Reservation reservation)
+        => DateTime.UtcNow > reservation.StartTime.ToUniversalTime().AddHours(-2);
 
     public async Task<GroupReservation> GetGroupReservationAsync(string groupReservationId)
     {
@@ -126,10 +153,13 @@ public class GroupReservationService(
         await groupReservationRepository.SaveGroupReservationAsync(groupReservation);
     }
 
-    public async Task<GetGroupInviteTokenResponse> GetGroupReservationInviteTokenAsync(string reservationId)
+    public async Task<GetGroupInviteTokenResponse> GetGroupReservationInviteTokenAsync(string userId, string reservationId)
     {
         var reservation = await reservationRepository.GetReservationByIdAsync(reservationId)
             ?? throw new ReservationNotFoundException($"Reservation {reservationId} was not found.");
+
+        if (reservation.CustomerId != userId)
+            throw new ActionForbiddenException("Only the reservation owner can perform this action.");
 
         if (reservation.GuestCount < 2)
             throw new ValidationException("Retrieving invitation token for the reservation with only one guest is not permitted.");

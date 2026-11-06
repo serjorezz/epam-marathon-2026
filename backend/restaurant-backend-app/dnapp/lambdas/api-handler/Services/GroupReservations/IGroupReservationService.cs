@@ -12,10 +12,10 @@ public interface IGroupReservationService
     Task<GroupReservation> CreateGroupReservationAsync(string reservationId);
     Task UpdateGroupReservationStatusAsync(string groupReservationId, GroupReservationStatus status);
     Task DeleteGroupReservationAsync(string groupReservationId);
-    Task<GetGroupReservationResponse> GetGroupReservationByTokenAsync(string token);
+    Task<GetGroupReservationResponse> GetGroupReservationByTokenAsync(string token, string? userId = null);
     Task CreateGroupReservationIfDoesNotExistAsync(string userId, string reservationId);
     Task CloseGroupReservationAsync(string reservationId);
-    Task<GetGroupInviteTokenResponse> GetGroupReservationInviteTokenAsync(string reservationId);
+    Task<GetGroupInviteTokenResponse> GetGroupReservationInviteTokenAsync(string userId, string reservationId);
     Task<GetOwnerGuestSessionIdResponse> GetOwnerGuestSessionIdAsync(string userId, string reservationId);
     Task<List<SubmittedDishResponse>> SubmitGroupPreOrderAsync(string userId, string groupReservationId, string reservationId);
 }
