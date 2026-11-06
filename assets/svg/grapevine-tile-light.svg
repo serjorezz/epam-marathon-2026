@@ -1,25 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" fill="none">
-  <g stroke="#9FBE9F" stroke-linecap="round">
-    <!-- main stem -->
-    <path d="M74 34 Q70 52 76 66" stroke="#F7F7EC" stroke-width="6" fill="none"/>
-    <!-- grape leaf -->
-    <path fill="#F7F7EC" d="M76 38 Q96 14 124 24 Q116 50 90 54 Q78 52 76 38 Z"/>
-    <path d="M82 40 Q100 32 116 28" stroke-width="3" fill="none"/>
-    <!-- grape bunch -->
-    <g fill="#F7F7EC">
-      <circle cx="66" cy="74" r="12"/>
-      <circle cx="86" cy="71" r="12"/>
-      <circle cx="76" cy="88" r="12"/>
-      <circle cx="57" cy="90" r="11"/>
-      <circle cx="95" cy="87" r="11"/>
-      <circle cx="76" cy="105" r="11"/>
-      <circle cx="63" cy="118" r="10"/>
-      <circle cx="89" cy="117" r="10"/>
-      <circle cx="76" cy="131" r="9"/>
-      <circle cx="67" cy="143" r="8"/>
-      <circle cx="85" cy="142" r="8"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280" fill="none">
+  <g stroke-linecap="round">
+    <!-- vine -->
+    <path d="M-12 236 Q64 214 96 158 Q116 120 104 76" stroke="#3E6B35" stroke-width="7" fill="none"/>
+    <!-- grape leaf (left) -->
+    <g transform="translate(64,120)">
+      <path fill="#4C7A3F" d="M0 -30 C11 -28 15 -18 13 -9 C24 -13 32 -6 30 5 C28 14 18 16 11 13 C13 24 5 30 -5 28 C-14 26 -16 17 -13 10 C-24 13 -32 5 -28 -6 C-25 -14 -15 -15 -10 -12 C-13 -23 -9 -30 0 -30 Z"/>
+      <path d="M0 -24 L0 22 M0 -8 L-16 -14 M0 -8 L16 -12 M0 4 L-14 10 M0 4 L13 9" stroke="#7FA96F" stroke-width="2.2" fill="none"/>
     </g>
-    <!-- curling tendril -->
-    <path d="M80 32 Q108 18 116 32 Q121 44 109 47 Q99 49 99 40 Q99 34 106 34" stroke="#F7F7EC" stroke-width="4" fill="none"/>
+    <!-- grape leaf (top right) -->
+    <g transform="translate(148,52) rotate(24) scale(0.85)">
+      <path fill="#4C7A3F" d="M0 -30 C11 -28 15 -18 13 -9 C24 -13 32 -6 30 5 C28 14 18 16 11 13 C13 24 5 30 -5 28 C-14 26 -16 17 -13 10 C-24 13 -32 5 -28 -6 C-25 -14 -15 -15 -10 -12 C-13 -23 -9 -30 0 -30 Z"/>
+      <path d="M0 -24 L0 22 M0 -8 L-16 -14 M0 -8 L16 -12 M0 4 L-14 10 M0 4 L13 9" stroke="#7FA96F" stroke-width="2.4" fill="none"/>
+    </g>
+    <!-- grape bunch -->
+    <g fill="#453C56">
+      <circle cx="158" cy="118" r="10"/><circle cx="176" cy="116" r="10"/><circle cx="194" cy="119" r="10"/>
+      <circle cx="149" cy="133" r="10"/><circle cx="167" cy="132" r="10"/><circle cx="185" cy="132" r="10"/><circle cx="203" cy="134" r="10"/>
+      <circle cx="158" cy="148" r="10"/><circle cx="176" cy="148" r="10"/><circle cx="194" cy="148" r="10"/>
+      <circle cx="167" cy="163" r="9.5"/><circle cx="185" cy="163" r="9.5"/>
+      <circle cx="176" cy="177" r="9"/>
+    </g>
+    <!-- stem + tendril -->
+    <path d="M176 104 L176 114" stroke="#3E6B35" stroke-width="5" fill="none"/>
+    <path d="M104 76 Q132 58 144 70 Q152 80 142 85 Q133 89 132 80 Q131 73 139 73" stroke="#3E6B35" stroke-width="3.5" fill="none"/>
+    <path d="M96 158 Q126 152 136 132" stroke="#3E6B35" stroke-width="3.5" fill="none"/>
   </g>
 </svg>
