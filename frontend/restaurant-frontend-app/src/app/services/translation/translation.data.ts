@@ -384,6 +384,15 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Reserved for:": "Reserved for:",
     "View in Reservations": "View in Reservations",
     "Powered by": "Powered by",
+
+    // 404 page (MGS parody)
+    "PAGE NOT FOUND IN THE SHADOW MOSES FACILITY": "PAGE NOT FOUND IN THE SHADOW MOSES FACILITY",
+    "Snake, the page you requested is not in this base. It may have been moved... or captured by the enemy.": "Snake, the page you requested is not in this base. It may have been moved... or captured by the enemy.",
+    "Kept you starving, huh? No worries. I found khinkali in the vents. Five stars.": "Kept you starving, huh? No worries. I found khinkali in the vents. Five stars.",
+    "Please stop eating and return to the homepage, Snake!": "Please stop eating and return to the homepage, Snake!",
+    "Return to Base (Homepage)": "Return to Base (Homepage)",
+    "Book a Table Instead": "Book a Table Instead",
+    "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.",
     "Review & Confirm Reservation": "Review & Confirm Reservation",
     "You can cancel up to 30 min before your reservation.": "You can cancel up to 30 min before your reservation.",
     "Edit": "Edit",
@@ -993,6 +1002,15 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Reserved for:": "Заброньовано для:",
     "View in Reservations": "Переглянути в бронюваннях",
     "Powered by": "Працює на",
+
+    // 404 page (MGS parody)
+    "PAGE NOT FOUND IN THE SHADOW MOSES FACILITY": "СТОРІНКУ НЕ ЗНАЙДЕНО НА БАЗІ «ТІНЬОВИЙ МОЙСЕС»",
+    "Snake, the page you requested is not in this base. It may have been moved... or captured by the enemy.": "Снейку, запитаної тобою сторінки немає на цій базі. Її могли перемістити... або захопили вороги.",
+    "Kept you starving, huh? No worries. I found khinkali in the vents. Five stars.": "Довго тебе чекали, га? Не переймайся. Я знайшов хінкалі у вентиляції. П’ять зірок.",
+    "Please stop eating and return to the homepage, Snake!": "Снейку, припини їсти й повертайся на головну сторінку!",
+    "Return to Base (Homepage)": "Повернутися на базу (головна сторінка)",
+    "Book a Table Instead": "Краще забронювати столик",
+    "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "Порада: хінкалі їдять руками — тримайте за «хвостик» і спочатку відпивайте бульйон. Цілком таємно, Грузинський кулінарний департамент.",
     "Review & Confirm Reservation": "Перевірка та підтвердження бронювання",
     "You can cancel up to 30 min before your reservation.": "Ви можете скасувати бронювання не пізніше ніж за 30 хв до початку.",
     "Edit": "Редагувати",
@@ -1602,6 +1620,15 @@ export const TRANSLATIONS: Record<AppLanguage, Record<string, string>> = {
     "Reserved for:": "დაჯავშნილია:",
     "View in Reservations": "ნახვა ჯავშნებში",
     "Powered by": "მუშაობს",
+
+    // 404 page (MGS parody)
+    "PAGE NOT FOUND IN THE SHADOW MOSES FACILITY": "გვერდი ვერ მოიძებნა «ჩრდილოვან მოისეს» ბაზაზე",
+    "Snake, the page you requested is not in this base. It may have been moved... or captured by the enemy.": "სნეიკ, შენს მიერ მოთხოვნილი გვერდი ამ ბაზაზე არ არის. შესაძლოა გადაადგილეს... ან მტერმა დაიკავა.",
+    "Kept you starving, huh? No worries. I found khinkali in the vents. Five stars.": "დიდხანს გიცადეთ, არა? ნუ შეშინდებით. ვენტილაციაში ხინკალი ვიპოვე. ხუთი ვარსკვლავი.",
+    "Please stop eating and return to the homepage, Snake!": "სნეიკ, შეჩერდი ჭამაში და დაბრუნდი მთავარ გვერდზე!",
+    "Return to Base (Homepage)": "ბაზაზე დაბრუნება (მთავარი გვერდი)",
+    "Book a Table Instead": "უმჯობესია მაგიდის დაჯავშნა",
+    "Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.": "რჩევა: ხინკალი ხელით იჭმევა — უნდა ჩაეჭიდოთ თხელს და ჯერ ბულიონი მოისვით. სრულიად საიდუმლოა, საქართველოს კულინარიული დეპარტამენტი.",
     "Review & Confirm Reservation": "ჯავშნის გადამოწმება და დადასტურება",
     "You can cancel up to 30 min before your reservation.": "შეგიძლიათ გააუქმოთ ჯავშნამდე 30 წუთით ადრე.",
     "Edit": "რედაქტირება",

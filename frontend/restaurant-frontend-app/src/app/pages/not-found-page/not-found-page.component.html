@@ -1,0 +1,67 @@
+<div class="not-found">
+  <div class="codec-frame">
+    <div class="code">CODEC · FREQUENCY 141.12 · GREEN &amp; TASTY</div>
+
+    <div class="scene" aria-hidden="true">
+      <!-- Red alert exclamation -->
+      <div class="alert">!</div>
+
+      <!-- Sneaking soldier enjoying a khinkali (original SVG art) -->
+      <svg class="snake" viewBox="0 0 320 200" role="img">
+        <!-- floor shadow -->
+        <ellipse cx="160" cy="178" rx="120" ry="12" fill="rgba(0,0,0,0.45)" />
+        <!-- sneaking body: low crouch -->
+        <path
+          d="M70 168 Q78 128 130 122 L210 118 Q258 118 268 150 L272 168 Z"
+          fill="#3d4a3f"
+        />
+        <!-- head -->
+        <circle cx="96" cy="104" r="26" fill="#e8c39e" />
+        <!-- bandana -->
+        <path d="M70 96 Q96 82 122 96 L122 104 Q96 92 70 104 Z" fill="#15A84C" />
+        <path d="M118 92 L140 84 L134 100 Z" fill="#15A84C" />
+        <!-- eye -->
+        <circle cx="104" cy="104" r="3" fill="#232323" />
+        <!-- arm raised holding khinkali -->
+        <path d="M150 122 Q170 92 196 82" stroke="#3d4a3f" stroke-width="14" fill="none" stroke-linecap="round" />
+        <circle cx="200" cy="78" r="10" fill="#e8c39e" />
+        <!-- khinkali: pleated pouch with topknot -->
+        <g class="khinkali">
+          <path d="M196 66 Q200 50 208 44 L214 50 Q206 56 204 68 Z" fill="#d9b98a" />
+          <path d="M186 92 Q184 66 202 62 Q222 66 218 92 Q212 104 200 104 Q190 102 186 92 Z" fill="#e8cf9f" />
+          <path d="M192 66 L194 96 M200 64 L200 98 M208 66 L206 96" stroke="#c8a870" stroke-width="1.6" />
+        </g>
+        <!-- steam -->
+        <g class="steam" stroke="#cfe8d4" stroke-width="2.4" fill="none" stroke-linecap="round">
+          <path d="M214 40 q4 -8 0 -14" />
+          <path d="M224 44 q4 -8 0 -14" />
+        </g>
+        <!-- legs -->
+        <path d="M230 150 L262 168 L230 168 Z" fill="#2f3a31" />
+        <path d="M120 150 L96 168 L140 168 Z" fill="#2f3a31" />
+      </svg>
+    </div>
+
+    <h1 class="code-404">404</h1>
+    <p class="subtitle">{{ 'PAGE NOT FOUND IN THE SHADOW MOSES FACILITY' | translate }}</p>
+
+    <div class="dialog">
+      <p class="line"><span class="speaker">OTACON:</span> {{ 'Snake, the page you requested is not in this base. It may have been moved... or captured by the enemy.' | translate }}</p>
+      <p class="line"><span class="speaker">SNAKE:</span> {{ 'Kept you starving, huh? No worries. I found khinkali in the vents. Five stars.' | translate }}</p>
+      <p class="line"><span class="speaker">OTACON:</span> {{ 'Please stop eating and return to the homepage, Snake!' | translate }}</p>
+    </div>
+
+    <div class="actions">
+      <a class="button button--primary button--large" routerLink="/">
+        {{ 'Return to Base (Homepage)' | translate }}
+      </a>
+      <a class="button button--secondary button--large" routerLink="/tables">
+        {{ 'Book a Table Instead' | translate }}
+      </a>
+    </div>
+
+    <div class="hint">
+      {{ 'Tip: khinkali is eaten by hand — hold it by the stem and sip the broth first. Classified by the Georgian Culinary Department.' | translate }}
+    </div>
+  </div>
+</div>
