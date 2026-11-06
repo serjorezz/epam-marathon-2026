@@ -1,9 +1,11 @@
 @use 'app/shared/styles/abstracts/colors' as color;
+@use 'app/shared/styles/grapevine' as grapevine;
 @use '../../shared/styles/card' as card;
 
 :host {
   display: block;
   background-color: color.$bg-yellow;
+  @extend %grapevine-bg;
   width: 100%;
 }
 

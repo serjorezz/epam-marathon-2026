@@ -1,9 +1,11 @@
 @use 'app/shared/styles/abstracts/colors' as color;
+@use 'app/shared/styles/grapevine' as grapevine;
 
 :host {
     display: block;
     min-height: 100vh;
     background: color.$bg-yellow;
+    @extend %grapevine-bg;
 }
 
 /* Top green reservation strip */
@@ -60,6 +62,7 @@
 
 .menu-container {
     background: color.$bg-yellow;
+    @extend %grapevine-bg;
 }
 
 .page-navigation {

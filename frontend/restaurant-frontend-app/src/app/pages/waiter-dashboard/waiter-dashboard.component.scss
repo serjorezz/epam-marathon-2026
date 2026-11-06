@@ -1,4 +1,5 @@
 @use 'app/shared/styles/abstracts/colors' as color;
+@use 'app/shared/styles/grapevine' as grapevine;
 
 .subheading {
   display: flex;
@@ -26,6 +27,7 @@
   min-height: 96px;
   padding: 20px 36px;
   background-color: color.$bg-yellow;
+  @extend %grapevine-bg;
 }
 
 .custom-selects {

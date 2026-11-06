@@ -1,8 +1,10 @@
 @use 'app/shared/styles/abstracts/colors' as color;
+@use 'app/shared/styles/grapevine' as grapevine;
 
 :host {
   display: block;
   background-color: color.$bg-yellow;
+  @extend %grapevine-bg;
   min-height: 100vh;
 }
 
@@ -63,6 +65,7 @@
     max-width: 460px;
     padding: 8px 14px;
     background-color: color.$bg-yellow;
+    @extend %grapevine-bg;
     border: 1px solid color.$green-150;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);

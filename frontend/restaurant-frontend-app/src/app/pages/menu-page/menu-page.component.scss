@@ -1,8 +1,10 @@
 @use 'app/shared/styles/abstracts/colors' as color;
+@use 'app/shared/styles/grapevine' as grapevine;
 @use 'app/shared/styles/card' as card;
 
 .menu-container {
   background-color: color.$bg-yellow;
+  @extend %grapevine-bg;
   min-height: calc(100vh - 66px);
 }
 

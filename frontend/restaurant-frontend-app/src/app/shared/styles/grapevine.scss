@@ -1,0 +1,32 @@
+// Animated grapevine background for cream (#F7F7EC) sections.
+// Two layered tiles drift in opposite directions for a gentle parallax effect.
+
+%grapevine-bg {
+  background-image:
+    url('/assets/svg/grapevine-tile.svg'),
+    url('/assets/svg/grapevine-tile-2.svg');
+  background-repeat: repeat, repeat;
+  background-size: 280px 280px, 460px 460px;
+  background-position:
+    0 0,
+    120px 160px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  %grapevine-bg {
+    animation: grapevine-drift 90s linear infinite;
+  }
+}
+
+@keyframes grapevine-drift {
+  from {
+    background-position:
+      0 0,
+      120px 160px;
+  }
+  to {
+    background-position:
+      280px 140px,
+      -300px 460px;
+  }
+}
