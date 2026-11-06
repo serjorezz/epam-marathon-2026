@@ -108,8 +108,8 @@ export class CartComponent implements OnInit {
     return !!reservation && reservation.status === ReservationStatus.Reserved;
   }
 
-  isOrderModifiable(orderId: string): boolean {
-    const reservation = this.reservationsMap().get(orderId);
+  isOrderModifiable(reservationId: string): boolean {
+    const reservation = this.reservationsMap().get(reservationId);
 
     if (!reservation || reservation.status !== ReservationStatus.Reserved) {
       return false;

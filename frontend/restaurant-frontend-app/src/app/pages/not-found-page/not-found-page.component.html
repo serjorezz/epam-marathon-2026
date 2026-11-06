@@ -7,38 +7,73 @@
       <div class="alert">!</div>
 
       <!-- Sneaking soldier enjoying a khinkali (original SVG art) -->
-      <svg class="snake" viewBox="0 0 320 200" role="img">
+      <svg class="snake" viewBox="0 0 340 210" role="img">
         <!-- floor shadow -->
-        <ellipse cx="160" cy="178" rx="120" ry="12" fill="rgba(0,0,0,0.45)" />
-        <!-- sneaking body: low crouch -->
-        <path
-          d="M70 168 Q78 128 130 122 L210 118 Q258 118 268 150 L272 168 Z"
-          fill="#3d4a3f"
-        />
-        <!-- head -->
-        <circle cx="96" cy="104" r="26" fill="#e8c39e" />
-        <!-- bandana -->
-        <path d="M70 96 Q96 82 122 96 L122 104 Q96 92 70 104 Z" fill="#15A84C" />
-        <path d="M118 92 L140 84 L134 100 Z" fill="#15A84C" />
-        <!-- eye -->
-        <circle cx="104" cy="104" r="3" fill="#232323" />
-        <!-- arm raised holding khinkali -->
-        <path d="M150 122 Q170 92 196 82" stroke="#3d4a3f" stroke-width="14" fill="none" stroke-linecap="round" />
-        <circle cx="200" cy="78" r="10" fill="#e8c39e" />
-        <!-- khinkali: pleated pouch with topknot -->
-        <g class="khinkali">
-          <path d="M196 66 Q200 50 208 44 L214 50 Q206 56 204 68 Z" fill="#d9b98a" />
-          <path d="M186 92 Q184 66 202 62 Q222 66 218 92 Q212 104 200 104 Q190 102 186 92 Z" fill="#e8cf9f" />
-          <path d="M192 66 L194 96 M200 64 L200 98 M208 66 L206 96" stroke="#c8a870" stroke-width="1.6" />
+        <ellipse cx="170" cy="192" rx="125" ry="10" fill="rgba(0,0,0,0.45)" />
+
+        <g class="sneak-body">
+          <!-- back leg (kneeling) -->
+          <path d="M196 148 L244 178 L206 184 L176 158 Z" fill="#2f3a31" />
+          <!-- front leg (bent, foot flat) -->
+          <path d="M150 152 L108 172 L150 180 L176 158 Z" fill="#39463b" />
+          <!-- boot -->
+          <path d="M100 168 L146 168 L150 180 L96 180 Z" fill="#232b25" />
+
+          <!-- torso: crouched lean-forward -->
+          <path
+            d="M120 148 Q112 108 152 96 L196 92 Q222 94 226 122 L228 150 Q190 164 150 160 Z"
+            fill="#3d4a3f"
+          />
+          <!-- shoulder patch -->
+          <path d="M150 96 Q168 90 186 92 L184 104 Q166 102 152 108 Z" fill="#46543f" />
+
+          <!-- arm group: brings the khinkali to the mouth -->
+          <g class="arm-group">
+            <!-- upper arm -->
+            <path d="M156 106 Q178 100 190 92" stroke="#3d4a3f" stroke-width="15" fill="none" stroke-linecap="round" />
+            <!-- forearm -->
+            <path d="M190 92 Q184 76 174 66" stroke="#46543f" stroke-width="12" fill="none" stroke-linecap="round" />
+            <!-- hand gripping the topknot -->
+            <circle cx="171" cy="64" r="7.5" fill="#e8c39e" />
+            <!-- khinkali: pleated pouch hanging from the grip -->
+            <g class="khinkali">
+              <!-- topknot stem -->
+              <path d="M167 68 Q169 58 174 54 L180 60 Q174 64 173 72 Z" fill="#d9b98a" />
+              <!-- pouch -->
+              <path d="M155 92 Q153 68 172 66 Q191 68 189 92 Q184 106 172 106 Q160 104 155 92 Z" fill="#e8cf9f" />
+              <!-- pleats -->
+              <path d="M161 70 L162 100 M169 68 L169 103 M177 68 L176 103 M185 70 L183 100" stroke="#c8a870" stroke-width="1.6" fill="none" />
+              <!-- happy shine -->
+              <ellipse cx="163" cy="80" rx="3.5" ry="6" fill="rgba(255,255,255,0.35)" transform="rotate(-12 163 80)" />
+            </g>
+            <!-- steam -->
+            <g class="steam" stroke="#cfe8d4" stroke-width="2.4" fill="none" stroke-linecap="round">
+              <path d="M188 56 q5 -8 0 -15" />
+              <path d="M197 60 q5 -8 0 -15" />
+              <path d="M180 50 q4 -7 0 -13" />
+            </g>
+          </g>
+
+          <!-- head group -->
+          <g class="head-group">
+            <!-- head -->
+            <circle cx="126" cy="76" r="24" fill="#e8c39e" />
+            <!-- ear -->
+            <circle cx="112" cy="80" r="5" fill="#dcb890" />
+            <!-- bandana -->
+            <path d="M102 68 Q126 54 150 68 L148 78 Q126 66 104 78 Z" fill="#15A84C" />
+            <!-- bandana knot tails -->
+            <path class="tails" d="M148 64 L172 54 L164 72 Z" fill="#15A84C" />
+            <path class="tails tails-2" d="M150 70 L174 70 L160 82 Z" fill="#0F7A37" />
+            <!-- brow + eye looking up at the khinkali -->
+            <path d="M128 70 Q134 67 140 69" stroke="#8a6a4a" stroke-width="2" fill="none" stroke-linecap="round" />
+            <circle cx="136" cy="76" r="3.2" fill="#232323" />
+            <!-- satisfied chewing mouth -->
+            <path class="mouth" d="M139 88 Q145 91 151 87" stroke="#8a6a4a" stroke-width="2.2" fill="none" stroke-linecap="round" />
+            <!-- blush of culinary bliss -->
+            <ellipse cx="120" cy="88" rx="5" ry="3" fill="rgba(255,120,120,0.25)" />
+          </g>
         </g>
-        <!-- steam -->
-        <g class="steam" stroke="#cfe8d4" stroke-width="2.4" fill="none" stroke-linecap="round">
-          <path d="M214 40 q4 -8 0 -14" />
-          <path d="M224 44 q4 -8 0 -14" />
-        </g>
-        <!-- legs -->
-        <path d="M230 150 L262 168 L230 168 Z" fill="#2f3a31" />
-        <path d="M120 150 L96 168 L140 168 Z" fill="#2f3a31" />
       </svg>
     </div>
 

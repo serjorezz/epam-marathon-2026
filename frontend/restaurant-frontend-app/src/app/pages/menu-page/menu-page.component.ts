@@ -157,11 +157,15 @@ export class MenuPageComponent implements OnInit, OnDestroy {
   }
 
   loadDishes(): void {
-    const category = this.selectedCategory ?? undefined;
-    const sort = this.selectedSort;
+    if (this.dishesLoaded) {
+      return;
+    }
 
     this.isLoading = true;
-    this.dishesService.getDishes(category, sort).subscribe({
+
+    // Fetch the whole catalog once — no category/sort params, so filtering
+    // and sorting happen client-side without extra backend requests.
+    this.dishesService.getDishes().subscribe({
       next: (data) => {
       const localFavorites = this.isCustomerLoggedIn ? this.getLocalFavorites() : new Set<string>();
 
@@ -184,6 +188,13 @@ export class MenuPageComponent implements OnInit, OnDestroy {
           : false,
       }));
 
+      // The backend returns dishes sorted by popularity desc by default —
+      // remember that order as the popularity ranking for client-side sorts.
+      this.popularityRank = new Map(
+        this.dishes.map((dish, index) => [dish.id, index]),
+      );
+      this.dishesLoaded = true;
+
       this.applyFilters();
       this.isLoading = false;
     },
@@ -193,10 +204,37 @@ export class MenuPageComponent implements OnInit, OnDestroy {
   }
 
   applyFilters(): void {
+    let result = this.dishes;
+
+    if (this.selectedCategory) {
+      result = result.filter((dish) => dish.dishType === this.selectedCategory);
+    }
+
     if (this.onlyFavorites && this.isCustomerLoggedIn) {
-      this.filteredDishes = this.dishes.filter((dish) => dish.isFavorite);
-    } else {
-      this.filteredDishes = this.dishes;
+      result = result.filter((dish) => dish.isFavorite);
+    }
+
+    this.filteredDishes = this.sortDishes(result);
+  }
+
+  private sortDishes(dishes: DishListResponse[]): DishListResponse[] {
+    const rankOf = (dish: DishListResponse) => this.popularityRank.get(dish.id) ?? 0;
+    const byPopularity = (a: DishListResponse, b: DishListResponse) => rankOf(a) - rankOf(b);
+
+    switch (this.selectedSort) {
+      case DishSort.PriceAscending:
+        return [...dishes].sort(
+          (a, b) => a.price - b.price || byPopularity(a, b),
+        );
+      case DishSort.PriceDescending:
+        return [...dishes].sort(
+          (a, b) => b.price - a.price || byPopularity(a, b),
+        );
+      case DishSort.PopularityAscending:
+        return [...dishes].sort((a, b) => byPopularity(b, a));
+      case DishSort.PopularityDescending:
+      default:
+        return [...dishes].sort(byPopularity);
     }
   }
 

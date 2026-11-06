@@ -105,37 +105,125 @@
   }
 }
 
-.khinkali {
-  animation: khinkali-wiggle 2.4s ease-in-out infinite;
-  transform-origin: 200px 100px;
+.sneak-body {
+  animation: sneak-bob 2.6s ease-in-out infinite;
 }
 
-@keyframes khinkali-wiggle {
+@keyframes sneak-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
+/* Arm raises the khinkali to the mouth, pauses for a bite, lowers again. */
+.arm-group {
+  animation: eat-cycle 2.2s ease-in-out infinite;
+  transform-origin: 156px 106px;
+}
+
+@keyframes eat-cycle {
+  0%,
+  100% {
+    transform: rotate(3deg);
+  }
+  32%,
+  58% {
+    transform: rotate(-9deg);
+  }
+}
+
+/* Head tilts toward the khinkali while the bite happens. */
+.head-group {
+  animation: head-tilt 2.2s ease-in-out infinite;
+  transform-origin: 126px 100px;
+}
+
+@keyframes head-tilt {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  32%,
+  58% {
+    transform: rotate(3deg);
+  }
+}
+
+/* Pouch squashes a little as he takes a bite. */
+.khinkali {
+  animation: khinkali-bite 2.2s ease-in-out infinite;
+  transform-origin: 172px 72px;
+}
+
+@keyframes khinkali-bite {
+  0%,
+  30%,
+  100% {
+    transform: scale(1, 1);
+  }
+  42% {
+    transform: scale(1.04, 0.93);
+  }
+  54% {
+    transform: scale(1, 1);
+  }
+}
+
+/* Continuous happy chewing. */
+.mouth {
+  animation: chew 0.55s ease-in-out infinite;
+  transform-origin: 145px 89px;
+}
+
+@keyframes chew {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1, 1.35);
+  }
+}
+
+/* Bandana tails flutter. */
+.tails {
+  animation: tail-flutter 1.4s ease-in-out infinite;
+  transform-origin: 148px 66px;
+}
+
+.tails-2 {
+  animation-delay: 0.2s;
+}
+
+@keyframes tail-flutter {
   0%,
   100% {
     transform: rotate(0deg);
   }
   50% {
-    transform: rotate(-4deg);
+    transform: rotate(6deg);
   }
 }
 
 .steam {
-  opacity: 0.7;
-  animation: steam-rise 2.4s ease-in-out infinite;
+  animation: steam-rise 2s ease-out infinite;
 }
 
 @keyframes steam-rise {
   0% {
     opacity: 0;
-    transform: translateY(3px);
+    transform: translateY(4px);
   }
-  40% {
-    opacity: 0.8;
+  35% {
+    opacity: 0.85;
   }
   100% {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-8px);
   }
 }
 

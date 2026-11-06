@@ -241,5 +241,27 @@ describe('MenuPageComponent', () => {
     translationService.setLanguage('en');
   });
 
+  it('should NOT refetch dishes when category or sort changes — filter the preloaded list client-side', () => {
+    // Initial load already happened in beforeEach
+    expect(dishesServiceSpy.getDishes).toHaveBeenCalledTimes(1);
 
+    // Simulate user picking a category and then a sort
+    component.selectedCategory = 'MainCourse' as never;
+    component.applyFilters();
+    component.selectedSort = 'PriceAscending' as never;
+    component.applyFilters();
+    component.loadDishes();
+
+    expect(dishesServiceSpy.getDishes).toHaveBeenCalledTimes(1);
+    expect(component.filteredDishes.length).toBe(2);
+  });
+
+  it('should sort preloaded dishes by price ascending client-side', () => {
+    component.selectedCategory = null;
+    component.selectedSort = 'PriceAscending' as never;
+    component.applyFilters();
+
+    expect(component.filteredDishes.map((d) => d.price)).toEqual([12, 15]);
+    expect(dishesServiceSpy.getDishes).toHaveBeenCalledTimes(1);
+  });
 });

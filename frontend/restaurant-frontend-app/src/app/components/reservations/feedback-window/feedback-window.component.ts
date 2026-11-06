@@ -130,30 +130,33 @@ export class FeedbackWindowComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (this.selectedReservation && this.selectedReservation.waiterId) {
-      const waiterId = this.selectedReservation.waiterId;
+    const waiterId = this.selectedReservation?.waiterId;
+
+    // Skip silently when there is no usable waiter id (e.g. anonymous
+    // reservations) — the fallback avatar/name keeps the form usable.
+    if (this.selectedReservation && waiterId) {
       this.loadedWaiterId = waiterId;
       const fallback = this.fallbackAvatarFor(waiterId);
 
-      this.authService.getUserNameById$(waiterId).subscribe({
+      this.authService.getUserNameById$(waiterId, { skipErrorToast: true }).subscribe({
         next: (name) => {
           if (this.loadedWaiterId === waiterId) {
             this.waiterName.set(name);
           }
         },
+        // Non-critical: the form works fine without the waiter's name.
         error: (err) => {
-          console.error('Error fetching waiter name:', err);
-          this.toastr.error('Failed to load waiter information.');
+          console.warn('Could not load waiter name (using fallback):', err?.message ?? err);
         },
       });
-      this.userService.getUserProfileImage(waiterId).subscribe({
+      this.userService.getUserProfileImage(waiterId, { skipErrorToast: true }).subscribe({
         next: (response) => {
           if (this.loadedWaiterId === waiterId) {
             this.waiterProfileImage.set(response.presignedUrl ?? fallback);
           }
         },
         error: (err) => {
-          console.error('Error fetching waiter profile image:', err);
+          console.warn('Could not load waiter profile image (using fallback):', err?.message ?? err);
           if (this.loadedWaiterId === waiterId) {
             this.waiterProfileImage.set(fallback);
           }

@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { LoginResult } from '../models/login.model';
 import { API_BASE_URL } from '@app/shared/config/api-base-url.token';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { UserModel } from '../models/user.model';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Tokens } from '../models/tokens.model';
+import { SKIP_ERROR_TOAST } from '../skip-error-toast.context';
 import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root',
@@ -75,9 +76,13 @@ export class AuthenticationService {
     this.user$$.next(null);
     this.isAuthorised$$.next(false);
   }
-  getUserNameById$(userId: string): Observable<string> {
+  getUserNameById$(userId: string, options?: { skipErrorToast?: boolean }): Observable<string> {
     const url = `${this.baseUrl}/users/${userId}/name`;
-    return this.http.get<{ name: string }>(url).pipe(map((response) => response.name));
+    return this.http
+      .get<{ name: string }>(url, {
+        context: new HttpContext().set(SKIP_ERROR_TOAST, options?.skipErrorToast === true),
+      })
+      .pipe(map((response) => response.name));
   }
   private async resolveLoginReponse(response: Response): Promise<LoginResult> {
     const result: LoginResult = { success: true };
